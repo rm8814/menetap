@@ -13,13 +13,16 @@
   },
   "dependencies": {
     "@convex-dev/auth": "^0.0.95",
+    "@oslojs/crypto": "^1.0.1",
     "@vitejs/plugin-react": "latest",
     "convex": "^1.45.0",
     "react": "latest",
-    "react-dom": "latest"
+    "react-dom": "latest",
+    "resend": "^6.29.0"
   },
   "devDependencies": {
     "@eslint/js": "latest",
+    "@types/node": "^26.6.2",
     "@types/react": "latest",
     "@types/react-dom": "latest",
     "eslint": "latest",
