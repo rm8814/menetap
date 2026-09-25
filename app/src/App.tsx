@@ -1,3 +1,6 @@
+import { useQuery } from 'convex/react';
+import { api } from '../convex/_generated/api';
+
 export function App() {
   return (
     <main className="shell">
@@ -27,8 +30,13 @@ export function App() {
       <section className="status-card" aria-label="Application status">
         <span className="status-dot" />
         <span>Menetap application foundation initialized</span>
-        <span className="status-note">Convex connection: next step</span>
+        <ConvexStatus />
       </section>
     </main>
   );
+}
+
+function ConvexStatus() {
+  const health = useQuery(api.health.check);
+  return <span className="status-note">Convex: {health?.ok ? 'connected' : 'connecting'}</span>;
 }

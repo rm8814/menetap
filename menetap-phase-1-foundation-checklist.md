@@ -49,8 +49,8 @@ Establish a secure, maintainable, production-oriented technical foundation for t
 - [x] Create GitHub repository and configure local `origin` remote.
 - [x] Create the first commit and push the application to GitHub.
 - [ ] Confirm Hostinger supports static frontend hosting, custom domains, HTTPS, and deployment access.
-- [ ] Configure local development environment.
-- [ ] Configure `.env.example` without secrets.
+- [x] Configure local Convex development environment.
+- [x] Configure `.env.example` without secrets.
 - [ ] Add application README and setup instructions.
 - [ ] Establish code formatting and linting conventions.
 - [ ] Add baseline automated test setup.
@@ -67,51 +67,51 @@ Establish a secure, maintainable, production-oriented technical foundation for t
 
 ## Workstream 3 — Core architecture
 
-- [ ] Define application modules.
-  - [ ] Identity and access
-  - [ ] Properties
-  - [ ] Rooms and rates
-  - [ ] Availability
-  - [ ] Bookings
-  - [ ] Payments and manual transfers
-  - [ ] Add-ons
-  - [ ] Support
-  - [ ] Commissions
-  - [ ] Audit logs
+- [x] Define application modules and initial Convex files.
+-  - [x] Identity and access
+-  - [x] Properties
+-  - [x] Rooms and rates
+-  - [x] Availability
+-  - [x] Bookings
+-  - [x] Payments and manual transfers
+-  - [x] Add-ons
+-  - [x] Support
+-  - [x] Commissions
+-  - [x] Audit logs
 - [ ] Define route and controller conventions.
 - [ ] Define service/action class conventions.
-- [ ] Define validation and authorization conventions.
-- [ ] Define booking and payment state transitions.
+- [x] Define validation and authorization helper conventions.
+- [x] Define booking and payment state transitions.
 - [ ] Define error-handling and user-facing error states.
 
 ## Workstream 4 — Database foundation
 
-- [ ] Create initial database schema.
-- [ ] Create users and roles tables.
-- [ ] Create properties and partner contacts tables.
-- [ ] Create rooms, rate plans, and availability tables.
-- [ ] Create bookings and booking-status-history tables.
-- [ ] Create payments and manual-bank-transfers tables.
-- [ ] Create add-on-services and booking-add-ons tables.
-- [ ] Create commissions and audit-logs tables.
-- [ ] Add indexes for search, dates, booking references, and statuses.
+- [x] Create initial Convex schema.
+- [x] Create users and roles model.
+- [x] Create properties and partner contacts model.
+- [x] Create rooms, rate plans, and availability model.
+- [x] Create bookings and booking-status-history model.
+- [x] Create payments and manual-bank-transfers model.
+- [x] Create add-on-services and booking-add-ons model.
+- [x] Create commissions and audit-logs model.
+- [x] Add indexes for search, dates, booking references, and statuses.
 - [ ] Create seed data for development.
 
 ## Workstream 5 — Authentication and authorization
 
 - [ ] Implement guest registration and login.
 - [ ] Implement password reset.
-- [ ] Define guest, partner, vendor, support, operations, finance, and admin roles.
-- [ ] Add server-side authorization policies.
+- [x] Define guest, partner, vendor, support, operations, finance, and admin roles.
+- [x] Add authorization helper foundations.
 - [ ] Add role-aware navigation and route protection.
 - [ ] Add audit events for sensitive access and account changes.
 
 ## Workstream 6 — Design-system implementation
 
-- [ ] Map `_ds` design tokens into the React frontend.
-- [ ] Implement Menetap typography and color variables.
-- [ ] Implement base layout and responsive container.
-- [ ] Implement buttons, inputs, cards, badges, tags, tables, and alerts.
+- [x] Map initial `_ds` design direction into the React frontend.
+- [x] Implement Menetap typography and color variables.
+- [x] Implement base layout and responsive container.
+- [x] Implement initial buttons, inputs, and status primitives.
 - [ ] Implement focus, error, loading, empty, and permission-denied states.
 - [ ] Verify mobile and desktop behavior.
 - [ ] Preserve the design rules documented in `AGENTS.md`.
