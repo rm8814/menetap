@@ -52,6 +52,7 @@ The `.dc.html` screens in the project root are the visual and interaction source
 - Check-in and check-out use a single visible Lucide calendar icon with the native picker retained; dates are click-to-select, keyboard editing is blocked, check-in defaults to the local current date, and checkout defaults to the following local date.
 - The guest selector uses an explicit responsive popup layout with vertically stacked guest rows, right-aligned quantity controls, tighter counter spacing, and outside-click dismissal. The Done button was removed.
 - Search results include client-side stay-type filtering, name sorting, filter-aware counts, and a no-match state.
+- Search results now begin with a compact reusable search widget for revising destination, dates, and guests in place.
 - `npm run typecheck` passes. Browser screenshot verification remains pending while no browser surface is available in the current session.
 
 ## Next migration groups

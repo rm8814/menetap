@@ -164,6 +164,10 @@ Phase 1 is complete when:
 
 ## Immediate next tasks
 
+- [x] Add a compact in-place search widget to the top of search results.
+- [x] `npm run typecheck` and `npm run lint` pass for the compact search widget change.
+- [~] `npm test -- --run` could not start in the restricted Windows environment (`spawn EPERM` while loading Vitest config).
+
 1. Confirm the latest `main` deployment is live on `menetap.com` and verify the homepage booking controls in a real browser.
 2. Complete production Convex credentials, staging deployment configuration, and security/observability baselines before production traffic.
 3. Add deeper validation and authorization tests for booking, role, and sensitive operational flows.
