@@ -57,7 +57,7 @@ button:active { transform: scale(.97); }
 .nav-actions { display: flex; align-items: center; gap: 16px; }
 .dc-topbar { position: sticky; top: 0; z-index: 50; height: 72px; margin: 0 -6vw; padding: 0 6vw; background: rgba(247,246,255,.85); backdrop-filter: blur(12px); }
 .dc-topbar-inner { display: flex; align-items: center; justify-content: space-between; width: 100%; max-width: 1240px; height: 72px; margin: 0 auto; gap: 24px; }
-.dc-topbar .wordmark { display: flex; align-items: center; gap: 10px; color: #0c0a1e; font: 800 22px 'Plus Jakarta Sans', sans-serif; letter-spacing: -.02em; }
+.dc-topbar .wordmark { display: inline-flex; align-items: center; gap: 0; color: #0c0a1e; font: 800 22px 'Plus Jakarta Sans', sans-serif; letter-spacing: -.02em; }
 .dc-topbar .wordmark span { color: #7229ff; }
 .dc-navlinks { display: flex; gap: 28px !important; font-size: 14px !important; font-weight: 500; }
 .dc-navlinks button { font-size: 14px; font-weight: 500; }
