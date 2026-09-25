@@ -49,3 +49,53 @@ button:active { transform: scale(.97); }
 .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #00caef; }
 .status-note { margin-left: auto; color: #5e5a78; }
 @media (max-width: 760px) { .nav-links { display: none; } .hero { padding: 72px 0 48px; } .search-card { grid-template-columns: 1fr; } button { min-height: 48px; } .status-card { align-items: flex-start; flex-wrap: wrap; } .status-note { width: 100%; margin-left: 18px; } }
+
+.app-shell { min-height: 100vh; padding: 0 6vw 48px; }
+.nav button, .nav-button { border: 0; padding: 0; background: none; color: inherit; cursor: pointer; font: 500 12px 'JetBrains Mono', monospace; }
+.nav nav { display: flex; gap: 26px; color: #5e5a78; }
+.nav button:hover { color: #7229ff; }
+.nav-actions { display: flex; align-items: center; gap: 16px; }
+.outline-button { border: 1px solid #e5e2f5 !important; border-radius: 999px; padding: 9px 14px !important; }
+.section, .page { max-width: 1120px; margin: 0 auto; }
+.section { padding: 36px 0; }
+.section-heading, .page-heading { display: flex; justify-content: space-between; align-items: end; gap: 24px; margin-bottom: 24px; }
+h2 { margin: 8px 0; font: 800 clamp(28px, 4vw, 44px)/1.08 'Plus Jakarta Sans', sans-serif; letter-spacing: -.05em; }
+h3 { margin: 0 0 8px; font: 800 17px/1.2 'Plus Jakarta Sans', sans-serif; letter-spacing: -.03em; }
+.muted { color: #5e5a78; font-size: 12px; line-height: 1.7; }
+.feature-grid, .detail-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.info-card, .summary-card, .form-card, .room-card, .confirmation-card { padding: 22px; border: 1px solid #e5e2f5; border-radius: 10px; background: #fff; }
+.info-card p { margin: 0; color: #5e5a78; font-size: 12px; line-height: 1.7; }
+.page { padding: 54px 0; }
+.narrow { max-width: 900px; }
+.centered { text-align: center; }
+.back-button { padding: 0; border: 0; background: transparent; color: #7229ff; font: 700 12px 'JetBrains Mono', monospace; cursor: pointer; }
+.result-count { color: #5e5a78; font-size: 12px; }
+.property-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.property-card { padding: 0; overflow: hidden; border: 1px solid #e5e2f5; border-radius: 10px; background: #fff; color: #0c0a1e; text-align: left; cursor: pointer; }
+.property-card:hover { box-shadow: 0 12px 28px rgba(65,42,145,.1); }
+.property-image, .detail-image { display: grid; place-items: center; min-height: 170px; background: linear-gradient(135deg,#e9e7f7,#dbe6f2); color: #7229ff; font-size: 11px; text-transform: uppercase; }
+.property-info { padding: 16px; }
+.property-info p { margin: 4px 0 18px; color: #5e5a78; font-size: 11px; }
+.property-info strong { color: #7229ff; font-size: 11px; }
+.empty-state { margin-top: 24px; padding: 52px 24px; border: 1px dashed #c8c3e0; border-radius: 10px; text-align: center; }
+.empty-state p { max-width: 420px; margin: auto; color: #5e5a78; font-size: 12px; line-height: 1.7; }
+.detail-hero { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: center; margin: 24px 0 32px; }
+.detail-hero .detail-image { min-height: 330px; border-radius: 10px; }
+.room-card, .checkout-grid { display: grid; grid-template-columns: 1fr auto; gap: 20px; align-items: center; margin-top: 24px; }
+.room-price { display: grid; gap: 6px; text-align: right; }
+.room-price strong { font: 800 20px 'Plus Jakarta Sans', sans-serif; }
+.room-price span { color: #5e5a78; font-size: 10px; }
+.room-price button { margin-top: 8px; }
+.checkout-grid { align-items: start; grid-template-columns: 1.3fr 1fr; }
+.form-card { display: grid; gap: 16px; }
+.form-card label { padding: 0; color: #5e5a78; }
+.form-card input { margin-top: 8px; padding: 12px; border: 1px solid #e5e2f5; border-radius: 6px; }
+.check-row { display: flex; gap: 8px; align-items: center; font-size: 11px; }
+.check-row input { width: auto; margin: 0; accent-color: #7229ff; }
+.summary-card { display: grid; gap: 12px; }
+.summary-line { display: flex; justify-content: space-between; gap: 12px; padding-top: 12px; border-top: 1px solid #e5e2f5; font-size: 11px; }
+.summary-line.total { font-weight: 700; }
+.summary-card small, .confirmation-card small { color: #5e5a78; font-size: 10px; line-height: 1.6; }
+.success-icon { display: grid; place-items: center; width: 56px; height: 56px; margin: 20px auto; border-radius: 50%; background: #eafcff; color: #00a3c4; font-size: 28px; font-weight: 700; }
+.confirmation-card { display: grid; gap: 8px; max-width: 420px; margin: 28px auto; text-align: left; }
+@media (max-width: 760px) { .nav nav { display: none; } .section-heading, .page-heading { display: block; } .feature-grid, .detail-grid, .property-grid, .detail-hero, .checkout-grid { grid-template-columns: 1fr; } .room-card { grid-template-columns: 1fr; } .room-price { text-align: left; } .nav-actions button { min-height: auto; } }

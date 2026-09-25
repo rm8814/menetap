@@ -1,42 +1,40 @@
+import { useState } from 'react';
 import { useQuery } from 'convex/react';
 import { api } from '../convex/_generated/api';
+import type { GuestScreen, SearchState } from './types';
+
+const initialSearch: SearchState = { destination: 'Greater Yogyakarta', checkIn: '', checkOut: '', guests: 2 };
 
 export function App() {
-  return (
-    <main className="shell">
-      <nav className="nav" aria-label="Main navigation">
-        <a className="wordmark" href="/" aria-label="Menetap home">menetap<span>.</span></a>
-        <div className="nav-links">
-          <a href="#stays">Stays</a>
-          <a href="#rentals">Rentals</a>
-          <a href="#experiences">Experiences</a>
-          <a href="#partners">List your property</a>
-        </div>
-        <a className="login" href="#login">Log in</a>
-      </nav>
-
-      <section className="hero" aria-labelledby="hero-title">
-        <p className="eyebrow">Curated stays in Indonesia</p>
-        <h1 id="hero-title">Find your stay.<br /><em>Stay better.</em></h1>
-        <p className="hero-copy">Transparent prices, carefully selected properties, and everything you need around the stay.</p>
-        <div className="search-card" role="search">
-          <label>Where are you going?<input placeholder="Greater Yogyakarta" /></label>
-          <label>Check in<input placeholder="Add dates" /></label>
-          <label>Guests<input placeholder="2 guests" /></label>
-          <button type="button">Search stays</button>
-        </div>
-      </section>
-
-      <section className="status-card" aria-label="Application status">
-        <span className="status-dot" />
-        <span>Menetap application foundation initialized</span>
-        <ConvexStatus />
-      </section>
-    </main>
-  );
+  const [screen, setScreen] = useState<GuestScreen>('home');
+  const [search, setSearch] = useState(initialSearch);
+  const [selectedProperty, setSelectedProperty] = useState<string | null>(null);
+  const [bookingCode, setBookingCode] = useState<string | null>(null);
+  return <div className="app-shell"><Header onHome={() => setScreen('home')} />
+    {screen === 'home' && <Home search={search} setSearch={setSearch} onSearch={() => setScreen('search')} />}
+    {screen === 'search' && <SearchResults search={search} onBack={() => setScreen('home')} onSelect={(id) => { setSelectedProperty(id); setScreen('hotel'); }} />}
+    {screen === 'hotel' && <HotelDetail propertyId={selectedProperty} onBack={() => setScreen('search')} onRooms={() => setScreen('rooms')} />}
+    {screen === 'rooms' && <RoomSelection onBack={() => setScreen('hotel')} onContinue={() => setScreen('checkout')} />}
+    {screen === 'checkout' && <Checkout search={search} onBack={() => setScreen('rooms')} onComplete={() => { setBookingCode(`MNP-${Date.now().toString().slice(-6)}`); setScreen('confirmation'); }} />}
+    {screen === 'confirmation' && <Confirmation code={bookingCode} onHome={() => setScreen('home')} />}
+  </div>;
 }
 
-function ConvexStatus() {
-  const health = useQuery(api.health.check);
-  return <span className="status-note">Convex: {health?.ok ? 'connected' : 'connecting'}</span>;
-}
+function Header({ onHome }: { onHome: () => void }) { return <header className="nav"><button className="wordmark nav-button" onClick={onHome}>menetap<span>.</span></button><nav><button onClick={onHome}>Stays</button><button onClick={onHome}>Rentals</button><button onClick={onHome}>Experiences</button><button onClick={onHome}>Rewards</button></nav><div className="nav-actions"><button>Log in</button><button className="outline-button">Sign up</button></div></header>; }
+
+function Home({ search, setSearch, onSearch }: { search: SearchState; setSearch: (value: SearchState) => void; onSearch: () => void }) { return <main><section className="hero"><p className="eyebrow">Curated stays in Indonesia</p><h1>Find your stay.<br /><em>Stay better.</em></h1><p className="hero-copy">Transparent prices, carefully selected properties, and everything you need around the stay.</p><SearchBar search={search} setSearch={setSearch} onSearch={onSearch} /></section><section className="section"><div className="section-heading"><div><p className="eyebrow">Handpicked for you</p><h2>Stay somewhere worth remembering.</h2></div><span className="muted">Greater Yogyakarta · 15 curated stays</span></div><div className="feature-grid"><FeatureCard title="Curated, not crowded" text="Every property is reviewed for accuracy, cleanliness, and a better stay experience." /><FeatureCard title="Real prices" text="What you see is what you pay. No inflated rates or surprise fees at checkout." /><FeatureCard title="Everything around the stay" text="Add breakfast, transfers, early check-in, and more when you need them." /></div></section></main>; }
+
+function SearchBar({ search, setSearch, onSearch }: { search: SearchState; setSearch: (value: SearchState) => void; onSearch: () => void }) { return <div className="search-card"><label>Where are you going?<input value={search.destination} onChange={(e) => setSearch({ ...search, destination: e.target.value })} placeholder="Greater Yogyakarta" /></label><label>Check in<input value={search.checkIn} onChange={(e) => setSearch({ ...search, checkIn: e.target.value })} placeholder="Add dates" /></label><label>Check out<input value={search.checkOut} onChange={(e) => setSearch({ ...search, checkOut: e.target.value })} placeholder="Add dates" /></label><label>Guests<input type="number" min="1" value={search.guests} onChange={(e) => setSearch({ ...search, guests: Number(e.target.value) })} /></label><button onClick={onSearch}>Search stays</button></div>; }
+
+function SearchResults({ search, onBack, onSelect }: { search: SearchState; onBack: () => void; onSelect: (id: string) => void }) { const properties = useQuery(api.properties.listPublished, { area: search.destination }); return <main className="page"><button className="back-button" onClick={onBack}>← Back</button><div className="page-heading"><div><p className="eyebrow">Search results</p><h2>Stays in {search.destination}</h2><p className="muted">Curated properties with transparent pricing.</p></div><span className="result-count">{properties?.length ?? 0} stays</span></div>{properties?.length ? <div className="property-grid">{properties.map((property) => <button className="property-card" key={property._id} onClick={() => onSelect(property._id)}><div className="property-image">{property.type}</div><div className="property-info"><span className="eyebrow">{property.segment ?? 'Curated stay'}</span><h3>{property.name}</h3><p>{property.area} · {property.city}</p><strong>View rooms →</strong></div></button>)}</div> : <EmptyState title="Curated stays are coming soon" text="We are currently onboarding properties in Greater Yogyakarta. Check back soon or explore another destination." />}</main>; }
+
+function HotelDetail({ propertyId, onBack, onRooms }: { propertyId: string | null; onBack: () => void; onRooms: () => void }) { const property = useQuery(api.properties.get, propertyId ? { id: propertyId as never } : 'skip'); if (!property) return <main className="page"><button className="back-button" onClick={onBack}>← Back</button><EmptyState title="Select a property" text="Choose a stay from search results to view its details." /></main>; return <main className="page"><button className="back-button" onClick={onBack}>← Search results</button><div className="detail-hero"><div className="detail-image">{property.type}</div><div><p className="eyebrow">{property.segment ?? 'Curated stay'} · {property.area}</p><h2>{property.name}</h2><p className="muted">{property.description}</p><p className="muted">{property.address}, {property.city}</p><button onClick={onRooms}>See available rooms</button></div></div><div className="detail-grid"><InfoCard title="Curated with care" text="Property information and photos are reviewed by Menetap." /><InfoCard title="Transparent pricing" text="Your total price is shown before you book." /><InfoCard title="Around your stay" text="Add breakfast, transfers, and more at checkout." /></div></main>; }
+
+function RoomSelection({ onBack, onContinue }: { onBack: () => void; onContinue: () => void }) { return <main className="page narrow"><button className="back-button" onClick={onBack}>← Property details</button><p className="eyebrow">Room selection</p><h2>Choose your room</h2><div className="room-card"><div><span className="eyebrow">Available rate</span><h3>Deluxe room</h3><p className="muted">2 guests · Breakfast available · Free cancellation</p></div><div className="room-price"><strong>Rp 850.000</strong><span>per night</span><button onClick={onContinue}>Choose room</button></div></div></main>; }
+
+function Checkout({ search, onBack, onComplete }: { search: SearchState; onBack: () => void; onComplete: () => void }) { return <main className="page narrow"><button className="back-button" onClick={onBack}>← Room selection</button><p className="eyebrow">Checkout</p><h2>Complete your booking</h2><div className="checkout-grid"><div className="form-card"><label>Full name<input placeholder="Your name" /></label><label>Email<input type="email" placeholder="you@example.com" /></label><label>Phone number<input placeholder="+62" /></label><label className="check-row"><input type="checkbox" /> Add breakfast and airport transfer options after booking</label><button onClick={onComplete}>Confirm booking</button></div><aside className="summary-card"><span className="eyebrow">Your stay</span><h3>Greater Yogyakarta</h3><p className="muted">{search.checkIn || 'Your check-in'} → {search.checkOut || 'Your check-out'}</p><div className="summary-line"><span>Deluxe room × 1 night</span><strong>Rp 850.000</strong></div><div className="summary-line total"><span>Total at hotel</span><strong>Rp 850.000</strong></div><small>Pay at hotel. No payment gateway required for this MVP.</small></aside></div></main>; }
+
+function Confirmation({ code, onHome }: { code: string | null; onHome: () => void }) { return <main className="page narrow centered"><div className="success-icon">✓</div><p className="eyebrow">Booking confirmed</p><h2>Your stay is ready.</h2><p className="muted">We have saved your reservation. Your confirmation code is <strong>{code}</strong>.</p><div className="confirmation-card"><span>Greater Yogyakarta</span><strong>Pay at hotel</strong><small>Menetap support will be here if you need anything.</small></div><button onClick={onHome}>Explore more stays</button></main>; }
+function FeatureCard({ title, text }: { title: string; text: string }) { return <article className="info-card"><h3>{title}</h3><p>{text}</p></article>; }
+function InfoCard({ title, text }: { title: string; text: string }) { return <article className="info-card"><h3>{title}</h3><p>{text}</p></article>; }
+function EmptyState({ title, text }: { title: string; text: string }) { return <div className="empty-state"><h3>{title}</h3><p>{text}</p></div>; }

@@ -40,6 +40,7 @@ Establish a secure, maintainable, production-oriented technical foundation for t
 - [x] Install npm dependencies and generate `package-lock.json`.
 - [x] Run the first typecheck successfully.
 - [x] Run the first production build successfully.
+- [x] Migrate the initial guest flow structure from DC designs into React.
 - [x] Initialize a local Convex development deployment with `npx convex dev --once`.
 - [x] Link the app to the Convex cloud project `anin-w/menetap`.
 - [x] Configure the cloud development deployment URL in local environment configuration.
@@ -87,6 +88,7 @@ Establish a secure, maintainable, production-oriented technical foundation for t
 ## Workstream 4 — Database foundation
 
 - [x] Create initial Convex schema.
+- [x] Add published-property queries for guest search and property detail.
 - [x] Create users and roles model.
 - [x] Create properties and partner contacts model.
 - [x] Create rooms, rate plans, and availability model.
@@ -112,6 +114,7 @@ Establish a secure, maintainable, production-oriented technical foundation for t
 - [x] Implement Menetap typography and color variables.
 - [x] Implement base layout and responsive container.
 - [x] Implement initial buttons, inputs, and status primitives.
+- [x] Implement initial guest-flow layouts: homepage, search, detail, rooms, checkout, confirmation.
 - [ ] Implement focus, error, loading, empty, and permission-denied states.
 - [ ] Verify mobile and desktop behavior.
 - [ ] Preserve the design rules documented in `AGENTS.md`.
