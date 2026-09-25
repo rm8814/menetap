@@ -71,6 +71,7 @@ The `.dc.html` screens in the project root are the visual and interaction source
 - Canonical public routes now use language prefixes: `/en` and `/id`, including `/en/stays` and `/id/stays`; language switching preserves the current path and query string.
 - Added the initial Yogyakarta destination landing route at `/en/destinations/yogyakarta` and `/id/destinations/yogyakarta`, with a matching standalone DC reference file.
 - Yogyakarta landing content now includes original destination copy, neighborhood links, property discovery cards, practical FAQs, and internal links to localized stays searches.
+- Geography corrected: Yogyakarta is treated as the city; Greater Yogyakarta is the region containing Yogyakarta city, Bantul, Sleman, Kulon Progo, and Gunungkidul. The destination eyebrow now reads “Explore Greater Yogyakarta.”
 - Removed horizontal transform animation from the homepage transition so the fixed compact widget no longer slides in from the left.
 - Added a short opacity and vertical settle animation with GPU compositing hints for a smoother dock-in.
 - Homepage scrolled state uses a viewport-pinned shell because the original hero parent would otherwise bound native sticky positioning.
