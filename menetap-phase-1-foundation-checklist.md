@@ -23,7 +23,7 @@ Establish a secure, maintainable, production-oriented technical foundation for t
 
 - Application style: React/Vite frontend with Convex backend.
 - Backend: Convex.
-- Frontend: React, TypeScript, Tailwind CSS, and the Menetap design system.
+- Frontend: React, TypeScript, Vite, CSS, and the Menetap design system.
 - Database: Convex document database.
 - Hosting target: Hostinger static frontend hosting plus Convex Cloud.
 - Source control and CI/CD: GitHub and GitHub Actions.
@@ -49,13 +49,13 @@ Establish a secure, maintainable, production-oriented technical foundation for t
 - [x] Add GitHub Actions app check workflow.
 - [x] Create GitHub repository and configure local `origin` remote.
 - [x] Create the first commit and push the application to GitHub.
-- [x] Confirm Hostinger supports static frontend hosting, custom domains, HTTPS, and deployment access; verified through the successful GitHub-connected deployment to `menetap.com`.
+- [x] Confirm Hostinger supports static frontend hosting, custom domains, HTTPS, and GitHub-connected deployment configuration.
 - [x] Configure local Convex development environment.
 - [x] Configure `.env.example` without secrets.
 - [x] Add application README and setup instructions.
-- [x] Establish linting conventions and add ESLint configuration.
+- [x] Establish linting conventions and add ESLint configuration; TypeScript parser integration remains to be corrected.
 - [x] Add baseline automated test setup with Vitest.
-- [x] Verify ESLint passes.
+- [ ] Verify ESLint passes; current configuration reports TypeScript parsing errors across the existing `src/` and `convex/` files.
 - [x] Verify Vitest passes with 2 tests.
 
 ## Workstream 2 — Environments and deployment
@@ -64,7 +64,7 @@ Establish a secure, maintainable, production-oriented technical foundation for t
 - [x] Define environment variables and secret ownership.
 - [x] Decide deployment method: GitHub `main` → Hostinger connected deployment workflow; Convex backend deployment through GitHub Actions.
 - [ ] Configure staging deployment (staging branch and automated checks are ready; preview-host deployment is intentionally deferred).
-- [x] Configure production deployment placeholder; Hostinger production build is configured for `menetap.com`, while Convex production credentials remain pending.
+- [x] Configure production deployment path; verified commits are pushed to GitHub `main` for Hostinger to publish, while live-site confirmation and Convex production credentials remain pending.
 - [x] Document database migration and rollback procedure.
 - [x] Document release environment rules in `docs/deployment-environments.md`.
 
@@ -125,6 +125,8 @@ Establish a secure, maintainable, production-oriented technical foundation for t
 - [x] Implement focus, error, loading, empty, success, and permission-denied states across the frontend foundation.
 - [x] Verify responsive behavior through CSS breakpoints and production build review; detailed pixel comparison against every DC screen remains ongoing.
 - [x] Preserve the design rules documented in `AGENTS.md`; current React tokens, typography, responsive layout, focus states, hover motion, and surface treatment follow the Menetap design rules.
+- [x] Implement a reusable `PropertyCard` pattern across homepage stay sections and search results with photography, property type, identity, location, ratings, amenities, pricing, badges, and booking actions.
+- [x] Document and implement homepage/search-widget refinements: local-date defaults, click-to-select calendar inputs, outside-click guest-selector dismissal, trust-strip typography, footer controls, and aligned price-alert controls.
 
 ## Workstream 7 — Security and operations baseline
 
@@ -158,6 +160,8 @@ Phase 1 is complete when:
 - [ ] A test user, property, room, rate, and booking can be created in development.
 - [ ] Phase 2 guest-booking MVP work can begin without reworking the foundation.
 
-## Immediate next task
+## Immediate next tasks
 
-Initialize the React/Vite application in `app/`, then connect it to a Convex development deployment and a private GitHub repository.
+1. Correct the ESLint TypeScript parser configuration and restore a passing lint check.
+2. Confirm the latest `main` deployment is live on `menetap.com` and verify the homepage booking controls in a real browser.
+3. Complete production Convex credentials, staging deployment configuration, and security/observability baselines before production traffic.
