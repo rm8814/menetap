@@ -59,6 +59,7 @@ The `.dc.html` screens in the project root are the visual and interaction source
 - On search results, the back link now sits directly below the mini widget and above the “Search results” heading.
 - Search destination autocomplete now returns published properties and areas; exact property names route directly to property detail from both homepage and results widgets, while area/city matches continue through filtered search results.
 - Amenity pills now reuse the verified-rating pill geometry (`4px 7px` padding, 4px radius, 11px bold UI type) with a violet treatment.
+- Search results map view now retains the filter sidebar while replacing only the result-card panel with the map.
 - `npm run typecheck` passes. Browser screenshot verification remains pending while no browser surface is available in the current session.
 
 ## Next migration groups

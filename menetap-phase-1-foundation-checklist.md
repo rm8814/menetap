@@ -171,6 +171,7 @@ Phase 1 is complete when:
 - [x] Place the search-results back link below the mini widget and above the page heading.
 - [x] Add data-backed destination suggestions for published properties and areas, with exact-property routing from both widgets and city-filter fallback.
 - [x] Align amenity tag geometry with the verified-rating pill reference while retaining violet status styling.
+- [x] Keep the search filter sidebar visible in map view.
 - [x] `npm run typecheck` and `npm run lint` pass for the compact search widget change.
 - [~] `npm test -- --run` could not start in the restricted Windows environment (`spawn EPERM` while loading Vitest config).
 
