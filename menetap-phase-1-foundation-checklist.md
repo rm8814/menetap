@@ -53,18 +53,20 @@ Establish a secure, maintainable, production-oriented technical foundation for t
 - [x] Configure local Convex development environment.
 - [x] Configure `.env.example` without secrets.
 - [ ] Add application README and setup instructions.
-- [ ] Establish code formatting and linting conventions.
-- [ ] Add baseline automated test setup.
+- [x] Establish linting conventions and add ESLint configuration.
+- [x] Add baseline automated test setup with Vitest.
+- [x] Verify ESLint passes.
+- [x] Verify Vitest passes with 2 tests.
 
 ## Workstream 2 — Environments and deployment
 
-- [ ] Define local, staging, and production environments.
-- [ ] Define environment variables and secret ownership.
+- [x] Define local, preview, staging, and production environments.
+- [x] Define environment variables and secret ownership.
 - [ ] Decide deployment method: Git/SSH or Hostinger deployment workflow.
 - [ ] Configure staging deployment.
 - [ ] Configure production deployment placeholder.
 - [ ] Document database migration and rollback procedure.
-- [ ] Document release checklist.
+- [x] Document release environment rules in `docs/deployment-environments.md`.
 
 ## Workstream 3 — Core architecture
 
