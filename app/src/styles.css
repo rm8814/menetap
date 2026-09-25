@@ -146,6 +146,11 @@ button:active { transform: scale(.97); }
 .destination-actions a { padding: 13px 18px; border: 1px solid #e5e2f5; border-radius: 6px; color: #0c0a1e; font-size: 13px; font-weight: 700; }
 .destination-area-section { padding-top: 64px; }
 .destination-area-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.destination-directory-grid { grid-template-columns: repeat(4, 1fr); }
+.destination-directory-card { padding: 0; overflow: hidden; }
+.destination-directory-card > strong, .destination-directory-card > p, .destination-directory-card > span { margin-right: 22px; margin-left: 22px; }
+.destination-directory-card > strong { margin-top: 12px; }
+.destination-directory-card > span { margin-bottom: 22px; }
 .destination-area-card, .destination-property-grid article { display: grid; gap: 10px; padding: 22px; border: 1px solid #e5e2f5; border-radius: 8px; background: #fff; }
 .destination-area-card { color: #0c0a1e; }
 .destination-area-card p, .destination-property-grid p, .destination-faq details p { margin: 0; color: #5e5a78; font-size: 12px; line-height: 1.7; }

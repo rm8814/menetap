@@ -194,6 +194,7 @@ Phase 1 is complete when:
 - [x] Add a localized all-destinations directory and link to it from homepage and every destination landing page.
 - [x] Add localized destination landing pages for Malang, Surabaya, Denpasar, and Semarang with unique areas, property highlights, FAQs, and internal links.
 - [x] Add Jakarta city destination landing page with city-only neighborhoods, property highlights, FAQs, and internal links.
+- [x] Set all-destinations cards to a four-column desktop grid with strict 4:3 image areas.
 - [x] Refine homepage local experience cards to match the approved DC card proportions and typography.
 - [x] Prevent horizontal slide-in by keeping the fixed-state centering transform instantaneous.
 - [x] Smooth the sticky dock-in with a short opacity/vertical settle animation.
