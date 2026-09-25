@@ -149,8 +149,9 @@ button:active { transform: scale(.97); }
 .destination-directory-grid { grid-template-columns: repeat(4, 1fr); }
 .destination-directory-card { grid-template-columns: minmax(0, 1fr); padding: 0 !important; overflow: hidden; }
 .destination-directory-card > .destination-card-image { grid-column: 1; width: 100%; margin: 0; }
-.destination-directory-card > strong, .destination-directory-card > p, .destination-directory-card > span { margin-right: 22px; margin-left: 22px; }
-.destination-directory-card > strong { margin-top: 12px; }
+.destination-directory-card > strong, .destination-directory-card > p, .destination-directory-card > span { margin-right: 0; margin-left: 0; padding-right: 22px; padding-left: 22px; }
+.destination-directory-card > strong { margin-top: 2px; }
+.destination-directory-card > p { margin-top: 0; margin-bottom: 0; }
 .destination-directory-card > span { margin-bottom: 22px; }
 .destination-area-card, .destination-property-grid article { display: grid; gap: 10px; padding: 22px; border: 1px solid #e5e2f5; border-radius: 8px; background: #fff; }
 .destination-area-card { color: #0c0a1e; }
