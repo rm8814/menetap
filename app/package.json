@@ -16,6 +16,7 @@
     "@oslojs/crypto": "^1.0.1",
     "@vitejs/plugin-react": "latest",
     "convex": "^1.45.0",
+    "lucide-react": "^1.48.0",
     "react": "latest",
     "react-dom": "latest",
     "resend": "^6.29.0"
