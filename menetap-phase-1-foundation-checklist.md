@@ -166,6 +166,7 @@ Phase 1 is complete when:
 
 - [x] Add a compact in-place search widget to the top of search results.
 - [x] Style the results-page widget as a full pill with free-text destination input and icon-only search action.
+- [x] Hide mini-widget labels visually without removing accessibility semantics, and right-align its search action.
 - [x] `npm run typecheck` and `npm run lint` pass for the compact search widget change.
 - [~] `npm test -- --run` could not start in the restricted Windows environment (`spawn EPERM` while loading Vitest config).
 
