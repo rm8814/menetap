@@ -333,10 +333,15 @@ h3 { margin: 0 0 8px; font: 800 var(--type-card)/1.2 'Plus Jakarta Sans', sans-s
 .rate-bar i { display: block; width: 91%; height: 100%; background: linear-gradient(90deg,#7229ff,#00caef); }
 .rate-card small { font-size: 10px; }
 .experience-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
-.experience-card { overflow: hidden; border: 1px solid #e5e2f5; border-radius: 8px; background: #fff; }
-.experience-card > div:last-child { display: grid; gap: 4px; padding: 12px; }
-.experience-card strong { font-size: 18px; }
-.experience-card small { color: #5e5a78; font-size: 11px; }
+.experience-card { overflow: hidden; border: 1px solid #e5e2f5; border-radius: 8px; background: #fff; box-shadow: 0 2px 8px rgba(114,41,255,.04); transition: border-color .15s ease, box-shadow .15s ease, transform .15s ease; }
+.experience-card:hover { border-color: rgba(114,41,255,.3); box-shadow: 0 8px 20px rgba(114,41,255,.1); transform: translateY(-1px); }
+.experience-card-sunrise .experience-photo { background: linear-gradient(135deg,#e5e2f5,#cfc8f0); }
+.experience-card-mountain .experience-photo { background: linear-gradient(135deg,#dfe8ff,#c8d4f5); }
+.experience-card-craft .experience-photo { background: linear-gradient(135deg,#f0dff5,#e0c8ea); }
+.experience-card-sunset .experience-photo { background: linear-gradient(135deg,#d8f0ea,#c0e5db); }
+.experience-card-content { display: grid; gap: 4px; padding: 12px; }
+.experience-card strong { color: #0c0a1e; font-size: 13px; font-weight: 700; line-height: 1.35; }
+.experience-card small { color: rgba(12,10,30,.5); font-size: 11px; line-height: 1.4; }
 .dc-footer { max-width: none; margin: 30px -6vw 0; padding: 56px 6vw 32px; border-top: 1px solid #e5e2f5; background: #fff; }
 .dc-footer-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 32px; max-width: 1200px; margin: 0 auto; padding-bottom: 40px; }
 .dc-footer-grid > div { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
