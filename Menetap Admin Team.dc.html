@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/fonts.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/colors.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/typography.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/spacing.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/shadows.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/motion.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/styles.css">
+<script src="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/_ds_bundle.js"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+body{margin:0;background:#F7F6FF;font-family:'JetBrains Mono',monospace;color:#0C0A1E}
+a{color:#7229FF;text-decoration:none}
+.wrap{max-width:1240px;width:100%;margin:0 auto;padding:0 24px;box-sizing:border-box}
+input[type="text"],select{font-family:'JetBrains Mono',monospace;font-size:13px;border:1px solid #E5E2F5;border-radius:6px;padding:8px 10px;outline:none;background:#fff;color:#0C0A1E;width:100%;box-sizing:border-box}
+.admingrid{display:grid;grid-template-columns:200px 1fr;gap:32px}
+@media (max-width:900px){.admingrid{grid-template-columns:1fr !important}.adminnav{display:none !important}}
+.navlink{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;color:rgba(12,10,30,0.7);font-size:13px;font-weight:600}
+.navlink.active{background:rgba(114,41,255,0.08);color:#7229FF;font-weight:700}
+</style>
+</helmet>
+
+<div style="min-height:100vh;display:flex;flex-direction:column">
+  <header style="border-bottom:1px solid #E5E2F5;background:#fff">
+    <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;height:64px">
+      <a href="Menetap Admin Console.dc.html" style="display:flex;align-items:center;gap:9px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:19px;letter-spacing:-0.02em;color:#0C0A1E">
+        <span>menetap<span style="color:#7229FF">.</span></span> <span style="font-size:11px;font-weight:600;color:rgba(12,10,30,0.4);margin-left:4px">admin</span>
+      </a>
+      <div style="display:flex;align-items:center;gap:14px">
+        <div style="position:relative;display:none" class="admin-search-wrap"></div>
+        <div style="position:relative;width:220px">
+          <i data-lucide="search" style="width:14px;height:14px;position:absolute;left:10px;top:50%;transform:translateY(-50%);color:rgba(12,10,30,0.4)"></i>
+          <input type="text" placeholder="Search everything..." style="width:100%;box-sizing:border-box;font-family:'JetBrains Mono',monospace;font-size:12px;border:1px solid #E5E2F5;border-radius:6px;padding:7px 10px 7px 30px;outline:none;background:#F7F6FF" />
+        </div>
+        <details style="position:relative">
+          <summary style="list-style:none;cursor:pointer;width:32px;height:32px;border-radius:50%;background:#F7F6FF;display:flex;align-items:center;justify-content:center;position:relative">
+            <i data-lucide="bell" style="width:16px;height:16px;color:#0C0A1E"></i>
+            <span style="position:absolute;top:-2px;right:-2px;width:8px;height:8px;border-radius:50%;background:#c0392b"></span>
+          </summary>
+          <div style="position:absolute;right:0;top:40px;width:280px;background:#fff;border:1px solid #E5E2F5;border-radius:8px;box-shadow:0 4px 16px rgba(114,41,255,0.12);z-index:50;overflow:hidden">
+            <div style="padding:12px 16px;font-size:12px;font-weight:700;border-bottom:1px solid #E5E2F5">Notifications</div>
+            <a href="Menetap Admin Disputes.dc.html" style="display:block;padding:12px 16px;border-bottom:1px solid #E5E2F5;font-size:12px;color:#0C0A1E">2 new disputes need review</a>
+            <a href="Menetap Admin Risk.dc.html" style="display:block;padding:12px 16px;border-bottom:1px solid #E5E2F5;font-size:12px;color:#0C0A1E">4 risk flags raised today</a>
+            <a href="Menetap Admin Moderation.dc.html" style="display:block;padding:12px 16px;font-size:12px;color:#0C0A1E">3 listings pending moderation</a>
+          </div>
+        </details>
+        <span style="font-size:11px;font-weight:700;color:#0a8aa3;background:rgba(0,202,239,0.1);padding:4px 10px;border-radius:24px">Superadmin access · full edit</span>
+        <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#7229FF,#00CAEF);display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:700">UP</div>
+      </div>
+    </div>
+  </header>
+
+  <sc-if value="{{ toastMsg }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;top:20px;right:20px;background:#0C0A1E;color:#fff;font-size:13px;font-weight:600;padding:12px 18px;border-radius:8px;display:flex;align-items:center;gap:8px;z-index:100"><i data-lucide="check-circle" style="width:16px;height:16px;color:#00CAEF"></i>{{ toastMsg }}</div>
+  </sc-if>
+
+  <div class="wrap" style="padding:32px 24px 64px">
+    <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:rgba(12,10,30,0.45);margin-bottom:10px"><a href="Menetap Admin Console.dc.html" style="color:rgba(12,10,30,0.45)">Admin</a><i data-lucide="chevron-right" style="width:12px;height:12px"></i><span>Account</span><i data-lucide="chevron-right" style="width:12px;height:12px"></i><span style="color:#0C0A1E;font-weight:600">Team & permissions</span></div>
+    <h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:26px;margin:0 0 24px">Team & permissions</h1>
+
+    <div class="admingrid">
+      <nav class="adminnav" style="display:flex;flex-direction:column;gap:4px">
+        <div style="font-size:10px;font-weight:700;color:rgba(12,10,30,0.35);text-transform:uppercase;letter-spacing:0.04em;padding:10px 12px 4px">Commerce</div>
+        <a href="Menetap Admin Console.dc.html" class="navlink"><i data-lucide="percent" style="width:16px;height:16px"></i>Commission</a>
+        <a href="Menetap Admin Properties.dc.html" class="navlink"><i data-lucide="building-2" style="width:16px;height:16px"></i>Properties</a>
+        <a href="Menetap Admin Payouts.dc.html" class="navlink"><i data-lucide="wallet" style="width:16px;height:16px"></i>Payouts</a>
+        <a href="Menetap Admin Finance.dc.html" class="navlink"><i data-lucide="landmark" style="width:16px;height:16px"></i>Finance</a>
+        <div style="font-size:10px;font-weight:700;color:rgba(12,10,30,0.35);text-transform:uppercase;letter-spacing:0.04em;padding:10px 12px 4px">People</div>
+        <a href="Menetap Admin Users.dc.html" class="navlink"><i data-lucide="users" style="width:16px;height:16px"></i>Users</a>
+        <a href="Menetap Admin Team.dc.html" class="navlink active"><i data-lucide="user-cog" style="width:16px;height:16px"></i>Team</a>
+        <div style="font-size:10px;font-weight:700;color:rgba(12,10,30,0.35);text-transform:uppercase;letter-spacing:0.04em;padding:10px 12px 4px">Trust & safety</div>
+        <a href="Menetap Admin Moderation.dc.html" class="navlink"><i data-lucide="shield-check" style="width:16px;height:16px"></i>Moderation</a>
+        <a href="Menetap Admin Disputes.dc.html" class="navlink"><i data-lucide="scale" style="width:16px;height:16px"></i>Disputes & refunds</a>
+        <a href="Menetap Admin Risk.dc.html" class="navlink"><i data-lucide="alert-triangle" style="width:16px;height:16px"></i>Risk & fraud</a>
+        <div style="font-size:10px;font-weight:700;color:rgba(12,10,30,0.35);text-transform:uppercase;letter-spacing:0.04em;padding:10px 12px 4px">Communication</div>
+        <a href="Menetap Admin Support.dc.html" class="navlink"><i data-lucide="inbox" style="width:16px;height:16px"></i>Support inbox</a>
+        <a href="Menetap Admin Announcements.dc.html" class="navlink"><i data-lucide="megaphone" style="width:16px;height:16px"></i>Announcements</a>
+        <div style="font-size:10px;font-weight:700;color:rgba(12,10,30,0.35);text-transform:uppercase;letter-spacing:0.04em;padding:10px 12px 4px">Insights</div>
+        <a href="Menetap Admin Reports.dc.html" class="navlink"><i data-lucide="file-text" style="width:16px;height:16px"></i>Reports</a>
+        <a href="Menetap Admin System.dc.html" class="navlink"><i data-lucide="activity" style="width:16px;height:16px"></i>System health</a>
+        <div style="font-size:10px;font-weight:700;color:rgba(12,10,30,0.35);text-transform:uppercase;letter-spacing:0.04em;padding:10px 12px 4px">Account</div>
+        <a href="Menetap Admin Settings.dc.html" class="navlink"><i data-lucide="settings" style="width:16px;height:16px"></i>Settings</a>
+        <a href="Menetap Partner Landing.dc.html" class="navlink" style="color:rgba(12,10,30,0.5)"><i data-lucide="log-out" style="width:16px;height:16px"></i>Sign out</a>
+      </nav>
+
+      <div style="display:flex;flex-direction:column;gap:20px;min-width:0">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <a href="Menetap Admin Access Denied.dc.html" style="font-size:11px;color:rgba(12,10,30,0.4)">Preview: restricted-role view →</a>
+          <div style="display:flex;gap:8px">
+            <x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="140px,38px" variant="outline" size="sm" onClick="{{ openCreateAccount }}">Create account</x-import>
+            <x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="140px,38px" variant="primary" size="sm" onClick="{{ inviteMember }}">Invite member</x-import>
+          </div>
+        </div>
+
+        <sc-if value="{{ createAccountOpen }}" hint-placeholder-val="{{ false }}">
+          <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:20px;display:flex;flex-direction:column;gap:12px">
+            <div style="font-size:14px;font-weight:700">Create account</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+              <select value="{{ newAccountType }}" onChange="{{ onNewAccountType }}">
+                <option value="guest">Guest</option>
+                <option value="partner">Partner</option>
+                <option value="internal">Internal team</option>
+              </select>
+              <input type="email" value="{{ newAccountEmail }}" onInput="{{ onNewAccountEmail }}" placeholder="email@example.com" />
+            </div>
+            <div style="display:flex;gap:8px;justify-content:flex-end">
+              <x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="70px,36px" variant="outline" size="sm" onClick="{{ closeCreateAccount }}">Cancel</x-import>
+              <x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="130px,36px" variant="primary" size="sm" onClick="{{ submitCreateAccount }}">Create &amp; send invite</x-import>
+            </div>
+          </div>
+        </sc-if>
+
+        <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;overflow:hidden">
+          <div style="display:grid;grid-template-columns:2fr 1fr 1.2fr 1fr 1fr;padding:10px 20px;font-size:10px;font-weight:700;color:rgba(12,10,30,0.4);text-transform:uppercase;border-bottom:1px solid #E5E2F5">
+            <div>Member</div><div>Role</div><div>Property access</div><div>Status</div><div></div>
+          </div>
+          <sc-for list="{{ members }}" as="m" hint-placeholder-count="5">
+            <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;padding:14px 20px;font-size:13px;align-items:center;border-bottom:1px solid #E5E2F5">
+              <sc-if value="{{ m.isEditing }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex;flex-direction:column;gap:6px">
+                  <input type="text" value="{{ m.draftName }}" onInput="{{ m.onDraftName }}" style="font-family:'JetBrains Mono',monospace;font-size:12px;border:1px solid #E5E2F5;border-radius:6px;padding:5px 8px" />
+                  <input type="text" value="{{ m.draftEmail }}" onInput="{{ m.onDraftEmail }}" style="font-family:'JetBrains Mono',monospace;font-size:11px;border:1px solid #E5E2F5;border-radius:6px;padding:5px 8px" />
+                </div>
+              </sc-if>
+              <sc-if value="{{ m.isNotEditing }}" hint-placeholder-val="{{ true }}">
+                <div style="display:flex;align-items:center;gap:6px"><div><div style="font-weight:700">{{ m.name }}</div><div style="font-size:11px;color:rgba(12,10,30,0.5)">{{ m.email }}</div></div><i data-lucide="pencil" style="width:12px;height:12px;color:#7229FF;cursor:pointer" onClick="{{ m.edit }}"></i></div>
+              </sc-if>
+              <div>
+                <select value="{{ m.role }}" onChange="{{ m.onRoleChange }}" style="max-width:150px">
+                  <sc-for list="{{ m.roleOptions }}" as="r" hint-placeholder-count="4">
+                    <option value="{{ r.value }}">{{ r.value }}</option>
+                  </sc-for>
+                </select>
+              </div>
+              <div style="font-size:12px;color:rgba(12,10,30,0.6)">{{ m.propertyAccess }}</div>
+              <div><span style="font-size:11px;font-weight:700;padding:3px 9px;border-radius:4px;background:{{ m.statusBg }};color:{{ m.statusColor }}">{{ m.status }}</span></div>
+              <sc-if value="{{ m.isEditing }}" hint-placeholder-val="{{ false }}">
+                <div style="text-align:right"><span style="font-size:12px;font-weight:700;color:#7229FF;cursor:pointer" onClick="{{ m.save }}">Save</span></div>
+              </sc-if>
+              <sc-if value="{{ m.isNotEditing }}" hint-placeholder-val="{{ true }}">
+                <div style="text-align:right;display:flex;gap:10px;justify-content:flex-end"><span style="font-size:12px;font-weight:700;color:#7229FF;cursor:pointer" onClick="{{ m.resetPassword }}">Reset password</span><span style="font-size:12px;font-weight:700;color:#c0392b;cursor:pointer" onClick="{{ m.remove }}">Remove</span></div>
+              </sc-if>
+            </div>
+          </sc-for>
+        </div>
+
+        <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:20px">
+          <div style="font-size:13px;font-weight:700;margin-bottom:10px">Role permissions</div>
+          <div style="display:flex;flex-direction:column;gap:8px;font-size:12px;color:rgba(12,10,30,0.65)">
+            <div><strong>Superadmin</strong> — full access, including team management and payouts</div>
+            <div><strong>Admin</strong> — full operational access (commission, properties, users, disputes, moderation) excluding team management and payout execution</div>
+            <div><strong>Finance</strong> — commission, payouts, finance ledger, reports (no team management)</div>
+            <div><strong>Support</strong> — users, disputes, support inbox (no financial data)</div>
+            <div><strong>Moderator</strong> — property/listing moderation only</div>
+          </div>
+        </div>
+
+        <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;overflow:hidden">
+          <div style="padding:16px 20px;border-bottom:1px solid #E5E2F5;font-size:14px;font-weight:700">Audit trail</div>
+          <sc-for list="{{ auditLog }}" as="al" hint-placeholder-count="4">
+            <div style="display:flex;justify-content:space-between;padding:12px 20px;font-size:12px;border-bottom:1px solid #E5E2F5;gap:12px">
+              <div><span style="font-weight:700">{{ al.actor }}</span> <span style="color:rgba(12,10,30,0.6)">{{ al.action }}</span></div>
+              <div style="color:rgba(12,10,30,0.4);flex:none">{{ al.time }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer style="border-top:1px solid #E5E2F5;padding:24px 0;background:#fff;margin-top:auto">
+    <div class="wrap" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px">
+      <div style="font-size:12px;color:rgba(12,10,30,0.5)">© 2026 Menetap. All rights reserved.</div>
+      
+      <!-- langgroup --><div style="display:flex;align-items:center;gap:10px"><div onClick="{{ toggleLang }}" style="display:flex;align-items:center;gap:4px;font-size:11px;font-weight:700;color:rgba(12,10,30,0.5);cursor:pointer;border:1px solid #E5E2F5;border-radius:24px;padding:5px 12px"><i data-lucide="globe" style="width:12px;height:12px"></i>{{ langLabel }}</div><div style="display:flex;align-items:center;gap:8px;font-size:11px;color:rgba(12,10,30,0.45);background:#F7F6FF;border:1px solid #E5E2F5;border-radius:24px;padding:5px 12px">
+        Managed by <a href="https://upscale.asia" target="_blank" style="font-weight:700;color:#7229FF">UPSCALE</a>
+      </div></div>
+</div>
+  </footer>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const ROLES = ['Superadmin', 'Admin', 'Finance', 'Support', 'Moderator'];
+const SEED = [
+  { name: 'Anin Wida', email: 'anin@upscale.asia', role: 'Superadmin', status: 'Active', properties: 'All properties' },
+  { name: 'Fajar Nugroho', email: 'fajar@upscale.asia', role: 'Finance', status: 'Active', properties: 'All properties' },
+  { name: 'Sari Dewi', email: 'sari@upscale.asia', role: 'Support', status: 'Active', properties: 'All properties' },
+  { name: 'Rian Hakim', email: 'rian@upscale.asia', role: 'Moderator', status: 'Invited', properties: 'Central & East Java region' },
+  { name: 'Tara Wijaya', email: 'tara@upscale.asia', role: 'Support', status: 'Active', properties: 'All properties' }
+];
+const STATUS_STYLE = { 'Active': { bg: 'rgba(0,202,239,0.1)', color: '#0a8aa3' }, 'Invited': { bg: 'rgba(230,162,60,0.12)', color: '#b8860b' } };
+class Component extends DCLogic {
+  state = { members: SEED.map((m, i) => ({ ...m, id: i, editing: false, draftName: '', draftEmail: '' })), toastMsg: '',
+    createAccountOpen: false, newAccountType: 'guest', newAccountEmail: '',
+    auditLog: [
+      { actor: 'Anin W.', action: 'invited rian@upscale.asia as Moderator', time: 'Today, 10:02' },
+      { actor: 'Anin W.', action: 'changed Fajar Nugroho from Support to Finance', time: 'Yesterday, 15:30' },
+      { actor: 'System', action: 'password reset link sent to sari@upscale.asia', time: 'Sep 22, 2026' },
+      { actor: 'Anin W.', action: 'removed a former team member', time: 'Sep 18, 2026' }
+    ]
+  };
+  addAuditLog(text) { this.setState(st => ({ auditLog: [{ actor: 'Anin W.', action: text, time: 'Just now' }, ...st.auditLog] })); }
+  componentDidMount() { if (window.lucide) window.lucide.createIcons(); }
+  componentDidUpdate() { if (window.lucide) window.lucide.createIcons(); }
+  toast(msg) { this.setState({ toastMsg: msg }); clearTimeout(this._t); this._t = setTimeout(() => this.setState({ toastMsg: '' }), 2200); }
+  renderVals() {
+    const s = this.state;
+    return {
+      langLabel: ((this.state.__lang || (typeof localStorage!=='undefined' && localStorage.getItem('menetapLang')) || 'en') === 'en') ? 'EN' : 'ID',
+      toggleLang: () => { const cur = this.state.__lang || (typeof localStorage!=='undefined' && localStorage.getItem('menetapLang')) || 'en'; const next = cur === 'en' ? 'id' : 'en'; if (typeof localStorage!=='undefined') localStorage.setItem('menetapLang', next); this.setState({ __lang: next }); },
+
+      toastMsg: s.toastMsg,
+      inviteMember: () => { this.toast('Invite sent'); this.addAuditLog('invited a new team member'); },
+      createAccountOpen: s.createAccountOpen,
+      openCreateAccount: () => this.setState({ createAccountOpen: true }),
+      closeCreateAccount: () => this.setState({ createAccountOpen: false, newAccountEmail: '' }),
+      newAccountType: s.newAccountType, onNewAccountType: (e) => this.setState({ newAccountType: e.target.value }),
+      newAccountEmail: s.newAccountEmail, onNewAccountEmail: (e) => this.setState({ newAccountEmail: e.target.value }),
+      submitCreateAccount: () => {
+        if (!s.newAccountEmail) return;
+        this.setState({ createAccountOpen: false, newAccountEmail: '' });
+        this.toast(`${s.newAccountType} account created for ${s.newAccountEmail}`);
+        this.addAuditLog(`created a ${s.newAccountType} account for ${s.newAccountEmail}`);
+      },
+      auditLog: s.auditLog,
+      members: s.members.map(m => ({
+        name: m.name, email: m.email, status: m.status, propertyAccess: m.properties,
+        statusBg: STATUS_STYLE[m.status].bg, statusColor: STATUS_STYLE[m.status].color,
+        role: m.role, roleOptions: ROLES.map(r => ({ value: r })),
+        isEditing: m.editing, isNotEditing: !m.editing,
+        draftName: m.draftName, draftEmail: m.draftEmail,
+        onDraftName: (e) => { const v = e.target.value; this.setState(st => ({ members: st.members.map(x => x.id === m.id ? { ...x, draftName: v } : x) })); },
+        onDraftEmail: (e) => { const v = e.target.value; this.setState(st => ({ members: st.members.map(x => x.id === m.id ? { ...x, draftEmail: v } : x) })); },
+        edit: () => this.setState(st => ({ members: st.members.map(x => x.id === m.id ? { ...x, editing: true, draftName: x.name, draftEmail: x.email } : x) })),
+        save: () => { this.setState(st => ({ members: st.members.map(x => x.id === m.id ? { ...x, name: x.draftName, email: x.draftEmail, editing: false } : x) })); this.toast('Member details updated'); },
+        onRoleChange: (e) => { const v = e.target.value; this.setState(st => ({ members: st.members.map(x => x.id === m.id ? { ...x, role: v } : x) })); this.toast(`${m.name} set to ${v}`); this.addAuditLog(`changed ${m.name} to ${v}`); },
+        resetPassword: () => { this.toast(`Password reset link sent to ${m.email}`); this.addAuditLog(`sent password reset to ${m.email}`); },
+        remove: () => { this.setState(st => ({ members: st.members.filter(x => x.id !== m.id) })); this.toast(`${m.name} removed`); this.addAuditLog(`removed ${m.name}`); }
+      }))
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/fonts.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/colors.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/typography.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/spacing.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/shadows.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/motion.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/styles.css">
+<script src="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/_ds_bundle.js"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+body{margin:0;background:var(--color-bg,#F7F6FF);font-family:'JetBrains Mono',monospace;color:var(--color-ink,#0C0A1E)}
+a{color:#7229FF;text-decoration:none}
+a:hover{color:#5a1fd1;text-decoration:underline}
+.wrap{max-width:1080px;width:100%;margin:0 auto;padding:0 24px;box-sizing:border-box}
+input[type="text"]{font-family:'JetBrains Mono',monospace;font-size:13px;border:1px solid #E5E2F5;border-radius:6px;padding:9px 12px;outline:none;background:#fff;color:#0C0A1E;box-sizing:border-box}
+.mobtabs{display:none}
+@media (max-width:820px){.acctgrid{grid-template-columns:1fr !important}.acctsidebar{display:none !important}.mobtabs{display:flex !important}}
+</style>
+</helmet>
+
+<div style="min-height:100vh;display:flex;flex-direction:column">
+
+  <header style="position:sticky;top:0;z-index:50;background:rgba(247,246,255,0.9);backdrop-filter:blur(12px);border-bottom:1px solid #E5E2F5">
+    <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;height:64px">
+      <a href="#" style="display:flex;align-items:center;gap:9px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:19px;letter-spacing:-0.02em;color:#0C0A1E">
+        <span>menetap<span style="color:#7229FF">.</span></span>
+      </a>
+      <nav style="display:flex;gap:24px;font-size:13px;font-weight:600">
+        <a href="#" style="color:rgba(12,10,30,0.55)">Stays</a>
+        <a href="#" style="color:#7229FF">My trips</a>
+      </nav>
+      <div style="display:flex;align-items:center;gap:10px">
+        <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#7229FF,#00CAEF);display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:700">AW</div>
+      </div>
+    </div>
+  </header>
+
+  <div class="wrap" style="padding:32px 24px 64px">
+    <h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:26px;letter-spacing:-0.02em;margin:0 0 20px">My trips</h1>
+
+    <!-- MOBILE ACCOUNT NAV -->
+    <div class="mobtabs" style="gap:8px;overflow-x:auto;padding-bottom:16px">
+      <a href="#" style="flex:none;font-size:12px;font-weight:700;background:rgba(114,41,255,0.08);color:#7229FF;padding:7px 14px;border-radius:24px;white-space:nowrap">Trips</a>
+      <a href="#" style="flex:none;font-size:12px;font-weight:600;color:rgba(12,10,30,0.65);padding:7px 14px;border-radius:24px;white-space:nowrap;border:1px solid #E5E2F5">Saved</a>
+      <a href="#" style="flex:none;font-size:12px;font-weight:600;color:rgba(12,10,30,0.65);padding:7px 14px;border-radius:24px;white-space:nowrap;border:1px solid #E5E2F5">Rewards</a>
+      <a href="#" style="flex:none;font-size:12px;font-weight:600;color:rgba(12,10,30,0.65);padding:7px 14px;border-radius:24px;white-space:nowrap;border:1px solid #E5E2F5">Payment</a>
+      <a href="#" style="flex:none;font-size:12px;font-weight:600;color:rgba(12,10,30,0.65);padding:7px 14px;border-radius:24px;white-space:nowrap;border:1px solid #E5E2F5">Settings</a>
+    </div>
+
+    <div class="acctgrid" style="display:grid;grid-template-columns:220px 1fr;gap:32px">
+
+      <!-- ACCOUNT SIDEBAR -->
+      <aside class="acctsidebar" style="display:flex;flex-direction:column;gap:4px">
+        <a href="#" style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;background:rgba(114,41,255,0.08);color:#7229FF;font-size:13px;font-weight:700"><i data-lucide="briefcase" style="width:16px;height:16px"></i>Trips</a>
+        <a href="#" style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;color:rgba(12,10,30,0.7);font-size:13px;font-weight:600"><i data-lucide="heart" style="width:16px;height:16px"></i>Favorites</a>
+        <a href="#" style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;color:rgba(12,10,30,0.7);font-size:13px;font-weight:600"><i data-lucide="gift" style="width:16px;height:16px"></i>Rewards</a>
+        <a href="#" style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;color:rgba(12,10,30,0.7);font-size:13px;font-weight:600"><i data-lucide="credit-card" style="width:16px;height:16px"></i>Payment methods</a>
+        <a href="#" style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;color:rgba(12,10,30,0.7);font-size:13px;font-weight:600"><i data-lucide="settings" style="width:16px;height:16px"></i>Settings</a>
+        <div style="height:1px;background:#E5E2F5;margin:8px 0"></div>
+        <a href="#" style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;color:rgba(12,10,30,0.5);font-size:13px;font-weight:600"><i data-lucide="log-out" style="width:16px;height:16px"></i>Log out</a>
+      </aside>
+
+      <!-- TRIPS -->
+      <div style="display:flex;flex-direction:column;gap:20px;min-width:0">
+
+        <sc-if value="{{ hasAlerts }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <sc-for list="{{ tripAlerts }}" as="ta" hint-placeholder-count="1">
+              <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;background:{{ ta.bg }};border:1px solid {{ ta.border }};border-radius:8px;padding:14px 16px;flex-wrap:wrap">
+                <div style="display:flex;gap:10px;align-items:flex-start">
+                  <i data-lucide="{{ ta.icon }}" style="width:16px;height:16px;color:{{ ta.color }};flex:none;margin-top:1px"></i>
+                  <div>
+                    <div style="font-size:13px;font-weight:700">{{ ta.title }}</div>
+                    <div style="font-size:12px;color:rgba(12,10,30,0.65);margin-top:2px;max-width:480px">{{ ta.text }}</div>
+                  </div>
+                </div>
+                <x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="{{ ta.actionWidth }}px,34px" variant="primary" size="sm" onClick="{{ ta.action }}">{{ ta.actionLabel }}</x-import>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <!-- Review nudge banner -->
+        <sc-if value="{{ hasPendingReview }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;background:rgba(114,41,255,0.06);border:1px solid #E5E2F5;border-radius:8px;padding:12px 16px;flex-wrap:wrap">
+            <div style="display:flex;align-items:center;gap:10px;font-size:13px;color:rgba(12,10,30,0.75)"><i data-lucide="star" style="width:15px;height:15px;color:#7229FF"></i>How was your stay at Malioboro Skyline Suites? Your review helps other travelers.</div>
+            <x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="120px,34px" variant="primary" size="sm" onClick="{{ openReviewModal }}">Leave review</x-import>
+          </div>
+        </sc-if>
+
+        <!-- Search -->
+        <input type="text" value="{{ searchQuery }}" onInput="{{ onSearchInput }}" placeholder="Search trips by hotel name" style="width:100%" />
+
+        <div style="display:flex;gap:8px;border-bottom:1px solid #E5E2F5">
+          <div style="padding:10px 4px;font-size:13px;font-weight:700;white-space:nowrap;cursor:pointer;border-bottom:2px solid {{ upcomingUnderline }};color:{{ upcomingColor }}" onClick="{{ selectUpcoming }}">Upcoming ({{ upcomingCount }})</div>
+          <div style="padding:10px 16px;font-size:13px;font-weight:700;white-space:nowrap;cursor:pointer;border-bottom:2px solid {{ pastUnderline }};color:{{ pastColor }}" onClick="{{ selectPast }}">Past ({{ pastCount }})</div>
+          <div style="padding:10px 16px;font-size:13px;font-weight:700;white-space:nowrap;cursor:pointer;border-bottom:2px solid {{ cancelledUnderline }};color:{{ cancelledColor }}" onClick="{{ selectCancelled }}">Cancelled ({{ cancelledCount }})</div>
+        </div>
+
+        <sc-if value="{{ isUpcoming }}" hint-placeholder-val="{{ true }}">
+          <sc-if value="{{ hasUpcomingResults }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex;flex-direction:column;gap:16px">
+
+              <div style="display:grid;grid-template-columns:267px 1fr;height:200px;background:#fff;border:1px solid #E5E2F5;border-radius:8px;overflow:hidden">
+                <div style="width:267px;height:200px;background:linear-gradient(135deg,#e5e2f5,#cfc8f0);display:flex;align-items:center;justify-content:center;color:rgba(12,10,30,0.35);font-size:11px">Photo</div>
+                <div style="padding:14px;display:flex;flex-direction:column;gap:4px">
+                  <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px">
+                    <div>
+                      <div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:15px">Kaliurang Heritage Villa</div>
+                      <div style="font-size:12px;color:rgba(12,10,30,0.55);margin-top:2px">Sleman, Yogyakarta</div>
+                    </div>
+                    <span style="font-size:11px;font-weight:700;background:rgba(0,202,239,0.1);color:#0a8aa3;padding:3px 8px;border-radius:4px;flex:none">Confirmed</span>
+                  </div>
+                  <div style="font-size:12px;color:rgba(12,10,30,0.65)">Oct 12 – Oct 15, 2026 · 2 rooms · 2 adults</div>
+                  <div style="font-size:11px;font-weight:700;color:#7229FF">Check-in in {{ daysToCheckin }} days</div>
+                  <div style="font-size:11px;color:rgba(12,10,30,0.45)">MTP-7X9K2Q · Rp 6,960,000 paid</div>
+                  <div style="display:flex;gap:8px;margin-top:2px">
+                    <a href="Menetap Booking Confirmation.dc.html" style="text-decoration:none"><x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="110px,32px" variant="outline" size="sm">View details</x-import></a>
+                    <a href="Menetap During Stay.dc.html" style="text-decoration:none"><x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="110px,32px" variant="outline" size="sm">During stay</x-import></a>
+                    <x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="90px,32px" variant="outline" size="sm" onClick="{{ openCancelModal }}">Cancel</x-import>
+                  </div>
+                </div>
+              </div>
+
+              <sc-if value="{{ showPrawirotaman }}" hint-placeholder-val="{{ true }}">
+                <div style="display:grid;grid-template-columns:267px 1fr;height:200px;background:#fff;border:1px solid #E5E2F5;border-radius:8px;overflow:hidden">
+                  <div style="width:267px;height:200px;background:linear-gradient(135deg,#dfe8ff,#c8d4f5);display:flex;align-items:center;justify-content:center;color:rgba(12,10,30,0.35);font-size:11px">Photo</div>
+                  <div style="padding:14px 16px;display:flex;flex-direction:column;gap:4px">
+                    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px">
+                      <div>
+                        <div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:15px">Prawirotaman Boutique</div>
+                        <div style="font-size:12px;color:rgba(12,10,30,0.55);margin-top:2px">Mergangsan, Yogyakarta</div>
+                      </div>
+                      <span style="font-size:11px;font-weight:700;background:rgba(114,41,255,0.08);color:#7229FF;padding:3px 8px;border-radius:4px;flex:none">Pending payment</span>
+                    </div>
+                    <div style="font-size:12px;color:rgba(12,10,30,0.65)">Nov 3 – Nov 5, 2026 · 1 room · 2 adults</div>
+                    <div style="display:flex;align-items:center;gap:5px;font-size:11px;font-weight:700;color:#c0392b;background:rgba(192,57,43,0.06);padding:4px 9px;border-radius:6px;width:fit-content"><i data-lucide="alarm-clock" style="width:11px;height:11px"></i>Complete by Oct 26</div>
+                    <div style="font-size:11px;color:rgba(12,10,30,0.45)">MTP-4H1L8B · <span style="font-weight:700;color:#c0392b">Rp 1,240,000 due</span></div>
+                    <div style="display:flex;gap:8px;margin-top:2px">
+                      <x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="140px,32px" variant="primary" size="sm">Complete payment</x-import>
+                    </div>
+                  </div>
+                </div>
+              </sc-if>
+
+            </div>
+          </sc-if>
+          <sc-if value="{{ noUpcomingResults }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:12px;background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:56px 24px">
+              <i data-lucide="calendar-x" style="width:28px;height:28px;color:rgba(12,10,30,0.3)"></i>
+              <div style="font-size:13px;color:rgba(12,10,30,0.5)">{{ emptyUpcomingMessage }}</div>
+              <x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="150px,38px" variant="primary" size="sm">Explore stays</x-import>
+            </div>
+          </sc-if>
+        </sc-if>
+
+        <sc-if value="{{ isPast }}" hint-placeholder-val="{{ false }}">
+          <div style="display:grid;grid-template-columns:267px 1fr;height:200px;background:#fff;border:1px solid #E5E2F5;border-radius:8px;overflow:hidden;opacity:0.85">
+            <div style="width:267px;height:200px;background:linear-gradient(135deg,#f0dff5,#e0c8ea);display:flex;align-items:center;justify-content:center;color:rgba(12,10,30,0.35);font-size:11px">Photo</div>
+            <div style="padding:14px;display:flex;flex-direction:column;gap:4px">
+              <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px">
+                <div>
+                  <div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:15px">Malioboro Skyline Suites</div>
+                  <div style="font-size:12px;color:rgba(12,10,30,0.55);margin-top:2px">Gedong Tengen, Yogyakarta</div>
+                </div>
+                <span style="font-size:11px;font-weight:700;background:rgba(12,10,30,0.06);color:rgba(12,10,30,0.5);padding:3px 8px;border-radius:4px;flex:none">Completed</span>
+              </div>
+              <div style="font-size:12px;color:rgba(12,10,30,0.65)">Jul 4 – Jul 6, 2026 · 1 room · 2 adults</div>
+              <div style="font-size:11px;color:rgba(12,10,30,0.45)">MTP-2R6V9C · Rp 2,200,000 paid</div>
+              <div style="font-size:11px;font-weight:700;color:#0a8aa3">+220 points earned</div>
+              <div style="display:flex;align-items:center;gap:6px;font-size:11px;font-weight:700;color:#7229FF;background:rgba(114,41,255,0.08);padding:4px 9px;border-radius:6px;width:fit-content;margin-top:2px"><i data-lucide="gift" style="width:11px;height:11px"></i>Book again this month — save 10% on your next stay</div>
+              <div style="display:flex;gap:8px;margin-top:6px;flex-wrap:wrap">
+                <x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="110px,34px" variant="outline" size="sm">Book again</x-import>
+                <x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="100px,34px" variant="outline" size="sm" onClick="{{ openReviewModal }}">Leave review</x-import>
+                <x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="130px,34px" variant="outline" size="sm" onClick="{{ downloadInvoice }}">Download invoice</x-import>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isCancelled }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px;background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:48px 24px">
+            <i data-lucide="inbox" style="width:28px;height:28px;color:rgba(12,10,30,0.3)"></i>
+            <div style="font-size:13px;color:rgba(12,10,30,0.5)">No cancelled trips.</div>
+          </div>
+        </sc-if>
+
+      </div>
+    </div>
+  </div>
+
+  <sc-if value="{{ toastMsg }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;top:20px;right:20px;background:#0C0A1E;color:#fff;font-size:13px;font-weight:600;padding:12px 18px;border-radius:8px;display:flex;align-items:center;gap:8px;z-index:100"><i data-lucide="check-circle" style="width:16px;height:16px;color:#00CAEF"></i>{{ toastMsg }}</div>
+  </sc-if>
+
+  <!-- Cancel/modify modal -->
+  <sc-if value="{{ showCancelModal }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeCancelModal }}" style="position:fixed;inset:0;background:rgba(12,10,30,0.4);display:flex;align-items:center;justify-content:center;z-index:50">
+      <div onClick="{{ stopProp }}" style="background:#fff;border-radius:8px;padding:24px;width:440px;max-width:90vw;max-height:80vh;overflow-y:auto;display:flex;flex-direction:column;gap:14px">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:17px">Manage booking</div>
+          <span onClick="{{ closeCancelModal }}" style="cursor:pointer;display:flex"><i data-lucide="x" style="width:18px;height:18px;color:rgba(12,10,30,0.5)"></i></span>
+        </div>
+
+        <sc-if value="{{ manageMode }}" hint-placeholder-val="{{ true }}">
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div onClick="{{ selectModify }}" style="border:1px solid #E5E2F5;border-radius:8px;padding:14px;cursor:pointer;display:flex;align-items:center;gap:10px"><i data-lucide="calendar-cog" style="width:18px;height:18px;color:#7229FF"></i><div><div style="font-size:13px;font-weight:700">Modify booking</div><div style="font-size:11px;color:rgba(12,10,30,0.5)">Change dates, room type, guests, or number of rooms</div></div></div>
+            <div onClick="{{ selectCancel }}" style="border:1px solid #E5E2F5;border-radius:8px;padding:14px;cursor:pointer;display:flex;align-items:center;gap:10px"><i data-lucide="circle-x" style="width:18px;height:18px;color:#c0392b"></i><div><div style="font-size:13px;font-weight:700">Cancel booking</div><div style="font-size:11px;color:rgba(12,10,30,0.5)">Review refund amount before confirming</div></div></div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ modifyMode }}" hint-placeholder-val="{{ false }}">
+          <div style="font-size:12px;color:rgba(12,10,30,0.55)">Kaliurang Heritage Villa · MTP-7X9K2Q</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+            <div><label style="font-size:11px;font-weight:700;color:rgba(12,10,30,0.55);display:block;margin-bottom:4px">Check-in</label><input type="text" value="{{ modifyCheckIn }}" onInput="{{ onModifyCheckIn }}" style="width:100%" /></div>
+            <div><label style="font-size:11px;font-weight:700;color:rgba(12,10,30,0.55);display:block;margin-bottom:4px">Check-out</label><input type="text" value="{{ modifyCheckOut }}" onInput="{{ onModifyCheckOut }}" style="width:100%" /></div>
+            <div><label style="font-size:11px;font-weight:700;color:rgba(12,10,30,0.55);display:block;margin-bottom:4px">Room type</label><input type="text" value="{{ modifyRoomType }}" onInput="{{ onModifyRoomType }}" style="width:100%" /></div>
+            <div><label style="font-size:11px;font-weight:700;color:rgba(12,10,30,0.55);display:block;margin-bottom:4px">Rooms</label><input type="text" value="{{ modifyRooms }}" onInput="{{ onModifyRooms }}" style="width:100%" /></div>
+            <div><label style="font-size:11px;font-weight:700;color:rgba(12,10,30,0.55);display:block;margin-bottom:4px">Guests</label><input type="text" value="{{ modifyGuests }}" onInput="{{ onModifyGuests }}" style="width:100%" /></div>
+          </div>
+          <p style="font-size:11px;color:rgba(12,10,30,0.5);margin:0">Changes may affect your total. The property will confirm the new rate before you're charged.</p>
+          <sc-if value="{{ modifyBlocked }}" hint-placeholder-val="{{ false }}">
+            <div style="font-size:12px;color:#c0392b;background:rgba(192,57,43,0.06);border-radius:6px;padding:10px 12px">{{ modifyBlockedReason }}</div>
+          </sc-if>
+          <div style="display:flex;justify-content:space-between;font-size:12px;color:rgba(12,10,30,0.6)"><span>Reschedule fee ({{ rescheduleFeePct }}%, paid by you)</span><span style="font-weight:700;color:#c0392b">{{ rescheduleFeeAmount }}</span></div>
+          <div style="display:flex;gap:10px;justify-content:flex-end">
+            <x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="70px,36px" variant="outline" size="sm" onClick="{{ backToManage }}">Back</x-import>
+            <x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="150px,36px" variant="primary" size="sm" onClick="{{ submitModify }}">Request changes</x-import>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ cancelMode }}" hint-placeholder-val="{{ false }}">
+          <div style="font-size:12px;color:rgba(12,10,30,0.55)">Kaliurang Heritage Villa · MTP-7X9K2Q</div>
+          <div style="background:#F7F6FF;border:1px solid #E5E2F5;border-radius:8px;padding:14px;font-size:12px;color:rgba(12,10,30,0.7)">This property's policy: <strong>free cancellation until 7 days before check-in</strong>, 50% refund within 3–7 days, no refund inside 3 days.</div>
+          <div style="display:flex;justify-content:space-between;font-size:13px;color:rgba(12,10,30,0.6)"><span>Policy refund</span><span>{{ policyRefundAmount }}</span></div>
+          <div style="display:flex;justify-content:space-between;font-size:13px;color:rgba(12,10,30,0.6)"><span>Cancellation fee ({{ cancelFeePct }}%, paid by you)</span><span style="color:#c0392b">− {{ cancelFeeAmount }}</span></div>
+          <div style="height:1px;background:#E5E2F5"></div>
+          <div style="display:flex;justify-content:space-between;font-size:14px"><span style="font-weight:700">Refund you'll receive</span><span style="font-weight:800;color:#0a8aa3">{{ refundAmount }}</span></div>
+          <div style="display:flex;gap:10px;justify-content:flex-end">
+            <x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="70px,36px" variant="outline" size="sm" onClick="{{ backToManage }}">Back</x-import>
+            <x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="150px,36px" variant="primary" size="sm" onClick="{{ submitCancel }}">Confirm cancellation</x-import>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- Review modal -->
+  <sc-if value="{{ showReviewModal }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeReviewModal }}" style="position:fixed;inset:0;background:rgba(12,10,30,0.4);display:flex;align-items:center;justify-content:center;z-index:50">
+      <div onClick="{{ stopProp }}" style="background:#fff;border-radius:8px;padding:24px;width:440px;max-width:90vw;max-height:85vh;overflow-y:auto;display:flex;flex-direction:column;gap:14px">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:17px">Review Malioboro Skyline Suites</div>
+          <span onClick="{{ closeReviewModal }}" style="cursor:pointer;display:flex"><i data-lucide="x" style="width:18px;height:18px;color:rgba(12,10,30,0.5)"></i></span>
+        </div>
+        <div>
+          <div style="font-size:11px;font-weight:700;color:rgba(12,10,30,0.55);margin-bottom:6px">Overall rating</div>
+          <div style="display:flex;gap:4px">
+            <sc-for list="{{ overallStars }}" as="st" hint-placeholder-count="5">
+              <i data-lucide="star" onClick="{{ st.select }}" style="width:24px;height:24px;cursor:pointer;color:{{ st.color }}"></i>
+            </sc-for>
+          </div>
+        </div>
+        <sc-for list="{{ subScores }}" as="sub" hint-placeholder-count="4">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div style="font-size:12px;font-weight:600">{{ sub.label }}</div>
+            <div style="display:flex;gap:3px">
+              <sc-for list="{{ sub.stars }}" as="st" hint-placeholder-count="5">
+                <i data-lucide="star" onClick="{{ st.select }}" style="width:15px;height:15px;cursor:pointer;color:{{ st.color }}"></i>
+              </sc-for>
+            </div>
+          </div>
+        </sc-for>
+        <div>
+          <label style="font-size:11px;font-weight:700;color:rgba(12,10,30,0.55);display:block;margin-bottom:5px">Your review</label>
+          <textarea value="{{ reviewText }}" onInput="{{ onReviewText }}" placeholder="What stood out about your stay?" style="width:100%;min-height:80px;font-family:'JetBrains Mono',monospace;font-size:13px;border:1px solid #E5E2F5;border-radius:6px;padding:9px 12px;box-sizing:border-box"></textarea>
+        </div>
+        <div>
+          <label style="font-size:11px;font-weight:700;color:rgba(12,10,30,0.55);display:block;margin-bottom:6px">Add photos</label>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <div onClick="{{ addReviewPhoto }}" style="width:64px;height:64px;border:2px dashed #E5E2F5;border-radius:6px;display:flex;align-items:center;justify-content:center;color:#7229FF;cursor:pointer"><i data-lucide="upload" style="width:16px;height:16px"></i></div>
+            <sc-for list="{{ reviewPhotos }}" as="p" hint-placeholder-count="0">
+              <div style="width:64px;height:64px;border-radius:6px;background:{{ p.bg }}"></div>
+            </sc-for>
+          </div>
+        </div>
+        <x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="100%,40px" variant="primary" size="md" onClick="{{ submitReview }}">Submit review</x-import>
+      </div>
+    </div>
+  </sc-if>
+
+  <footer style="border-top:1px solid #E5E2F5;padding:24px 0;margin-top:auto;background:#fff">
+    <div class="wrap" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px">
+      <div style="font-size:12px;color:rgba(12,10,30,0.5)">© 2026 Menetap. All rights reserved.</div>
+      
+      <!-- langgroup --><div style="display:flex;align-items:center;gap:10px"><div onClick="{{ toggleLang }}" style="display:flex;align-items:center;gap:4px;font-size:11px;font-weight:700;color:rgba(12,10,30,0.5);cursor:pointer;border:1px solid #E5E2F5;border-radius:24px;padding:5px 12px"><i data-lucide="globe" style="width:12px;height:12px"></i>{{ langLabel }}</div><div style="display:flex;align-items:center;gap:8px;font-size:11px;color:rgba(12,10,30,0.45);background:#F7F6FF;border:1px solid #E5E2F5;border-radius:24px;padding:5px 12px">
+        Managed by <a href="https://upscale.asia" target="_blank" style="font-weight:700;color:#7229FF">UPSCALE</a>
+      </div></div>
+    </div>
+  </footer>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = {
+    tab: 'upcoming', searchQuery: '',
+    manageStep: 'menu', showCancelModal: false,
+    modifyCheckIn: 'Oct 12, 2026', modifyCheckOut: 'Oct 15, 2026', modifyRoomType: 'Garden Suite', modifyRooms: '2', modifyGuests: '2',
+    showReviewModal: false, overallRating: 0, subRatings: { Cleanliness: 0, Location: 0, Value: 0, Service: 0 }, reviewText: '', reviewPhotos: [],
+    toastMsg: ''
+  };
+  componentDidMount() {
+    if (window.lucide) window.lucide.createIcons();
+  }
+  componentDidUpdate() {
+    if (window.lucide) window.lucide.createIcons();
+  }
+  colorFor(tab) { return this.state.tab === tab ? '#7229FF' : 'rgba(12,10,30,0.5)'; }
+  underlineFor(tab) { return this.state.tab === tab ? '#7229FF' : 'transparent'; }
+  toast(msg) { this.setState({ toastMsg: msg }); clearTimeout(this._t); this._t = setTimeout(() => this.setState({ toastMsg: '' }), 2400); }
+  starRow(current, onPick) {
+    return [1, 2, 3, 4, 5].map(n => ({ color: n <= current ? '#7229FF' : '#E5E2F5', select: () => onPick(n) }));
+  }
+  renderVals() {
+    const __lang = this.state.__lang || (typeof localStorage !== 'undefined' && localStorage.getItem('menetapLang')) || 'en';
+    const s = this.state;
+    const q = s.searchQuery.trim().toLowerCase();
+    const showKaliurang = !q || 'kaliurang heritage villa'.includes(q);
+    const showPrawirotaman = !q || 'prawirotaman boutique'.includes(q);
+    const showMalioboro = !q || 'malioboro skyline suites'.includes(q);
+    const hasUpcomingResults = showKaliurang || showPrawirotaman;
+    const today = new Date('2026-09-30T00:00:00');
+    const checkinDate = new Date('2026-10-12T00:00:00');
+    const daysToCheckin = Math.max(0, Math.round((checkinDate.getTime() - today.getTime()) / 86400000));
+    const refundPct = daysToCheckin >= 7 ? 1 : daysToCheckin >= 3 ? 0.5 : 0;
+    const BOOKING_TOTAL = 6960000;
+    const feePct = parseFloat((typeof localStorage!=='undefined' && localStorage.getItem('menetapCancelFeePct')) || '5');
+    const rescheduleFeePctVal = parseFloat((typeof localStorage!=='undefined' && localStorage.getItem('menetapRescheduleFeePct')) || '5');
+    const policyRefund = Math.round(BOOKING_TOTAL * refundPct);
+    const cancelFeeAmount = Math.round(policyRefund * (feePct / 100));
+    const refundAmount = 'Rp ' + Math.max(0, policyRefund - cancelFeeAmount).toLocaleString('en-US');
+    const policyRefundAmount = 'Rp ' + policyRefund.toLocaleString('en-US');
+    const cancelFeeAmountStr = 'Rp ' + cancelFeeAmount.toLocaleString('en-US');
+    const rescheduleFeeAmount = 'Rp ' + Math.round(BOOKING_TOTAL * (rescheduleFeePctVal / 100)).toLocaleString('en-US');
+    return {
+      langLabel: __lang === 'en' ? 'EN' : 'ID',
+      toggleLang: () => { const next = __lang === 'en' ? 'id' : 'en'; localStorage.setItem('menetapLang', next); this.setState({ __lang: next }); },
+      searchQuery: s.searchQuery,
+      onSearchInput: (e) => this.setState({ searchQuery: e.target.value }),
+      isUpcoming: s.tab === 'upcoming',
+      isPast: s.tab === 'past',
+      isCancelled: s.tab === 'cancelled',
+      upcomingColor: this.colorFor('upcoming'), pastColor: this.colorFor('past'), cancelledColor: this.colorFor('cancelled'),
+      upcomingUnderline: this.underlineFor('upcoming'), pastUnderline: this.underlineFor('past'), cancelledUnderline: this.underlineFor('cancelled'),
+      selectUpcoming: () => this.setState({ tab: 'upcoming' }),
+      selectPast: () => this.setState({ tab: 'past' }),
+      selectCancelled: () => this.setState({ tab: 'cancelled' }),
+      upcomingCount: [showKaliurang, showPrawirotaman].filter(Boolean).length,
+      pastCount: showMalioboro ? 1 : 0,
+      cancelledCount: 0,
+      hasUpcomingResults, noUpcomingResults: !hasUpcomingResults,
+      showPrawirotaman,
+      emptyUpcomingMessage: q ? 'No upcoming trips match "' + s.searchQuery + '"' : 'No upcoming trips yet.',
+      daysToCheckin,
+      hasPendingReview: true,
+      hasAlerts: true,
+      tripAlerts: [
+        { icon: 'alert-triangle', bg: 'rgba(192,57,43,0.06)', border: 'rgba(192,57,43,0.2)', color: '#c0392b',
+          title: 'Prawirotaman Boutique can no longer host your stay',
+          text: 'The property had to cancel your Nov 3–5 reservation due to a maintenance issue. You get a full refund plus 10% Menetap credit for the inconvenience.',
+          actionLabel: 'View options', actionWidth: 120, action: () => this.toast('Rebooking options sent to your email') },
+        { icon: 'message-circle-off', bg: 'rgba(230,162,60,0.1)', border: 'rgba(230,162,60,0.3)', color: '#b8860b',
+          title: 'Malioboro Skyline Suites hasn\'t responded in 24 hours',
+          text: 'You messaged the property about early check-in on Sep 20 with no reply yet. We can step in and follow up on your behalf.',
+          actionLabel: 'Escalate to Menetap', actionWidth: 150, action: () => this.toast('Escalated — Menetap support will follow up within 2 hours') },
+        { icon: 'mail-warning', bg: 'rgba(230,162,60,0.1)', border: 'rgba(230,162,60,0.3)', color: '#b8860b',
+          title: 'Your confirmation email bounced',
+          text: 'We couldn\'t deliver your booking confirmation to the email on file — it may be mistyped. Please confirm your contact details.',
+          actionLabel: 'Update contact info', actionWidth: 150, action: () => window.location.href = 'Menetap Settings.dc.html' },
+        { icon: 'building-2', bg: 'rgba(192,57,43,0.06)', border: 'rgba(192,57,43,0.2)', color: '#c0392b',
+          title: 'Tugu Riverside Homestay is temporarily unavailable',
+          text: 'This property was paused by Menetap for a quality review. If you have an upcoming stay there, our team will contact you with rebooking options.',
+          actionLabel: 'Contact support', actionWidth: 130, action: () => window.location.href = 'Menetap During Stay.dc.html' }
+      ],
+      toastMsg: s.toastMsg,
+      stopProp: (e) => e.stopPropagation(),
+
+      // Cancel/modify modal
+      showCancelModal: s.showCancelModal,
+      manageMode: s.manageStep === 'menu', modifyMode: s.manageStep === 'modify', cancelMode: s.manageStep === 'cancel',
+      openCancelModal: () => this.setState({ showCancelModal: true, manageStep: 'menu' }),
+      closeCancelModal: () => this.setState({ showCancelModal: false }),
+      selectModify: () => this.setState({ manageStep: 'modify' }),
+      selectCancel: () => this.setState({ manageStep: 'cancel' }),
+      backToManage: () => this.setState({ manageStep: 'menu' }),
+      modifyCheckIn: s.modifyCheckIn, onModifyCheckIn: (e) => this.setState({ modifyCheckIn: e.target.value }),
+      modifyCheckOut: s.modifyCheckOut, onModifyCheckOut: (e) => this.setState({ modifyCheckOut: e.target.value }),
+      modifyRoomType: s.modifyRoomType, onModifyRoomType: (e) => this.setState({ modifyRoomType: e.target.value }),
+      modifyRooms: s.modifyRooms, onModifyRooms: (e) => this.setState({ modifyRooms: e.target.value }),
+      modifyGuests: s.modifyGuests, onModifyGuests: (e) => this.setState({ modifyGuests: e.target.value }),
+      submitModify: () => {
+        const a = new Date(s.modifyCheckIn), b = new Date(s.modifyCheckOut);
+        const nights = isNaN(a) || isNaN(b) ? 3 : Math.round((b - a) / 86400000);
+        if (nights < 2 && !isNaN(a) && !isNaN(b)) return;
+        this.setState({ showCancelModal: false }); this.toast('Change request sent to the property');
+      },
+      modifyBlocked: (() => { const a = new Date(s.modifyCheckIn), b = new Date(s.modifyCheckOut); return !isNaN(a) && !isNaN(b) && Math.round((b - a) / 86400000) < 2; })(),
+      modifyBlockedReason: 'This rate plan requires a minimum 2-night stay — the property cannot approve a shorter change.',
+      refundAmount, policyRefundAmount, cancelFeeAmount: cancelFeeAmountStr, cancelFeePct: feePct,
+      rescheduleFeeAmount, rescheduleFeePct: rescheduleFeePctVal,
+      submitCancel: () => { this.setState({ showCancelModal: false }); this.toast('Booking cancelled — refund on its way'); },
+
+      // Review modal
+      showReviewModal: s.showReviewModal,
+      openReviewModal: () => this.setState({ showReviewModal: true }),
+      closeReviewModal: () => this.setState({ showReviewModal: false }),
+      overallStars: this.starRow(s.overallRating, (n) => this.setState({ overallRating: n })),
+      subScores: Object.keys(s.subRatings).map(label => ({
+        label, stars: this.starRow(s.subRatings[label], (n) => this.setState(st => ({ subRatings: { ...st.subRatings, [label]: n } })))
+      })),
+      reviewText: s.reviewText, onReviewText: (e) => this.setState({ reviewText: e.target.value }),
+      reviewPhotos: s.reviewPhotos.map(bg => ({ bg })),
+      addReviewPhoto: () => this.setState(st => ({ reviewPhotos: [...st.reviewPhotos, 'linear-gradient(135deg,#e5e2f5,#cfc8f0)'] })),
+      submitReview: () => {
+        if (!s.overallRating) { this.toast('Please add an overall rating'); return; }
+        this.setState({ showReviewModal: false, hasPendingReview: false });
+        this.toast('Thanks for your review!');
+      },
+      downloadInvoice: () => this.toast('Invoice downloaded')
+    };
+  }
+}
+</script>
+</body>
+</html>

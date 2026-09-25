@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+
+<helmet>
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/fonts.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/colors.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/typography.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/spacing.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/shadows.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/motion.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/styles.css">
+<script src="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/_ds_bundle.js"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+body{margin:0;background:#F7F6FF;font-family:'JetBrains Mono',monospace;color:#0C0A1E}
+a{color:#7229FF;text-decoration:none}
+.wrap{max-width:900px;width:100%;margin:0 auto;padding:0 24px;box-sizing:border-box}
+input[type="text"],input[type="number"],textarea{font-family:'JetBrains Mono',monospace;font-size:13px;border:1px solid #E5E2F5;border-radius:6px;padding:8px 10px;outline:none;background:#fff;color:#0C0A1E;box-sizing:border-box}
+textarea{resize:vertical;min-height:60px;width:100%}
+.photogrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+@media (max-width:700px){.photogrid{grid-template-columns:repeat(2,1fr) !important}}
+</style>
+</helmet>
+
+<div style="min-height:100vh;display:flex;flex-direction:column">
+  <header style="border-bottom:1px solid #E5E2F5;background:#fff">
+    <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;height:64px">
+      <a href="Menetap Partner Dashboard.dc.html" style="display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:#0C0A1E"><i data-lucide="arrow-left" style="width:16px;height:16px"></i>Rooms & rates</a>
+      <div style="position:relative">
+        <div onClick="{{ toggleAccountMenu }}" style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#7229FF,#00CAEF);display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:700;cursor:pointer">KH</div>
+        <sc-if value="{{ showAccountMenu }}" hint-placeholder-val="{{ false }}">
+          <div style="position:absolute;top:40px;right:0;background:#fff;border:1px solid #E5E2F5;border-radius:8px;box-shadow:0 4px 16px rgba(114,41,255,0.12);padding:6px;min-width:170px;z-index:30">
+            <a href="Menetap Partner Dashboard.dc.html" style="display:flex;align-items:center;gap:8px;padding:9px 10px;border-radius:6px;font-size:13px;font-weight:600;color:#0C0A1E"><i data-lucide="layout-dashboard" style="width:14px;height:14px"></i>Dashboard</a>
+            <div style="height:1px;background:#E5E2F5;margin:4px 0"></div>
+            <a href="Menetap Partner Landing.dc.html" style="display:flex;align-items:center;gap:8px;padding:9px 10px;border-radius:6px;font-size:13px;font-weight:600;color:rgba(12,10,30,0.6)"><i data-lucide="log-out" style="width:14px;height:14px"></i>Sign out</a>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+  </header>
+
+  <sc-if value="{{ toastMsg }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;top:20px;right:20px;background:#0C0A1E;color:#fff;font-size:13px;font-weight:600;padding:12px 18px;border-radius:8px;display:flex;align-items:center;gap:8px;z-index:100"><i data-lucide="check-circle" style="width:16px;height:16px;color:#00CAEF"></i>{{ toastMsg }}</div>
+  </sc-if>
+
+  <sc-if value="{{ showDeleteModal }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeDeleteModal }}" style="position:fixed;inset:0;background:rgba(12,10,30,0.4);display:flex;align-items:center;justify-content:center;z-index:50">
+      <div onClick="{{ stopProp }}" style="background:#fff;border-radius:8px;padding:24px;width:380px;max-width:90vw;display:flex;flex-direction:column;gap:12px">
+        <div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:16px">Remove {{ roomName }}?</div>
+        <p style="font-size:13px;color:rgba(12,10,30,0.6);margin:0">This room type will no longer be bookable. Existing confirmed bookings are not affected.</p>
+        <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:6px">
+          <x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="80px,36px" variant="outline" size="sm" onClick="{{ closeDeleteModal }}">Cancel</x-import>
+          <x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="140px,36px" variant="primary" size="sm" onClick="{{ confirmDelete }}">Remove room type</x-import>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <div class="wrap" style="padding:28px 24px 64px;display:flex;flex-direction:column;gap:20px">
+    <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:20px;display:flex;flex-direction:column;gap:12px">
+      <div>
+        <label style="font-size:11px;font-weight:700;color:rgba(12,10,30,0.55);display:block;margin-bottom:5px">Room name</label>
+        <input type="text" value="{{ roomName }}" onInput="{{ onRoomName }}" style="width:100%;font-size:16px;font-weight:800;font-family:'Plus Jakarta Sans',sans-serif" />
+      </div>
+      <div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:5px">
+          <label style="font-size:11px;font-weight:700;color:rgba(12,10,30,0.55)">Description <span style="color:rgba(12,10,30,0.4);font-weight:600">· shown to guests in {{ langLabel }}</span></label>
+          <div style="display:flex;gap:4px">
+            <span onClick="{{ setDescEN }}" style="font-size:11px;font-weight:700;padding:3px 9px;border-radius:4px;cursor:pointer;background:{{ enTabBg }};color:{{ enTabColor }}">EN</span>
+            <span onClick="{{ setDescID }}" style="font-size:11px;font-weight:700;padding:3px 9px;border-radius:4px;cursor:pointer;background:{{ idTabBg }};color:{{ idTabColor }}">ID</span>
+          </div>
+        </div>
+        <textarea value="{{ roomDesc }}" onInput="{{ onRoomDesc }}" placeholder="What makes this room worth booking?"></textarea>
+      </div>
+      <div style="font-size:12px;color:rgba(12,10,30,0.55)">2 guests · {{ baseRateLabel }}/night base rate</div>
+    </div>
+
+    <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;overflow:hidden">
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 20px;border-bottom:1px solid #E5E2F5">
+        <div style="font-size:13px;font-weight:700">Bookings for this room</div>
+        <a href="{{ bookingsLinkHref }}" style="font-size:12px;font-weight:700;color:#7229FF;display:flex;align-items:center;gap:4px">View all in Bookings<i data-lucide="arrow-right" style="width:12px;height:12px"></i></a>
+      </div>
+      <sc-if value="{{ hasRoomBookings }}" hint-placeholder-val="{{ true }}">
+        <div style="display:grid;grid-template-columns:1.3fr 1fr 1fr 0.7fr 0.6fr 0.8fr 1fr;padding:8px 20px;font-size:9px;font-weight:700;color:rgba(12,10,30,0.4);text-transform:uppercase;border-bottom:1px solid #E5E2F5">
+          <div>Guest</div><div>Arrival</div><div>Departure</div><div>Rooms</div><div>Guests</div><div>Booked</div><div>Value</div>
+        </div>
+        <sc-for list="{{ roomBookings }}" as="b" hint-placeholder-count="2">
+          <div style="display:grid;grid-template-columns:1.3fr 1fr 1fr 0.7fr 0.6fr 0.8fr 1fr;padding:12px 20px;font-size:12px;border-bottom:1px solid #E5E2F5;align-items:center">
+            <div style="font-weight:700">{{ b.guest }}</div><div>{{ b.arrival }}</div><div>{{ b.departure }}</div><div>{{ b.rooms }}</div><div>{{ b.guests }}</div><div style="color:rgba(12,10,30,0.5)">{{ b.bookedOn }}</div><div style="font-weight:600">{{ b.amount }}</div>
+          </div>
+        </sc-for>
+      </sc-if>
+      <sc-if value="{{ hasRoomBookings }}" hint-placeholder-val="{{ true }}"></sc-if>
+      <sc-if value="{{ noRoomBookings }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:6px;padding:36px 20px;color:rgba(12,10,30,0.5)">
+          <i data-lucide="calendar-x" style="width:22px;height:22px;color:rgba(12,10,30,0.3)"></i>
+          <div style="font-size:13px;font-weight:600">No bookings for this room yet</div>
+        </div>
+      </sc-if>
+    </div>
+
+    <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:20px">
+      <div style="font-size:13px;font-weight:700;margin-bottom:4px">Photos</div>
+      <p style="font-size:11px;color:rgba(12,10,30,0.5);margin:0 0 12px">JPG, PNG, or WEBP — we auto-convert everything to WEBP to save storage. Exact size <strong>1600 × 1200px</strong> (4:3). Aim for HD quality without an oversized file — under 3MB per photo. First photo is used as the cover.</p>
+      <div class="photogrid">
+        <div style="aspect-ratio:4/3;border:2px dashed #E5E2F5;border-radius:6px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#7229FF;font-size:11px;font-weight:700;cursor:pointer;gap:4px" onClick="{{ addPhoto }}"><i data-lucide="upload" style="width:16px;height:16px"></i>Upload</div>
+        <sc-for list="{{ photos }}" as="p" hint-placeholder-count="3">
+          <div style="aspect-ratio:4/3;border-radius:6px;background:{{ p.bg }};position:relative">
+            <sc-if value="{{ p.isCover }}" hint-placeholder-val="{{ false }}">
+              <div style="position:absolute;bottom:4px;left:4px;font-size:9px;font-weight:700;color:#fff;background:rgba(12,10,30,0.6);padding:2px 6px;border-radius:4px">Cover</div>
+            </sc-if>
+            <div style="position:absolute;top:4px;right:4px;display:flex;gap:4px">
+              <sc-if value="{{ p.canMoveLeft }}" hint-placeholder-val="{{ false }}">
+                <span onClick="{{ p.moveLeft }}" style="width:18px;height:18px;border-radius:50%;background:rgba(12,10,30,0.6);display:flex;align-items:center;justify-content:center;cursor:pointer"><i data-lucide="chevron-left" style="width:10px;height:10px;color:#fff"></i></span>
+              </sc-if>
+              <sc-if value="{{ p.canMoveRight }}" hint-placeholder-val="{{ false }}">
+                <span onClick="{{ p.moveRight }}" style="width:18px;height:18px;border-radius:50%;background:rgba(12,10,30,0.6);display:flex;align-items:center;justify-content:center;cursor:pointer"><i data-lucide="chevron-right" style="width:10px;height:10px;color:#fff"></i></span>
+              </sc-if>
+              <span onClick="{{ p.remove }}" style="width:18px;height:18px;border-radius:50%;background:rgba(12,10,30,0.6);display:flex;align-items:center;justify-content:center;cursor:pointer"><i data-lucide="x" style="width:10px;height:10px;color:#fff"></i></span>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:20px">
+      <div style="font-size:13px;font-weight:700;margin-bottom:10px">Amenities & facilities</div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px">
+        <sc-for list="{{ amenities }}" as="a" hint-placeholder-count="20">
+          <span style="font-size:12px;font-weight:600;padding:6px 12px;border-radius:24px;background:{{ a.bg }};color:{{ a.color }};cursor:pointer;border:1px solid #E5E2F5" onClick="{{ a.toggle }}">{{ a.name }}</span>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:20px">
+      <div style="font-size:13px;font-weight:700;margin-bottom:10px">Minimum stay</div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <input type="number" value="{{ minStay }}" onInput="{{ onMinStay }}" style="max-width:80px" />
+        <span style="font-size:13px;color:rgba(12,10,30,0.55)">nights</span>
+      </div>
+    </div>
+
+    <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:20px">
+      <div style="font-size:13px;font-weight:700;margin-bottom:4px">Day-of-week pricing <span style="font-weight:600;color:rgba(12,10,30,0.45);font-size:11px">· base rate {{ baseRateLabel }}/night</span></div>
+      <p style="font-size:11px;color:rgba(12,10,30,0.5);margin:0 0 14px">Leave blank to use the base rate. Live availability and date-specific overrides are on the Calendar tab.</p>
+      <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:8px">
+        <sc-for list="{{ dowRates }}" as="d" hint-placeholder-count="7">
+          <div style="display:flex;flex-direction:column;gap:6px;align-items:center">
+            <div style="font-size:11px;font-weight:700;color:rgba(12,10,30,0.55)">{{ d.label }}</div>
+            <input type="text" value="{{ d.rate }}" onInput="{{ d.onRate }}" placeholder="{{ baseRateLabel }}" style="width:100%;text-align:center" />
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="border:1px solid rgba(192,57,43,0.3);border-radius:8px;padding:20px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+      <div>
+        <div style="font-size:13px;font-weight:700;color:#c0392b">Remove this room type</div>
+        <div style="font-size:12px;color:rgba(12,10,30,0.55);margin-top:2px">Delists it from search. This can't be undone.</div>
+      </div>
+      <x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="160px,36px" variant="outline" size="sm" onClick="{{ openDeleteModal }}">Remove room type</x-import>
+    </div>
+
+  </div>
+
+  <footer style="border-top:1px solid #E5E2F5;padding:24px 0;background:#fff;margin-top:auto">
+    <div class="wrap" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px">
+      <div style="font-size:12px;color:rgba(12,10,30,0.5)">© 2026 Menetap. All rights reserved.</div>
+      <div style="display:flex;align-items:center;gap:10px">
+        
+        <!-- langgroup --><div style="display:flex;align-items:center;gap:10px"><a href="Menetap Partner Services.dc.html" style="font-size:12px;font-weight:600;color:rgba(12,10,30,0.6);margin-right:4px">Services</a><div onClick="{{ toggleLang }}" style="display:flex;align-items:center;gap:4px;font-size:11px;font-weight:700;color:rgba(12,10,30,0.5);cursor:pointer;border:1px solid #E5E2F5;border-radius:24px;padding:5px 12px"><i data-lucide="globe" style="width:12px;height:12px"></i>{{ langLabel }}</div><div style="display:flex;align-items:center;gap:8px;font-size:11px;color:rgba(12,10,30,0.45);background:#F7F6FF;border:1px solid #E5E2F5;border-radius:24px;padding:5px 12px">
+          Managed by <a href="https://upscale.asia" target="_blank" style="font-weight:700;color:#7229FF">UPSCALE</a>
+        </div></div>
+      </div>
+    </div>
+  </footer>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const ALL_AMENITIES = [
+  'Free WiFi', 'Air conditioning', 'Free parking', 'Pool access', 'Breakfast included', 'Kitchen',
+  'TV', 'Washing machine', 'Hot water', 'Hair dryer', 'Safe box', 'Balcony', 'Garden view',
+  'Mountain view', 'Sea view', 'Elevator access', 'Wheelchair accessible', 'Pet friendly',
+  'Non-smoking room', 'Workspace / desk'
+];
+const DOW_LABELS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+class Component extends DCLogic {
+  state = {
+    roomName: 'Garden Suite',
+    lang: (typeof localStorage !== 'undefined' && localStorage.getItem('menetapLang')) || 'en',
+    descTab: 'en',
+    roomDescEN: 'A private garden-facing room with direct courtyard access.',
+    roomDescID: 'Kamar pribadi menghadap taman dengan akses langsung ke halaman.',
+    photos: ['linear-gradient(135deg,#e5e2f5,#cfc8f0)', 'linear-gradient(135deg,#dfe8ff,#c8d4f5)'],
+    amenitySet: { 'Garden view': true, 'Air conditioning': true, 'Free WiFi': true, 'Hot water': true },
+    minStay: 1, toastMsg: '',
+    baseRate: '890,000',
+    dowRateVals: { Fri: '1,023,500', Sat: '1,023,500' },
+    showDeleteModal: false, showAccountMenu: false
+  };
+  componentDidMount() { if (window.lucide) window.lucide.createIcons(); }
+  componentDidUpdate() { if (window.lucide) window.lucide.createIcons(); }
+  toast(msg) { this.setState({ toastMsg: msg }); clearTimeout(this._t); this._t = setTimeout(() => this.setState({ toastMsg: '' }), 2200); }
+  renderVals() {
+    const s = this.state;
+    const bookings = [
+      { guest: 'Anin W.', arrival: 'Oct 12', departure: 'Oct 15', rooms: 1, guests: 2, bookedOn: 'Sep 20', amount: 'Rp 2,670,000' },
+      { guest: 'Dimas P.', arrival: 'Oct 8', departure: 'Oct 10', rooms: 1, guests: 1, bookedOn: 'Sep 24', amount: 'Rp 1,780,000' }
+    ];
+    return {
+      roomName: s.roomName, onRoomName: (e) => this.setState({ roomName: e.target.value }),
+      langLabel: s.lang === 'en' ? 'EN' : 'ID',
+      toggleLang: () => { const next = s.lang === 'en' ? 'id' : 'en'; localStorage.setItem('menetapLang', next); this.setState({ lang: next }); },
+      setDescEN: () => this.setState({ descTab: 'en' }), setDescID: () => this.setState({ descTab: 'id' }),
+      enTabBg: s.descTab === 'en' ? '#7229FF' : '#F7F6FF', enTabColor: s.descTab === 'en' ? '#fff' : 'rgba(12,10,30,0.55)',
+      idTabBg: s.descTab === 'id' ? '#7229FF' : '#F7F6FF', idTabColor: s.descTab === 'id' ? '#fff' : 'rgba(12,10,30,0.55)',
+      roomDesc: s.descTab === 'en' ? s.roomDescEN : s.roomDescID,
+      onRoomDesc: (e) => this.setState(s.descTab === 'en' ? { roomDescEN: e.target.value } : { roomDescID: e.target.value }),
+      baseRateLabel: s.baseRate,
+      bookingsLinkHref: `Menetap Partner Dashboard.dc.html?tab=bookings&room=${encodeURIComponent(s.roomName)}`,
+      roomBookings: bookings,
+      hasRoomBookings: bookings.length > 0,
+      noRoomBookings: bookings.length === 0,
+      photos: s.photos.map((bg, i) => ({
+        bg, isCover: i === 0, canMoveLeft: i > 0, canMoveRight: i < s.photos.length - 1,
+        moveLeft: () => this.setState(st => { const p = [...st.photos]; [p[i - 1], p[i]] = [p[i], p[i - 1]]; return { photos: p }; }),
+        moveRight: () => this.setState(st => { const p = [...st.photos]; [p[i + 1], p[i]] = [p[i], p[i + 1]]; return { photos: p }; }),
+        remove: () => this.setState(st => ({ photos: st.photos.filter((_, idx) => idx !== i) }))
+      })),
+      addPhoto: () => this.setState(st => ({ photos: [...st.photos, 'linear-gradient(135deg,#f0dff5,#e0c8ea)'] })),
+      amenities: ALL_AMENITIES.map(a => ({
+        name: a, bg: s.amenitySet[a] ? 'rgba(114,41,255,0.08)' : '#fff', color: s.amenitySet[a] ? '#7229FF' : '#0C0A1E',
+        toggle: () => this.setState(st => ({ amenitySet: { ...st.amenitySet, [a]: !st.amenitySet[a] } }))
+      })),
+      minStay: s.minStay, onMinStay: (e) => this.setState({ minStay: e.target.value }),
+      dowRates: DOW_LABELS.map(label => ({
+        label, rate: s.dowRateVals[label] || '',
+        onRate: (e) => this.setState(st => ({ dowRateVals: { ...st.dowRateVals, [label]: e.target.value } }))
+      })),
+      showAccountMenu: s.showAccountMenu, toggleAccountMenu: () => this.setState({ showAccountMenu: !s.showAccountMenu }),
+      showDeleteModal: s.showDeleteModal,
+      openDeleteModal: () => this.setState({ showDeleteModal: true }),
+      closeDeleteModal: () => this.setState({ showDeleteModal: false }),
+      stopProp: (e) => e.stopPropagation(),
+      confirmDelete: () => { this.setState({ showDeleteModal: false }); this.toast('Room type removed'); setTimeout(() => { window.location.href = 'Menetap Partner Dashboard.dc.html'; }, 900); },
+      toastMsg: s.toastMsg
+    };
+  }
+}
+
+</script>
+</body>
+</html>

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/fonts.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/colors.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/typography.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/spacing.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/shadows.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/motion.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/styles.css">
+<script src="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/_ds_bundle.js"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+body{margin:0;background:#F7F6FF;font-family:'JetBrains Mono',monospace;color:#0C0A1E}
+a{color:#7229FF;text-decoration:none}
+.wrap{max-width:1240px;width:100%;margin:0 auto;padding:0 24px;box-sizing:border-box}
+.admingrid{display:grid;grid-template-columns:200px 1fr;gap:32px}
+@media (max-width:900px){.admingrid{grid-template-columns:1fr !important}.adminnav{display:none !important}}
+.navlink{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;color:rgba(12,10,30,0.7);font-size:13px;font-weight:600}
+.navlink.active{background:rgba(114,41,255,0.08);color:#7229FF;font-weight:700}
+</style>
+</helmet>
+
+<div style="min-height:100vh;display:flex;flex-direction:column">
+  <header style="border-bottom:1px solid #E5E2F5;background:#fff">
+    <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;height:64px">
+      <a href="Menetap Admin Console.dc.html" style="display:flex;align-items:center;gap:9px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:19px;letter-spacing:-0.02em;color:#0C0A1E">
+        <span>menetap<span style="color:#7229FF">.</span></span> <span style="font-size:11px;font-weight:600;color:rgba(12,10,30,0.4);margin-left:4px">admin</span>
+      </a>
+      <div style="display:flex;align-items:center;gap:14px">
+        <div style="position:relative;display:none" class="admin-search-wrap"></div>
+        <div style="position:relative;width:220px">
+          <i data-lucide="search" style="width:14px;height:14px;position:absolute;left:10px;top:50%;transform:translateY(-50%);color:rgba(12,10,30,0.4)"></i>
+          <input type="text" placeholder="Search everything..." style="width:100%;box-sizing:border-box;font-family:'JetBrains Mono',monospace;font-size:12px;border:1px solid #E5E2F5;border-radius:6px;padding:7px 10px 7px 30px;outline:none;background:#F7F6FF" />
+        </div>
+        <details style="position:relative">
+          <summary style="list-style:none;cursor:pointer;width:32px;height:32px;border-radius:50%;background:#F7F6FF;display:flex;align-items:center;justify-content:center;position:relative">
+            <i data-lucide="bell" style="width:16px;height:16px;color:#0C0A1E"></i>
+            <span style="position:absolute;top:-2px;right:-2px;width:8px;height:8px;border-radius:50%;background:#c0392b"></span>
+          </summary>
+          <div style="position:absolute;right:0;top:40px;width:280px;background:#fff;border:1px solid #E5E2F5;border-radius:8px;box-shadow:0 4px 16px rgba(114,41,255,0.12);z-index:50;overflow:hidden">
+            <div style="padding:12px 16px;font-size:12px;font-weight:700;border-bottom:1px solid #E5E2F5">Notifications</div>
+            <a href="Menetap Admin Disputes.dc.html" style="display:block;padding:12px 16px;border-bottom:1px solid #E5E2F5;font-size:12px;color:#0C0A1E">2 new disputes need review</a>
+            <a href="Menetap Admin Risk.dc.html" style="display:block;padding:12px 16px;border-bottom:1px solid #E5E2F5;font-size:12px;color:#0C0A1E">4 risk flags raised today</a>
+            <a href="Menetap Admin Moderation.dc.html" style="display:block;padding:12px 16px;font-size:12px;color:#0C0A1E">3 listings pending moderation</a>
+          </div>
+        </details>
+        <span style="font-size:11px;font-weight:700;color:#0a8aa3;background:rgba(0,202,239,0.1);padding:4px 10px;border-radius:24px">Superadmin access · full edit</span>
+        <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#7229FF,#00CAEF);display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:700">UP</div>
+      </div>
+    </div>
+  </header>
+
+  <sc-if value="{{ toastMsg }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;top:20px;right:20px;background:#0C0A1E;color:#fff;font-size:13px;font-weight:600;padding:12px 18px;border-radius:8px;display:flex;align-items:center;gap:8px;z-index:100"><i data-lucide="check-circle" style="width:16px;height:16px;color:#00CAEF"></i>{{ toastMsg }}</div>
+  </sc-if>
+
+  <div class="wrap" style="padding:32px 24px 64px">
+    <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:rgba(12,10,30,0.45);margin-bottom:10px"><a href="Menetap Admin Console.dc.html" style="color:rgba(12,10,30,0.45)">Admin</a><i data-lucide="chevron-right" style="width:12px;height:12px"></i><span>Trust & Safety</span><i data-lucide="chevron-right" style="width:12px;height:12px"></i><span style="color:#0C0A1E;font-weight:600">Disputes & refunds</span></div>
+    <h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:26px;margin:0 0 24px">Disputes & refunds</h1>
+
+    <div class="admingrid">
+      <nav class="adminnav" style="display:flex;flex-direction:column;gap:4px">
+        <div style="font-size:10px;font-weight:700;color:rgba(12,10,30,0.35);text-transform:uppercase;letter-spacing:0.04em;padding:10px 12px 4px">Commerce</div>
+        <a href="Menetap Admin Console.dc.html" class="navlink"><i data-lucide="percent" style="width:16px;height:16px"></i>Commission</a>
+        <a href="Menetap Admin Properties.dc.html" class="navlink"><i data-lucide="building-2" style="width:16px;height:16px"></i>Properties</a>
+        <a href="Menetap Admin Payouts.dc.html" class="navlink"><i data-lucide="wallet" style="width:16px;height:16px"></i>Payouts</a>
+        <a href="Menetap Admin Finance.dc.html" class="navlink"><i data-lucide="landmark" style="width:16px;height:16px"></i>Finance</a>
+        <div style="font-size:10px;font-weight:700;color:rgba(12,10,30,0.35);text-transform:uppercase;letter-spacing:0.04em;padding:10px 12px 4px">People</div>
+        <a href="Menetap Admin Users.dc.html" class="navlink"><i data-lucide="users" style="width:16px;height:16px"></i>Users</a>
+        <a href="Menetap Admin Team.dc.html" class="navlink"><i data-lucide="user-cog" style="width:16px;height:16px"></i>Team</a>
+        <div style="font-size:10px;font-weight:700;color:rgba(12,10,30,0.35);text-transform:uppercase;letter-spacing:0.04em;padding:10px 12px 4px">Trust & safety</div>
+        <a href="Menetap Admin Moderation.dc.html" class="navlink"><i data-lucide="shield-check" style="width:16px;height:16px"></i>Moderation</a>
+        <a href="Menetap Admin Disputes.dc.html" class="navlink active"><i data-lucide="scale" style="width:16px;height:16px"></i>Disputes & refunds</a>
+        <a href="Menetap Admin Risk.dc.html" class="navlink"><i data-lucide="alert-triangle" style="width:16px;height:16px"></i>Risk & fraud</a>
+        <div style="font-size:10px;font-weight:700;color:rgba(12,10,30,0.35);text-transform:uppercase;letter-spacing:0.04em;padding:10px 12px 4px">Communication</div>
+        <a href="Menetap Admin Support.dc.html" class="navlink"><i data-lucide="inbox" style="width:16px;height:16px"></i>Support inbox</a>
+        <a href="Menetap Admin Announcements.dc.html" class="navlink"><i data-lucide="megaphone" style="width:16px;height:16px"></i>Announcements</a>
+        <div style="font-size:10px;font-weight:700;color:rgba(12,10,30,0.35);text-transform:uppercase;letter-spacing:0.04em;padding:10px 12px 4px">Insights</div>
+        <a href="Menetap Admin Reports.dc.html" class="navlink"><i data-lucide="file-text" style="width:16px;height:16px"></i>Reports</a>
+        <a href="Menetap Admin System.dc.html" class="navlink"><i data-lucide="activity" style="width:16px;height:16px"></i>System health</a>
+        <div style="font-size:10px;font-weight:700;color:rgba(12,10,30,0.35);text-transform:uppercase;letter-spacing:0.04em;padding:10px 12px 4px">Account</div>
+        <a href="Menetap Admin Settings.dc.html" class="navlink"><i data-lucide="settings" style="width:16px;height:16px"></i>Settings</a>
+        <a href="Menetap Partner Landing.dc.html" class="navlink" style="color:rgba(12,10,30,0.5)"><i data-lucide="log-out" style="width:16px;height:16px"></i>Sign out</a>
+      </nav>
+
+      <div style="display:flex;flex-direction:column;gap:20px;min-width:0">
+
+        <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:20px">
+          <div style="font-size:14px;font-weight:700;margin-bottom:12px">Booking lookup</div>
+          <div style="display:flex;gap:10px">
+            <input type="text" value="{{ lookupQuery }}" onInput="{{ onLookupQuery }}" placeholder="Search by booking reference, guest name, or property" style="flex:1;font-family:'JetBrains Mono',monospace;font-size:13px;border:1px solid #E5E2F5;border-radius:6px;padding:9px 12px" />
+            <x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="90px,38px" variant="primary" size="sm" onClick="{{ runLookup }}">Search</x-import>
+          </div>
+          <sc-if value="{{ lookupResult }}" hint-placeholder-val="{{ false }}">
+            <div style="margin-top:16px;border-top:1px solid #E5E2F5;padding-top:16px;display:flex;flex-direction:column;gap:12px">
+              <div style="display:flex;justify-content:space-between;align-items:flex-start">
+                <div>
+                  <div style="font-size:13px;font-weight:700">{{ lookupResult.guest }} · {{ lookupResult.property }}</div>
+                  <div style="font-size:12px;color:rgba(12,10,30,0.55);margin-top:2px">{{ lookupResult.confirmation }} · {{ lookupResult.dates }} · {{ lookupResult.amount }}</div>
+                </div>
+                <span style="font-size:11px;font-weight:700;padding:3px 9px;border-radius:4px;background:rgba(0,202,239,0.1);color:#0a8aa3">{{ lookupResult.status }}</span>
+              </div>
+              <div style="font-size:12px;font-weight:700;margin-top:4px">Payment history</div>
+              <div style="display:flex;flex-direction:column;gap:6px">
+                <sc-for list="{{ lookupResult.paymentHistory }}" as="ph" hint-placeholder-count="2">
+                  <div style="display:flex;justify-content:space-between;font-size:12px;color:rgba(12,10,30,0.65)"><span>{{ ph.date }} · {{ ph.type }}</span><span style="font-weight:600">{{ ph.amount }}</span></div>
+                </sc-for>
+              </div>
+              <div style="font-size:12px;font-weight:700;margin-top:4px">Change history</div>
+              <div style="display:flex;flex-direction:column;gap:6px">
+                <sc-for list="{{ lookupResult.changeHistory }}" as="ch" hint-placeholder-count="2">
+                  <div style="font-size:12px;color:rgba(12,10,30,0.65)">{{ ch.date }} — {{ ch.text }}</div>
+                </sc-for>
+              </div>
+              <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px">
+                <x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="130px,32px" variant="outline" size="sm" onClick="{{ openOutcomeNote }}">Document outcome</x-import>
+                <x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="120px,32px" variant="outline" size="sm">Flag overbooking</x-import>
+              </div>
+              <sc-if value="{{ outcomeOpen }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex;gap:8px">
+                  <input type="text" value="{{ outcomeNote }}" onInput="{{ onOutcomeNote }}" placeholder="e.g. Refunded 50% per policy, guest notified by email" style="flex:1;font-family:'JetBrains Mono',monospace;font-size:12px;border:1px solid #E5E2F5;border-radius:6px;padding:8px 10px" />
+                  <x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="70px,36px" variant="primary" size="sm" onClick="{{ saveOutcomeNote }}">Save</x-import>
+                </div>
+              </sc-if>
+            </div>
+          </sc-if>
+          <sc-if value="{{ lookupNoResult }}" hint-placeholder-val="{{ false }}">
+            <div style="margin-top:14px;font-size:12px;color:rgba(12,10,30,0.5)">No booking found for "{{ lookupQuery }}".</div>
+          </sc-if>
+        </div>
+
+        <div style="display:flex;gap:6px">
+          <sc-for list="{{ statusFilters }}" as="f" hint-placeholder-count="4">
+            <div style="font-size:12px;font-weight:600;padding:8px 14px;border-radius:24px;cursor:pointer;border:1px solid #E5E2F5;background:{{ f.bg }};color:{{ f.color }}" onClick="{{ f.select }}">{{ f.label }}</div>
+          </sc-for>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <sc-for list="{{ cases }}" as="c" hint-placeholder-count="4">
+            <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:18px">
+              <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap">
+                <div>
+                  <div style="display:flex;align-items:center;gap:8px"><span style="font-size:13px;font-weight:700">{{ c.guest }}</span><span style="font-size:11px;color:rgba(12,10,30,0.4)">vs</span><span style="font-size:13px;font-weight:700">{{ c.property }}</span></div>
+                  <div style="font-size:12px;color:rgba(12,10,30,0.6);margin-top:4px">{{ c.reason }} · Booking {{ c.confirmation }} · {{ c.amount }}</div>
+                </div>
+                <span style="font-size:11px;font-weight:700;padding:3px 9px;border-radius:4px;background:{{ c.statusBg }};color:{{ c.statusColor }}">{{ c.status }}</span>
+              </div>
+              <sc-if value="{{ c.showActions }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex;gap:8px;margin-top:14px">
+                  <x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="130px,34px" variant="primary" size="sm" onClick="{{ c.approve }}">Approve refund</x-import>
+                  <x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="90px,34px" variant="outline" size="sm" onClick="{{ c.deny }}">Deny</x-import>
+                </div>
+              </sc-if>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer style="border-top:1px solid #E5E2F5;padding:24px 0;background:#fff;margin-top:auto">
+    <div class="wrap" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px">
+      <div style="font-size:12px;color:rgba(12,10,30,0.5)">© 2026 Menetap. All rights reserved.</div>
+      
+      <!-- langgroup --><div style="display:flex;align-items:center;gap:10px"><div onClick="{{ toggleLang }}" style="display:flex;align-items:center;gap:4px;font-size:11px;font-weight:700;color:rgba(12,10,30,0.5);cursor:pointer;border:1px solid #E5E2F5;border-radius:24px;padding:5px 12px"><i data-lucide="globe" style="width:12px;height:12px"></i>{{ langLabel }}</div><div style="display:flex;align-items:center;gap:8px;font-size:11px;color:rgba(12,10,30,0.45);background:#F7F6FF;border:1px solid #E5E2F5;border-radius:24px;padding:5px 12px">
+        Managed by <a href="https://upscale.asia" target="_blank" style="font-weight:700;color:#7229FF">UPSCALE</a>
+      </div></div>
+</div>
+  </footer>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const SEED = [
+  { guest: 'Budi Santoso', property: 'Semarang Old Town Loft', reason: 'Property not as described', confirmation: 'MTP-88213', amount: 'Rp 1,780,000', status: 'Open' },
+  { guest: 'Rina Sari', property: 'Kaliurang Heritage Villa', reason: 'Requesting cancellation refund', confirmation: 'MTP-77102', amount: 'Rp 2,670,000', status: 'Open' },
+  { guest: 'Dimas Prakoso', property: 'Malioboro Skyline Suites', reason: 'Late check-in dispute', confirmation: 'MTP-65590', amount: 'Rp 890,000', status: 'Resolved — refunded' },
+  { guest: 'Wulan Kusuma', property: 'Borobudur Garden Retreat', reason: 'Duplicate charge', confirmation: 'MTP-54019', amount: 'Rp 1,340,000', status: 'Resolved — denied' }
+];
+const STATUS_STYLE = {
+  'Open': { bg: 'rgba(230,162,60,0.12)', color: '#b8860b' },
+  'Resolved — refunded': { bg: 'rgba(0,202,239,0.1)', color: '#0a8aa3' },
+  'Resolved — denied': { bg: 'rgba(12,10,30,0.06)', color: 'rgba(12,10,30,0.5)' }
+};
+class Component extends DCLogic {
+  state = { filter: 'All', cases: SEED.map((c, i) => ({ ...c, id: i })), toastMsg: '', lookupQuery: '', lookupSubmitted: '', outcomeOpen: false, outcomeNote: '' };
+  BOOKING_DB = {
+    'mtp-7x9k2q': { guest: 'Anin Wida', property: 'Kaliurang Heritage Villa', confirmation: 'MTP-7X9K2Q', dates: 'Oct 12 – Oct 15, 2026', amount: 'Rp 6,960,000', status: 'Confirmed',
+      paymentHistory: [{ date: 'Sep 20, 2026', type: 'Deposit charge', amount: 'Rp 2,088,000' }, { date: 'Sep 25, 2026', type: 'Balance charge', amount: 'Rp 4,872,000' }],
+      changeHistory: [{ date: 'Sep 22, 2026', text: 'Guest requested early check-in via message' }] },
+    'wulan kusuma': { guest: 'Wulan Kusuma', property: 'Malioboro Skyline Suites', confirmation: 'MTP-4H1L8B', dates: 'Sep 8 – Sep 10, 2026', amount: 'Rp 1,780,000', status: 'Refund pending',
+      paymentHistory: [{ date: 'Sep 1, 2026', type: 'Full charge', amount: 'Rp 1,780,000' }],
+      changeHistory: [{ date: 'Sep 9, 2026', text: 'Guest filed dispute — AC not working' }] }
+  };
+  componentDidMount() { if (window.lucide) window.lucide.createIcons(); }
+  componentDidUpdate() { if (window.lucide) window.lucide.createIcons(); }
+  toast(msg) { this.setState({ toastMsg: msg }); clearTimeout(this._t); this._t = setTimeout(() => this.setState({ toastMsg: '' }), 2200); }
+  renderVals() {
+    const s = this.state;
+    const key = s.lookupSubmitted.trim().toLowerCase();
+    const result = key ? (this.BOOKING_DB[key] || null) : null;
+    const filters = ['All', 'Open', 'Resolved'];
+    const filtered = s.cases.filter(c => s.filter === 'All' || (s.filter === 'Open' ? c.status === 'Open' : c.status.startsWith('Resolved')));
+    return {
+      langLabel: ((this.state.__lang || (typeof localStorage!=='undefined' && localStorage.getItem('menetapLang')) || 'en') === 'en') ? 'EN' : 'ID',
+      toggleLang: () => { const cur = this.state.__lang || (typeof localStorage!=='undefined' && localStorage.getItem('menetapLang')) || 'en'; const next = cur === 'en' ? 'id' : 'en'; if (typeof localStorage!=='undefined') localStorage.setItem('menetapLang', next); this.setState({ __lang: next }); },
+
+      toastMsg: s.toastMsg,
+      lookupQuery: s.lookupQuery, onLookupQuery: (e) => this.setState({ lookupQuery: e.target.value }),
+      runLookup: () => this.setState({ lookupSubmitted: s.lookupQuery }),
+      lookupResult: result, lookupNoResult: !!key && !result,
+      outcomeOpen: s.outcomeOpen, outcomeNote: s.outcomeNote,
+      onOutcomeNote: (e) => this.setState({ outcomeNote: e.target.value }),
+      openOutcomeNote: () => this.setState({ outcomeOpen: true }),
+      saveOutcomeNote: () => { this.setState({ outcomeOpen: false }); this.toast('Outcome documented'); },
+      statusFilters: filters.map(f => ({ label: f, bg: s.filter === f ? '#7229FF' : '#fff', color: s.filter === f ? '#fff' : '#0C0A1E', select: () => this.setState({ filter: f }) })),
+      cases: filtered.map(c => ({
+        guest: c.guest, property: c.property, reason: c.reason, confirmation: c.confirmation, amount: c.amount, status: c.status,
+        statusBg: STATUS_STYLE[c.status].bg, statusColor: STATUS_STYLE[c.status].color,
+        showActions: c.status === 'Open',
+        approve: () => { this.setState(st => ({ cases: st.cases.map(x => x.id === c.id ? { ...x, status: 'Resolved — refunded' } : x) })); this.toast('Refund approved'); },
+        deny: () => { this.setState(st => ({ cases: st.cases.map(x => x.id === c.id ? { ...x, status: 'Resolved — denied' } : x) })); this.toast('Dispute denied'); }
+      }))
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/fonts.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/colors.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/typography.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/spacing.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/shadows.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/motion.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/styles.css">
+<script src="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/_ds_bundle.js"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+body{margin:0;background:#F7F6FF;font-family:'JetBrains Mono',monospace;color:#0C0A1E}
+a{color:#7229FF;text-decoration:none}
+.wrap{max-width:1160px;width:100%;margin:0 auto;padding:0 24px;box-sizing:border-box}
+.tab{font-size:13px;font-weight:700;padding:10px 4px;cursor:pointer;border-bottom:2px solid transparent;color:rgba(12,10,30,0.5)}
+.tab.active{border-bottom-color:#7229FF;color:#7229FF}
+.photogrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+@media (max-width:700px){.photogrid{grid-template-columns:repeat(2,1fr) !important}}
+</style>
+</helmet>
+
+<div style="min-height:100vh;display:flex;flex-direction:column">
+  <header style="border-bottom:1px solid #E5E2F5;background:#fff">
+    <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;height:64px">
+      <a href="Menetap Admin Properties.dc.html" style="display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:#0C0A1E"><i data-lucide="arrow-left" style="width:16px;height:16px"></i>Properties</a>
+      <div style="display:flex;align-items:center;gap:10px">
+        <span style="font-size:11px;font-weight:700;color:#0a8aa3;background:rgba(0,202,239,0.1);padding:4px 10px;border-radius:24px">Superadmin access · full edit</span>
+        <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#7229FF,#00CAEF);display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:700">UP</div>
+      </div>
+    </div>
+  </header>
+
+  <div class="wrap" style="padding:28px 24px 64px">
+    <sc-if value="{{ headerEditing }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:8px;max-width:420px">
+        <input type="text" value="{{ propName }}" onInput="{{ onPropName }}" style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:18px;border:1px solid #E5E2F5;border-radius:6px;padding:8px 10px" />
+        <input type="text" value="{{ propLocation }}" onInput="{{ onPropLocation }}" style="font-size:13px;border:1px solid #E5E2F5;border-radius:6px;padding:8px 10px;font-family:'JetBrains Mono',monospace" />
+        <div style="display:flex;gap:8px"><x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="80px,34px" variant="primary" size="sm" onClick="{{ saveHeader }}">Save</x-import><x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="80px,34px" variant="outline" size="sm" onClick="{{ cancelHeader }}">Cancel</x-import></div>
+      </div>
+    </sc-if>
+    <sc-if value="{{ headerNotEditing }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:rgba(12,10,30,0.45);margin-bottom:10px"><a href="Menetap Admin Console.dc.html" style="color:rgba(12,10,30,0.45)">Admin</a><i data-lucide="chevron-right" style="width:12px;height:12px"></i><a href="Menetap Admin Properties.dc.html" style="color:rgba(12,10,30,0.45)">Commerce</a><i data-lucide="chevron-right" style="width:12px;height:12px"></i><span style="color:#0C0A1E;font-weight:600">{{ propName }}</span></div>
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px;margin-bottom:8px">
+        <div>
+          <div style="display:flex;align-items:center;gap:8px"><h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:24px;margin:0">{{ propName }}</h1><i data-lucide="pencil" style="width:14px;height:14px;color:#7229FF;cursor:pointer" onClick="{{ editHeader }}"></i></div>
+          <div style="font-size:12px;color:rgba(12,10,30,0.55);margin-top:4px">{{ propLocation }} · Owned by Anin Wida (Independent host)</div>
+        </div>
+        <span style="font-size:11px;font-weight:700;padding:4px 10px;border-radius:4px;background:rgba(0,202,239,0.1);color:#0a8aa3">Live</span>
+      </div>
+    </sc-if>
+
+    <div style="display:flex;gap:20px;border-bottom:1px solid #E5E2F5;margin:20px 0 20px;flex-wrap:wrap">
+      <div class="tab {{ profileActive }}" onClick="{{ selectProfile }}">Profile</div>
+      <div class="tab {{ roomsActive }}" onClick="{{ selectRooms }}">Rooms & rates</div>
+      <div class="tab {{ bookingsActive }}" onClick="{{ selectBookings }}">Bookings</div>
+      <div class="tab {{ financeActive }}" onClick="{{ selectFinance }}">Commission & payouts</div>
+      <div class="tab {{ docsActive }}" onClick="{{ selectDocs }}">Documents</div>
+      <div class="tab {{ reviewsActive }}" onClick="{{ selectReviews }}">Reviews</div>
+      <div class="tab {{ logActive }}" onClick="{{ selectLog }}">Activity log</div>
+    </div>
+
+    <!-- PROFILE -->
+    <sc-if value="{{ isProfile }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <div class="photogrid">
+          <sc-for list="{{ photos }}" as="ph" hint-placeholder-count="4">
+            <div style="aspect-ratio:4/3;border-radius:6px;background:{{ ph.bg }}"></div>
+          </sc-for>
+        </div>
+        <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:20px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><div style="font-size:13px;font-weight:700">Description</div>
+            <sc-if value="{{ descNotEditing }}" hint-placeholder-val="{{ true }}"><i data-lucide="pencil" style="width:13px;height:13px;color:#7229FF;cursor:pointer" onClick="{{ editDesc }}"></i></sc-if>
+          </div>
+          <sc-if value="{{ descEditing }}" hint-placeholder-val="{{ false }}">
+            <textarea value="{{ description }}" onInput="{{ onDescription }}" style="width:100%;box-sizing:border-box;min-height:90px;font-family:'JetBrains Mono',monospace;font-size:13px;border:1px solid #E5E2F5;border-radius:6px;padding:10px"></textarea>
+            <div style="display:flex;gap:8px;margin-top:8px"><x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="80px,34px" variant="primary" size="sm" onClick="{{ saveDesc }}">Save</x-import></div>
+          </sc-if>
+          <sc-if value="{{ descNotEditing }}" hint-placeholder-val="{{ true }}">
+            <p style="font-size:13px;color:rgba(12,10,30,0.65);line-height:1.7;margin:0">{{ description }}</p>
+          </sc-if>
+        </div>
+        <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:20px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><div style="font-size:13px;font-weight:700">Amenities</div>
+            <i data-lucide="pencil" style="width:13px;height:13px;color:#7229FF;cursor:pointer" onClick="{{ toggleAmenityEdit }}"></i>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:8px">
+            <sc-for list="{{ amenityChips }}" as="a" hint-placeholder-count="6">
+              <span style="font-size:12px;font-weight:600;padding:6px 12px;border-radius:24px;background:{{ a.bg }};color:{{ a.color }};cursor:{{ a.cursor }};display:flex;align-items:center;gap:5px" onClick="{{ a.toggle }}">{{ a.name }}<sc-if value="{{ a.showX }}" hint-placeholder-val="{{ false }}"><i data-lucide="x" style="width:10px;height:10px"></i></sc-if></span>
+            </sc-for>
+          </div>
+        </div>
+        <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:20px">
+          <div style="font-size:13px;font-weight:700;margin-bottom:10px">Contact & communication</div>
+          <div style="font-size:13px;color:rgba(12,10,30,0.65);display:flex;flex-direction:column;gap:6px">
+            <div>Host: Anin Wida · anin@kaliurangvilla.id · +62 812 3456 7890</div>
+            <div style="color:rgba(12,10,30,0.45);font-size:12px">Last contacted by support: Sep 15, 2026 — "Question about payout schedule"</div>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- ROOMS -->
+    <sc-if value="{{ isRooms }}" hint-placeholder-val="{{ false }}">
+      <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;overflow:hidden">
+        <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;padding:10px 20px;font-size:10px;font-weight:700;color:rgba(12,10,30,0.4);text-transform:uppercase;border-bottom:1px solid #E5E2F5">
+          <div>Room type</div><div>Capacity</div><div>Rate/night (editable)</div><div>Available</div>
+        </div>
+        <sc-for list="{{ rooms }}" as="r" hint-placeholder-count="3">
+          <div>
+            <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr auto;padding:14px 20px;font-size:13px;align-items:center;border-bottom:1px solid #E5E2F5;gap:8px">
+              <div style="font-weight:700;cursor:pointer" onClick="{{ r.toggleExpand }}">{{ r.name }}</div><div>{{ r.capacity }}</div>
+              <div><input type="text" value="{{ r.rate }}" onInput="{{ r.onRate }}" style="max-width:130px;font-family:'JetBrains Mono',monospace;font-size:13px;border:1px solid #E5E2F5;border-radius:6px;padding:6px 8px" /></div>
+              <div>{{ r.available }}</div>
+              <i data-lucide="{{ r.chevron }}" style="width:14px;height:14px;color:rgba(12,10,30,0.4);cursor:pointer" onClick="{{ r.toggleExpand }}"></i>
+            </div>
+            <sc-if value="{{ r.expanded }}" hint-placeholder-val="{{ false }}">
+              <div style="background:#F7F6FF;padding:16px 20px;border-bottom:1px solid #E5E2F5;font-size:12px;color:rgba(12,10,30,0.65);display:flex;flex-direction:column;gap:6px">
+                <div>Bed configuration: {{ r.beds }}</div>
+                <div>Size: {{ r.size }}</div>
+                <div>Amenities: {{ r.roomAmenities }}</div>
+                <div>Cancellation policy: {{ r.cancellation }}</div>
+                <div>Occupancy rate (last 30 days): {{ r.occupancy }}</div>
+              </div>
+            </sc-if>
+          </div>
+        </sc-for>
+      </div>
+    </sc-if>
+
+    <!-- BOOKINGS -->
+    <sc-if value="{{ isBookings }}" hint-placeholder-val="{{ false }}">
+      <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;overflow:hidden">
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;padding:10px 20px;font-size:10px;font-weight:700;color:rgba(12,10,30,0.4);text-transform:uppercase;border-bottom:1px solid #E5E2F5">
+          <div>Guest</div><div>Dates</div><div>Amount</div><div>Status</div>
+        </div>
+        <sc-for list="{{ bookings }}" as="b" hint-placeholder-count="4">
+          <div style="cursor:pointer" onClick="{{ b.toggleExpand }}">
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr auto;padding:14px 20px;font-size:13px;align-items:center;border-bottom:1px solid #E5E2F5;gap:8px">
+              <div>{{ b.guest }}</div><div style="color:rgba(12,10,30,0.6)">{{ b.dates }}</div><div>{{ b.amount }}</div>
+              <div><span style="font-size:11px;font-weight:700;padding:3px 9px;border-radius:4px;background:{{ b.statusBg }};color:{{ b.statusColor }}">{{ b.status }}</span></div>
+              <i data-lucide="{{ b.chevron }}" style="width:14px;height:14px;color:rgba(12,10,30,0.4)"></i>
+            </div>
+            <sc-if value="{{ b.expanded }}" hint-placeholder-val="{{ false }}">
+              <div style="background:#F7F6FF;padding:16px 20px;border-bottom:1px solid #E5E2F5;font-size:12px;color:rgba(12,10,30,0.65);display:flex;flex-direction:column;gap:6px">
+                <div>Confirmation #: {{ b.confirmation }}</div>
+                <div>Room type: {{ b.roomType }}</div>
+                <div>Guests: {{ b.guestCount }}</div>
+                <div>Commission earned: {{ b.commission }}</div>
+                <div>Payment method: {{ b.paymentMethod }}</div>
+              </div>
+            </sc-if>
+          </div>
+        </sc-for>
+      </div>
+    </sc-if>
+
+    <!-- FINANCE -->
+    <sc-if value="{{ isFinance }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px">
+          <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:16px"><div style="font-size:11px;color:rgba(12,10,30,0.5)">Commission rate</div><div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:22px;margin-top:4px">12%</div></div>
+          <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:16px"><div style="font-size:11px;color:rgba(12,10,30,0.5)">Total commission (lifetime)</div><div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:22px;margin-top:4px;color:#7229FF">Rp 8.9M</div></div>
+          <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:16px"><div style="font-size:11px;color:rgba(12,10,30,0.5)">Pending payout</div><div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:22px;margin-top:4px;color:#b8860b">Rp 1.2M</div></div>
+        </div>
+        <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;overflow:hidden">
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;padding:10px 20px;font-size:10px;font-weight:700;color:rgba(12,10,30,0.4);text-transform:uppercase;border-bottom:1px solid #E5E2F5">
+            <div>Period</div><div>Gross</div><div>Commission</div><div>Status</div>
+          </div>
+          <sc-for list="{{ payouts }}" as="p" hint-placeholder-count="3">
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;padding:14px 20px;font-size:13px;align-items:center;border-bottom:1px solid #E5E2F5">
+              <div>{{ p.period }}</div><div>{{ p.gross }}</div><div style="color:#c0392b">{{ p.commission }}</div>
+              <div><span style="font-size:11px;font-weight:700;padding:3px 9px;border-radius:4px;background:{{ p.statusBg }};color:{{ p.statusColor }}">{{ p.status }}</span></div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- DOCS -->
+    <sc-if value="{{ isDocs }}" hint-placeholder-val="{{ false }}">
+      <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;overflow:hidden">
+        <sc-for list="{{ documents }}" as="d" hint-placeholder-count="3">
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 20px;border-bottom:1px solid #E5E2F5">
+            <div style="display:flex;align-items:center;gap:10px"><i data-lucide="file-text" style="width:16px;height:16px;color:rgba(12,10,30,0.5)"></i><span style="font-size:13px;font-weight:600">{{ d.name }}</span></div>
+            <span style="font-size:11px;font-weight:700;padding:3px 9px;border-radius:4px;background:{{ d.statusBg }};color:{{ d.statusColor }}">{{ d.status }}</span>
+          </div>
+        </sc-for>
+      </div>
+    </sc-if>
+
+    <!-- REVIEWS -->
+    <sc-if value="{{ isReviews }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <sc-for list="{{ reviews }}" as="r" hint-placeholder-count="3">
+          <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:16px">
+            <div style="display:flex;justify-content:space-between"><span style="font-size:13px;font-weight:700">{{ r.guest }}</span><span style="font-size:12px;font-weight:700;color:#0a8aa3;display:flex;align-items:center;gap:4px"><i data-lucide="star" style="width:12px;height:12px"></i>{{ r.rating }}</span></div>
+            <p style="font-size:13px;color:rgba(12,10,30,0.65);margin:6px 0 0">{{ r.text }}</p>
+          </div>
+        </sc-for>
+      </div>
+    </sc-if>
+
+    <!-- LOG -->
+    <sc-if value="{{ isLog }}" hint-placeholder-val="{{ false }}">
+      <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;overflow:hidden">
+        <sc-for list="{{ activityLog }}" as="l" hint-placeholder-count="4">
+          <div style="display:flex;justify-content:space-between;padding:12px 20px;font-size:12px;border-bottom:1px solid #E5E2F5">
+            <div><span style="font-weight:700">{{ l.actor }}</span> <span style="color:rgba(12,10,30,0.6)">{{ l.action }}</span></div>
+            <div style="color:rgba(12,10,30,0.4)">{{ l.time }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </sc-if>
+
+  </div>
+
+  <footer style="border-top:1px solid #E5E2F5;padding:24px 0;background:#fff;margin-top:auto">
+    <div class="wrap" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px">
+      <div style="font-size:12px;color:rgba(12,10,30,0.5)">© 2026 Menetap. All rights reserved.</div>
+      
+      <!-- langgroup --><div style="display:flex;align-items:center;gap:10px"><div onClick="{{ toggleLang }}" style="display:flex;align-items:center;gap:4px;font-size:11px;font-weight:700;color:rgba(12,10,30,0.5);cursor:pointer;border:1px solid #E5E2F5;border-radius:24px;padding:5px 12px"><i data-lucide="globe" style="width:12px;height:12px"></i>{{ langLabel }}</div><div style="display:flex;align-items:center;gap:8px;font-size:11px;color:rgba(12,10,30,0.45);background:#F7F6FF;border:1px solid #E5E2F5;border-radius:24px;padding:5px 12px">
+        Managed by <a href="https://upscale.asia" target="_blank" style="font-weight:700;color:#7229FF">UPSCALE</a>
+      </div></div>
+</div>
+  </footer>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const TABS = ['profile', 'rooms', 'bookings', 'finance', 'docs', 'reviews', 'log'];
+const ALL_AMENITIES = ['Free WiFi', 'Pool', 'Parking', 'Air conditioning', 'Kitchen', 'Breakfast', 'Garden', 'Pet friendly'];
+class Component extends DCLogic {
+  state = {
+    tab: 'profile',
+    propName: 'Kaliurang Heritage Villa', propLocation: 'Sleman, Yogyakarta',
+    headerEditing: false, draftName: '', draftLocation: '',
+    description: "A restored heritage villa nestled at the foot of Mount Merapi, blending traditional Javanese architecture with modern comfort. Private garden, outdoor pool, and easy access to Kaliurang's nature trails.",
+    descEditing: false, draftDesc: '',
+    amenitySet: { 'Free WiFi': true, 'Pool': true, 'Parking': true, 'Air conditioning': true, 'Kitchen': true, 'Breakfast': true },
+    amenityEditing: false,
+    rooms: [
+      { name: 'Garden Suite', capacity: '2 guests', rate: 'Rp 890,000', available: '3 rooms', beds: '1 queen bed', size: '28 m²', roomAmenities: 'Garden view, AC, mini fridge', cancellation: 'Free before 48h', occupancy: '72%', expanded: false },
+      { name: 'Deluxe Villa', capacity: '4 guests', rate: 'Rp 1,450,000', available: '2 rooms', beds: '2 queen beds', size: '42 m²', roomAmenities: 'Pool view, AC, kitchenette', cancellation: 'Free before 72h', occupancy: '65%', expanded: false },
+      { name: 'Family Cottage', capacity: '6 guests', rate: 'Rp 2,100,000', available: '1 room', beds: '3 queen beds', size: '60 m²', roomAmenities: 'Private garden, AC, full kitchen', cancellation: 'Non-refundable', occupancy: '58%', expanded: false }
+    ],
+    bookings: [
+      { guest: 'Anin W.', dates: 'Oct 12–15', amount: 'Rp 2,670,000', status: 'Confirmed', statusBg: 'rgba(0,202,239,0.1)', statusColor: '#0a8aa3', confirmation: 'MTP-91442', roomType: 'Garden Suite', guestCount: '2 adults', commission: 'Rp 320,400', paymentMethod: 'Visa •••• 4821', expanded: false },
+      { guest: 'Dimas P.', dates: 'Oct 8–10', amount: 'Rp 1,780,000', status: 'Completed', statusBg: 'rgba(12,10,30,0.06)', statusColor: 'rgba(12,10,30,0.5)', confirmation: 'MTP-90211', roomType: 'Garden Suite', guestCount: '2 adults', commission: 'Rp 213,600', paymentMethod: 'GoPay', expanded: false },
+      { guest: 'Rina S.', dates: 'Sep 30–Oct 2', amount: 'Rp 1,780,000', status: 'Completed', statusBg: 'rgba(12,10,30,0.06)', statusColor: 'rgba(12,10,30,0.5)', confirmation: 'MTP-89012', roomType: 'Garden Suite', guestCount: '1 adult', commission: 'Rp 213,600', paymentMethod: 'BCA transfer', expanded: false },
+      { guest: 'Budi S.', dates: 'Sep 20–22', amount: 'Rp 1,340,000', status: 'Cancelled', statusBg: 'rgba(192,57,43,0.1)', statusColor: '#c0392b', confirmation: 'MTP-87765', roomType: 'Deluxe Villa', guestCount: '3 adults', commission: 'Rp 0', paymentMethod: 'Mastercard •••• 1190', expanded: false }
+    ]
+  };
+  componentDidMount() { if (window.lucide) window.lucide.createIcons(); }
+  componentDidUpdate() { if (window.lucide) window.lucide.createIcons(); }
+  renderVals() {
+    const s = this.state;
+    const sel = {};
+    TABS.forEach(t => { sel[t + 'Active'] = s.tab === t ? 'active' : ''; sel['is' + t[0].toUpperCase() + t.slice(1)] = s.tab === t; sel['select' + t[0].toUpperCase() + t.slice(1)] = () => this.setState({ tab: t }); });
+    return {
+      langLabel: ((this.state.__lang || (typeof localStorage!=='undefined' && localStorage.getItem('menetapLang')) || 'en') === 'en') ? 'EN' : 'ID',
+      toggleLang: () => { const cur = this.state.__lang || (typeof localStorage!=='undefined' && localStorage.getItem('menetapLang')) || 'en'; const next = cur === 'en' ? 'id' : 'en'; if (typeof localStorage!=='undefined') localStorage.setItem('menetapLang', next); this.setState({ __lang: next }); },
+
+      ...sel,
+      headerEditing: s.headerEditing, headerNotEditing: !s.headerEditing,
+      propName: s.headerEditing ? s.draftName : s.propName, propLocation: s.headerEditing ? s.draftLocation : s.propLocation,
+      onPropName: (e) => this.setState({ draftName: e.target.value }), onPropLocation: (e) => this.setState({ draftLocation: e.target.value }),
+      editHeader: () => this.setState({ headerEditing: true, draftName: s.propName, draftLocation: s.propLocation }),
+      saveHeader: () => this.setState({ propName: s.draftName, propLocation: s.draftLocation, headerEditing: false }),
+      cancelHeader: () => this.setState({ headerEditing: false }),
+      descEditing: s.descEditing, descNotEditing: !s.descEditing,
+      description: s.descEditing ? s.draftDesc : s.description,
+      onDescription: (e) => this.setState({ draftDesc: e.target.value }),
+      editDesc: () => this.setState({ descEditing: true, draftDesc: s.description }),
+      saveDesc: () => this.setState({ description: s.draftDesc, descEditing: false }),
+      toggleAmenityEdit: () => this.setState({ amenityEditing: !s.amenityEditing }),
+      amenityChips: ALL_AMENITIES.filter(a => s.amenityEditing || s.amenitySet[a]).map(a => ({
+        name: a, bg: s.amenitySet[a] ? 'rgba(114,41,255,0.08)' : 'rgba(12,10,30,0.04)', color: s.amenitySet[a] ? '#7229FF' : 'rgba(12,10,30,0.4)',
+        cursor: s.amenityEditing ? 'pointer' : 'default', showX: s.amenityEditing && s.amenitySet[a],
+        toggle: s.amenityEditing ? () => this.setState(st => ({ amenitySet: { ...st.amenitySet, [a]: !st.amenitySet[a] } })) : () => {}
+      })),
+      photos: [1, 2, 3, 4].map(i => ({ bg: ['linear-gradient(135deg,#e5e2f5,#cfc8f0)', 'linear-gradient(135deg,#dfe8ff,#c8d4f5)', 'linear-gradient(135deg,#f0dff5,#e0c8ea)', 'linear-gradient(135deg,#d8f0e8,#c0e0d0)'][i - 1] })),
+      rooms: s.rooms.map((r, i) => ({
+        ...r, chevron: r.expanded ? 'chevron-up' : 'chevron-down',
+        onRate: (e) => this.setState(st => ({ rooms: st.rooms.map((rm, idx) => idx === i ? { ...rm, rate: e.target.value } : rm) })),
+        toggleExpand: () => this.setState(st => ({ rooms: st.rooms.map((rm, idx) => idx === i ? { ...rm, expanded: !rm.expanded } : rm) }))
+      })),
+      bookings: s.bookings.map((b, i) => ({
+        ...b, chevron: b.expanded ? 'chevron-up' : 'chevron-down',
+        toggleExpand: () => this.setState(st => ({ bookings: st.bookings.map((bb, idx) => idx === i ? { ...bb, expanded: !bb.expanded } : bb) }))
+      })),
+      payouts: [
+        { period: 'Aug 2026', gross: 'Rp 12,400,000', commission: '– Rp 1,488,000', status: 'Paid', statusBg: 'rgba(0,202,239,0.1)', statusColor: '#0a8aa3' },
+        { period: 'Jul 2026', gross: 'Rp 9,800,000', commission: '– Rp 1,176,000', status: 'Paid', statusBg: 'rgba(0,202,239,0.1)', statusColor: '#0a8aa3' },
+        { period: 'Sep 2026', gross: 'Rp 10,000,000', commission: '– Rp 1,200,000', status: 'Pending', statusBg: 'rgba(230,162,60,0.12)', statusColor: '#b8860b' }
+      ],
+      documents: [
+        { name: 'Business license (NIB)', status: 'Verified', statusBg: 'rgba(0,202,239,0.1)', statusColor: '#0a8aa3' },
+        { name: 'Bank account details', status: 'Verified', statusBg: 'rgba(0,202,239,0.1)', statusColor: '#0a8aa3' },
+        { name: 'Property ownership proof', status: 'Pending review', statusBg: 'rgba(230,162,60,0.12)', statusColor: '#b8860b' }
+      ],
+      reviews: [
+        { guest: 'Anin W.', rating: '4.9', text: 'Beautiful villa, incredibly peaceful setting near Merapi.' },
+        { guest: 'Dimas P.', rating: '4.7', text: 'Great stay, host was very responsive.' },
+        { guest: 'Rina S.', rating: '4.8', text: 'Clean, spacious, and exactly as pictured.' }
+      ],
+      activityLog: [
+        { actor: 'Anin W. (host)', action: 'updated room rates', time: 'Sep 20, 2026' },
+        { actor: 'System', action: 'listing passed moderation review', time: 'Mar 2, 2026' },
+        { actor: 'Admin', action: 'featured this property', time: 'Aug 28, 2026' },
+        { actor: 'Anin W. (host)', action: 'uploaded new photos', time: 'Feb 18, 2026' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

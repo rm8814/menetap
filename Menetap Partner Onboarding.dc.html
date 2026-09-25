@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/fonts.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/colors.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/typography.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/spacing.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/shadows.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/motion.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/styles.css">
+<script src="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/_ds_bundle.js"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+body{margin:0;background:#F7F6FF;font-family:'JetBrains Mono',monospace;color:#0C0A1E}
+a{color:#7229FF;text-decoration:none}
+.wrap{max-width:640px;width:100%;margin:0 auto;padding:0 24px;box-sizing:border-box}
+input[type="text"],input[type="email"],input[type="tel"],textarea{font-family:'JetBrains Mono',monospace;font-size:13px;border:1px solid #E5E2F5;border-radius:6px;padding:10px 12px;outline:none;background:#fff;color:#0C0A1E;width:100%;box-sizing:border-box}
+input:focus,textarea:focus{border-color:#7229FF}
+textarea{resize:vertical;min-height:70px;font-family:'JetBrains Mono',monospace}
+</style>
+</helmet>
+
+<div style="min-height:100vh;display:flex;flex-direction:column">
+
+  <header style="border-bottom:1px solid #E5E2F5;background:#fff">
+    <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;height:64px">
+      <a href="Menetap Partner Landing.dc.html" style="display:flex;align-items:center;gap:9px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:19px;letter-spacing:-0.02em;color:#0C0A1E">
+        <span>menetap<span style="color:#7229FF">.</span></span> <span style="font-size:11px;font-weight:600;color:rgba(12,10,30,0.4);margin-left:4px">for partners</span>
+      </a>
+      <div style="display:flex;align-items:center;gap:14px">
+        <div onClick="{{ toggleLang }}" style="display:flex;align-items:center;gap:4px;font-size:11px;font-weight:700;color:rgba(12,10,30,0.5);cursor:pointer;border:1px solid #E5E2F5;border-radius:24px;padding:5px 12px"><i data-lucide="globe" style="width:12px;height:12px"></i>{{ langLabel }}</div>
+        <div style="font-size:12px;color:rgba(12,10,30,0.5)">Save and exit</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- STEP PROGRESS -->
+  <div class="wrap" style="padding:20px 24px 0">
+    <div style="display:flex;align-items:center;gap:4px">
+      <sc-for list="{{ stepDots }}" as="d" hint-placeholder-count="5">
+        <div style="flex:1;height:4px;border-radius:24px;background:{{ d.color }}"></div>
+      </sc-for>
+    </div>
+    <div style="font-size:11px;font-weight:700;color:rgba(12,10,30,0.5);margin-top:8px">Step {{ stepNum }} of 5 · {{ stepLabel }}</div>
+  </div>
+
+  <div class="wrap" style="flex:1;padding:24px 24px 64px">
+
+    <!-- STEP 1: SIGNUP -->
+    <sc-if value="{{ isStep1 }}" hint-placeholder-val="{{ true }}">
+      <h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:24px;margin:0 0 6px">Tell us about you</h1>
+      <p style="font-size:13px;color:rgba(12,10,30,0.55);margin:0 0 24px">One account — add more properties any time from your dashboard.</p>
+      <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:22px;display:flex;flex-direction:column;gap:14px">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <div><label style="font-size:11px;font-weight:700;color:rgba(12,10,30,0.55);display:block;margin-bottom:5px">First name</label><input type="text" value="{{ firstName }}" onInput="{{ onFirstName }}" /></div>
+          <div><label style="font-size:11px;font-weight:700;color:rgba(12,10,30,0.55);display:block;margin-bottom:5px">Last name</label><input type="text" value="{{ lastName }}" onInput="{{ onLastName }}" /></div>
+        </div>
+        <div><label style="font-size:11px;font-weight:700;color:rgba(12,10,30,0.55);display:block;margin-bottom:5px">Email</label><input type="email" value="{{ email }}" onInput="{{ onEmail }}" /></div>
+        <div><label style="font-size:11px;font-weight:700;color:rgba(12,10,30,0.55);display:block;margin-bottom:5px">Phone</label><input type="tel" value="{{ phone }}" onInput="{{ onPhone }}" placeholder="+62 812 3456 7890" /></div>
+      </div>
+    </sc-if>
+
+    <!-- STEP 2: PROPERTY DETAILS -->
+    <sc-if value="{{ isStep2 }}" hint-placeholder-val="{{ false }}">
+      <h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:24px;margin:0 0 6px">About your property</h1>
+      <p style="font-size:13px;color:rgba(12,10,30,0.55);margin:0 0 24px">This is what guests will see first.</p>
+      <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:22px;display:flex;flex-direction:column;gap:14px">
+        <div><label style="font-size:11px;font-weight:700;color:rgba(12,10,30,0.55);display:block;margin-bottom:5px">Property name</label><input type="text" value="{{ propName }}" onInput="{{ onPropName }}" placeholder="e.g. Kaliurang Heritage Villa" /></div>
+        <div><label style="font-size:11px;font-weight:700;color:rgba(12,10,30,0.55);display:block;margin-bottom:5px">Address</label><input type="text" value="{{ propAddress }}" onInput="{{ onPropAddress }}" placeholder="Street, city, Java" /></div>
+        <div><label style="font-size:11px;font-weight:700;color:rgba(12,10,30,0.55);display:block;margin-bottom:5px">Map location (pin)</label><div style="height:120px;border-radius:8px;background:linear-gradient(135deg,#e9e7f7,#dbe6f2);border:1px solid #E5E2F5;display:flex;align-items:center;justify-content:center;color:rgba(12,10,30,0.4);font-size:12px;cursor:pointer" onClick="{{ dropPin }}">{{ pinLabel }}</div></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr">
+          <div><label style="font-size:11px;font-weight:700;color:rgba(12,10,30,0.55);display:block;margin-bottom:5px">Check-in from</label><input type="text" value="{{ checkInTime }}" onInput="{{ onCheckInTime }}" placeholder="2:00 PM" /></div>
+          <div><label style="font-size:11px;font-weight:700;color:rgba(12,10,30,0.55);display:block;margin-bottom:5px">Check-out before</label><input type="text" value="{{ checkOutTime }}" onInput="{{ onCheckOutTime }}" placeholder="12:00 PM" /></div>
+        </div>
+        <div><label style="font-size:11px;font-weight:700;color:rgba(12,10,30,0.55);display:block;margin-bottom:5px">Guest rules</label><textarea value="{{ guestRules }}" onInput="{{ onGuestRules }}" placeholder="e.g. No smoking, no pets, quiet hours after 10pm"></textarea></div>
+        <div><label style="font-size:11px;font-weight:700;color:rgba(12,10,30,0.55);display:block;margin-bottom:5px">Description</label><textarea value="{{ propDesc }}" onInput="{{ onPropDesc }}" placeholder="What makes your property worth booking?"></textarea></div>
+        <div>
+          <label style="font-size:11px;font-weight:700;color:rgba(12,10,30,0.55);display:block;margin-bottom:8px">Amenities</label>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <sc-for list="{{ amenities }}" as="a" hint-placeholder-count="6">
+              <div style="font-size:12px;font-weight:600;padding:7px 12px;border-radius:24px;cursor:pointer;border:1px solid #E5E2F5;background:{{ a.bg }};color:{{ a.color }}" onClick="{{ a.toggle }}">{{ a.name }}</div>
+            </sc-for>
+          </div>
+        </div>
+        <div>
+          <label style="font-size:11px;font-weight:700;color:rgba(12,10,30,0.55);display:block;margin-bottom:8px">Photos</label>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px">
+            <div style="aspect-ratio:4/3;border:2px dashed #E5E2F5;border-radius:6px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#7229FF;font-size:11px;font-weight:700;cursor:pointer;gap:4px"><i data-lucide="upload" style="width:16px;height:16px"></i>Upload</div>
+            <sc-for list="{{ uploadedPhotos }}" as="p" hint-placeholder-count="0">
+              <div style="aspect-ratio:4/3;border-radius:6px;background:{{ p.bg }};position:relative">
+                <div style="position:absolute;top:4px;right:4px;width:18px;height:18px;border-radius:50%;background:rgba(12,10,30,0.6);display:flex;align-items:center;justify-content:center;cursor:pointer" onClick="{{ p.remove }}"><i data-lucide="x" style="width:10px;height:10px;color:#fff"></i></div>
+              </div>
+            </sc-for>
+          </div>
+          <div style="font-size:11px;color:rgba(12,10,30,0.5);margin-top:6px;cursor:pointer;color:#7229FF;font-weight:700" onClick="{{ addSamplePhoto }}">+ Add sample photo</div>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- STEP 3: ROOMS & RATES -->
+    <sc-if value="{{ isStep3 }}" hint-placeholder-val="{{ false }}">
+      <h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:24px;margin:0 0 6px">Rooms & rates</h1>
+      <p style="font-size:13px;color:rgba(12,10,30,0.55);margin:0 0 24px">You set the price — we'll show it exactly as entered, no markup.</p>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <sc-for list="{{ rooms }}" as="r" hint-placeholder-count="1">
+          <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:18px;display:flex;flex-direction:column;gap:10px">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <div style="font-size:13px;font-weight:700">Room type {{ r.index }}</div>
+              <sc-if value="{{ r.canRemove }}" hint-placeholder-val="{{ false }}">
+                <i data-lucide="trash-2" style="width:14px;height:14px;color:rgba(12,10,30,0.4);cursor:pointer" onClick="{{ r.remove }}"></i>
+              </sc-if>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+              <input type="text" value="{{ r.name }}" onInput="{{ r.onName }}" placeholder="Room name" />
+              <input type="text" value="{{ r.capacity }}" onInput="{{ r.onCapacity }}" placeholder="Max guests" />
+            </div>
+            <div style="display:flex;align-items:center;gap:8px">
+              <span style="font-size:13px;color:rgba(12,10,30,0.5)">Rp</span>
+              <input type="text" value="{{ r.rate }}" onInput="{{ r.onRate }}" placeholder="Rate per night" />
+            </div>
+          </div>
+        </sc-for>
+        <div style="display:flex;align-items:center;justify-content:center;gap:6px;border:1px dashed #E5E2F5;border-radius:8px;padding:14px;color:#7229FF;font-size:13px;font-weight:700;cursor:pointer" onClick="{{ addRoom }}"><i data-lucide="plus" style="width:14px;height:14px"></i>Add another room type</div>
+      </div>
+    </sc-if>
+
+    <!-- STEP 4: COMMISSION -->
+    <sc-if value="{{ isStep4 }}" hint-placeholder-val="{{ false }}">
+      <h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:24px;margin:0 0 6px">Your commission</h1>
+      <p style="font-size:13px;color:rgba(12,10,30,0.55);margin:0 0 24px">One flat rate. Shown upfront, not buried later.</p>
+      <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:24px">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:16px">
+          <div style="font-size:13px;font-weight:700">Base commission</div>
+          <div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:26px;color:#7229FF">10%</div>
+        </div>
+        <div style="height:1px;background:#E5E2F5;margin-bottom:16px"></div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px">
+          <div style="display:flex;justify-content:space-between"><span style="color:rgba(12,10,30,0.6)">Example booking</span><span>Rp 1,000,000</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:rgba(12,10,30,0.6)">Menetap commission (10%)</span><span style="color:#c0392b">– Rp 100,000</span></div>
+          <div style="height:1px;background:#E5E2F5;margin:2px 0"></div>
+          <div style="display:flex;justify-content:space-between;font-size:15px"><span style="font-weight:700">You receive</span><span style="font-weight:800;color:#0a8aa3">Rp 900,000</span></div>
+        </div>
+        <div style="font-size:11px;color:rgba(12,10,30,0.5);margin-top:14px">No listing fees, no payment processing fees on top. Paid out within 3 business days of check-in.</div>
+      </div>
+
+      <div style="background:linear-gradient(135deg,rgba(114,41,255,0.06),rgba(0,202,239,0.06));border:1px solid #E5E2F5;border-radius:8px;padding:20px;margin-top:16px">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
+          <div>
+            <div style="display:flex;align-items:center;gap:8px"><i data-lucide="sparkles" style="width:15px;height:15px;color:#7229FF"></i><div style="font-size:13px;font-weight:700">Get featured as "Featured Stay"</div></div>
+            <p style="font-size:12px;color:rgba(12,10,30,0.6);margin:6px 0 0;max-width:380px">Priority placement on search and homepage. Optional — an extra 2% commission only on bookings this earns you, nothing on the rest.</p>
+          </div>
+          <div style="width:40px;height:22px;border-radius:24px;position:relative;cursor:pointer;flex:none;background:{{ featureBg }}" onClick="{{ toggleFeature }}"><div style="position:absolute;top:2px;width:18px;height:18px;border-radius:50%;background:#fff;left:{{ featureLeft }};transition:left 150ms"></div></div>
+        </div>
+      </div>
+
+      <label style="display:flex;align-items:flex-start;gap:8px;font-size:12px;color:rgba(12,10,30,0.65);margin-top:20px;cursor:pointer">
+        <input type="checkbox" checked="{{ agreed }}" onChange="{{ toggleAgree }}" style="accent-color:#7229FF;margin-top:2px" />
+        I agree to Menetap's <a href="#">Partner Terms</a> and the commission structure shown above.
+      </label>
+    </sc-if>
+
+    <!-- STEP 5: ACTIVATION -->
+    <sc-if value="{{ isStep5 }}" hint-placeholder-val="{{ false }}">
+      <sc-if value="{{ pendingReview }}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px;padding:40px 0">
+          <div style="width:60px;height:60px;border-radius:50%;background:rgba(230,162,60,0.12);display:flex;align-items:center;justify-content:center"><i data-lucide="clock" style="width:30px;height:30px;color:#b8860b"></i></div>
+          <h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:24px;margin:0">Submitted for review</h1>
+          <p style="font-size:13px;color:rgba(12,10,30,0.6);margin:0;max-width:380px">{{ propNameOrDefault }} is being reviewed by our Trust &amp; Safety team — this usually takes under 24 hours. We'll email you once it's approved and live.</p>
+          <x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="180px,44px" variant="outline" size="md" onClick="{{ simulateApproval }}">Simulate approval (demo)</x-import>
+        </div>
+      </sc-if>
+      <sc-if value="{{ approved }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px;padding:40px 0">
+          <div style="width:60px;height:60px;border-radius:50%;background:rgba(0,202,239,0.1);display:flex;align-items:center;justify-content:center"><i data-lucide="check" style="width:30px;height:30px;color:#0a8aa3"></i></div>
+          <h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:24px;margin:0">You're live on Menetap!</h1>
+          <p style="font-size:13px;color:rgba(12,10,30,0.6);margin:0;max-width:380px">{{ propNameOrDefault }} is now visible to guests searching Java. Commission locked at 10% — no surprises later.</p>
+          <div style="display:flex;gap:10px">
+            <a href="Menetap Partner Dashboard.dc.html"><x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="180px,48px" variant="primary" size="lg">Go to dashboard</x-import></a>
+            <x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="180px,48px" variant="outline" size="lg">Add another property</x-import>
+          </div>
+        </div>
+      </sc-if>
+    </sc-if>
+
+  </div>
+
+  <!-- FOOTER NAV -->
+  <sc-if value="{{ showFooterNav }}" hint-placeholder-val="{{ true }}">
+    <div style="border-top:1px solid #E5E2F5;background:#fff;padding:16px 0">
+      <div class="wrap" style="display:flex;justify-content:space-between;align-items:center">
+        <sc-if value="{{ canBack }}" hint-placeholder-val="{{ false }}">
+          <div style="font-size:13px;font-weight:600;color:rgba(12,10,30,0.6);cursor:pointer" onClick="{{ prevStep }}">Back</div>
+        </sc-if>
+        <sc-if value="{{ noBack }}" hint-placeholder-val="{{ true }}">
+          <div></div>
+        </sc-if>
+        <x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="140px,44px" variant="primary" size="md" onClick="{{ nextStep }}">{{ nextLabel }}</x-import>
+      </div>
+    </div>
+  </sc-if>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const AMENITY_NAMES = ['Free WiFi', 'Pool', 'Parking', 'Air conditioning', 'Kitchen', 'Breakfast'];
+class Component extends DCLogic {
+  state = {
+    step: 1,
+    firstName: '', lastName: '', email: '', phone: '',
+    propName: '', propAddress: '', propDesc: '', pinDropped: false,
+    checkInTime: '2:00 PM', checkOutTime: '12:00 PM', guestRules: '',
+    reviewApproved: false,
+    amenitySet: {},
+    photos: [],
+    rooms: [{ name: '', capacity: '', rate: '' }],
+    featureUpsell: false, agreed: false
+  };
+  componentDidMount() { if (window.lucide) window.lucide.createIcons(); }
+  componentDidUpdate() { if (window.lucide) window.lucide.createIcons(); }
+  goStep(n) { this.setState({ step: Math.max(1, Math.min(5, n)) }); }
+  renderVals() {
+    const s = this.state;
+    const stepLabels = ['Your details', 'Property details', 'Rooms & rates', 'Commission', 'Live'];
+    const stepDots = [1, 2, 3, 4, 5].map(n => ({ color: n <= s.step ? '#7229FF' : '#E5E2F5' }));
+    return {
+      stepNum: s.step, stepLabel: stepLabels[s.step - 1],
+      stepDots,
+      isStep1: s.step === 1, isStep2: s.step === 2, isStep3: s.step === 3, isStep4: s.step === 4, isStep5: s.step === 5,
+      firstName: s.firstName, onFirstName: (e) => this.setState({ firstName: e.target.value }),
+      lastName: s.lastName, onLastName: (e) => this.setState({ lastName: e.target.value }),
+      email: s.email, onEmail: (e) => this.setState({ email: e.target.value }),
+      phone: s.phone, onPhone: (e) => this.setState({ phone: e.target.value }),
+      propName: s.propName, onPropName: (e) => this.setState({ propName: e.target.value }),
+      propAddress: s.propAddress, onPropAddress: (e) => this.setState({ propAddress: e.target.value }),
+      pinLabel: s.pinDropped ? 'Pin set on map' : 'Tap to drop a pin',
+      dropPin: () => this.setState({ pinDropped: true }),
+      checkInTime: s.checkInTime, onCheckInTime: (e) => this.setState({ checkInTime: e.target.value }),
+      checkOutTime: s.checkOutTime, onCheckOutTime: (e) => this.setState({ checkOutTime: e.target.value }),
+      guestRules: s.guestRules, onGuestRules: (e) => this.setState({ guestRules: e.target.value }),
+      pendingReview: !s.reviewApproved, approved: s.reviewApproved,
+      simulateApproval: () => this.setState({ reviewApproved: true }),
+      propDesc: s.propDesc, onPropDesc: (e) => this.setState({ propDesc: e.target.value }),
+      amenities: AMENITY_NAMES.map(name => ({
+        name, bg: s.amenitySet[name] ? '#7229FF' : '#fff', color: s.amenitySet[name] ? '#fff' : '#0C0A1E',
+        toggle: () => this.setState(st => ({ amenitySet: { ...st.amenitySet, [name]: !st.amenitySet[name] } }))
+      })),
+      uploadedPhotos: s.photos.map((p, i) => ({ bg: p, remove: () => this.setState(st => ({ photos: st.photos.filter((_, idx) => idx !== i) })) })),
+      addSamplePhoto: () => {
+        const colors = ['linear-gradient(135deg,#e5e2f5,#cfc8f0)', 'linear-gradient(135deg,#dfe8ff,#c8d4f5)', 'linear-gradient(135deg,#f0dff5,#e0c8ea)'];
+        this.setState(st => ({ photos: [...st.photos, colors[st.photos.length % colors.length]] }));
+      },
+      rooms: s.rooms.map((r, i) => ({
+        index: i + 1, name: r.name, capacity: r.capacity, rate: r.rate, canRemove: s.rooms.length > 1,
+        onName: (e) => this.setState(st => ({ rooms: st.rooms.map((rm, idx) => idx === i ? { ...rm, name: e.target.value } : rm) })),
+        onCapacity: (e) => this.setState(st => ({ rooms: st.rooms.map((rm, idx) => idx === i ? { ...rm, capacity: e.target.value } : rm) })),
+        onRate: (e) => this.setState(st => ({ rooms: st.rooms.map((rm, idx) => idx === i ? { ...rm, rate: e.target.value } : rm) })),
+        remove: () => this.setState(st => ({ rooms: st.rooms.filter((_, idx) => idx !== i) }))
+      })),
+      addRoom: () => this.setState(st => ({ rooms: [...st.rooms, { name: '', capacity: '', rate: '' }] })),
+      featureBg: s.featureUpsell ? '#7229FF' : '#E5E2F5', featureLeft: s.featureUpsell ? '20px' : '2px',
+      toggleFeature: () => this.setState(st => ({ featureUpsell: !st.featureUpsell })),
+      agreed: s.agreed, toggleAgree: () => this.setState(st => ({ agreed: !st.agreed })),
+      propNameOrDefault: s.propName || 'Your property',
+      showFooterNav: s.step < 5,
+      canBack: s.step > 1, noBack: s.step === 1,
+      nextLabel: s.step === 4 ? 'Confirm and go live' : 'Continue',
+      prevStep: () => this.goStep(s.step - 1),
+      nextStep: () => { if (s.step === 4 && !s.agreed) return; this.goStep(s.step + 1); },
+      langLabel: (s.__lang || (typeof localStorage!=='undefined' && localStorage.getItem('menetapLang')) || 'en') === 'en' ? 'EN' : 'ID',
+      toggleLang: () => { const cur = s.__lang || (typeof localStorage!=='undefined' && localStorage.getItem('menetapLang')) || 'en'; const next = cur === 'en' ? 'id' : 'en'; if (typeof localStorage!=='undefined') localStorage.setItem('menetapLang', next); this.setState({ __lang: next }); }
+    };
+  }
+}
+</script>
+</body>
+</html>

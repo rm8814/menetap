@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/fonts.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/colors.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/typography.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/spacing.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/shadows.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/motion.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/styles.css">
+<script src="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/_ds_bundle.js"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+body{margin:0;background:#0C0A1E;font-family:'JetBrains Mono',monospace;color:#0C0A1E}
+a{color:#00CAEF;text-decoration:none}
+a:hover{text-decoration:underline}
+input[type="text"],input[type="email"],input[type="password"]{font-family:'JetBrains Mono',monospace;font-size:13px;border:1px solid #2b2745;border-radius:6px;padding:11px 12px;outline:none;background:#161329;color:#fff;width:100%;box-sizing:border-box}
+input::placeholder{color:rgba(255,255,255,0.3)}
+input:focus{border-color:#7229FF}
+</style>
+</helmet>
+
+<div style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;background:radial-gradient(circle at 50% 0%,rgba(114,41,255,0.18),transparent 60%)">
+  <div style="width:100%;max-width:380px">
+    <div style="display:flex;align-items:center;justify-content:center;gap:9px;margin-bottom:28px">
+      <span style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:20px;color:#fff">menetap<span style="color:#00CAEF">.</span></span>
+      <span style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.4);border:1px solid #2b2745;border-radius:24px;padding:3px 10px">internal</span>
+    </div>
+
+    <div style="background:#161329;border:1px solid #2b2745;border-radius:8px;padding:32px">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><i data-lucide="shield" style="width:16px;height:16px;color:#00CAEF"></i><h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:19px;margin:0;color:#fff">Team login</h1></div>
+      <p style="font-size:12px;color:rgba(255,255,255,0.5);margin:0 0 22px">For Menetap and UPSCALE staff only. Guest and partner accounts use a separate login.</p>
+
+      <form onSubmit="{{ onSubmit }}" style="display:flex;flex-direction:column;gap:14px">
+        <div>
+          <label style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.5);display:block;margin-bottom:5px">Work email</label>
+          <input type="email" placeholder="you@menetap.com" value="{{ email }}" onInput="{{ onEmail }}" required="{{ true }}" />
+        </div>
+        <div>
+          <label style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.5);display:block;margin-bottom:5px">Password</label>
+          <div style="position:relative">
+            <input type="{{ pwType }}" placeholder="••••••••" value="{{ password }}" onInput="{{ onPassword }}" required="{{ true }}" style="padding-right:38px" />
+            <span onClick="{{ togglePw }}" style="position:absolute;right:11px;top:50%;transform:translateY(-50%);cursor:pointer;display:flex;color:rgba(255,255,255,0.4)"><i data-lucide="{{ pwIcon }}" style="width:16px;height:16px"></i></span>
+          </div>
+        </div>
+        <sc-if value="{{ error }}" hint-placeholder-val="{{ false }}">
+          <div style="font-size:12px;color:#ff8a8a;background:rgba(192,57,43,0.15);border-radius:6px;padding:8px 10px">{{ error }}</div>
+        </sc-if>
+        <x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="100%,44px" variant="primary" size="md">Log in to Admin Console</x-import>
+      </form>
+    </div>
+    <div style="font-size:11px;color:rgba(255,255,255,0.35);text-align:center;margin-top:16px">Not staff? <a href="Menetap Homepage.dc.html">Go to menetap.com</a> · <a href="Menetap Partner Landing.dc.html">Partner login</a></div>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { email: '', password: '', code: '', error: '', showPw: false };
+  componentDidMount() { if (window.lucide) window.lucide.createIcons(); }
+  componentDidUpdate() { if (window.lucide) window.lucide.createIcons(); }
+  renderVals() {
+    const s = this.state;
+    return {
+      email: s.email, onEmail: (e) => this.setState({ email: e.target.value, error: '' }),
+      password: s.password, onPassword: (e) => this.setState({ password: e.target.value, error: '' }),
+      pwType: s.showPw ? 'text' : 'password', pwIcon: s.showPw ? 'eye-off' : 'eye',
+      togglePw: () => this.setState({ showPw: !s.showPw }),
+      error: s.error,
+      onSubmit: (e) => {
+        e.preventDefault();
+        if (!s.email.endsWith('@menetap.com') && !s.email.endsWith('@upscale.asia')) { this.setState({ error: 'Use your @menetap.com or @upscale.asia work email.' }); return; }
+        if (!s.password) { this.setState({ error: 'Enter your password.' }); return; }
+        window.location.href = 'Menetap Admin Console.dc.html';
+      }
+    };
+  }
+}
+
+</script>
+</body>
+</html>

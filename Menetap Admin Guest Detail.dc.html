@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/fonts.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/colors.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/typography.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/spacing.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/shadows.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/motion.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/styles.css">
+<script src="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/_ds_bundle.js"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+body{margin:0;background:#F7F6FF;font-family:'JetBrains Mono',monospace;color:#0C0A1E}
+a{color:#7229FF;text-decoration:none}
+.wrap{max-width:1160px;width:100%;margin:0 auto;padding:0 24px;box-sizing:border-box}
+.tab{font-size:13px;font-weight:700;padding:10px 4px;cursor:pointer;border-bottom:2px solid transparent;color:rgba(12,10,30,0.5)}
+.tab.active{border-bottom-color:#7229FF;color:#7229FF}
+</style>
+</helmet>
+
+<div style="min-height:100vh;display:flex;flex-direction:column">
+  <header style="border-bottom:1px solid #E5E2F5;background:#fff">
+    <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;height:64px">
+      <a href="Menetap Admin Users.dc.html" style="display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:#0C0A1E"><i data-lucide="arrow-left" style="width:16px;height:16px"></i>Users</a>
+      <div style="display:flex;align-items:center;gap:10px">
+        <span style="font-size:11px;font-weight:700;color:#0a8aa3;background:rgba(0,202,239,0.1);padding:4px 10px;border-radius:24px">Superadmin access · full edit</span>
+        <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#7229FF,#00CAEF);display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:700">UP</div>
+      </div>
+    </div>
+  </header>
+
+  <sc-if value="{{ toastMsg }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;top:20px;right:20px;background:#0C0A1E;color:#fff;font-size:13px;font-weight:600;padding:12px 18px;border-radius:8px;display:flex;align-items:center;gap:8px;z-index:100"><i data-lucide="check-circle" style="width:16px;height:16px;color:#00CAEF"></i>{{ toastMsg }}</div>
+  </sc-if>
+
+  <div class="wrap" style="padding:28px 24px 64px">
+    <sc-if value="{{ headerEditing }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:8px;max-width:420px">
+        <input type="text" value="{{ draftName }}" onInput="{{ onDraftName }}" style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:18px;border:1px solid #E5E2F5;border-radius:6px;padding:8px 10px" />
+        <input type="text" value="{{ draftEmail }}" onInput="{{ onDraftEmail }}" style="font-size:13px;border:1px solid #E5E2F5;border-radius:6px;padding:8px 10px;font-family:'JetBrains Mono',monospace" />
+        <input type="text" value="{{ draftPhone }}" onInput="{{ onDraftPhone }}" style="font-size:13px;border:1px solid #E5E2F5;border-radius:6px;padding:8px 10px;font-family:'JetBrains Mono',monospace" />
+        <div style="display:flex;gap:8px"><x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="80px,34px" variant="primary" size="sm" onClick="{{ saveHeader }}">Save</x-import><x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="80px,34px" variant="outline" size="sm" onClick="{{ cancelHeader }}">Cancel</x-import></div>
+      </div>
+    </sc-if>
+    <sc-if value="{{ headerNotEditing }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:rgba(12,10,30,0.45);margin-bottom:10px"><a href="Menetap Admin Console.dc.html" style="color:rgba(12,10,30,0.45)">Admin</a><i data-lucide="chevron-right" style="width:12px;height:12px"></i><a href="Menetap Admin Users.dc.html" style="color:rgba(12,10,30,0.45)">People</a><i data-lucide="chevron-right" style="width:12px;height:12px"></i><span style="color:#0C0A1E;font-weight:600">{{ name }}</span></div>
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px;margin-bottom:8px">
+        <div>
+          <div style="display:flex;align-items:center;gap:8px"><h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:24px;margin:0">{{ name }}</h1><i data-lucide="pencil" style="width:14px;height:14px;color:#7229FF;cursor:pointer" onClick="{{ editHeader }}"></i></div>
+          <div style="font-size:12px;color:rgba(12,10,30,0.55);margin-top:4px">{{ email }} · {{ phone }} · Joined Mar 2026</div>
+        </div>
+        <div style="display:flex;gap:8px">
+          <span style="font-size:11px;font-weight:700;padding:4px 10px;border-radius:4px;background:rgba(0,202,239,0.1);color:#0a8aa3">Active</span>
+          <x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="120px,32px" variant="outline" size="sm" onClick="{{ resetPassword }}">Reset password</x-import>
+          <x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="90px,32px" variant="outline" size="sm" onClick="{{ toggleSuspend }}">{{ suspendLabel }}</x-import>
+        </div>
+      </div>
+    </sc-if>
+
+    <div style="display:flex;gap:20px;border-bottom:1px solid #E5E2F5;margin:20px 0 20px;flex-wrap:wrap">
+      <div class="tab {{ tripsActive }}" onClick="{{ selectTrips }}">Trips</div>
+      <div class="tab {{ paymentActive }}" onClick="{{ selectPayment }}">Payment methods</div>
+      <div class="tab {{ savedActive }}" onClick="{{ selectSaved }}">Saved stays</div>
+      <div class="tab {{ ticketsActive }}" onClick="{{ selectTickets }}">Support tickets</div>
+      <div class="tab {{ rewardsActive }}" onClick="{{ selectRewards }}">Rewards</div>
+      <div class="tab {{ flagsActive }}" onClick="{{ selectFlags }}">Flags</div>
+      <div class="tab {{ logActive }}" onClick="{{ selectLog }}">Activity log</div>
+    </div>
+
+    <sc-if value="{{ isTrips }}" hint-placeholder-val="{{ true }}">
+      <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;overflow:hidden">
+        <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;padding:10px 20px;font-size:10px;font-weight:700;color:rgba(12,10,30,0.4);text-transform:uppercase;border-bottom:1px solid #E5E2F5">
+          <div>Property</div><div>Dates</div><div>Amount</div><div>Status</div>
+        </div>
+        <sc-for list="{{ trips }}" as="t" hint-placeholder-count="4">
+          <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;padding:14px 20px;font-size:13px;align-items:center;border-bottom:1px solid #E5E2F5">
+            <div style="font-weight:700">{{ t.property }}</div><div style="color:rgba(12,10,30,0.6)">{{ t.dates }}</div><div>{{ t.amount }}</div>
+            <div><span style="font-size:11px;font-weight:700;padding:3px 9px;border-radius:4px;background:{{ t.statusBg }};color:{{ t.statusColor }}">{{ t.status }}</span></div>
+          </div>
+        </sc-for>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isPayment }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <sc-for list="{{ paymentMethods }}" as="p" hint-placeholder-count="2">
+          <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:16px;display:flex;align-items:center;gap:12px">
+            <i data-lucide="credit-card" style="width:18px;height:18px;color:#7229FF"></i>
+            <div style="font-size:13px;font-weight:600">{{ p.label }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isSaved }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <sc-for list="{{ saved }}" as="s" hint-placeholder-count="3">
+          <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:16px;font-size:13px;font-weight:600">{{ s }}</div>
+        </sc-for>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isTickets }}" hint-placeholder-val="{{ false }}">
+      <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;overflow:hidden">
+        <sc-for list="{{ tickets }}" as="t" hint-placeholder-count="2">
+          <div style="display:flex;justify-content:space-between;padding:14px 20px;border-bottom:1px solid #E5E2F5;font-size:13px">
+            <div>{{ t.subject }}</div><div style="color:rgba(12,10,30,0.45);font-size:12px">{{ t.time }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isRewards }}" hint-placeholder-val="{{ false }}">
+      <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:20px">
+        <div style="font-size:11px;color:rgba(12,10,30,0.5)">Points balance</div>
+        <div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:26px;color:#7229FF;margin-top:4px">4,280 pts</div>
+        <div style="font-size:12px;color:rgba(12,10,30,0.5);margin-top:6px">≈ Rp 42,800 stay credit</div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isFlags }}" hint-placeholder-val="{{ false }}">
+      <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:20px;font-size:13px;color:rgba(12,10,30,0.6)">No fraud or risk flags on this account.</div>
+    </sc-if>
+
+    <sc-if value="{{ isLog }}" hint-placeholder-val="{{ false }}">
+      <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;overflow:hidden">
+        <sc-for list="{{ activityLog }}" as="l" hint-placeholder-count="4">
+          <div style="display:flex;justify-content:space-between;padding:12px 20px;font-size:12px;border-bottom:1px solid #E5E2F5">
+            <div>{{ l.action }}</div><div style="color:rgba(12,10,30,0.4)">{{ l.time }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </sc-if>
+
+  </div>
+
+  <footer style="border-top:1px solid #E5E2F5;padding:24px 0;background:#fff;margin-top:auto">
+    <div class="wrap" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px">
+      <div style="font-size:12px;color:rgba(12,10,30,0.5)">© 2026 Menetap. All rights reserved.</div>
+      
+      <!-- langgroup --><div style="display:flex;align-items:center;gap:10px"><div onClick="{{ toggleLang }}" style="display:flex;align-items:center;gap:4px;font-size:11px;font-weight:700;color:rgba(12,10,30,0.5);cursor:pointer;border:1px solid #E5E2F5;border-radius:24px;padding:5px 12px"><i data-lucide="globe" style="width:12px;height:12px"></i>{{ langLabel }}</div><div style="display:flex;align-items:center;gap:8px;font-size:11px;color:rgba(12,10,30,0.45);background:#F7F6FF;border:1px solid #E5E2F5;border-radius:24px;padding:5px 12px">
+        Managed by <a href="https://upscale.asia" target="_blank" style="font-weight:700;color:#7229FF">UPSCALE</a>
+      </div></div>
+</div>
+  </footer>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const TABS = ['trips', 'payment', 'saved', 'tickets', 'rewards', 'flags', 'log'];
+class Component extends DCLogic {
+  state = {
+    tab: 'trips', suspended: false, toastMsg: '',
+    name: 'Anin Wida', email: 'anin@example.com', phone: '+62 812 3456 7890',
+    headerEditing: false, draftName: '', draftEmail: '', draftPhone: ''
+  };
+  toast(msg) { this.setState({ toastMsg: msg }); clearTimeout(this._t); this._t = setTimeout(() => this.setState({ toastMsg: '' }), 2200); }
+  componentDidMount() { if (window.lucide) window.lucide.createIcons(); }
+  componentDidUpdate() { if (window.lucide) window.lucide.createIcons(); }
+  renderVals() {
+    const s = this.state;
+    const sel = {};
+    TABS.forEach(t => { sel[t + 'Active'] = s.tab === t ? 'active' : ''; sel['is' + t[0].toUpperCase() + t.slice(1)] = s.tab === t; sel['select' + t[0].toUpperCase() + t.slice(1)] = () => this.setState({ tab: t }); });
+    return {
+      langLabel: ((this.state.__lang || (typeof localStorage!=='undefined' && localStorage.getItem('menetapLang')) || 'en') === 'en') ? 'EN' : 'ID',
+      toggleLang: () => { const cur = this.state.__lang || (typeof localStorage!=='undefined' && localStorage.getItem('menetapLang')) || 'en'; const next = cur === 'en' ? 'id' : 'en'; if (typeof localStorage!=='undefined') localStorage.setItem('menetapLang', next); this.setState({ __lang: next }); },
+
+      ...sel,
+      suspendLabel: s.suspended ? 'Activate' : 'Suspend',
+      toggleSuspend: () => this.setState({ suspended: !s.suspended }),
+      name: s.name, email: s.email, phone: s.phone,
+      headerEditing: s.headerEditing, headerNotEditing: !s.headerEditing,
+      draftName: s.draftName, draftEmail: s.draftEmail, draftPhone: s.draftPhone,
+      onDraftName: (e) => this.setState({ draftName: e.target.value }),
+      onDraftEmail: (e) => this.setState({ draftEmail: e.target.value }),
+      onDraftPhone: (e) => this.setState({ draftPhone: e.target.value }),
+      editHeader: () => this.setState({ headerEditing: true, draftName: s.name, draftEmail: s.email, draftPhone: s.phone }),
+      saveHeader: () => this.setState({ name: s.draftName, email: s.draftEmail, phone: s.draftPhone, headerEditing: false }),
+      cancelHeader: () => this.setState({ headerEditing: false }),
+      toastMsg: s.toastMsg, resetPassword: () => this.toast(`Password reset link sent to ${s.email}`),
+      trips: [
+        { property: 'Kaliurang Heritage Villa', dates: 'Oct 12–15', amount: 'Rp 2,670,000', status: 'Confirmed', statusBg: 'rgba(0,202,239,0.1)', statusColor: '#0a8aa3' },
+        { property: 'Malioboro Skyline Suites', dates: 'Aug 3–5', amount: 'Rp 1,780,000', status: 'Completed', statusBg: 'rgba(12,10,30,0.06)', statusColor: 'rgba(12,10,30,0.5)' },
+        { property: 'Borobudur Garden Retreat', dates: 'Jun 10–12', amount: 'Rp 1,340,000', status: 'Completed', statusBg: 'rgba(12,10,30,0.06)', statusColor: 'rgba(12,10,30,0.5)' }
+      ],
+      paymentMethods: [{ label: 'Visa •••• 4821' }, { label: 'GoPay wallet' }],
+      saved: ['Kaliurang Heritage Villa', 'Dieng Highland Cottage', 'Bandung Hillside Retreat'],
+      tickets: [{ subject: "Can't find my booking confirmation email", time: '10m ago' }, { subject: 'Trouble applying rewards points', time: '2 days ago' }],
+      activityLog: [
+        { action: 'Logged in from Yogyakarta, ID', time: 'Today, 08:40' },
+        { action: 'Updated payment method', time: 'Sep 18, 2026' },
+        { action: 'Saved Kaliurang Heritage Villa', time: 'Sep 10, 2026' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,1476 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/fonts.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/colors.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/typography.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/spacing.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/shadows.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/motion.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/styles.css">
+<script src="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/_ds_bundle.js"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+body{margin:0;background:#F7F6FF;font-family:'JetBrains Mono',monospace;color:#0C0A1E}
+a{color:#7229FF;text-decoration:none}
+.wrap{max-width:1160px;width:100%;margin:0 auto;padding:0 24px;box-sizing:border-box}
+@media (max-width:900px){.dashgrid{grid-template-columns:1fr !important}.pdsidebar{display:none !important}.supdashgrid{grid-template-columns:1fr !important}}
+.mobtabs{display:none}
+@media (max-width:900px){.mobtabs{display:flex !important}}
+</style>
+</helmet>
+
+<div style="min-height:100vh;display:flex;flex-direction:column">
+
+  <header style="border-bottom:1px solid #E5E2F5;background:#fff">
+    <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;height:64px">
+      <a href="Menetap Partner Landing.dc.html" style="display:flex;align-items:center;gap:9px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:19px;letter-spacing:-0.02em;color:#0C0A1E">
+        <span>menetap<span style="color:#7229FF">.</span></span> <span style="font-size:11px;font-weight:600;color:rgba(12,10,30,0.4);margin-left:4px">for partners</span>
+      </a>
+      <div style="position:relative">
+        <div onClick="{{ toggleAccountMenu }}" style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#7229FF,#00CAEF);display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:700;cursor:pointer">KH</div>
+        <sc-if value="{{ showAccountMenu }}" hint-placeholder-val="{{ false }}">
+          <div style="position:absolute;top:40px;right:0;background:#fff;border:1px solid #E5E2F5;border-radius:8px;box-shadow:0 4px 16px rgba(114,41,255,0.12);padding:6px;min-width:170px;z-index:30">
+            <div onClick="{{ selectSettings }}" style="display:flex;align-items:center;gap:8px;padding:9px 10px;border-radius:6px;cursor:pointer;font-size:13px;font-weight:600;color:#0C0A1E"><i data-lucide="settings" style="width:14px;height:14px"></i>Settings</div>
+            <div style="height:1px;background:#E5E2F5;margin:4px 0"></div>
+            <a href="Menetap Partner Landing.dc.html" style="display:flex;align-items:center;gap:8px;padding:9px 10px;border-radius:6px;font-size:13px;font-weight:600;color:rgba(12,10,30,0.6)"><i data-lucide="log-out" style="width:14px;height:14px"></i>Sign out</a>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+  </header>
+
+  <sc-if value="{{ toastMsg }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;top:20px;right:20px;background:#0C0A1E;color:#fff;font-size:13px;font-weight:600;padding:12px 18px;border-radius:8px;display:flex;align-items:center;gap:8px;z-index:100"><i data-lucide="check-circle" style="width:16px;height:16px;color:#00CAEF"></i>{{ toastMsg }}</div>
+  </sc-if>
+
+  <div class="wrap" style="padding:32px 24px 64px">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px;margin-bottom:24px">
+      <div>
+        <div style="position:relative;display:inline-block">
+          <div onClick="{{ togglePropertyMenu }}" style="display:flex;align-items:center;gap:8px;cursor:pointer">
+            <h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:26px;letter-spacing:-0.02em;margin:0">{{ activePropertyName }}</h1>
+            <i data-lucide="chevron-down" style="width:18px;height:18px;color:rgba(12,10,30,0.4)"></i>
+          </div>
+          <sc-if value="{{ showPropertyMenu }}" hint-placeholder-val="{{ false }}">
+            <div style="position:absolute;top:36px;left:0;background:#fff;border:1px solid #E5E2F5;border-radius:8px;box-shadow:0 4px 16px rgba(114,41,255,0.12);padding:6px;z-index:20;min-width:240px">
+              <sc-for list="{{ propertyOptions }}" as="p" hint-placeholder-count="2">
+                <div onClick="{{ p.select }}" style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 10px;border-radius:6px;cursor:pointer;background:{{ p.bg }}">
+                  <div><div style="font-size:13px;font-weight:700;color:#0C0A1E">{{ p.name }}</div><div style="font-size:11px;color:rgba(12,10,30,0.45)">{{ p.status }}</div></div>
+                  <sc-if value="{{ p.isActive }}" hint-placeholder-val="{{ false }}"><i data-lucide="check" style="width:14px;height:14px;color:#7229FF"></i></sc-if>
+                </div>
+              </sc-for>
+              <a href="Menetap Partner Onboarding.dc.html" style="display:flex;align-items:center;gap:6px;padding:9px 10px;border-radius:6px;font-size:13px;font-weight:700;color:#7229FF"><i data-lucide="plus" style="width:14px;height:14px"></i>Add another property</a>
+            </div>
+          </sc-if>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;margin-top:6px"><span style="width:7px;height:7px;border-radius:50%;background:#0a8aa3"></span><span style="font-size:12px;font-weight:700;color:#0a8aa3">Live</span><span style="font-size:12px;color:rgba(12,10,30,0.4)">· Listed since Sep 24, 2026</span></div>
+      </div>
+      <x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="130px,40px" variant="outline" size="sm" onClick="{{ editListing }}">Edit listing</x-import>
+    </div>
+
+    <div class="mobtabs" style="gap:8px;overflow-x:auto;padding-bottom:16px">
+      <span onClick="{{ selectOverview }}" style="flex:none;font-size:12px;font-weight:700;background:{{ overviewBg }};color:{{ overviewColor }};padding:7px 14px;border-radius:24px;white-space:nowrap;cursor:pointer;border:1px solid #E5E2F5">Overview</span>
+      <span onClick="{{ selectBookings }}" style="flex:none;font-size:12px;font-weight:700;background:{{ bookingsBg }};color:{{ bookingsColor }};padding:7px 14px;border-radius:24px;white-space:nowrap;cursor:pointer;border:1px solid #E5E2F5">Bookings</span>
+      <span onClick="{{ selectRooms }}" style="flex:none;font-size:12px;font-weight:700;background:{{ roomsBg }};color:{{ roomsColor }};padding:7px 14px;border-radius:24px;white-space:nowrap;cursor:pointer;border:1px solid #E5E2F5">Rooms</span>
+      <span onClick="{{ selectAvailability }}" style="flex:none;font-size:12px;font-weight:700;background:{{ availabilityBg }};color:{{ availabilityColor }};padding:7px 14px;border-radius:24px;white-space:nowrap;cursor:pointer;border:1px solid #E5E2F5">Calendar</span>
+      <span onClick="{{ selectMessages }}" style="flex:none;font-size:12px;font-weight:700;background:{{ messagesBg }};color:{{ messagesColor }};padding:7px 14px;border-radius:24px;white-space:nowrap;cursor:pointer;border:1px solid #E5E2F5">Messages</span>
+      <span onClick="{{ selectReviews }}" style="flex:none;font-size:12px;font-weight:700;background:{{ reviewsBg }};color:{{ reviewsColor }};padding:7px 14px;border-radius:24px;white-space:nowrap;cursor:pointer;border:1px solid #E5E2F5">Reviews</span>
+      <span onClick="{{ selectPromotions }}" style="flex:none;font-size:12px;font-weight:700;background:{{ promotionsBg }};color:{{ promotionsColor }};padding:7px 14px;border-radius:24px;white-space:nowrap;cursor:pointer;border:1px solid #E5E2F5">Promotions</span>
+      <span onClick="{{ selectAnalytics }}" style="flex:none;font-size:12px;font-weight:700;background:{{ analyticsBg }};color:{{ analyticsColor }};padding:7px 14px;border-radius:24px;white-space:nowrap;cursor:pointer;border:1px solid #E5E2F5">Analytics</span>
+      <span onClick="{{ selectQuality }}" style="flex:none;font-size:12px;font-weight:700;background:{{ qualityBg }};color:{{ qualityColor }};padding:7px 14px;border-radius:24px;white-space:nowrap;cursor:pointer;border:1px solid #E5E2F5">Quality</span>
+      <span onClick="{{ selectTeam }}" style="flex:none;font-size:12px;font-weight:700;background:{{ teamBg }};color:{{ teamColor }};padding:7px 14px;border-radius:24px;white-space:nowrap;cursor:pointer;border:1px solid #E5E2F5">Team</span>
+      <span onClick="{{ selectServices }}" style="flex:none;font-size:12px;font-weight:700;background:{{ servicesBg }};color:{{ servicesColor }};padding:7px 14px;border-radius:24px;white-space:nowrap;cursor:pointer">Services</span>
+      <a href="Menetap Supply Landing.dc.html" style="flex:none;font-size:12px;font-weight:600;color:rgba(12,10,30,0.6);padding:7px 14px;border-radius:24px;white-space:nowrap;border:1px solid #E5E2F5">Supply</a>
+      <span onClick="{{ selectPayouts }}" style="flex:none;font-size:12px;font-weight:700;background:{{ payoutsBg }};color:{{ payoutsColor }};padding:7px 14px;border-radius:24px;white-space:nowrap;cursor:pointer;border:1px solid #E5E2F5">Payouts</span>
+      <span onClick="{{ selectSettings }}" style="flex:none;font-size:12px;font-weight:700;background:{{ settingsBg }};color:{{ settingsColor }};padding:7px 14px;border-radius:24px;white-space:nowrap;cursor:pointer;border:1px solid #E5E2F5">Settings</span>
+    </div>
+
+    <div class="dashgrid" style="display:grid;grid-template-columns:220px 1fr;gap:32px">
+      <aside class="pdsidebar" style="display:flex;flex-direction:column;gap:14px">
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;cursor:pointer;background:{{ overviewBg }};color:{{ overviewColor }};font-size:13px;font-weight:{{ overviewWeight }}" onClick="{{ selectOverview }}"><i data-lucide="layout-dashboard" style="width:16px;height:16px"></i>Overview</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <div style="font-size:10px;font-weight:700;color:rgba(12,10,30,0.4);text-transform:uppercase;letter-spacing:0.04em;padding:0 12px 2px">Property</div>
+          <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;cursor:pointer;background:{{ roomsBg }};color:{{ roomsColor }};font-size:13px;font-weight:{{ roomsWeight }}" onClick="{{ selectRooms }}"><i data-lucide="bed-double" style="width:16px;height:16px"></i>Rooms & rates</div>
+          <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;cursor:pointer;background:{{ availabilityBg }};color:{{ availabilityColor }};font-size:13px;font-weight:{{ availabilityWeight }}" onClick="{{ selectAvailability }}"><i data-lucide="calendar-days" style="width:16px;height:16px"></i>Calendar</div>
+          <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;cursor:pointer;background:{{ qualityBg }};color:{{ qualityColor }};font-size:13px;font-weight:{{ qualityWeight }}" onClick="{{ selectQuality }}"><i data-lucide="gauge" style="width:16px;height:16px"></i>Listing quality</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <div style="font-size:10px;font-weight:700;color:rgba(12,10,30,0.4);text-transform:uppercase;letter-spacing:0.04em;padding:0 12px 2px">Guests</div>
+          <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;cursor:pointer;background:{{ bookingsBg }};color:{{ bookingsColor }};font-size:13px;font-weight:{{ bookingsWeight }}" onClick="{{ selectBookings }}"><i data-lucide="calendar" style="width:16px;height:16px"></i>Bookings</div>
+          <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;cursor:pointer;background:{{ messagesBg }};color:{{ messagesColor }};font-size:13px;font-weight:{{ messagesWeight }}" onClick="{{ selectMessages }}"><i data-lucide="message-circle" style="width:16px;height:16px"></i>Messages<sc-if value="{{ hasUnreadMessages }}" hint-placeholder-val="{{ false }}"><span style="width:7px;height:7px;border-radius:50%;background:#c0392b;margin-left:2px"></span></sc-if></div>
+          <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;cursor:pointer;background:{{ reviewsBg }};color:{{ reviewsColor }};font-size:13px;font-weight:{{ reviewsWeight }}" onClick="{{ selectReviews }}"><i data-lucide="star" style="width:16px;height:16px"></i>Reviews</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <div style="font-size:10px;font-weight:700;color:rgba(12,10,30,0.4);text-transform:uppercase;letter-spacing:0.04em;padding:0 12px 2px">Growth</div>
+          <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;cursor:pointer;background:{{ promotionsBg }};color:{{ promotionsColor }};font-size:13px;font-weight:{{ promotionsWeight }}" onClick="{{ selectPromotions }}"><i data-lucide="tag" style="width:16px;height:16px"></i>Promotions</div>
+          <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;cursor:pointer;background:{{ analyticsBg }};color:{{ analyticsColor }};font-size:13px;font-weight:{{ analyticsWeight }}" onClick="{{ selectAnalytics }}"><i data-lucide="bar-chart-3" style="width:16px;height:16px"></i>Analytics</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <div style="font-size:10px;font-weight:700;color:rgba(12,10,30,0.4);text-transform:uppercase;letter-spacing:0.04em;padding:0 12px 2px">Account</div>
+          <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;cursor:pointer;background:{{ teamBg }};color:{{ teamColor }};font-size:13px;font-weight:{{ teamWeight }}" onClick="{{ selectTeam }}"><i data-lucide="users" style="width:16px;height:16px"></i>Team</div>
+          <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;cursor:pointer;background:{{ payoutsBg }};color:{{ payoutsColor }};font-size:13px;font-weight:{{ payoutsWeight }}" onClick="{{ selectPayouts }}"><i data-lucide="wallet" style="width:16px;height:16px"></i>Payouts</div>
+          <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;cursor:pointer;background:{{ servicesBg }};color:{{ servicesColor }};font-size:13px;font-weight:{{ servicesWeight }}" onClick="{{ selectServices }}"><i data-lucide="package" style="width:16px;height:16px"></i>Services</div>
+          <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;cursor:pointer;background:{{ supplyBg }};color:{{ supplyColor }};font-size:13px;font-weight:{{ supplyWeight }}" onClick="{{ selectSupply }}"><i data-lucide="shopping-bag" style="width:16px;height:16px"></i>Supply</div>
+          <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;cursor:pointer;background:{{ settingsBg }};color:{{ settingsColor }};font-size:13px;font-weight:{{ settingsWeight }}" onClick="{{ selectSettings }}"><i data-lucide="settings" style="width:16px;height:16px"></i>Settings</div>
+        </div>
+      </aside>
+
+      <div style="display:flex;flex-direction:column;gap:24px;min-width:0">
+
+        <sc-if value="{{ isBookings }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;justify-content:flex-end;margin-bottom:-4px">
+            <div style="display:flex;background:rgba(12,10,30,0.05);border-radius:8px;padding:3px;gap:2px">
+              <div onClick="{{ setBookingsList }}" style="font-size:12px;font-weight:700;padding:6px 12px;border-radius:6px;cursor:pointer;background:{{ bookingsListBg }};color:{{ bookingsListColor }}">List</div>
+              <div onClick="{{ setBookingsCal }}" style="font-size:12px;font-weight:700;padding:6px 12px;border-radius:6px;cursor:pointer;background:{{ bookingsCalBg }};color:{{ bookingsCalColor }}">Calendar</div>
+            </div>
+          </div>
+
+          <sc-if value="{{ isBookingsList }}" hint-placeholder-val="{{ true }}">
+            <sc-if value="{{ hasRoomFilter }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:-4px">
+                <div style="font-size:12px;font-weight:700;color:#7229FF;background:rgba(114,41,255,0.08);padding:5px 10px;border-radius:24px;display:flex;align-items:center;gap:6px">Room: {{ bookingsFilterRoom }}<span onClick="{{ clearRoomFilter }}" style="cursor:pointer;display:flex"><i data-lucide="x" style="width:12px;height:12px"></i></span></div>
+              </div>
+            </sc-if>
+            <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;overflow:hidden">
+              <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr;padding:10px 16px;font-size:10px;font-weight:700;color:rgba(12,10,30,0.4);text-transform:uppercase;border-bottom:1px solid #E5E2F5">
+                <div>Guest</div><div>Room</div><div>Dates</div><div>Amount</div><div>Status</div>
+              </div>
+              <sc-for list="{{ allBookings }}" as="b" hint-placeholder-count="6">
+                <div onClick="{{ b.openDetail }}" style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr;padding:12px 16px;font-size:13px;border-bottom:1px solid #E5E2F5;align-items:center;cursor:pointer">
+                  <div>{{ b.guest }}</div><div style="font-weight:600">{{ b.room }}</div><div style="color:rgba(12,10,30,0.6)">{{ b.dates }}</div><div style="font-weight:600">{{ b.amount }}</div>
+                  <div><span style="font-size:11px;font-weight:700;background:{{ b.bg }};color:{{ b.color }};padding:3px 8px;border-radius:4px">{{ b.status }}</span></div>
+                </div>
+              </sc-for>
+              <sc-if value="{{ noBookingsForFilter }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex;flex-direction:column;align-items:center;gap:6px;padding:40px 20px;color:rgba(12,10,30,0.5)">
+                  <i data-lucide="calendar-x" style="width:24px;height:24px;color:rgba(12,10,30,0.3)"></i>
+                  <div style="font-size:13px;font-weight:600">No bookings for {{ bookingsFilterRoom }} yet</div>
+                </div>
+              </sc-if>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ showAllBookingModal }}" hint-placeholder-val="{{ false }}">
+            <div onClick="{{ closeAllBookingModal }}" style="position:fixed;inset:0;background:rgba(12,10,30,0.4);display:flex;align-items:center;justify-content:center;z-index:50">
+              <div onClick="{{ stopProp }}" style="background:#fff;border-radius:8px;padding:24px;width:420px;max-width:90vw;display:flex;flex-direction:column;gap:14px">
+                <div style="display:flex;justify-content:space-between;align-items:center">
+                  <div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:17px">{{ allBookingModalData.guest }}</div>
+                  <span onClick="{{ closeAllBookingModal }}" style="cursor:pointer;display:flex"><i data-lucide="x" style="width:18px;height:18px;color:rgba(12,10,30,0.5)"></i></span>
+                </div>
+                <span style="align-self:flex-start;font-size:11px;font-weight:700;background:{{ allBookingModalData.bg }};color:{{ allBookingModalData.color }};padding:3px 9px;border-radius:4px">{{ allBookingModalData.status }}</span>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;font-size:13px">
+                  <div><div style="font-size:11px;color:rgba(12,10,30,0.45);font-weight:700">Booked on</div><div>{{ allBookingModalData.bookedOn }}</div></div>
+                  <div><div style="font-size:11px;color:rgba(12,10,30,0.45);font-weight:700">Room type</div><a href="Menetap Partner Room Detail.dc.html" style="font-weight:600">{{ allBookingModalData.room }}</a></div>
+                  <div><div style="font-size:11px;color:rgba(12,10,30,0.45);font-weight:700">Arrival</div><div>{{ allBookingModalData.arrival }}</div></div>
+                  <div><div style="font-size:11px;color:rgba(12,10,30,0.45);font-weight:700">Departure</div><div>{{ allBookingModalData.departure }}</div></div>
+                  <div><div style="font-size:11px;color:rgba(12,10,30,0.45);font-weight:700">Rooms</div><div>{{ allBookingModalData.rooms }}</div></div>
+                  <div><div style="font-size:11px;color:rgba(12,10,30,0.45);font-weight:700">Guests</div><div>{{ allBookingModalData.guests }}</div></div>
+                </div>
+                <div style="height:1px;background:#E5E2F5"></div>
+                <div style="display:flex;justify-content:space-between;font-size:15px"><span style="font-weight:700">Total</span><span style="font-weight:800;color:#7229FF">{{ allBookingModalData.amount }}</span></div>
+                <div style="height:1px;background:#E5E2F5"></div>
+                <div>
+                  <label style="font-size:11px;font-weight:700;color:rgba(12,10,30,0.55);display:block;margin-bottom:5px">Internal note (not visible to guest)</label>
+                  <textarea value="{{ allBookingModalNote }}" onInput="{{ onAllBookingModalNote }}" placeholder="e.g. VIP guest, requested late checkout" style="width:100%;box-sizing:border-box;font-family:'JetBrains Mono',monospace;font-size:12px;border:1px solid #E5E2F5;border-radius:6px;padding:8px 10px;min-height:56px;resize:vertical"></textarea>
+                </div>
+                <div style="display:flex;gap:6px;flex-wrap:wrap">
+                  <span onClick="{{ markNoShow }}" style="font-size:11px;font-weight:700;border:1px solid #E5E2F5;border-radius:24px;padding:5px 10px;cursor:pointer;color:rgba(12,10,30,0.65)">Mark no-show</span>
+                  <span onClick="{{ markEarlyDeparture }}" style="font-size:11px;font-weight:700;border:1px solid #E5E2F5;border-radius:24px;padding:5px 10px;cursor:pointer;color:rgba(12,10,30,0.65)">Early departure</span>
+                  <span onClick="{{ markWalkIn }}" style="font-size:11px;font-weight:700;border:1px solid #E5E2F5;border-radius:24px;padding:5px 10px;cursor:pointer;color:rgba(12,10,30,0.65)">Mark walk-in</span>
+                  <span onClick="{{ cancelFromModal }}" style="font-size:11px;font-weight:700;border:1px solid rgba(192,57,43,0.3);border-radius:24px;padding:5px 10px;cursor:pointer;color:#c0392b">Cancel booking</span>
+                </div>
+              </div>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ isBookingsCal }}" hint-placeholder-val="{{ false }}">
+            <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:20px">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px">
+                <div style="display:flex;align-items:center;gap:10px">
+                  <span onClick="{{ monthPrev }}" style="cursor:pointer;display:flex;align-items:center;padding:4px"><i data-lucide="chevron-left" style="width:17px;height:17px;color:rgba(12,10,30,0.6)"></i></span>
+                  <div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:16px;min-width:150px;text-align:center">{{ monthLabel }}</div>
+                  <span onClick="{{ monthNext }}" style="cursor:pointer;display:flex;align-items:center;padding:4px"><i data-lucide="chevron-right" style="width:17px;height:17px;color:rgba(12,10,30,0.6)"></i></span>
+                  <span style="font-size:11px;font-weight:700;color:#7229FF;cursor:pointer;margin-left:4px" onClick="{{ monthToday }}">Today</span>
+                </div>
+                <div style="display:flex;gap:14px;font-size:11px;color:rgba(12,10,30,0.55)">
+                  <div style="display:flex;align-items:center;gap:5px"><span style="width:8px;height:8px;border-radius:50%;background:#00CAEF"></span>Arrival</div>
+                  <div style="display:flex;align-items:center;gap:5px"><span style="width:8px;height:8px;border-radius:50%;background:#7229FF"></span>Departure</div>
+                  <div style="display:flex;align-items:center;gap:5px"><span style="width:8px;height:8px;border-radius:50%;background:rgba(12,10,30,0.35)"></span>Staying over</div>
+                </div>
+              </div>
+              <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:1px;background:#E5E2F5;border:1px solid #E5E2F5;border-radius:6px;overflow:hidden">
+                <sc-for list="{{ weekdayLabels }}" as="w" hint-placeholder-count="7">
+                  <div style="background:#F7F6FF;padding:8px 0;text-align:center;font-size:10px;font-weight:700;color:rgba(12,10,30,0.45)">{{ w }}</div>
+                </sc-for>
+                <sc-for list="{{ monthCells }}" as="c" hint-placeholder-count="42">
+                  <div onMouseEnter="{{ c.onHover }}" onMouseLeave="{{ c.onUnhover }}" onClick="{{ c.onClick }}" style="background:{{ c.bg }};min-height:76px;padding:6px;display:flex;flex-direction:column;gap:6px;position:relative;cursor:{{ c.cursor }}">
+                    <div style="font-size:11px;font-weight:700;color:{{ c.numColor }}">{{ c.num }}</div>
+                    <div style="display:flex;gap:3px;flex-wrap:wrap">
+                      <sc-for list="{{ c.dots }}" as="dot" hint-placeholder-count="0">
+                        <span style="width:7px;height:7px;border-radius:50%;background:{{ dot.color }}"></span>
+                      </sc-for>
+                    </div>
+                    <sc-if value="{{ c.showTooltip }}" hint-placeholder-val="{{ false }}">
+                      <div style="position:absolute;bottom:100%;left:50%;transform:translateX(-50%);margin-bottom:6px;background:#0C0A1E;color:#fff;font-size:11px;font-weight:600;padding:8px 10px;border-radius:6px;white-space:nowrap;z-index:15;box-shadow:0 4px 12px rgba(0,0,0,0.2)">{{ c.tooltip }}</div>
+                    </sc-if>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ showDayModal }}" hint-placeholder-val="{{ false }}">
+            <div onClick="{{ closeDayModal }}" style="position:fixed;inset:0;background:rgba(12,10,30,0.4);display:flex;align-items:center;justify-content:center;z-index:50">
+              <div onClick="{{ stopProp }}" style="background:#fff;border-radius:8px;padding:24px;width:400px;max-width:90vw;max-height:70vh;overflow-y:auto;display:flex;flex-direction:column;gap:12px">
+                <div style="display:flex;justify-content:space-between;align-items:center">
+                  <div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:16px">{{ modalDayLabel }}</div>
+                  <span onClick="{{ closeDayModal }}" style="cursor:pointer;display:flex;align-items:center"><i data-lucide="x" style="width:18px;height:18px;color:rgba(12,10,30,0.5)"></i></span>
+                </div>
+                <sc-if value="{{ modalHasBookings }}" hint-placeholder-val="{{ false }}">
+                  <div style="display:flex;flex-direction:column;gap:8px">
+                    <sc-for list="{{ modalBookings }}" as="mb" hint-placeholder-count="2">
+                      <div onClick="{{ mb.openDetail }}" style="border:1px solid #E5E2F5;border-radius:8px;padding:12px;display:flex;flex-direction:column;gap:4px;cursor:pointer">
+                        <div style="display:flex;justify-content:space-between;align-items:center">
+                          <div style="font-size:13px;font-weight:700">{{ mb.guest }}</div>
+                          <span style="font-size:10px;font-weight:700;padding:2px 8px;border-radius:4px;background:{{ mb.typeBg }};color:{{ mb.typeColor }}">{{ mb.typeLabel }}</span>
+                        </div>
+                        <div style="font-size:12px;color:rgba(12,10,30,0.6)">{{ mb.room }} · {{ mb.dates }}</div>
+                        <div style="font-size:12px;font-weight:600">{{ mb.amount }}</div>
+                      </div>
+                    </sc-for>
+                  </div>
+                </sc-if>
+                <sc-if value="{{ modalNoBookings }}" hint-placeholder-val="{{ true }}">
+                  <div style="font-size:13px;color:rgba(12,10,30,0.5);padding:12px 0">No arrivals, departures, or stays on this date.</div>
+                </sc-if>
+              </div>
+            </div>
+          </sc-if>
+        </sc-if>
+
+        <sc-if value="{{ isAvailability }}" hint-placeholder-val="{{ false }}">
+          <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:20px;overflow-x:auto">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:10px">
+              <div style="display:flex;align-items:center;gap:10px">
+                <div style="display:flex;align-items:center;background:#fff;border:1px solid #E5E2F5;border-radius:24px;overflow:hidden;height:34px">
+                  <span onClick="{{ availPrev }}" style="cursor:pointer;display:flex;align-items:center;padding:0 10px;height:100%"><i data-lucide="chevron-left" style="width:15px;height:15px;color:rgba(12,10,30,0.6)"></i></span>
+                  <div style="position:relative;display:flex;align-items:center;gap:6px;padding:0 4px;border-left:1px solid #E5E2F5;border-right:1px solid #E5E2F5;height:100%">
+                    <span style="font-size:13px;font-weight:700;letter-spacing:0.02em">{{ availStartLabel }}</span>
+                    <i data-lucide="calendar" style="width:14px;height:14px;color:rgba(12,10,30,0.45)"></i>
+                    <input type="date" value="{{ pickerDateVal }}" onChange="{{ onPickerDate }}" onInput="{{ onPickerDate }}" style="position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;border:none" />
+                  </div>
+                  <span onClick="{{ availNext }}" style="cursor:pointer;display:flex;align-items:center;padding:0 10px;height:100%"><i data-lucide="chevron-right" style="width:15px;height:15px;color:rgba(12,10,30,0.6)"></i></span>
+                </div>
+                <span style="font-size:11px;font-weight:700;color:#7229FF;cursor:pointer" onClick="{{ availToday }}">Today</span>
+                <div style="font-size:13px;font-weight:700;color:rgba(12,10,30,0.5)">— units left to sell</div>
+              </div>
+              <div style="display:flex;gap:14px;font-size:11px;color:rgba(12,10,30,0.55)">
+                <div style="display:flex;align-items:center;gap:5px"><span style="width:10px;height:10px;border-radius:3px;background:rgba(0,202,239,0.15)"></span>Open</div>
+                <div style="display:flex;align-items:center;gap:5px"><span style="width:10px;height:10px;border-radius:3px;background:rgba(230,162,60,0.2)"></span>Limited</div>
+                <div style="display:flex;align-items:center;gap:5px"><span style="width:10px;height:10px;border-radius:3px;background:rgba(192,57,43,0.15)"></span>Sold out</div>
+              </div>
+            </div>
+            <div style="display:grid;grid-template-columns:170px repeat(14,74px);gap:3px;min-width:1220px">
+              <div></div>
+              <sc-for list="{{ next14Days }}" as="d" hint-placeholder-count="14"><div style="font-size:9px;font-weight:700;color:rgba(12,10,30,0.4);text-align:center">{{ d }}</div></sc-for>
+              <sc-for list="{{ availabilityGrid }}" as="row" hint-placeholder-count="3">
+                <div style="font-size:12px;font-weight:700;display:flex;flex-direction:column;justify-content:center;line-height:1.3">{{ row.name }}<span style="font-size:10px;font-weight:600;color:rgba(12,10,30,0.4)">{{ row.total }} units</span></div>
+                <sc-for list="{{ row.cells }}" as="c" hint-placeholder-count="14">
+                  <div style="aspect-ratio:1;border-radius:6px;background:{{ c.bg }};display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:{{ c.color }};line-height:1.1" title="{{ c.title }}">
+                    <span>{{ c.left }}</span><span style="font-size:8px;font-weight:600;opacity:0.7">left</span>
+                  </div>
+                </sc-for>
+                <div style="font-size:11px;font-weight:600;color:rgba(12,10,30,0.5);display:flex;align-items:center;padding-left:4px">Rate</div>
+                <sc-for list="{{ row.rateCells }}" as="rc" hint-placeholder-count="14">
+                  <div style="height:34px;border-radius:6px;background:#F7F6FF;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#0C0A1E;padding:0 4px;white-space:nowrap">{{ rc.label }}</div>
+                </sc-for>
+              </sc-for>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isRooms }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
+            <sc-if value="{{ hasRoomSelection }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;align-items:center;gap:10px;background:rgba(114,41,255,0.05);border:1px solid #E5E2F5;border-radius:8px;padding:8px 12px">
+                <span style="font-size:12px;font-weight:700">{{ selectedRoomCount }} selected</span>
+                <input type="text" value="{{ bulkRoomRate }}" onInput="{{ onBulkRoomRate }}" placeholder="Set rate" style="max-width:100px;font-family:'JetBrains Mono',monospace;font-size:12px;border:1px solid #E5E2F5;border-radius:6px;padding:6px 8px" />
+                <x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="90px,30px" variant="outline" size="sm" onClick="{{ applyBulkRoomRate }}">Apply</x-import>
+              </div>
+            </sc-if>
+            <div style="margin-left:auto"><x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="140px,36px" variant="outline" size="sm" onClick="{{ addRoomType }}">+ Add room type</x-import></div>
+          </div>
+          <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;overflow:hidden">
+            <div style="display:grid;grid-template-columns:28px 2fr 1fr 1fr 1fr auto;padding:10px 16px;font-size:10px;font-weight:700;color:rgba(12,10,30,0.4);text-transform:uppercase;border-bottom:1px solid #E5E2F5;gap:8px">
+              <div></div><div>Room type</div><div>Capacity</div><div>Default rate/night</div><div>Rooms available</div><div></div>
+            </div>
+            <sc-for list="{{ roomRates }}" as="r" hint-placeholder-count="3">
+              <div style="display:grid;grid-template-columns:28px 2fr 1fr 1fr 1fr auto;padding:12px 16px;font-size:13px;align-items:center;border-bottom:1px solid #E5E2F5;gap:8px">
+                <input type="checkbox" checked="{{ r.selected }}" onChange="{{ r.toggleSelect }}" style="accent-color:#7229FF" />
+                <a href="Menetap Partner Room Detail.dc.html" style="font-weight:700;color:#0C0A1E">{{ r.name }}</a>
+                <div>{{ r.capacity }}</div>
+                <div><input type="text" value="{{ r.rate }}" onInput="{{ r.onRate }}" style="max-width:120px;font-family:'JetBrains Mono',monospace;font-size:13px;border:1px solid #E5E2F5;border-radius:6px;padding:6px 8px" /></div>
+                <div><input type="text" value="{{ r.available }}" onInput="{{ r.onAvailable }}" style="max-width:60px;font-family:'JetBrains Mono',monospace;font-size:13px;border:1px solid #E5E2F5;border-radius:6px;padding:6px 8px" /></div>
+                <div style="display:flex;gap:8px;justify-content:flex-end"><i data-lucide="copy" style="width:14px;height:14px;color:rgba(12,10,30,0.4);cursor:pointer" onClick="{{ r.duplicate }}"></i><i data-lucide="trash-2" style="width:14px;height:14px;color:rgba(12,10,30,0.4);cursor:pointer" onClick="{{ r.remove }}"></i></div>
+              </div>
+            </sc-for>
+          </div>
+
+          <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:20px">
+            <div style="font-size:14px;font-weight:700;margin-bottom:14px">Stay restrictions &amp; maintenance</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:520px">
+              <div><label style="font-size:11px;font-weight:700;color:rgba(12,10,30,0.55);display:block;margin-bottom:5px">Minimum stay (nights)</label><input type="number" value="{{ minStayGlobal }}" onInput="{{ onMinStayGlobal }}" style="max-width:100px" /></div>
+              <div><label style="font-size:11px;font-weight:700;color:rgba(12,10,30,0.55);display:block;margin-bottom:5px">Maximum stay (nights)</label><input type="number" value="{{ maxStayGlobal }}" onInput="{{ onMaxStayGlobal }}" style="max-width:100px" /></div>
+              <div><label style="font-size:11px;font-weight:700;color:rgba(12,10,30,0.55);display:block;margin-bottom:5px">Booking window (days ahead)</label><input type="number" value="{{ bookingWindow }}" onInput="{{ onBookingWindow }}" style="max-width:100px" /></div>
+            </div>
+            <div style="height:1px;background:#E5E2F5;margin:16px 0"></div>
+            <div style="font-size:13px;font-weight:700;margin-bottom:8px">Close dates for maintenance</div>
+            <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+              <input type="date" value="{{ closeFrom }}" onInput="{{ onCloseFrom }}" style="font-family:'JetBrains Mono',monospace;font-size:12px;border:1px solid #E5E2F5;border-radius:6px;padding:7px 9px" />
+              <span style="font-size:12px;color:rgba(12,10,30,0.4)">–</span>
+              <input type="date" value="{{ closeTo }}" onInput="{{ onCloseTo }}" style="font-family:'JetBrains Mono',monospace;font-size:12px;border:1px solid #E5E2F5;border-radius:6px;padding:7px 9px" />
+              <x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="120px,36px" variant="outline" size="sm" onClick="{{ closeDates }}">Close dates</x-import>
+            </div>
+            <sc-if value="{{ closedRanges.length }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;flex-direction:column;gap:6px;margin-top:12px">
+                <sc-for list="{{ closedRanges }}" as="cr" hint-placeholder-count="1">
+                  <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;background:rgba(192,57,43,0.06);border-radius:6px;padding:8px 10px"><span>{{ cr.label }} — out of order</span><i data-lucide="x" style="width:13px;height:13px;cursor:pointer" onClick="{{ cr.remove }}"></i></div>
+                </sc-for>
+              </div>
+            </sc-if>
+          </div>
+        </sc-if>
+
+        <!-- MESSAGES -->
+        <sc-if value="{{ isMessages }}" hint-placeholder-val="{{ false }}">
+          <div style="display:grid;grid-template-columns:190px minmax(0,1fr) 170px;gap:0;background:#fff;border:1px solid #E5E2F5;border-radius:8px;overflow:hidden;min-height:420px">
+            <div style="border-right:1px solid #E5E2F5;overflow-y:auto">
+              <sc-for list="{{ threadList }}" as="th" hint-placeholder-count="3">
+                <div onClick="{{ th.select }}" style="padding:12px 14px;border-bottom:1px solid #E5E2F5;cursor:pointer;background:{{ th.bg }}">
+                  <div style="display:flex;justify-content:space-between;align-items:center"><div style="font-size:13px;font-weight:700">{{ th.guest }}</div><sc-if value="{{ th.unread }}" hint-placeholder-val="{{ false }}"><span style="width:7px;height:7px;border-radius:50%;background:#c0392b"></span></sc-if></div>
+                  <div style="font-size:11px;color:rgba(12,10,30,0.5);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ th.preview }}</div>
+                </div>
+              </sc-for>
+            </div>
+            <div style="display:flex;flex-direction:column;padding:16px;gap:10px;min-width:0">
+              <div style="flex:1;display:flex;flex-direction:column;gap:8px;overflow-y:auto">
+                <sc-for list="{{ activeMessages }}" as="m" hint-placeholder-count="2">
+                  <div style="align-self:{{ m.align }};max-width:90%;background:{{ m.bg }};color:{{ m.color }};padding:9px 12px;border-radius:8px;font-size:13px">{{ m.text }}</div>
+                </sc-for>
+              </div>
+              <div style="display:flex;gap:6px;flex-wrap:wrap">
+                <sc-for list="{{ quickReplies }}" as="qr" hint-placeholder-count="3">
+                  <span onClick="{{ qr.use }}" style="font-size:11px;font-weight:600;border:1px solid #E5E2F5;border-radius:24px;padding:5px 10px;cursor:pointer;color:rgba(12,10,30,0.6)">{{ qr.text }}</span>
+                </sc-for>
+              </div>
+              <div style="display:flex;gap:8px">
+                <input type="text" value="{{ msgInput }}" onInput="{{ onMsgInput }}" placeholder="Type a reply…" style="flex:1;font-family:'JetBrains Mono',monospace;font-size:13px;border:1px solid #E5E2F5;border-radius:6px;padding:9px 12px" />
+                <x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="80px,38px" variant="primary" size="sm" onClick="{{ sendMsg }}">Send</x-import>
+              </div>
+            </div>
+            <div style="border-left:1px solid #E5E2F5;padding:16px;display:flex;flex-direction:column;gap:10px">
+              <div style="font-size:11px;font-weight:700;color:rgba(12,10,30,0.45);text-transform:uppercase">Booking</div>
+              <div style="font-size:13px;font-weight:700">{{ activeBooking }}</div>
+              <div style="font-size:12px;color:rgba(12,10,30,0.6)">{{ activeRoom }}</div>
+              <div style="font-size:12px;color:rgba(12,10,30,0.6)">{{ activeDates }}</div>
+              <div style="font-size:13px;font-weight:700;color:#7229FF">{{ activeAmount }}</div>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- PROMOTIONS -->
+        <sc-if value="{{ isPromotions }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <sc-for list="{{ promotions }}" as="pr" hint-placeholder-count="4">
+              <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:18px;display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap">
+                <div>
+                  <div style="font-size:13px;font-weight:700">{{ pr.name }}</div>
+                  <div style="font-size:11px;color:rgba(12,10,30,0.5);margin-top:2px">{{ pr.desc }}</div>
+                </div>
+                <div style="display:flex;align-items:center;gap:12px">
+                  <input type="text" value="{{ pr.value }}" onInput="{{ pr.onValue }}" style="width:70px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:13px;border:1px solid #E5E2F5;border-radius:6px;padding:8px" />
+                  <div onClick="{{ pr.toggle }}" style="width:40px;height:22px;border-radius:24px;position:relative;cursor:pointer;flex:none;background:{{ pr.bg }}"><div style="position:absolute;top:2px;width:18px;height:18px;border-radius:50%;background:#fff;left:{{ pr.left }};transition:left 150ms"></div></div>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <!-- REVIEWS -->
+        <sc-if value="{{ isReviews }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <sc-for list="{{ reviewCards }}" as="rv" hint-placeholder-count="3">
+              <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:18px;display:flex;flex-direction:column;gap:10px">
+                <div style="display:flex;justify-content:space-between;align-items:flex-start">
+                  <div>
+                    <div style="font-size:13px;font-weight:700">{{ rv.guest }}</div>
+                    <div style="font-size:11px;color:rgba(12,10,30,0.5);margin-top:2px">{{ rv.date }} · {{ rv.stars }}</div>
+                  </div>
+                  <span style="font-size:11px;font-weight:700;background:{{ rv.statusBg }};color:{{ rv.statusColor }};padding:3px 9px;border-radius:4px">{{ rv.statusLabel }}</span>
+                </div>
+                <div style="font-size:13px;color:rgba(12,10,30,0.7);line-height:1.6">{{ rv.text }}</div>
+                <sc-if value="{{ rv.responded }}" hint-placeholder-val="{{ false }}">
+                  <div style="background:#F7F6FF;border-radius:8px;padding:10px 12px;font-size:12px;color:rgba(12,10,30,0.65)"><span style="font-weight:700;color:#0C0A1E">Your response: </span>{{ rv.responseText }}</div>
+                </sc-if>
+                <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+                  <sc-if value="{{ rv.canRespond }}" hint-placeholder-val="{{ true }}">
+                    <x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="90px,32px" variant="outline" size="sm" onClick="{{ rv.openRespond }}">Respond</x-import>
+                  </sc-if>
+                  <sc-if value="{{ rv.isComplaint }}" hint-placeholder-val="{{ false }}">
+                    <select value="{{ rv.assignee }}" onChange="{{ rv.onAssign }}" style="font-family:'JetBrains Mono',monospace;font-size:12px;border:1px solid #E5E2F5;border-radius:6px;padding:6px 8px;background:#fff">
+                      <option value="">Assign to…</option>
+                      <option value="Anin Wida">Anin Wida</option>
+                      <option value="Sari Dewi">Sari Dewi</option>
+                      <option value="Fajar Nugroho">Fajar Nugroho</option>
+                    </select>
+                    <span onClick="{{ rv.markResolved }}" style="font-size:12px;font-weight:700;color:#0a8aa3;cursor:pointer">Mark resolved</span>
+                    <span onClick="{{ rv.escalate }}" style="font-size:12px;font-weight:700;color:#c0392b;cursor:pointer">Escalate to Menetap</span>
+                  </sc-if>
+                </div>
+                <sc-if value="{{ rv.respondOpen }}" hint-placeholder-val="{{ false }}">
+                  <div style="display:flex;gap:8px">
+                    <input type="text" value="{{ rv.draft }}" onInput="{{ rv.onDraft }}" placeholder="Write a public response…" style="flex:1;font-family:'JetBrains Mono',monospace;font-size:13px;border:1px solid #E5E2F5;border-radius:6px;padding:9px 12px" />
+                    <x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="80px,38px" variant="primary" size="sm" onClick="{{ rv.submitRespond }}">Post</x-import>
+                  </div>
+                </sc-if>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <!-- SUPPLY -->
+        <sc-if value="{{ isSupply }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <sc-for list="{{ supplyCategoryFilters }}" as="cf" hint-placeholder-count="5">
+              <div onClick="{{ cf.select }}" style="padding:8px 14px;border-radius:24px;cursor:pointer;font-size:12px;font-weight:600;background:{{ cf.bg }};color:{{ cf.color }};border:1px solid #E5E2F5">{{ cf.name }}</div>
+            </sc-for>
+          </div>
+          <div class="supdashgrid" style="display:flex;flex-direction:column;gap:20px">
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:12px">
+              <sc-for list="{{ supplyProducts }}" as="p" hint-placeholder-count="4">
+                <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;overflow:hidden;display:flex;flex-direction:column;min-width:0">
+                  <div style="aspect-ratio:4/3;background:{{ p.bg }};display:flex;align-items:center;justify-content:center;color:rgba(12,10,30,0.35);font-size:12px">Photo</div>
+                  <div style="padding:12px;display:flex;flex-direction:column;gap:6px;flex:1;min-width:0">
+                    <div style="font-size:13px;font-weight:700">{{ p.name }}</div>
+                    <div style="font-size:11px;color:rgba(12,10,30,0.5)">{{ p.unit }}</div>
+                    <div style="flex:1"></div>
+                    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px">
+                      <div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:14px;white-space:nowrap">{{ p.priceLabel }}</div>
+                      <div style="display:flex;align-items:center;gap:6px">
+                        <div style="width:22px;height:22px;border-radius:50%;border:1px solid #E5E2F5;display:flex;align-items:center;justify-content:center;cursor:pointer;font-weight:700;font-size:12px" onClick="{{ p.dec }}">–</div>
+                        <div style="font-size:12px;font-weight:700;min-width:10px;text-align:center">{{ p.qty }}</div>
+                        <div style="width:22px;height:22px;border-radius:50%;border:1px solid #E5E2F5;display:flex;align-items:center;justify-content:center;cursor:pointer;font-weight:700;font-size:12px" onClick="{{ p.inc }}">+</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+            <aside style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:16px;display:flex;flex-direction:column;gap:10px;max-width:340px">
+              <div style="font-size:13px;font-weight:700">Your order</div>
+              <sc-if value="{{ hasSupplyCart }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex;flex-direction:column;gap:6px">
+                  <sc-for list="{{ supplyCartLines }}" as="cl" hint-placeholder-count="2">
+                    <div style="display:flex;justify-content:space-between;font-size:11px"><span style="color:rgba(12,10,30,0.65)">{{ cl.qty }}× {{ cl.name }}</span><span style="font-weight:600">{{ cl.subtotal }}</span></div>
+                  </sc-for>
+                </div>
+                <div style="height:1px;background:#E5E2F5"></div>
+                <div style="display:flex;justify-content:space-between;font-size:14px"><span style="font-weight:700">Subtotal</span><span style="font-weight:800;font-family:'Plus Jakarta Sans',sans-serif">{{ supplyCartTotal }}</span></div>
+                <x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="100%,40px" variant="primary" size="sm" onClick="{{ checkoutSupply }}">Checkout</x-import>
+              </sc-if>
+              <sc-if value="{{ noSupplyCart }}" hint-placeholder-val="{{ true }}">
+                <div style="font-size:12px;color:rgba(12,10,30,0.5);line-height:1.6">Add items from the catalog to start an order.</div>
+              </sc-if>
+            </aside>
+          </div>
+        </sc-if>
+        <sc-if value="{{ isAnalytics }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;justify-content:flex-end"><div style="display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:#7229FF;border:1px solid #E5E2F5;border-radius:24px;padding:7px 13px;cursor:pointer" onClick="{{ exportAnalytics }}"><i data-lucide="download" style="width:13px;height:13px"></i>Export report</div></div>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px">
+            <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:16px"><div style="font-size:11px;color:rgba(12,10,30,0.5)">ADR (avg. daily rate)</div><div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:20px;margin-top:4px">Rp 862,000</div></div>
+            <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:16px"><div style="font-size:11px;color:rgba(12,10,30,0.5)">Room nights (MTD)</div><div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:20px;margin-top:4px">142</div></div>
+            <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:16px"><div style="font-size:11px;color:rgba(12,10,30,0.5)">Cancellation rate</div><div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:20px;margin-top:4px;color:#c0392b">6.4%</div></div>
+            <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:16px"><div style="font-size:11px;color:rgba(12,10,30,0.5)">Booking pace (next 30d)</div><div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:20px;margin-top:4px;color:#0a8aa3">+18%</div></div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+            <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:18px">
+              <div style="font-size:13px;font-weight:700;margin-bottom:12px">Occupancy rate</div>
+              <div style="display:flex;align-items:flex-end;gap:5px;height:80px">
+                <sc-for list="{{ occupancyBars }}" as="b" hint-placeholder-count="8">
+                  <div style="flex:1;background:#7229FF;border-radius:3px 3px 0 0;height:{{ b.h }}" title="{{ b.label }}"></div>
+                </sc-for>
+              </div>
+              <div style="font-size:11px;color:rgba(12,10,30,0.5);margin-top:8px">Last 8 weeks · avg 71%</div>
+            </div>
+            <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:18px">
+              <div style="font-size:13px;font-weight:700;margin-bottom:12px">Revenue trend <span style="color:rgba(12,10,30,0.45);font-weight:600;font-size:11px">· RevPAR Rp 612,000</span></div>
+              <div style="display:flex;align-items:flex-end;gap:5px;height:80px">
+                <sc-for list="{{ revenueBars }}" as="b" hint-placeholder-count="6">
+                  <div style="flex:1;background:#00CAEF;border-radius:3px 3px 0 0;height:{{ b.h }}" title="{{ b.label }}"></div>
+                </sc-for>
+              </div>
+              <div style="font-size:11px;color:rgba(12,10,30,0.5);margin-top:8px">Last 6 months · +14% vs prior period</div>
+            </div>
+            <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:18px">
+              <div style="font-size:13px;font-weight:700;margin-bottom:12px">Booking source</div>
+              <div style="display:flex;flex-direction:column;gap:8px">
+                <sc-for list="{{ bookingSources }}" as="src" hint-placeholder-count="3">
+                  <div>
+                    <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px"><span>{{ src.name }}</span><span style="font-weight:700">{{ src.pct }}%</span></div>
+                    <div style="height:6px;border-radius:24px;background:#F7F6FF;overflow:hidden"><div style="height:100%;background:{{ src.color }};width:{{ src.pct }}%"></div></div>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+            <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:18px">
+              <div style="font-size:13px;font-weight:700;margin-bottom:12px">Guest demographics</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;font-size:12px">
+                <div><div style="color:rgba(12,10,30,0.5)">Avg. length of stay</div><div style="font-size:17px;font-weight:800;margin-top:2px">2.4 nights</div></div>
+                <div><div style="color:rgba(12,10,30,0.5)">Repeat guests</div><div style="font-size:17px;font-weight:800;margin-top:2px">28%</div></div>
+              </div>
+            </div>
+            <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:18px;grid-column:span 2">
+              <div style="font-size:13px;font-weight:700;margin-bottom:12px">Response time & review score trend</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;font-size:12px">
+                <div><div style="color:rgba(12,10,30,0.5)">Avg. response time</div><div style="font-size:17px;font-weight:800;margin-top:2px;color:#0a8aa3">↓ 42 min</div></div>
+                <div><div style="color:rgba(12,10,30,0.5)">Review score (90d)</div><div style="font-size:17px;font-weight:800;margin-top:2px;color:#0a8aa3">↑ 4.8</div></div>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- QUALITY -->
+        <sc-if value="{{ isQuality }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:16px">
+            <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:20px;display:flex;align-items:center;gap:20px;flex-wrap:wrap">
+              <div style="width:88px;height:88px;border-radius:50%;background:conic-gradient(#7229FF {{ qualityScore }}%, #E5E2F5 0);display:flex;align-items:center;justify-content:center;flex:none">
+                <div style="width:70px;height:70px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800">{{ qualityScore }}</div>
+              </div>
+              <div style="flex:1;min-width:200px">
+                <div style="font-size:14px;font-weight:700">Listing quality &amp; SEO score</div>
+                <div style="font-size:12px;color:rgba(12,10,30,0.55);margin-top:4px">Covers both Menetap search ranking and external SEO (Google). Higher scores get more visibility.</div>
+              </div>
+              <div style="text-align:right;flex:none">
+                <div style="font-size:11px;color:rgba(12,10,30,0.5)">vs. similar properties in Yogyakarta</div>
+                <div style="font-size:15px;font-weight:800;margin-top:2px">{{ qualityScore }} <span style="font-size:12px;font-weight:600;color:rgba(12,10,30,0.4)">vs</span> {{ benchmarkScore }} <span style="font-size:11px;font-weight:700;color:{{ benchmarkColor }}">{{ benchmarkDelta }}</span></div>
+              </div>
+            </div>
+
+            <sc-for list="{{ qualityCategories }}" as="cat" hint-placeholder-count="7">
+              <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;overflow:hidden">
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 20px;cursor:pointer" onClick="{{ cat.toggle }}">
+                  <div style="display:flex;align-items:center;gap:10px">
+                    <i data-lucide="{{ cat.icon }}" style="width:16px;height:16px;color:#7229FF"></i>
+                    <div>
+                      <div style="font-size:13px;font-weight:700">{{ cat.label }}</div>
+                      <div style="font-size:11px;color:rgba(12,10,30,0.5);margin-top:1px">Weight: {{ cat.weightLabel }} of score</div>
+                    </div>
+                  </div>
+                  <div style="display:flex;align-items:center;gap:10px">
+                    <div style="font-size:13px;font-weight:700;color:{{ cat.color }}">{{ cat.points }}</div>
+                    <i data-lucide="{{ cat.chevron }}" style="width:14px;height:14px;color:rgba(12,10,30,0.4)"></i>
+                  </div>
+                </div>
+                <sc-if value="{{ cat.open }}" hint-placeholder-val="{{ false }}">
+                  <div style="border-top:1px solid #E5E2F5;display:flex;flex-direction:column">
+                    <sc-for list="{{ cat.factors }}" as="f" hint-placeholder-count="3">
+                      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 20px;border-bottom:1px solid #F7F6FF">
+                        <div>
+                          <div style="font-size:12px;font-weight:600">{{ f.label }}</div>
+                          <div style="font-size:11px;color:rgba(12,10,30,0.5);margin-top:1px">{{ f.tip }}</div>
+                        </div>
+                        <div style="display:flex;align-items:center;gap:10px;flex:none">
+                          <span style="font-size:12px;font-weight:700;color:{{ f.color }}">{{ f.points }}</span>
+                          <sc-if value="{{ f.hasFix }}" hint-placeholder-val="{{ false }}">
+                            <a href="{{ f.fixLink }}" style="font-size:11px;font-weight:700;color:#7229FF;white-space:nowrap">Fix →</a>
+                          </sc-if>
+                        </div>
+                      </div>
+                    </sc-for>
+                  </div>
+                </sc-if>
+              </div>
+            </sc-for>
+
+            <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:20px">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+                <div style="font-size:14px;font-weight:700">Listing completeness</div>
+                <span style="font-size:12px;color:rgba(12,10,30,0.5)">{{ checklistDone }}/{{ checklistTotal }} complete</span>
+              </div>
+              <div style="height:6px;border-radius:24px;background:#F7F6FF;overflow:hidden;margin-bottom:14px"><div style="height:100%;background:linear-gradient(135deg,#7229FF,#00CAEF);width:{{ checklistPct }}"></div></div>
+              <div style="display:flex;flex-direction:column;gap:10px">
+                <sc-for list="{{ checklistItems }}" as="c" hint-placeholder-count="5">
+                  <div style="display:flex;align-items:center;gap:10px;font-size:13px;cursor:pointer" onClick="{{ c.toggle }}">
+                    <div style="width:18px;height:18px;border-radius:5px;border:1.5px solid {{ c.borderColor }};background:{{ c.bg }};display:flex;align-items:center;justify-content:center;flex:none">
+                      <sc-if value="{{ c.done }}" hint-placeholder-val="{{ false }}"><i data-lucide="check" style="width:12px;height:12px;color:#fff"></i></sc-if>
+                    </div>
+                    <span style="color:{{ c.textColor }};text-decoration:{{ c.strike }}">{{ c.label }}</span>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- TEAM -->
+        <sc-if value="{{ isTeam }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;justify-content:flex-end;margin-bottom:-4px">
+            <x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="130px,38px" variant="primary" size="sm" onClick="{{ openInviteModal }}">Invite member</x-import>
+          </div>
+          <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;overflow:hidden">
+            <div style="display:grid;grid-template-columns:1.2fr 1.2fr 1fr auto;padding:10px 16px;font-size:10px;font-weight:700;color:rgba(12,10,30,0.4);text-transform:uppercase;border-bottom:1px solid #E5E2F5">
+              <div>Name</div><div>Email</div><div>Role</div><div></div>
+            </div>
+            <sc-for list="{{ teamList }}" as="tm" hint-placeholder-count="3">
+              <div style="display:grid;grid-template-columns:1.2fr 1.2fr 1fr auto;padding:12px 16px;font-size:13px;border-bottom:1px solid #E5E2F5;align-items:center">
+                <div style="font-weight:700">{{ tm.name }}</div><div style="color:rgba(12,10,30,0.6)">{{ tm.email }}</div>
+                <div><span style="font-size:11px;font-weight:700;background:rgba(114,41,255,0.08);color:#7229FF;padding:3px 8px;border-radius:4px">{{ tm.role }}</span></div>
+                <sc-if value="{{ tm.canRemove }}" hint-placeholder-val="{{ false }}"><i data-lucide="trash-2" style="width:14px;height:14px;color:rgba(12,10,30,0.4);cursor:pointer" onClick="{{ tm.remove }}"></i></sc-if>
+              </div>
+            </sc-for>
+          </div>
+          <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:18px">
+            <div style="font-size:13px;font-weight:700;margin-bottom:10px">What each role can access</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px">
+              <sc-for list="{{ rolePerms }}" as="rp" hint-placeholder-count="3">
+                <div>
+                  <div style="font-size:12px;font-weight:700;margin-bottom:6px">{{ rp.role }}</div>
+                  <ul style="margin:0;padding-left:16px;font-size:11px;color:rgba(12,10,30,0.6);display:flex;flex-direction:column;gap:3px">
+                    <sc-for list="{{ rp.perms }}" as="pm" hint-placeholder-count="3"><li>{{ pm }}</li></sc-for>
+                  </ul>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+          <sc-if value="{{ showInviteModal }}" hint-placeholder-val="{{ false }}">
+            <div onClick="{{ closeInviteModal }}" style="position:fixed;inset:0;background:rgba(12,10,30,0.4);display:flex;align-items:center;justify-content:center;z-index:50">
+              <div onClick="{{ stopProp }}" style="background:#fff;border-radius:8px;padding:24px;width:380px;max-width:90vw;display:flex;flex-direction:column;gap:12px">
+                <div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:16px">Invite a team member</div>
+                <div><label style="font-size:11px;font-weight:700;color:rgba(12,10,30,0.55);display:block;margin-bottom:5px">Email</label><input type="text" value="{{ inviteEmail }}" onInput="{{ onInviteEmail }}" style="width:100%;font-family:'JetBrains Mono',monospace;font-size:13px;border:1px solid #E5E2F5;border-radius:6px;padding:9px 12px;box-sizing:border-box" placeholder="name@email.com" /></div>
+                <div>
+                  <label style="font-size:11px;font-weight:700;color:rgba(12,10,30,0.55);display:block;margin-bottom:5px">Role</label>
+                  <select value="{{ inviteRole }}" onChange="{{ onInviteRole }}" style="width:100%;font-family:'JetBrains Mono',monospace;font-size:13px;border:1px solid #E5E2F5;border-radius:6px;padding:8px 10px;background:#fff">
+                    <option value="Manager">Manager</option>
+                    <option value="Front desk">Front desk</option>
+                  </select>
+                </div>
+                <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:6px">
+                  <x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="80px,36px" variant="outline" size="sm" onClick="{{ closeInviteModal }}">Cancel</x-import>
+                  <x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="100px,36px" variant="primary" size="sm" onClick="{{ sendInvite }}">Send invite</x-import>
+                </div>
+              </div>
+            </div>
+          </sc-if>
+        </sc-if>
+
+        <sc-if value="{{ isPayouts }}" hint-placeholder-val="{{ false }}">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+            <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:16px">
+              <div style="font-size:11px;font-weight:700;color:rgba(12,10,30,0.45);text-transform:uppercase;margin-bottom:6px">Next payout</div>
+              <div style="font-size:18px;font-weight:800">{{ nextPayoutAmount }} <span style="font-size:12px;font-weight:600;color:rgba(12,10,30,0.5)">on {{ nextPayoutDate }}</span></div>
+            </div>
+            <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:16px;display:flex;justify-content:space-between;align-items:center">
+              <div><div style="font-size:11px;font-weight:700;color:rgba(12,10,30,0.45);text-transform:uppercase">Bank account</div><div style="font-size:13px;margin-top:4px">{{ bankLabel }}</div></div>
+              <span onClick="{{ openBankModal }}" style="font-size:12px;font-weight:700;color:#7229FF;cursor:pointer">Edit</span>
+            </div>
+          </div>
+
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div style="font-size:14px;font-weight:700">Payout history</div>
+            <span onClick="{{ downloadStatement }}" style="font-size:12px;font-weight:700;color:#7229FF;cursor:pointer;display:flex;align-items:center;gap:4px"><i data-lucide="download" style="width:13px;height:13px"></i>Download statement</span>
+          </div>
+          <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;overflow:hidden">
+            <div style="display:grid;grid-template-columns:1fr 1fr;padding:10px 16px;font-size:10px;font-weight:700;color:rgba(12,10,30,0.4);text-transform:uppercase;border-bottom:1px solid #E5E2F5"><div>Period</div><div>Net payout</div></div>
+            <sc-for list="{{ payoutHistory }}" as="p" hint-placeholder-count="3">
+              <div style="display:grid;grid-template-columns:1fr 1fr;padding:12px 16px;font-size:13px;border-bottom:1px solid #E5E2F5;align-items:center">
+                <div><div>{{ p.period }}</div><span style="font-size:10px;font-weight:700;background:{{ p.statusBg }};color:{{ p.statusColor }};padding:2px 7px;border-radius:4px;margin-top:2px;display:inline-block">{{ p.status }}</span></div>
+                <div style="font-weight:700;color:#0a8aa3">{{ p.net }}</div>
+              </div>
+            </sc-for>
+          </div>
+
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div style="font-size:14px;font-weight:700">Per-booking breakdown</div>
+          </div>
+          <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;overflow:hidden;overflow-x:auto">
+            <div style="display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr 1fr;padding:10px 16px;font-size:10px;font-weight:700;color:rgba(12,10,30,0.4);text-transform:uppercase;border-bottom:1px solid #E5E2F5;min-width:640px"><div>Booking</div><div>Gross</div><div>Commission</div><div>Fee</div><div>Net</div></div>
+            <sc-for list="{{ payoutBreakdown }}" as="pb" hint-placeholder-count="3">
+              <div style="display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr 1fr;padding:12px 16px;font-size:12px;border-bottom:1px solid #E5E2F5;align-items:center;min-width:640px">
+                <div style="font-weight:700">{{ pb.guest }}</div><div>{{ pb.gross }}</div><div style="color:#c0392b">{{ pb.commission }}</div><div style="color:#c0392b">{{ pb.fee }}</div><div style="font-weight:700;color:#0a8aa3">{{ pb.net }}</div>
+              </div>
+            </sc-for>
+          </div>
+
+          <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:20px">
+            <div style="font-size:14px;font-weight:700;margin-bottom:4px">Reconciliation</div>
+            <p style="font-size:12px;color:rgba(12,10,30,0.55);margin:0 0 14px">Compare Menetap's records against your own booking log.</p>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <sc-for list="{{ reconciliationRows }}" as="rr" hint-placeholder-count="3">
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #E5E2F5">
+                  <div>
+                    <div style="font-size:13px;font-weight:600">{{ rr.guest }}</div>
+                    <div style="font-size:11px;color:rgba(12,10,30,0.5)">Menetap: {{ rr.platformAmount }} · Your record: {{ rr.hotelAmount }}</div>
+                  </div>
+                  <sc-if value="{{ rr.matches }}" hint-placeholder-val="{{ true }}"><span style="font-size:11px;font-weight:700;color:#0a8aa3;background:rgba(0,202,239,0.1);padding:3px 9px;border-radius:4px">Matches</span></sc-if>
+                  <sc-if value="{{ rr.mismatch }}" hint-placeholder-val="{{ false }}">
+                    <div style="display:flex;align-items:center;gap:8px">
+                      <span style="font-size:11px;font-weight:700;color:#c0392b;background:rgba(192,57,43,0.08);padding:3px 9px;border-radius:4px">Mismatch</span>
+                      <span onClick="{{ rr.flag }}" style="font-size:11px;font-weight:700;color:#7229FF;cursor:pointer">Flag for review</span>
+                    </div>
+                  </sc-if>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+
+          <sc-if value="{{ showBankModal }}" hint-placeholder-val="{{ false }}">
+            <div onClick="{{ closeBankModal }}" style="position:fixed;inset:0;background:rgba(12,10,30,0.4);display:flex;align-items:center;justify-content:center;z-index:50">
+              <div onClick="{{ stopProp }}" style="background:#fff;border-radius:8px;padding:24px;width:380px;max-width:90vw;display:flex;flex-direction:column;gap:12px">
+                <div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:16px">Edit bank account</div>
+                <div><label style="font-size:11px;font-weight:700;color:rgba(12,10,30,0.55);display:block;margin-bottom:5px">Bank name</label><input type="text" value="{{ bankName }}" onInput="{{ onBankName }}" style="width:100%;font-family:'JetBrains Mono',monospace;font-size:13px;border:1px solid #E5E2F5;border-radius:6px;padding:9px 12px;box-sizing:border-box" /></div>
+                <div><label style="font-size:11px;font-weight:700;color:rgba(12,10,30,0.55);display:block;margin-bottom:5px">Account number</label><input type="text" value="{{ bankAccount }}" onInput="{{ onBankAccount }}" style="width:100%;font-family:'JetBrains Mono',monospace;font-size:13px;border:1px solid #E5E2F5;border-radius:6px;padding:9px 12px;box-sizing:border-box" /></div>
+                <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:6px">
+                  <x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="80px,36px" variant="outline" size="sm" onClick="{{ closeBankModal }}">Cancel</x-import>
+                  <x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="80px,36px" variant="primary" size="sm" onClick="{{ saveBankModal }}">Save</x-import>
+                </div>
+              </div>
+            </div>
+          </sc-if>
+        </sc-if>
+
+        <!-- SERVICES -->
+        <sc-if value="{{ isServices }}" hint-placeholder-val="{{ false }}">
+          <div style="max-width:640px">
+            <div style="font-size:14px;font-weight:700;margin-bottom:4px">Menetap services</div>
+            <div style="font-size:12px;color:rgba(12,10,30,0.55);margin-bottom:16px">Optional add-ons run by Menetap and UPSCALE to help you run your property, on top of your listing.</div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:820px">
+            <sc-for list="{{ serviceCards }}" as="svc" hint-placeholder-count="4">
+              <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:18px;display:flex;flex-direction:column;gap:10px">
+                <div style="display:flex;align-items:center;gap:10px">
+                  <div style="width:36px;height:36px;border-radius:8px;background:rgba(114,41,255,0.08);display:flex;align-items:center;justify-content:center"><i data-lucide="{{ svc.icon }}" style="width:18px;height:18px;color:#7229FF"></i></div>
+                  <div style="font-size:14px;font-weight:700">{{ svc.name }}</div>
+                </div>
+                <div style="font-size:12px;line-height:1.6;color:rgba(12,10,30,0.6)">{{ svc.desc }}</div>
+                <div style="font-size:12px;font-weight:700;color:rgba(12,10,30,0.7)">{{ svc.price }}</div>
+                <sc-if value="{{ svc.isActive }}" hint-placeholder-val="{{ false }}">
+                  <div style="display:flex;align-items:center;justify-content:space-between;margin-top:4px">
+                    <span style="font-size:11px;font-weight:700;color:#0a8aa3;background:rgba(0,202,239,0.1);padding:4px 10px;border-radius:24px;display:flex;align-items:center;gap:5px"><i data-lucide="check-circle" style="width:12px;height:12px"></i>Active — {{ svc.activeNote }}</span>
+                    <span onClick="{{ svc.manage }}" style="font-size:12px;font-weight:700;color:#7229FF;cursor:pointer">Manage</span>
+                  </div>
+                </sc-if>
+                <sc-if value="{{ svc.isRequested }}" hint-placeholder-val="{{ false }}">
+                  <div style="font-size:11px;font-weight:700;color:#b8860b;background:rgba(230,162,60,0.1);padding:4px 10px;border-radius:24px;width:fit-content;display:flex;align-items:center;gap:5px;margin-top:4px"><i data-lucide="clock" style="width:12px;height:12px"></i>Request sent — we'll follow up within 2 business days</div>
+                </sc-if>
+                <sc-if value="{{ svc.isNone }}" hint-placeholder-val="{{ true }}">
+                  <div style="margin-top:4px"><x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="120px,36px" variant="outline" size="sm" onClick="{{ svc.request }}">{{ svc.requestLabel }}</x-import></div>
+                </sc-if>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isSettings }}" hint-placeholder-val="{{ false }}">
+          <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:20px;display:flex;flex-direction:column;gap:12px;max-width:400px">
+            <div><label style="font-size:11px;font-weight:700;color:rgba(12,10,30,0.55);display:block;margin-bottom:5px">Property name</label><input type="text" value="{{ propName }}" onInput="{{ onPropName }}" style="width:100%;box-sizing:border-box;font-family:'JetBrains Mono',monospace;font-size:13px;border:1px solid #E5E2F5;border-radius:6px;padding:8px 10px" /></div>
+            <div>
+              <label style="font-size:11px;font-weight:700;color:rgba(12,10,30,0.55);display:block;margin-bottom:5px">Cancellation policy</label>
+              <select value="{{ cancelPolicy }}" onChange="{{ onCancelPolicy }}" style="width:100%;font-family:'JetBrains Mono',monospace;font-size:13px;border:1px solid #E5E2F5;border-radius:6px;padding:8px 10px;background:#fff">
+                <option value="flexible">Flexible — free cancellation until 24 hours before check-in</option>
+                <option value="moderate">Moderate — free until 7 days, 50% within 3–7 days, no refund inside 3 days</option>
+                <option value="strict">Strict — free until 14 days, no refund after</option>
+              </select>
+            </div>
+            <div><label style="font-size:11px;font-weight:700;color:rgba(12,10,30,0.55);display:block;margin-bottom:5px">Contact email</label><input type="text" value="{{ contactEmail }}" onInput="{{ onContactEmail }}" style="width:100%;box-sizing:border-box;font-family:'JetBrains Mono',monospace;font-size:13px;border:1px solid #E5E2F5;border-radius:6px;padding:8px 10px" /></div>
+          </div>
+
+          <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:20px;display:flex;flex-direction:column;gap:12px;max-width:400px">
+            <div style="font-size:14px;font-weight:700">Tax & invoice settings</div>
+            <div><label style="font-size:11px;font-weight:700;color:rgba(12,10,30,0.55);display:block;margin-bottom:5px">Business/tax ID (NPWP)</label><input type="text" value="{{ npwp }}" onInput="{{ onNpwp }}" placeholder="00.000.000.0-000.000" style="width:100%;font-family:'JetBrains Mono',monospace;font-size:13px;border:1px solid #E5E2F5;border-radius:6px;padding:9px 12px;box-sizing:border-box" /></div>
+            <div><label style="font-size:11px;font-weight:700;color:rgba(12,10,30,0.55);display:block;margin-bottom:5px">Invoice business name</label><input type="text" value="{{ invoiceBizName }}" onInput="{{ onInvoiceBizName }}" style="width:100%;font-family:'JetBrains Mono',monospace;font-size:13px;border:1px solid #E5E2F5;border-radius:6px;padding:9px 12px;box-sizing:border-box" /></div>
+            <div><label style="font-size:11px;font-weight:700;color:rgba(12,10,30,0.55);display:block;margin-bottom:5px">Invoice address</label><input type="text" value="{{ invoiceAddress }}" onInput="{{ onInvoiceAddress }}" style="width:100%;font-family:'JetBrains Mono',monospace;font-size:13px;border:1px solid #E5E2F5;border-radius:6px;padding:9px 12px;box-sizing:border-box" /></div>
+            <div><label style="font-size:11px;font-weight:700;color:rgba(12,10,30,0.55);display:block;margin-bottom:5px">VAT rate</label><input type="text" value="{{ vatRate }}" onInput="{{ onVatRate }}" style="width:100px;font-family:'JetBrains Mono',monospace;font-size:13px;border:1px solid #E5E2F5;border-radius:6px;padding:9px 12px;box-sizing:border-box" /></div>
+            <div><x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="100px,38px" variant="primary" size="sm" onClick="{{ saveSettings }}">Save</x-import></div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isOverview }}" hint-placeholder-val="{{ true }}">
+        <sc-if value="{{ hasInsights }}" hint-placeholder-val="{{ true }}">
+          <div style="background:linear-gradient(135deg,rgba(230,162,60,0.08),rgba(230,162,60,0.03));border:1px solid #E5E2F5;border-radius:8px;padding:16px;display:flex;flex-direction:column;gap:8px">
+            <div style="font-size:13px;font-weight:700;display:flex;align-items:center;gap:6px"><i data-lucide="lightbulb" style="width:14px;height:14px;color:#b8860b"></i>Needs attention</div>
+            <sc-for list="{{ insights }}" as="ins" hint-placeholder-count="2">
+              <a href="Menetap Partner Room Detail.dc.html" style="font-size:12px;color:#0C0A1E">• {{ ins }}</a>
+            </sc-for>
+          </div>
+        </sc-if>
+        <!-- Stats -->
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px">
+          <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:16px"><div style="font-size:11px;color:rgba(12,10,30,0.5)">Bookings this month</div><div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:22px;margin-top:4px">14</div></div>
+          <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:16px"><div style="font-size:11px;color:rgba(12,10,30,0.5)">Gross revenue</div><div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:22px;margin-top:4px">Rp 12.4M</div></div>
+          <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:16px"><div style="font-size:11px;color:rgba(12,10,30,0.5)">Commission owed</div><div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:22px;margin-top:4px;color:#c0392b">Rp 1.49M</div></div>
+          <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:16px"><div style="font-size:11px;color:rgba(12,10,30,0.5)">Net payout</div><div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:22px;margin-top:4px;color:#0a8aa3">Rp 10.9M</div></div>
+        </div>
+
+        <!-- Onboarding checklist -->
+        <sc-if value="{{ showChecklist }}" hint-placeholder-val="{{ true }}">
+          <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:20px">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+              <div style="font-size:14px;font-weight:700">Finish setting up your property</div>
+              <span style="font-size:12px;color:rgba(12,10,30,0.5)">{{ checklistDone }}/{{ checklistTotal }} complete</span>
+            </div>
+            <div style="height:6px;border-radius:24px;background:#F7F6FF;overflow:hidden;margin-bottom:14px"><div style="height:100%;background:linear-gradient(135deg,#7229FF,#00CAEF);width:{{ checklistPct }}"></div></div>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <sc-for list="{{ checklistItems }}" as="c" hint-placeholder-count="5">
+                <div style="display:flex;align-items:center;gap:10px;font-size:13px;cursor:pointer" onClick="{{ c.toggle }}">
+                  <div style="width:18px;height:18px;border-radius:5px;border:1.5px solid {{ c.borderColor }};background:{{ c.bg }};display:flex;align-items:center;justify-content:center;flex:none">
+                    <sc-if value="{{ c.done }}" hint-placeholder-val="{{ false }}"><i data-lucide="check" style="width:12px;height:12px;color:#fff"></i></sc-if>
+                  </div>
+                  <span style="color:{{ c.textColor }};text-decoration:{{ c.strike }}">{{ c.label }}</span>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- Ad upsell -->
+        <sc-if value="{{ showUpsell }}" hint-placeholder-val="{{ true }}">
+          <div style="background:linear-gradient(135deg,rgba(114,41,255,0.06),rgba(0,202,239,0.06));border:1px solid #E5E2F5;border-radius:8px;padding:20px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap">
+            <div style="display:flex;align-items:center;gap:12px">
+              <div style="width:40px;height:40px;border-radius:8px;background:#fff;display:flex;align-items:center;justify-content:center;flex:none"><i data-lucide="sparkles" style="width:20px;height:20px;color:#7229FF"></i></div>
+              <div>
+                <div style="font-size:13px;font-weight:700">Get featured as "Featured Stay"</div>
+                <div style="font-size:12px;color:rgba(12,10,30,0.6);margin-top:2px">Similar properties saw +34% more views after featuring. +2% commission only on bookings it earns.</div>
+              </div>
+            </div>
+            <div style="display:flex;gap:8px;flex:none">
+              <x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="110px,38px" variant="primary" size="sm" onClick="{{ enableUpsell }}">Turn on</x-import>
+              <div style="font-size:12px;color:rgba(12,10,30,0.4);cursor:pointer;display:flex;align-items:center" onClick="{{ dismissUpsell }}">Not now</div>
+            </div>
+          </div>
+        </sc-if>
+        <sc-if value="{{ upsellEnabled }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;align-items:center;gap:10px;background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:14px">
+            <div style="display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;color:#fff;background:linear-gradient(135deg,#7229FF,#00CAEF);padding:4px 10px;border-radius:24px">Featured Stay</div>
+            <div style="font-size:12px;color:rgba(12,10,30,0.65)">Your listing is now featured. +2% commission applies only to bookings attributed to this placement.</div>
+          </div>
+        </sc-if>
+
+        <!-- Commission summary -->
+        <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:20px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+            <div style="font-size:14px;font-weight:700">Commission structure</div>
+            <a href="Menetap Partner Onboarding.dc.html" style="font-size:12px;font-weight:600">View agreement</a>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:8px;font-size:13px">
+            <div style="display:flex;justify-content:space-between"><span style="color:rgba(12,10,30,0.6)">Base commission</span><span style="font-weight:700">10%</span></div>
+            <sc-if value="{{ upsellEnabled }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;justify-content:space-between"><span style="color:rgba(12,10,30,0.6)">Featured Stay surcharge</span><span style="font-weight:700;color:#7229FF">+2% (featured bookings only)</span></div>
+            </sc-if>
+          </div>
+        </div>
+
+        <!-- Recent bookings -->
+        <div>
+          <div style="font-size:14px;font-weight:700;margin-bottom:12px">Recent bookings</div>
+          <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;overflow-x:auto">
+            <div style="display:grid;grid-template-columns:1fr 1fr 0.9fr 0.9fr 1.1fr 0.7fr 0.7fr 1fr 1fr;padding:10px 16px;font-size:10px;font-weight:700;color:rgba(12,10,30,0.4);text-transform:uppercase;border-bottom:1px solid #E5E2F5;min-width:920px">
+              <div>Guest</div><div>Booked</div><div>Arrival</div><div>Departure</div><div>Room type</div><div>Rooms</div><div>Guests</div><div>Amount</div><div>Status</div>
+            </div>
+            <sc-for list="{{ recentBookings }}" as="rb" hint-placeholder-count="3">
+              <div onClick="{{ rb.openDetail }}" style="display:grid;grid-template-columns:1fr 1fr 0.9fr 0.9fr 1.1fr 0.7fr 0.7fr 1fr 1fr;padding:12px 16px;font-size:12px;border-bottom:1px solid #E5E2F5;align-items:center;min-width:920px;cursor:pointer" style-hover="background:#F7F6FF">
+                <div style="font-weight:700">{{ rb.guest }}</div><div style="color:rgba(12,10,30,0.55)">{{ rb.bookedOn }}</div><div>{{ rb.arrival }}</div><div>{{ rb.departure }}</div><div style="color:rgba(12,10,30,0.6)">{{ rb.roomType }}</div><div>{{ rb.rooms }}</div><div>{{ rb.guests }}</div><div style="font-weight:600">{{ rb.amount }}</div>
+                <div><span style="font-size:11px;font-weight:700;background:{{ rb.bg }};color:{{ rb.color }};padding:3px 8px;border-radius:4px">{{ rb.status }}</span></div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <sc-if value="{{ showBookingModal }}" hint-placeholder-val="{{ false }}">
+          <div onClick="{{ closeBookingModal }}" style="position:fixed;inset:0;background:rgba(12,10,30,0.4);display:flex;align-items:center;justify-content:center;z-index:50">
+            <div onClick="{{ stopProp }}" style="background:#fff;border-radius:8px;padding:24px;width:420px;max-width:90vw;display:flex;flex-direction:column;gap:14px">
+              <div style="display:flex;justify-content:space-between;align-items:center">
+                <div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:17px">{{ modalBooking.guest }}</div>
+                <span onClick="{{ closeBookingModal }}" style="cursor:pointer;display:flex"><i data-lucide="x" style="width:18px;height:18px;color:rgba(12,10,30,0.5)"></i></span>
+              </div>
+              <span style="align-self:flex-start;font-size:11px;font-weight:700;background:{{ modalBooking.bg }};color:{{ modalBooking.color }};padding:3px 9px;border-radius:4px">{{ modalBooking.status }}</span>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;font-size:13px">
+                <div><div style="font-size:11px;color:rgba(12,10,30,0.45);font-weight:700">Booked on</div><div>{{ modalBooking.bookedOn }}</div></div>
+                <div><div style="font-size:11px;color:rgba(12,10,30,0.45);font-weight:700">Room type</div><div>{{ modalBooking.roomType }}</div></div>
+                <div><div style="font-size:11px;color:rgba(12,10,30,0.45);font-weight:700">Arrival</div><div>{{ modalBooking.arrival }}</div></div>
+                <div><div style="font-size:11px;color:rgba(12,10,30,0.45);font-weight:700">Departure</div><div>{{ modalBooking.departure }}</div></div>
+                <div><div style="font-size:11px;color:rgba(12,10,30,0.45);font-weight:700">Rooms</div><div>{{ modalBooking.rooms }}</div></div>
+                <div><div style="font-size:11px;color:rgba(12,10,30,0.45);font-weight:700">Guests</div><div>{{ modalBooking.guests }}</div></div>
+              </div>
+              <div style="height:1px;background:#E5E2F5"></div>
+              <div style="display:flex;justify-content:space-between;font-size:15px"><span style="font-weight:700">Total</span><span style="font-weight:800;color:#7229FF">{{ modalBooking.amount }}</span></div>
+            </div>
+          </div>
+        </sc-if>
+        </sc-if>
+
+      </div>
+    </div>
+  </div>
+
+  <footer style="border-top:1px solid #E5E2F5;padding:24px 0;background:#fff;margin-top:auto">
+    <div class="wrap" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px">
+      <div style="font-size:12px;color:rgba(12,10,30,0.5)">© 2026 Menetap. All rights reserved.</div>
+      <div style="display:flex;align-items:center;gap:10px">
+        
+        <!-- langgroup --><div style="display:flex;align-items:center;gap:10px"><a href="Menetap Partner Services.dc.html" style="font-size:12px;font-weight:600;color:rgba(12,10,30,0.6);margin-right:4px">Services</a><div onClick="{{ toggleLang }}" style="display:flex;align-items:center;gap:4px;font-size:11px;font-weight:700;color:rgba(12,10,30,0.5);cursor:pointer;border:1px solid #E5E2F5;border-radius:24px;padding:5px 12px"><i data-lucide="globe" style="width:12px;height:12px"></i>{{ langLabel }}</div><div style="display:flex;align-items:center;gap:8px;font-size:11px;color:rgba(12,10,30,0.45);background:#F7F6FF;border:1px solid #E5E2F5;border-radius:24px;padding:5px 12px">
+          Managed by <a href="https://upscale.asia" target="_blank" style="font-weight:700;color:#7229FF">UPSCALE</a>
+        </div></div>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const CHECKLIST = [
+  { label: 'Add property photos', done: true },
+  { label: 'Set up rooms & rates', done: true },
+  { label: 'Add bank account for payouts', done: true },
+  { label: 'Verify business license', done: false },
+  { label: 'Write property description', done: false }
+];
+const TABS = ['overview', 'bookings', 'rooms', 'availability', 'messages', 'reviews', 'promotions', 'analytics', 'quality', 'team', 'payouts', 'services', 'supply', 'settings'];
+const SUPPLY_CATS = [
+  { key: 'bathroom', name: 'Bathroom amenities' },
+  { key: 'linens', name: 'Linens & towels' },
+  { key: 'cleaning', name: 'Cleaning supplies' },
+  { key: 'slippers', name: 'Slippers & robes' },
+  { key: 'stationery', name: 'Stationery & collateral' }
+];
+const SUPPLY_PRODUCTS = {
+  bathroom: [
+    { name: 'Travel dental kit (toothbrush + paste)', unit: 'Box of 100', price: 145000, bg: 'linear-gradient(135deg,#e5e2f5,#cfc8f0)' },
+    { name: 'Hotel soap bar 20g', unit: 'Box of 200', price: 180000, bg: 'linear-gradient(135deg,#dfe8ff,#c8d4f5)' },
+    { name: 'Shampoo/conditioner sachets', unit: 'Box of 150', price: 210000, bg: 'linear-gradient(135deg,#f0dff5,#e0c8ea)' }
+  ],
+  linens: [
+    { name: 'Bath towel, white, 70x140cm', unit: 'Pack of 20', price: 640000, bg: 'linear-gradient(135deg,#dfe8ff,#c8d4f5)' },
+    { name: 'Bedsheet set, queen, 300TC', unit: 'Pack of 10', price: 890000, bg: 'linear-gradient(135deg,#f0dff5,#e0c8ea)' }
+  ],
+  cleaning: [
+    { name: 'Multi-surface cleaner, 5L', unit: 'Carton of 4', price: 220000, bg: 'linear-gradient(135deg,#f0dff5,#e0c8ea)' },
+    { name: 'Microfiber cleaning cloths', unit: 'Pack of 50', price: 150000, bg: 'linear-gradient(135deg,#e5f0e0,#cde5c8)' }
+  ],
+  slippers: [
+    { name: 'Disposable slippers', unit: 'Box of 100 pairs', price: 260000, bg: 'linear-gradient(135deg,#e5f0e0,#cde5c8)' },
+    { name: 'Cotton bathrobe, one size', unit: 'Pack of 10', price: 950000, bg: 'linear-gradient(135deg,#f5e0e8,#eac8d8)' }
+  ],
+  stationery: [
+    { name: 'Guest directory holder + inserts', unit: 'Pack of 25', price: 175000, bg: 'linear-gradient(135deg,#f5e0e8,#eac8d8)' },
+    { name: 'Do-not-disturb door hangers', unit: 'Pack of 50', price: 90000, bg: 'linear-gradient(135deg,#e5e2f5,#cfc8f0)' }
+  ]
+};
+const REVIEWS = [
+  { id: 1, guest: 'Wulan Kusuma', rating: 5, date: 'Sep 18, 2026', text: 'Beautiful villa, super clean, host was very responsive.', status: 'none', assignee: '', responded: false },
+  { id: 2, guest: 'Dimas Prasetyo', rating: 2, date: 'Sep 12, 2026', text: 'AC in the room was broken for 2 nights, no one came to fix it despite reporting at front desk.', status: 'open', assignee: 'Sari Dewi', responded: false },
+  { id: 3, guest: 'Rina Sari', rating: 4, date: 'Sep 5, 2026', text: 'Great location, breakfast could be better.', status: 'resolved', assignee: 'Anin Wida', responded: true }
+];
+const SERVICES = [
+  { id: 'cleaning', name: 'Cleaning & housekeeping', icon: 'sparkles', desc: 'Scheduled turnover cleaning between guest stays, on-demand deep cleans.', price: 'From Rp 85,000 / turnover' },
+  { id: 'photography', name: 'Professional photography', icon: 'camera', desc: 'A photographer shoots your property and delivers edited, listing-ready photos.', price: 'From Rp 950,000 / shoot' },
+  { id: 'crs', name: 'Central reservation service', icon: 'phone-call', desc: 'A Menetap team handles phone and WhatsApp booking inquiries on your behalf.', price: 'Rp 450,000 / month' },
+  { id: 'revenue', name: 'Revenue management', icon: 'trending-up', desc: 'UPSCALE analysts set and adjust your pricing weekly based on demand data.', price: 'Rp 1,200,000 / month' }
+];
+const TEAM_ROLES = {
+  Owner: ['Full access', 'Financials & payouts', 'Manage team'],
+  Manager: ['Bookings & calendar', 'Rooms & rates', 'Messages'],
+  'Front desk': ['View bookings', 'Messages', 'Check-in/out only']
+};
+const TEAM_MEMBERS = [
+  { name: 'Anin Wida', email: 'anin@kaliurangvilla.id', role: 'Owner' },
+  { name: 'Dewi K.', email: 'dewi@kaliurangvilla.id', role: 'Manager' },
+  { name: 'Yoga P.', email: 'yoga@kaliurangvilla.id', role: 'Front desk' }
+];
+const THREADS = [
+  { id: 1, guest: 'Anin W.', preview: "What time is check-in?", unread: true, booking: 'MTP-7X9K2Q', room: 'Garden Suite', dates: 'Oct 12–15', amount: 'Rp 2,670,000',
+    messages: [{ from: 'guest', text: "Hi! What time is check-in on the 12th?" }, { from: 'host', text: 'Hi Anin, check-in is from 2:00 PM. Let us know if you need earlier.' }] },
+  { id: 2, guest: 'Dimas P.', preview: 'Thank you for the stay!', unread: false, booking: 'MTP-4H1L8B', room: 'Garden Suite', dates: 'Oct 8–10', amount: 'Rp 1,780,000',
+    messages: [{ from: 'guest', text: 'Thank you for the stay, everything was great!' }, { from: 'host', text: "So glad to hear that — hope to host you again!" }] },
+  { id: 3, guest: 'Rina S.', preview: 'Is breakfast included?', unread: true, booking: 'MTP-2R6V9C', room: 'Deluxe Villa', dates: 'Sep 30–Oct 2', amount: 'Rp 1,780,000',
+    messages: [{ from: 'guest', text: 'Is breakfast included in the rate?' }] }
+];
+const QUICK_REPLIES = ['Check-in is from 2:00 PM.', 'Breakfast is included for all bookings.', 'Thank you for staying with us!'];
+const ROOMS = [
+  { name: 'Garden Suite', capacity: '2 guests', rate: 'Rp 890,000', total: 3, hasPhotos: true },
+  { name: 'Deluxe Villa', capacity: '4 guests', rate: 'Rp 1,450,000', total: 2, hasPhotos: true },
+  { name: 'Family Cottage', capacity: '6 guests', rate: 'Rp 2,100,000', total: 1, hasPhotos: false }
+];
+const BOOKINGS = [
+  { guest: 'Anin W.', room: 'Garden Suite', dates: 'Oct 12–15', amount: 'Rp 2,670,000', status: 'Confirmed', bg: 'rgba(0,202,239,0.1)', color: '#0a8aa3', bookedOn: 'Sep 20', arrival: 'Oct 12', departure: 'Oct 15', rooms: 1, guests: 2 },
+  { guest: 'Dimas P.', room: 'Garden Suite', dates: 'Oct 8–10', amount: 'Rp 1,780,000', status: 'Completed', bg: 'rgba(12,10,30,0.06)', color: 'rgba(12,10,30,0.5)', bookedOn: 'Sep 18', arrival: 'Oct 8', departure: 'Oct 10', rooms: 1, guests: 1 },
+  { guest: 'Rina S.', room: 'Deluxe Villa', dates: 'Sep 30–Oct 2', amount: 'Rp 1,780,000', status: 'Completed', bg: 'rgba(12,10,30,0.06)', color: 'rgba(12,10,30,0.5)', bookedOn: 'Sep 12', arrival: 'Sep 30', departure: 'Oct 2', rooms: 1, guests: 2 },
+  { guest: 'Budi S.', room: 'Family Cottage', dates: 'Sep 20–22', amount: 'Rp 1,340,000', status: 'Cancelled', bg: 'rgba(192,57,43,0.1)', color: '#c0392b', bookedOn: 'Sep 10', arrival: 'Sep 20', departure: 'Sep 22', rooms: 1, guests: 3 }
+];
+const RECENT_BOOKINGS = [
+  { guest: 'Anin W.', bookedOn: 'Sep 20', arrival: 'Oct 12', departure: 'Oct 15', roomType: 'Garden Suite', rooms: 1, guests: 2, amount: 'Rp 2,670,000', status: 'Confirmed', bg: 'rgba(0,202,239,0.1)', color: '#0a8aa3' },
+  { guest: 'Dimas P.', bookedOn: 'Sep 18', arrival: 'Oct 8', departure: 'Oct 10', roomType: 'Garden Suite', rooms: 1, guests: 1, amount: 'Rp 1,780,000', status: 'Completed', bg: 'rgba(12,10,30,0.06)', color: 'rgba(12,10,30,0.5)' },
+  { guest: 'Rina S.', bookedOn: 'Sep 12', arrival: 'Sep 30', departure: 'Oct 2', roomType: 'Deluxe Villa', rooms: 1, guests: 2, amount: 'Rp 1,780,000', status: 'Completed', bg: 'rgba(12,10,30,0.06)', color: 'rgba(12,10,30,0.5)' }
+];
+const PROPERTIES = [
+  { name: 'Kaliurang Heritage Villa', status: 'Live · 3 room types' },
+  { name: 'Malioboro Studio Loft', status: 'Live · 1 room type' }
+];
+class Component extends DCLogic {
+  state = {
+    tab: 'overview', upsellStatus: 'offer', checklist: CHECKLIST.map((c, i) => ({ ...c, id: i })),
+    rooms: ROOMS.map((r, i) => ({ ...r, id: i, selected: false })), toastMsg: '', bulkRoomRate: '', availOffset: 0, bookingsView: 'list', bookingsFilterRoom: '',
+    activePropertyIdx: 0, showPropertyMenu: false, bookingsMonthOffset: 0, hoverCellKey: '', modalDayKey: '', showAccountMenu: false,
+    lang: (typeof localStorage !== 'undefined' && localStorage.getItem('menetapLang')) || 'en', bookingModalKey: '', allBookingModalKey: '',
+    propName: 'Kaliurang Heritage Villa', contactEmail: 'anin@kaliurangvilla.id', cancelPolicy: 'moderate',
+    npwp: '', invoiceBizName: 'Kaliurang Heritage Villa', invoiceAddress: 'Sleman, Yogyakarta', vatRate: '11%',
+    activeThreadId: 1, msgInput: '', threadsState: THREADS,
+    promoState: {
+      lastMinute: { on: false, value: '10%' },
+      lengthOfStay: { on: true, value: '15%' },
+      earlyBird: { on: false, value: '10%' },
+      promoCode: { on: true, value: 'MENETAP10' }
+    },
+    teamState: TEAM_MEMBERS, showInviteModal: false, inviteEmail: '', inviteRole: 'Manager',
+    showBankModal: false, bankName: 'BCA', bankAccount: '•••• 5521',
+    serviceState: { cleaning: 'active', photography: 'requested', crs: 'none', revenue: 'none' },
+    reviewsState: REVIEWS.reduce((acc, r) => { acc[r.id] = { status: r.status, assignee: r.assignee, responded: r.responded, responseText: '', respondOpen: false, draft: '' }; return acc; }, {}),
+    minStayGlobal: '2', maxStayGlobal: '14', bookingWindow: '365', closeFrom: '', closeTo: '', closedRanges: [],
+    allBookingModalNote: '',
+    qualityOpen: { photos: true, content: false, structured: false, trust: false, freshness: false, translations: false, technical: false },
+    supplyCategory: 'bathroom', supplyCart: {}
+  };
+  componentDidMount() {
+    if (window.lucide) window.lucide.createIcons();
+    const params = new URLSearchParams(window.location.search);
+    const tab = params.get('tab'), room = params.get('room');
+    if (tab || room) this.setState({ tab: tab || this.state.tab, bookingsFilterRoom: room || '' });
+  }
+  componentDidUpdate() { if (window.lucide) window.lucide.createIcons(); }
+  toast(msg) { this.setState({ toastMsg: msg }); clearTimeout(this._t); this._t = setTimeout(() => this.setState({ toastMsg: '' }), 2200); }
+  renderVals() {
+    const s = this.state;
+    const done = s.checklist.filter(c => c.done).length;
+    const tabSel = {};
+    TABS.forEach(t => {
+      const active = s.tab === t;
+      tabSel[t + 'Bg'] = active ? 'rgba(114,41,255,0.08)' : 'transparent';
+      tabSel[t + 'Color'] = active ? '#7229FF' : 'rgba(12,10,30,0.7)';
+      tabSel[t + 'Weight'] = active ? '700' : '600';
+      tabSel['select' + t[0].toUpperCase() + t.slice(1)] = () => this.setState({ tab: t });
+      tabSel['is' + t[0].toUpperCase() + t.slice(1)] = active;
+    });
+    return {
+      ...tabSel,
+      toastMsg: s.toastMsg,
+      editListing: () => this.setState({ tab: 'settings' }),
+      recentBookings: RECENT_BOOKINGS.map(rb => ({ ...rb, openDetail: () => this.setState({ bookingModalKey: rb.guest + rb.bookedOn }) })),
+      showBookingModal: !!s.bookingModalKey,
+      closeBookingModal: () => this.setState({ bookingModalKey: '' }),
+      stopProp: (e) => e.stopPropagation(),
+      modalBooking: RECENT_BOOKINGS.find(rb => rb.guest + rb.bookedOn === s.bookingModalKey) || {},
+      allBookings: BOOKINGS.filter(b => !s.bookingsFilterRoom || b.room === s.bookingsFilterRoom).map(b => ({ ...b, openDetail: () => this.setState({ allBookingModalKey: b.guest + b.bookedOn }) })),
+      showAllBookingModal: !!s.allBookingModalKey,
+      closeAllBookingModal: () => this.setState({ allBookingModalKey: '' }),
+      allBookingModalData: BOOKINGS.find(b => b.guest + b.bookedOn === s.allBookingModalKey) || {},
+      hasRoomFilter: !!s.bookingsFilterRoom,
+      bookingsFilterRoom: s.bookingsFilterRoom,
+      clearRoomFilter: () => this.setState({ bookingsFilterRoom: '' }),
+      noBookingsForFilter: !!s.bookingsFilterRoom && BOOKINGS.filter(b => b.room === s.bookingsFilterRoom).length === 0,
+      langLabel: s.lang === 'en' ? 'EN' : 'ID',
+      toggleLang: () => { const next = s.lang === 'en' ? 'id' : 'en'; localStorage.setItem('menetapLang', next); this.setState({ lang: next }); },
+      hasInsights: true,
+      insights: [
+        'Family Cottage has no photos uploaded',
+        'Family Cottage is fully booked next week — consider raising its rate'
+      ],
+      availRangeLabel: (() => {
+        const start = new Date(2026, 8, 24 + s.availOffset);
+        const end = new Date(2026, 8, 24 + s.availOffset + 13);
+        const fmt = (d) => `${d.getDate()} ${['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][d.getMonth()]}`;
+        return `${fmt(start)} – ${fmt(end)}`;
+      })(),
+      availPrev: () => this.setState({ availOffset: s.availOffset - 14 }),
+      availNext: () => this.setState({ availOffset: s.availOffset + 14 }),
+      availToday: () => this.setState({ availOffset: 0 }),
+      showAccountMenu: s.showAccountMenu,
+      toggleAccountMenu: () => this.setState({ showAccountMenu: !s.showAccountMenu }),
+      activePropertyName: PROPERTIES[s.activePropertyIdx].name,
+      showPropertyMenu: s.showPropertyMenu,
+      togglePropertyMenu: () => this.setState({ showPropertyMenu: !s.showPropertyMenu }),
+      propertyOptions: PROPERTIES.map((p, i) => ({
+        name: p.name, status: p.status, isActive: i === s.activePropertyIdx,
+        bg: i === s.activePropertyIdx ? 'rgba(114,41,255,0.06)' : 'transparent',
+        select: () => this.setState({ activePropertyIdx: i, showPropertyMenu: false })
+      })),
+      isBookingsList: s.bookingsView === 'list',
+      isBookingsCal: s.bookingsView === 'calendar',
+      setBookingsList: () => this.setState({ bookingsView: 'list' }),
+      setBookingsCal: () => this.setState({ bookingsView: 'calendar' }),
+      bookingsListBg: s.bookingsView === 'list' ? '#fff' : 'transparent',
+      bookingsListColor: s.bookingsView === 'list' ? '#7229FF' : 'rgba(12,10,30,0.55)',
+      bookingsCalBg: s.bookingsView === 'calendar' ? '#fff' : 'transparent',
+      bookingsCalColor: s.bookingsView === 'calendar' ? '#7229FF' : 'rgba(12,10,30,0.55)',
+      weekdayLabels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+      monthPrev: () => this.setState({ bookingsMonthOffset: s.bookingsMonthOffset - 1 }),
+      monthNext: () => this.setState({ bookingsMonthOffset: s.bookingsMonthOffset + 1 }),
+      monthToday: () => this.setState({ bookingsMonthOffset: 0 }),
+      monthLabel: (() => {
+        const d = new Date(2026, 8 + s.bookingsMonthOffset, 1);
+        return `${['January','February','March','April','May','June','July','August','September','October','November','December'][d.getMonth()]} ${d.getFullYear()}`;
+      })(),
+      monthCells: (() => {
+        const monthIdx = { Jan: 0, Feb: 1, Mar: 2, Apr: 3, May: 4, Jun: 5, Jul: 6, Aug: 7, Sep: 8, Oct: 9, Nov: 10, Dec: 11 };
+        const parseRange = (str) => {
+          const m = str.match(/^(\w{3}) (\d+)(?:–(?:(\w{3}) )?(\d+))?$/);
+          if (!m) return null;
+          const [, mo1, d1, mo2, d2] = m;
+          const start = new Date(2026, monthIdx[mo1], parseInt(d1, 10));
+          const end = d2 ? new Date(2026, monthIdx[mo2 || mo1], parseInt(d2, 10)) : start;
+          return { start, end };
+        };
+        const ranges = BOOKINGS.map(b => ({ ...b, range: parseRange(b.dates) })).filter(b => b.range);
+        const first = new Date(2026, 8 + s.bookingsMonthOffset, 1);
+        const monthNum = first.getMonth(), yearNum = first.getFullYear();
+        const startDow = first.getDay();
+        const daysInMonth = new Date(yearNum, monthNum + 1, 0).getDate();
+        const today = new Date(2026, 8, 24);
+        return Array.from({ length: 42 }, (_, i) => {
+          const dayNum = i - startDow + 1;
+          const inMonth = dayNum >= 1 && dayNum <= daysInMonth;
+          const cellDate = new Date(yearNum, monthNum, dayNum);
+          const isToday = inMonth && cellDate.getTime() === today.getTime();
+          const cellKey = inMonth ? `${yearNum}-${monthNum}-${dayNum}` : '';
+          const dots = [];
+          let arrivals = 0, departures = 0, staying = 0;
+          const dayBookings = [];
+          if (inMonth) {
+            ranges.forEach(b => {
+              const r = b.range;
+              const isArrival = cellDate.getTime() === r.start.getTime();
+              const isDeparture = cellDate.getTime() === r.end.getTime();
+              const isStaying = !isArrival && !isDeparture && cellDate > r.start && cellDate < r.end;
+              if (isArrival) { dots.push({ color: '#00CAEF' }); arrivals++; dayBookings.push({ ...b, typeLabel: 'Arrival', typeBg: 'rgba(0,202,239,0.12)', typeColor: '#0a8aa3' }); }
+              if (isDeparture && r.end.getTime() !== r.start.getTime()) { dots.push({ color: '#7229FF' }); departures++; dayBookings.push({ ...b, typeLabel: 'Departure', typeBg: 'rgba(114,41,255,0.1)', typeColor: '#7229FF' }); }
+              if (isStaying) { dots.push({ color: 'rgba(12,10,30,0.35)' }); staying++; dayBookings.push({ ...b, typeLabel: 'Staying over', typeBg: 'rgba(12,10,30,0.06)', typeColor: 'rgba(12,10,30,0.6)' }); }
+            });
+          }
+          const tooltipParts = [];
+          if (arrivals) tooltipParts.push(`${arrivals} arrival${arrivals > 1 ? 's' : ''}`);
+          if (departures) tooltipParts.push(`${departures} departure${departures > 1 ? 's' : ''}`);
+          if (staying) tooltipParts.push(`${staying} staying over`);
+          return {
+            num: inMonth ? dayNum : '',
+            bg: !inMonth ? '#FAFAFC' : isToday ? 'rgba(114,41,255,0.05)' : '#fff',
+            numColor: !inMonth ? 'transparent' : isToday ? '#7229FF' : 'rgba(12,10,30,0.7)',
+            dots, cursor: inMonth ? 'pointer' : 'default',
+            showTooltip: inMonth && s.hoverCellKey === cellKey && dots.length > 0,
+            tooltip: tooltipParts.join(' · '),
+            onHover: inMonth ? () => this.setState({ hoverCellKey: cellKey }) : null,
+            onUnhover: inMonth ? () => this.setState({ hoverCellKey: '' }) : null,
+            onClick: inMonth ? () => this.setState({ modalDayKey: cellKey, modalDayLabel: `${['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][monthNum]} ${dayNum}, ${yearNum}`, modalDayBookings: dayBookings }) : null
+          };
+        });
+      })(),
+      showDayModal: !!s.modalDayKey,
+      closeDayModal: () => this.setState({ modalDayKey: '' }),
+      stopProp: (e) => e.stopPropagation(),
+      modalDayLabel: s.modalDayLabel,
+      modalHasBookings: (s.modalDayBookings || []).length > 0,
+      modalNoBookings: (s.modalDayBookings || []).length === 0,
+      modalBookings: (s.modalDayBookings || []).map(b => ({ guest: b.guest, room: b.room, dates: b.dates, amount: b.amount, typeLabel: b.typeLabel, typeBg: b.typeBg, typeColor: b.typeColor, openDetail: () => this.setState({ modalDayKey: '', allBookingModalKey: b.guest + b.bookedOn }) })),
+      availStartLabel: (() => { const d = new Date(2026, 8, 24 + s.availOffset); const p = n => String(n).padStart(2, '0'); return `${p(d.getDate())}/${p(d.getMonth() + 1)}/${d.getFullYear()}`; })(),
+      pickerDateVal: (() => { const d = new Date(2026, 8, 24 + s.availOffset); const p = n => String(n).padStart(2, '0'); return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}`; })(),
+      onPickerDate: (e) => {
+        const val = e.target.value;
+        if (!val) return;
+        const [y, m, day] = val.split('-').map(Number);
+        const picked = new Date(y, m - 1, day);
+        const base = new Date(2026, 8, 24);
+        const diffDays = Math.round((picked - base) / 86400000);
+        this.setState({ availOffset: diffDays });
+      },
+      next14Days: Array.from({ length: 14 }, (_, i) => { const dt = new Date(2026, 8, 24 + s.availOffset + i); return `${dt.getDate()}/${dt.getMonth() + 1}`; }),
+      availabilityGrid: s.rooms.map(r => {
+        const base = r.name === 'Garden Suite' ? [0, 0, 0, 1, 2, 1, 0, 0, 0, 0, 3, 0, 0, 0] :
+          r.name === 'Family Cottage' ? [1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 0] :
+          [0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0];
+        const shift = ((s.availOffset / 14) % base.length + base.length) % base.length;
+        const soldByDay = s.availOffset === 0 ? base : base.map((_, i) => base[(i + Math.round(shift)) % base.length]);
+        const baseRate = parseInt((r.rate || '0').replace(/[^0-9]/g, ''), 10) || 0;
+        return {
+          name: r.name, total: r.total,
+          cells: soldByDay.map(sold => {
+            const left = Math.max(0, r.total - sold);
+            const bg = left === 0 ? 'rgba(192,57,43,0.15)' : left <= Math.ceil(r.total / 2) ? 'rgba(230,162,60,0.2)' : 'rgba(0,202,239,0.15)';
+            const color = left === 0 ? '#c0392b' : left <= Math.ceil(r.total / 2) ? '#b8860b' : '#0a8aa3';
+            return { left, bg, color, title: `${left} of ${r.total} units available` };
+          }),
+          rateCells: soldByDay.map((sold, i) => {
+            const weekend = (i % 7 === 5 || i % 7 === 6);
+            const rate = weekend ? Math.round(baseRate * 1.15) : baseRate;
+            return { label: rate.toLocaleString('en-US') };
+          })
+        };
+      }),
+      hasRoomSelection: s.rooms.some(r => r.selected), selectedRoomCount: s.rooms.filter(r => r.selected).length,
+      bulkRoomRate: s.bulkRoomRate, onBulkRoomRate: (e) => this.setState({ bulkRoomRate: e.target.value }),
+      applyBulkRoomRate: () => { if (!s.bulkRoomRate) return; this.setState(st => ({ rooms: st.rooms.map(r => r.selected ? { ...r, rate: s.bulkRoomRate } : r) })); this.toast('Bulk rate applied'); },
+      addRoomType: () => { this.setState(st => ({ rooms: [...st.rooms, { id: Date.now(), name: 'New room type', capacity: '2 guests', rate: 'Rp 0', available: '1 room', selected: false }] })); this.toast('Room type added'); },
+      roomRates: s.rooms.map((r, i) => ({
+        ...r, available: `${r.total} rooms`,
+        onRate: (e) => this.setState(st => ({ rooms: st.rooms.map((rm, idx) => idx === i ? { ...rm, rate: e.target.value } : rm) })),
+        onAvailable: (e) => this.setState(st => ({ rooms: st.rooms.map((rm, idx) => idx === i ? { ...rm, total: e.target.value } : rm) })),
+        toggleSelect: () => this.setState(st => ({ rooms: st.rooms.map((rm, idx) => idx === i ? { ...rm, selected: !rm.selected } : rm) })),
+        duplicate: () => { this.setState(st => ({ rooms: [...st.rooms.slice(0, i + 1), { ...st.rooms[i], id: Date.now(), name: st.rooms[i].name + ' (copy)', selected: false }, ...st.rooms.slice(i + 1)] })); this.toast('Room duplicated'); },
+        remove: () => this.setState(st => ({ rooms: st.rooms.filter((rm, idx) => idx !== i) }))
+      })),
+      payoutHistory: [
+        { period: 'Sep 2026', net: 'Rp 6,240,000', status: 'Pending', statusBg: 'rgba(230,162,60,0.15)', statusColor: '#b8860b' },
+        { period: 'Aug 2026', net: 'Rp 10,912,000', status: 'Paid', statusBg: 'rgba(0,202,239,0.1)', statusColor: '#0a8aa3' },
+        { period: 'Jul 2026', net: 'Rp 8,624,000', status: 'Paid', statusBg: 'rgba(0,202,239,0.1)', statusColor: '#0a8aa3' },
+        { period: 'Jun 2026', net: 'Rp 7,350,000', status: 'Paid', statusBg: 'rgba(0,202,239,0.1)', statusColor: '#0a8aa3' }
+      ],
+      propName: s.propName, onPropName: (e) => this.setState({ propName: e.target.value }),
+      cancelPolicy: s.cancelPolicy, onCancelPolicy: (e) => this.setState({ cancelPolicy: e.target.value }),
+      npwp: s.npwp, onNpwp: (e) => this.setState({ npwp: e.target.value }),
+      invoiceBizName: s.invoiceBizName, onInvoiceBizName: (e) => this.setState({ invoiceBizName: e.target.value }),
+      invoiceAddress: s.invoiceAddress, onInvoiceAddress: (e) => this.setState({ invoiceAddress: e.target.value }),
+      vatRate: s.vatRate, onVatRate: (e) => this.setState({ vatRate: e.target.value }),
+
+      // Messages
+      hasUnreadMessages: s.threadsState.some(t => t.unread),
+      threadList: s.threadsState.map(t => ({
+        guest: t.guest, preview: t.preview, unread: t.unread, bg: t.id === s.activeThreadId ? 'rgba(114,41,255,0.06)' : 'transparent',
+        select: () => this.setState(st => ({ activeThreadId: t.id, threadsState: st.threadsState.map(x => x.id === t.id ? { ...x, unread: false } : x) }))
+      })),
+      activeMessages: (s.threadsState.find(t => t.id === s.activeThreadId) || {}).messages.map(m => ({
+        text: m.text, align: m.from === 'host' ? 'flex-end' : 'flex-start',
+        bg: m.from === 'host' ? '#7229FF' : '#F7F6FF', color: m.from === 'host' ? '#fff' : '#0C0A1E'
+      })),
+      activeBooking: (s.threadsState.find(t => t.id === s.activeThreadId) || {}).booking,
+      activeRoom: (s.threadsState.find(t => t.id === s.activeThreadId) || {}).room,
+      activeDates: (s.threadsState.find(t => t.id === s.activeThreadId) || {}).dates,
+      activeAmount: (s.threadsState.find(t => t.id === s.activeThreadId) || {}).amount,
+      quickReplies: QUICK_REPLIES.map(text => ({ text, use: () => this.setState({ msgInput: text }) })),
+      msgInput: s.msgInput, onMsgInput: (e) => this.setState({ msgInput: e.target.value }),
+      sendMsg: () => {
+        if (!s.msgInput.trim()) return;
+        this.setState(st => ({
+          msgInput: '',
+          threadsState: st.threadsState.map(t => t.id === s.activeThreadId ? { ...t, messages: [...t.messages, { from: 'host', text: s.msgInput }] } : t)
+        }));
+      },
+
+      // Promotions
+      promotions: [
+        { key: 'lastMinute', name: 'Last-minute deal', desc: 'Discount applied within 3 days of check-in' },
+        { key: 'lengthOfStay', name: 'Length-of-stay discount', desc: 'Book 5+ nights, get a % off' },
+        { key: 'earlyBird', name: 'Early-bird discount', desc: 'Book 30+ days ahead, get a % off' },
+        { key: 'promoCode', name: 'Promo code', desc: 'Flat code guests can enter at checkout' }
+      ].map(p => {
+        const st = s.promoState[p.key];
+        return {
+          name: p.name, desc: p.desc, value: st.value,
+          onValue: (e) => this.setState(state => ({ promoState: { ...state.promoState, [p.key]: { ...state.promoState[p.key], value: e.target.value } } })),
+          bg: st.on ? '#7229FF' : '#E5E2F5', left: st.on ? '20px' : '2px',
+          toggle: () => this.setState(state => ({ promoState: { ...state.promoState, [p.key]: { ...state.promoState[p.key], on: !state.promoState[p.key].on } } }))
+        };
+      }),
+
+      // Analytics
+      occupancyBars: [58, 64, 71, 68, 75, 80, 74, 71].map(v => ({ h: v + '%', label: v + '%' })),
+      revenueBars: [60, 68, 72, 78, 85, 90].map(v => ({ h: v + '%', label: v + '%' })),
+      bookingSources: [
+        { name: 'Search', pct: 52, color: '#7229FF' },
+        { name: 'Featured Stay', pct: 31, color: '#00CAEF' },
+        { name: 'Direct / repeat', pct: 17, color: 'rgba(12,10,30,0.35)' }
+      ],
+
+      // Quality
+      qualityScore: 78,
+      benchmarkScore: 71, benchmarkColor: '#0a8aa3', benchmarkDelta: '+7 above avg',
+      qualityCategories: (() => {
+        const CATS = [
+          { key: 'photos', label: 'Photos', icon: 'camera', weight: 20, score: 18, factors: [
+            { label: 'Photo count', tip: '24 photos uploaded — aim for 30+ across all rooms', points: '+7/8', color: '#0a8aa3', hasFix: true, fixLink: 'Menetap Partner Room Detail.dc.html' },
+            { label: 'Coverage per room type', tip: 'Family Cottage has only 2 photos — add more', points: '+5/8', color: '#b8860b', hasFix: true, fixLink: 'Menetap Partner Room Detail.dc.html' },
+            { label: 'Resolution & quality', tip: 'All photos meet the 1600px minimum', points: '+6/6', color: '#0a8aa3', hasFix: false }
+          ] },
+          { key: 'content', label: 'Content (title & description)', icon: 'file-text', weight: 20, score: 12, factors: [
+            { label: 'Description length', tip: 'Only 28 words — write 40+ with neighborhood & amenity keywords', points: '+5/10', color: '#c0392b', hasFix: true, fixLink: 'Menetap Partner Room Detail.dc.html' },
+            { label: 'Title keyword coverage', tip: 'Include location + property type (e.g. "Villa in Sleman, Yogyakarta")', points: '+4/6', color: '#b8860b', hasFix: true, fixLink: 'Menetap Partner Room Detail.dc.html' },
+            { label: 'Uniqueness', tip: 'No duplicate content detected across your listings', points: '+3/4', color: '#0a8aa3', hasFix: false }
+          ] },
+          { key: 'structured', label: 'Structured data completeness', icon: 'list-checks', weight: 15, score: 13, factors: [
+            { label: 'Amenities tagged', tip: '9 amenities tagged — add more for a higher score', points: '+7/8', color: '#0a8aa3', hasFix: true, fixLink: 'Menetap Partner Room Detail.dc.html' },
+            { label: 'Bed & occupancy specified', tip: 'All room types have bed type and max occupancy set', points: '+4/4', color: '#0a8aa3', hasFix: false },
+            { label: 'Policies set', tip: 'Cancellation policy set — add a pet policy for completeness', points: '+2/3', color: '#b8860b', hasFix: true, fixLink: 'Menetap Admin Settings.dc.html' }
+          ] },
+          { key: 'trust', label: 'Trust signals', icon: 'shield-check', weight: 15, score: 14, factors: [
+            { label: 'Review count & recency', tip: '214 reviews, most within last 90 days', points: '+6/6', color: '#0a8aa3', hasFix: false },
+            { label: 'Response rate & time', tip: '96% response rate, avg 42 min', points: '+6/6', color: '#0a8aa3', hasFix: false },
+            { label: 'Verified badges', tip: 'Business license verification still pending', points: '+2/3', color: '#b8860b', hasFix: true, fixLink: 'Menetap Partner Dashboard.dc.html' }
+          ] },
+          { key: 'freshness', label: 'Freshness', icon: 'refresh-cw', weight: 10, score: 7, factors: [
+            { label: 'Last updated', tip: 'Listing last edited 34 days ago — update photos or description regularly', points: '+3/5', color: '#b8860b', hasFix: true, fixLink: 'Menetap Partner Room Detail.dc.html' },
+            { label: 'Active promotion', tip: 'No active promotion running — consider one to stay fresh in search', points: '+2/3', color: '#b8860b', hasFix: true, fixLink: 'Menetap Partner Dashboard.dc.html' },
+            { label: 'Accurate availability', tip: 'Calendar is up to date with no stale blocks', points: '+2/2', color: '#0a8aa3', hasFix: false }
+          ] },
+          { key: 'translations', label: 'Translations (EN/ID)', icon: 'languages', weight: 10, score: 5, factors: [
+            { label: 'Indonesian description parity', tip: 'ID description is shorter than EN — translate the full text', points: '+3/6', color: '#c0392b', hasFix: true, fixLink: 'Menetap Partner Room Detail.dc.html' },
+            { label: 'Room names translated', tip: '2 of 3 room types have ID names', points: '+2/4', color: '#b8860b', hasFix: true, fixLink: 'Menetap Partner Room Detail.dc.html' }
+          ] },
+          { key: 'technical', label: 'Technical page SEO', icon: 'code-2', weight: 10, score: 9, factors: [
+            { label: 'Meta title & description', tip: 'Auto-generated from your listing title and first 160 characters', points: '+4/4', color: '#0a8aa3', hasFix: false },
+            { label: 'Image alt text', tip: 'Auto-generated from room and amenity names', points: '+3/3', color: '#0a8aa3', hasFix: false },
+            { label: 'URL slug', tip: 'Slug matches property name — no action needed', points: '+2/3', color: '#0a8aa3', hasFix: false }
+          ] }
+        ];
+        return CATS.map(cat => ({
+          label: cat.label, icon: cat.icon, weightLabel: cat.weight + '%',
+          points: `+${cat.score}/${cat.weight}`,
+          color: cat.score / cat.weight >= 0.8 ? '#0a8aa3' : cat.score / cat.weight >= 0.5 ? '#b8860b' : '#c0392b',
+          open: s.qualityOpen[cat.key], chevron: s.qualityOpen[cat.key] ? 'chevron-up' : 'chevron-down',
+          toggle: () => this.setState(st => ({ qualityOpen: { ...st.qualityOpen, [cat.key]: !st.qualityOpen[cat.key] } })),
+          factors: cat.factors
+        }));
+      })(),
+
+      // Team
+      teamList: s.teamState.map((tm, i) => ({
+        name: tm.name, email: tm.email, role: tm.role, canRemove: tm.role !== 'Owner',
+        remove: () => this.setState(st => ({ teamState: st.teamState.filter((_, idx) => idx !== i) }))
+      })),
+      rolePerms: Object.keys(TEAM_ROLES).map(role => ({ role, perms: TEAM_ROLES[role] })),
+      showInviteModal: s.showInviteModal,
+      openInviteModal: () => this.setState({ showInviteModal: true }),
+      closeInviteModal: () => this.setState({ showInviteModal: false }),
+      inviteEmail: s.inviteEmail, onInviteEmail: (e) => this.setState({ inviteEmail: e.target.value }),
+      inviteRole: s.inviteRole, onInviteRole: (e) => this.setState({ inviteRole: e.target.value }),
+      sendInvite: () => {
+        if (!s.inviteEmail.trim()) { this.toast('Enter an email first'); return; }
+        this.setState(st => ({ teamState: [...st.teamState, { name: s.inviteEmail.split('@')[0], email: s.inviteEmail, role: s.inviteRole }], showInviteModal: false, inviteEmail: '' }));
+        this.toast('Invite sent');
+      },
+
+      // Payouts enhancements
+      nextPayoutAmount: 'Rp 4,120,000', nextPayoutDate: 'Oct 5, 2026',
+      bankLabel: `${s.bankName} •••• ${s.bankAccount.replace(/\D/g, '').slice(-4) || '5521'}`,
+      openBankModal: () => this.setState({ showBankModal: true }),
+      closeBankModal: () => this.setState({ showBankModal: false }),
+      showBankModal: s.showBankModal,
+      bankName: s.bankName, onBankName: (e) => this.setState({ bankName: e.target.value }),
+      bankAccount: s.bankAccount, onBankAccount: (e) => this.setState({ bankAccount: e.target.value }),
+      saveBankModal: () => { this.setState({ showBankModal: false }); this.toast('Bank account updated'); },
+      downloadStatement: () => this.toast('Statement downloading…'),
+      minStayGlobal: s.minStayGlobal, onMinStayGlobal: (e) => this.setState({ minStayGlobal: e.target.value }),
+      maxStayGlobal: s.maxStayGlobal, onMaxStayGlobal: (e) => this.setState({ maxStayGlobal: e.target.value }),
+      bookingWindow: s.bookingWindow, onBookingWindow: (e) => this.setState({ bookingWindow: e.target.value }),
+      closeFrom: s.closeFrom, onCloseFrom: (e) => this.setState({ closeFrom: e.target.value }),
+      closeTo: s.closeTo, onCloseTo: (e) => this.setState({ closeTo: e.target.value }),
+      closedRanges: s.closedRanges.map((r, i) => ({ label: r, remove: () => this.setState(st => ({ closedRanges: st.closedRanges.filter((_, idx) => idx !== i) })) })),
+      closeDates: () => { if (!s.closeFrom || !s.closeTo) return; this.setState(st => ({ closedRanges: [...st.closedRanges, `${st.closeFrom} \u2013 ${st.closeTo}`], closeFrom: '', closeTo: '' })); this.toast('Dates closed for maintenance'); },
+      exportAnalytics: () => this.toast('Analytics report exported'),
+      supplyBg: s.tab === 'supply' ? 'rgba(114,41,255,0.08)' : 'transparent', supplyColor: s.tab === 'supply' ? '#7229FF' : 'rgba(12,10,30,0.7)', supplyWeight: s.tab === 'supply' ? '700' : '600',
+      selectSupply: () => this.setState({ tab: 'supply' }), isSupply: s.tab === 'supply',
+      supplyCategoryFilters: SUPPLY_CATS.map(c => ({ name: c.name, bg: s.supplyCategory === c.key ? 'rgba(114,41,255,0.08)' : 'transparent', color: s.supplyCategory === c.key ? '#7229FF' : '#0C0A1E', select: () => this.setState({ supplyCategory: c.key }) })),
+      supplyProducts: (SUPPLY_PRODUCTS[s.supplyCategory] || []).map((p, i) => {
+        const key = s.supplyCategory + '_' + i;
+        const qty = s.supplyCart[key] || 0;
+        return {
+          name: p.name, unit: p.unit, bg: p.bg, priceLabel: 'Rp ' + p.price.toLocaleString('en-US'), qty,
+          inc: () => this.setState(st => ({ supplyCart: { ...st.supplyCart, [key]: (st.supplyCart[key] || 0) + 1 } })),
+          dec: () => this.setState(st => ({ supplyCart: { ...st.supplyCart, [key]: Math.max(0, (st.supplyCart[key] || 0) - 1) } }))
+        };
+      }),
+      supplyCartLines: (() => {
+        const lines = [];
+        Object.entries(s.supplyCart).forEach(([key, qty]) => {
+          if (qty <= 0) return;
+          const [catKey, idx] = key.split('_');
+          const p = (SUPPLY_PRODUCTS[catKey] || [])[idx];
+          if (!p) return;
+          lines.push({ qty, name: p.name, subtotal: 'Rp ' + (p.price * qty).toLocaleString('en-US') });
+        });
+        return lines;
+      })(),
+      hasSupplyCart: Object.values(s.supplyCart).some(q => q > 0), noSupplyCart: !Object.values(s.supplyCart).some(q => q > 0),
+      supplyCartTotal: 'Rp ' + Object.entries(s.supplyCart).reduce((sum, [key, qty]) => { if (qty <= 0) return sum; const [catKey, idx] = key.split('_'); const p = (SUPPLY_PRODUCTS[catKey] || [])[idx]; return sum + (p ? p.price * qty : 0); }, 0).toLocaleString('en-US'),
+      checkoutSupply: () => this.toast('Order placed — you\'ll receive an invoice on your next statement'),
+      allBookingModalNote: s.allBookingModalNote, onAllBookingModalNote: (e) => this.setState({ allBookingModalNote: e.target.value }),
+      markNoShow: () => this.toast('Booking marked as no-show'),
+      markEarlyDeparture: () => this.toast('Marked as early departure'),
+      markWalkIn: () => this.toast('Marked as walk-in'),
+      cancelFromModal: () => { this.setState({ allBookingModalKey: '' }); this.toast('Booking cancelled'); },
+      reconciliationRows: [
+        { guest: 'Anin W.', platformAmount: 'Rp 2,670,000', hotelAmount: 'Rp 2,670,000', matches: true, mismatch: false },
+        { guest: 'Dimas P.', platformAmount: 'Rp 1,780,000', hotelAmount: 'Rp 1,680,000', matches: false, mismatch: true, flag: () => this.toast('Flagged for Menetap finance review') },
+        { guest: 'Rina S.', platformAmount: 'Rp 1,780,000', hotelAmount: 'Rp 1,780,000', matches: true, mismatch: false }
+      ],
+      reviewsBg: s.tab === 'reviews' ? 'rgba(114,41,255,0.08)' : 'transparent', reviewsColor: s.tab === 'reviews' ? '#7229FF' : 'rgba(12,10,30,0.7)', reviewsWeight: s.tab === 'reviews' ? '700' : '600',
+      selectReviews: () => this.setState({ tab: 'reviews' }), isReviews: s.tab === 'reviews',
+      reviewCards: REVIEWS.map(r => {
+        const rs = s.reviewsState[r.id];
+        return {
+          guest: r.guest, date: r.date, text: r.text, stars: '★'.repeat(r.rating) + '☆'.repeat(5 - r.rating),
+          statusLabel: rs.status === 'resolved' ? 'Resolved' : rs.status === 'open' ? 'Needs attention' : 'No action needed',
+          statusBg: rs.status === 'resolved' ? 'rgba(0,202,239,0.1)' : rs.status === 'open' ? 'rgba(192,57,43,0.08)' : '#F7F6FF',
+          statusColor: rs.status === 'resolved' ? '#0a8aa3' : rs.status === 'open' ? '#c0392b' : 'rgba(12,10,30,0.5)',
+          responded: rs.responded, responseText: rs.responseText,
+          canRespond: !rs.responded, isComplaint: rs.status !== 'none',
+          assignee: rs.assignee, onAssign: (e) => this.setState(st => ({ reviewsState: { ...st.reviewsState, [r.id]: { ...st.reviewsState[r.id], assignee: e.target.value } } })),
+          markResolved: () => { this.setState(st => ({ reviewsState: { ...st.reviewsState, [r.id]: { ...st.reviewsState[r.id], status: 'resolved' } } })); this.toast('Marked resolved'); },
+          escalate: () => this.toast('Escalated to Menetap trust & safety team'),
+          respondOpen: rs.respondOpen, draft: rs.draft,
+          openRespond: () => this.setState(st => ({ reviewsState: { ...st.reviewsState, [r.id]: { ...st.reviewsState[r.id], respondOpen: true } } })),
+          onDraft: (e) => this.setState(st => ({ reviewsState: { ...st.reviewsState, [r.id]: { ...st.reviewsState[r.id], draft: e.target.value } } })),
+          submitRespond: () => this.setState(st => ({ reviewsState: { ...st.reviewsState, [r.id]: { ...st.reviewsState[r.id], responded: true, responseText: st.reviewsState[r.id].draft, respondOpen: false } } }))
+        };
+      }),
+      serviceCards: SERVICES.map(svc => {
+        const st = s.serviceState[svc.id];
+        return {
+          ...svc,
+          isActive: st === 'active', isRequested: st === 'requested', isNone: st === 'none',
+          activeNote: svc.id === 'cleaning' ? '12 turnovers this month' : 'In progress',
+          manage: () => this.setState({ tab: 'services' }),
+          requestLabel: 'Request info',
+          request: () => { this.setState(st2 => ({ serviceState: { ...st2.serviceState, [svc.id]: 'requested' } })); this.toast('Request sent for ' + svc.name); }
+        };
+      }),
+      payoutBreakdown: [
+        { guest: 'Anin W.', gross: 'Rp 2,670,000', commission: '− Rp 320,400', fee: '− Rp 26,700', net: 'Rp 2,322,900' },
+        { guest: 'Dimas P.', gross: 'Rp 1,780,000', commission: '− Rp 213,600', fee: '− Rp 17,800', net: 'Rp 1,548,600' },
+        { guest: 'Rina S.', gross: 'Rp 1,780,000', commission: '− Rp 213,600', fee: '− Rp 17,800', net: 'Rp 1,548,600' }
+      ],
+      contactEmail: s.contactEmail, onContactEmail: (e) => this.setState({ contactEmail: e.target.value }),
+      saveSettings: () => this.toast('Settings saved'),
+      showUpsell: s.upsellStatus === 'offer',
+      upsellEnabled: s.upsellStatus === 'enabled',
+      enableUpsell: () => this.setState({ upsellStatus: 'enabled' }),
+      dismissUpsell: () => this.setState({ upsellStatus: 'dismissed' }),
+      showChecklist: done < s.checklist.length,
+      checklistDone: done, checklistTotal: s.checklist.length, checklistPct: Math.round((done / s.checklist.length) * 100) + '%',
+      checklistItems: s.checklist.map(c => ({
+        label: c.label, done: c.done,
+        borderColor: c.done ? '#7229FF' : '#E5E2F5', bg: c.done ? '#7229FF' : '#fff',
+        textColor: c.done ? 'rgba(12,10,30,0.4)' : '#0C0A1E', strike: c.done ? 'line-through' : 'none',
+        toggle: () => this.setState(st => ({ checklist: st.checklist.map(x => x.id === c.id ? { ...x, done: !x.done } : x) }))
+      }))
+    };
+  }
+}
+</script>
+</body>
+</html>

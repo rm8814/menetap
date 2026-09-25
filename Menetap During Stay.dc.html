@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/fonts.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/colors.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/typography.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/spacing.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/shadows.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/motion.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/styles.css">
+<script src="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/_ds_bundle.js"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+body{margin:0;background:#F7F6FF;font-family:'JetBrains Mono',monospace;color:#0C0A1E}
+a{color:#7229FF;text-decoration:none}
+a:hover{color:#5a1fd1;text-decoration:underline}
+.wrap{max-width:640px;margin:0 auto;padding:0 24px;box-sizing:border-box}
+</style>
+</helmet>
+
+<div style="min-height:100vh;display:flex;flex-direction:column">
+  <header style="border-bottom:1px solid #E5E2F5;background:#fff">
+    <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;height:64px;max-width:1240px">
+      <a href="Menetap My Trips.dc.html" style="display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:#0C0A1E"><i data-lucide="arrow-left" style="width:16px;height:16px"></i>My trips</a>
+    </div>
+  </header>
+
+  <div class="wrap" style="padding:32px 24px 64px;display:flex;flex-direction:column;gap:20px">
+    <div style="display:flex;align-items:center;gap:12px">
+      <div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#7229FF,#00CAEF);display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:700;flex:none">KH</div>
+      <div>
+        <div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:18px">Kaliurang Heritage Villa</div>
+        <div style="font-size:12px;color:#0a8aa3;font-weight:700">You're checked in · Oct 12 – Oct 15</div>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <a href="tel:+622741234567" style="display:flex;flex-direction:column;gap:6px;background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:16px"><i data-lucide="phone" style="width:18px;height:18px;color:#7229FF"></i><span style="font-size:13px;font-weight:700">Call the property</span><span style="font-size:11px;color:rgba(12,10,30,0.5)">+62 274 123 4567</span></a>
+      <div onClick="{{ openChat }}" style="display:flex;flex-direction:column;gap:6px;background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:16px;cursor:pointer"><i data-lucide="message-circle" style="width:18px;height:18px;color:#7229FF"></i><span style="font-size:13px;font-weight:700">Message host</span><span style="font-size:11px;color:rgba(12,10,30,0.5)">Usually replies within an hour</span></div>
+    </div>
+
+    <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:20px">
+      <div style="font-size:14px;font-weight:700;margin-bottom:12px">Report an issue or request assistance</div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <sc-for list="{{ issueTypes }}" as="t" hint-placeholder-count="5">
+          <div onClick="{{ t.select }}" style="display:flex;align-items:center;justify-content:space-between;padding:12px;border:{{ t.border }};border-radius:8px;cursor:pointer">
+            <div style="display:flex;align-items:center;gap:10px"><i data-lucide="{{ t.icon }}" style="width:16px;height:16px;color:#7229FF"></i><span style="font-size:13px;font-weight:600">{{ t.label }}</span></div>
+            <i data-lucide="chevron-right" style="width:14px;height:14px;color:rgba(12,10,30,0.35)"></i>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <sc-if value="{{ requestOpen }}" hint-placeholder-val="{{ false }}">
+      <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:20px;display:flex;flex-direction:column;gap:12px">
+        <div style="font-size:14px;font-weight:700">{{ selectedLabel }}</div>
+        <textarea value="{{ requestNote }}" onInput="{{ onRequestNote }}" placeholder="Describe what you need — the property's team will follow up." style="width:100%;box-sizing:border-box;font-family:'JetBrains Mono',monospace;font-size:13px;border:1px solid #E5E2F5;border-radius:6px;padding:10px 12px;min-height:80px;resize:vertical"></textarea>
+        <div style="display:flex;gap:10px;justify-content:flex-end">
+          <x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="70px,36px" variant="outline" size="sm" onClick="{{ cancelRequest }}">Cancel</x-import>
+          <x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="130px,36px" variant="primary" size="sm" onClick="{{ submitRequest }}">Send to property</x-import>
+        </div>
+      </div>
+    </sc-if>
+
+    <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:20px">
+      <div style="font-size:14px;font-weight:700;margin-bottom:10px">Extend your stay or add services</div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <a href="Menetap Room Selection.dc.html" style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #E5E2F5"><span style="font-size:13px;font-weight:600;color:#0C0A1E">Extend checkout date</span><i data-lucide="chevron-right" style="width:14px;height:14px;color:rgba(12,10,30,0.35)"></i></a>
+        <a href="Menetap Partner Services.dc.html" style="display:flex;justify-content:space-between;align-items:center;padding:10px 0"><span style="font-size:13px;font-weight:600;color:#0C0A1E">Request late checkout or extra amenities</span><i data-lucide="chevron-right" style="width:14px;height:14px;color:rgba(12,10,30,0.35)"></i></a>
+      </div>
+    </div>
+
+    <sc-if value="{{ toastMsg }}" hint-placeholder-val="{{ false }}">
+      <div style="position:fixed;top:20px;right:20px;background:#0C0A1E;color:#fff;font-size:13px;font-weight:600;padding:12px 18px;border-radius:8px;display:flex;align-items:center;gap:8px;z-index:100"><i data-lucide="check-circle" style="width:16px;height:16px;color:#00CAEF"></i>{{ toastMsg }}</div>
+    </sc-if>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const ISSUES = [
+  { key: 'ac', icon: 'wind', label: 'AC or appliance not working' },
+  { key: 'clean', icon: 'sparkles', label: 'Room cleanliness issue' },
+  { key: 'noise', icon: 'volume-2', label: 'Noise complaint' },
+  { key: 'safety', icon: 'shield-alert', label: 'Safety or security concern' },
+  { key: 'other', icon: 'circle-help', label: 'Something else' }
+];
+class Component extends DCLogic {
+  state = { selectedIssue: '', requestNote: '', toastMsg: '' };
+  componentDidMount() { if (window.lucide) window.lucide.createIcons(); }
+  componentDidUpdate() { if (window.lucide) window.lucide.createIcons(); }
+  toast(msg) { this.setState({ toastMsg: msg }); clearTimeout(this._t); this._t = setTimeout(() => this.setState({ toastMsg: '' }), 2200); }
+  renderVals() {
+    const s = this.state;
+    const selected = ISSUES.find(i => i.key === s.selectedIssue);
+    return {
+      issueTypes: ISSUES.map(i => ({ ...i, border: s.selectedIssue === i.key ? '2px solid #7229FF' : '1px solid #E5E2F5', select: () => this.setState({ selectedIssue: i.key }) })),
+      requestOpen: !!s.selectedIssue,
+      selectedLabel: selected ? selected.label : '',
+      requestNote: s.requestNote, onRequestNote: (e) => this.setState({ requestNote: e.target.value }),
+      cancelRequest: () => this.setState({ selectedIssue: '', requestNote: '' }),
+      submitRequest: () => { this.setState({ selectedIssue: '', requestNote: '' }); this.toast('Sent to the property — they\'ll follow up shortly'); },
+      openChat: () => this.toast('Opening chat with host…'),
+      toastMsg: s.toastMsg
+    };
+  }
+}
+
+</script>
+</body>
+</html>

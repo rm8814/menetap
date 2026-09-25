@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/fonts.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/colors.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/typography.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/spacing.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/shadows.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/motion.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/styles.css">
+<script src="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/_ds_bundle.js"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+body{margin:0;background:#F7F6FF;font-family:'JetBrains Mono',monospace;color:#0C0A1E}
+a{color:#7229FF;text-decoration:none}
+a:hover{color:#5a1fd1;text-decoration:underline}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px;box-sizing:border-box}
+</style>
+</helmet>
+
+<div style="min-height:100vh;display:flex;flex-direction:column">
+  <header style="position:sticky;top:0;z-index:50;background:rgba(247,246,255,0.85);backdrop-filter:blur(12px);border-bottom:1px solid #E5E2F5">
+    <div style="max-width:1240px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:72px;box-sizing:border-box">
+      <a href="Menetap Partner Landing.dc.html" style="display:flex;align-items:center;gap:9px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:19px;letter-spacing:-0.02em;color:#0C0A1E">
+        <span>menetap<span style="color:#7229FF">.</span></span> <span style="font-size:11px;font-weight:600;color:rgba(12,10,30,0.4);margin-left:4px">for partners</span>
+      </a>
+      <a href="Menetap Partner Dashboard.dc.html" style="font-size:13px;font-weight:600;color:#0C0A1E">Dashboard</a>
+    </div>
+  </header>
+
+  <section style="padding:64px 0 24px">
+    <div class="wrap" style="text-align:center;max-width:640px">
+      <div style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:#7229FF;background:rgba(114,41,255,0.08);border:1px solid rgba(114,41,255,0.2);border-radius:24px;padding:6px 14px;margin:0 auto 16px">
+        <i data-lucide="package" style="width:14px;height:14px"></i>Menetap services
+      </div>
+      <h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:38px;line-height:1.15;letter-spacing:-0.02em;margin:0 0 12px">Run your property, not your errands.</h1>
+      <p style="font-size:15px;line-height:1.7;color:rgba(12,10,30,0.65);margin:0">Optional add-on services, run by Menetap and UPSCALE, so you can focus on hosting instead of logistics.</p>
+    </div>
+  </section>
+
+  <section style="padding:24px 0 80px">
+    <div class="wrap" style="display:grid;grid-template-columns:repeat(2,1fr);gap:20px">
+      <sc-for list="{{ services }}" as="svc" hint-placeholder-count="4">
+        <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:24px;display:flex;flex-direction:column;gap:12px;box-shadow:0 2px 8px rgba(114,41,255,0.06)">
+          <div style="width:44px;height:44px;border-radius:8px;background:rgba(114,41,255,0.08);display:flex;align-items:center;justify-content:center"><i data-lucide="{{ svc.icon }}" style="width:22px;height:22px;color:#7229FF"></i></div>
+          <div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:17px">{{ svc.name }}</div>
+          <div style="font-size:13px;line-height:1.7;color:rgba(12,10,30,0.65)">{{ svc.desc }}</div>
+          <div style="font-size:13px;font-weight:700;margin-top:auto">{{ svc.price }}</div>
+        </div>
+      </sc-for>
+    </div>
+
+    <div class="wrap" style="margin-top:48px;background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:28px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px">
+      <div>
+        <div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:17px;margin-bottom:4px">Already listing on Menetap?</div>
+        <div style="font-size:13px;color:rgba(12,10,30,0.6)">Request any service directly from your dashboard's Services tab.</div>
+      </div>
+      <a href="Menetap Partner Dashboard.dc.html"><x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="180px,44px" variant="primary" size="md">Go to dashboard</x-import></a>
+    </div>
+  </section>
+
+  <footer style="border-top:1px solid #E5E2F5;padding:24px 0;background:#fff">
+    <div class="wrap" style="max-width:1240px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px">
+      <div style="font-size:12px;color:rgba(12,10,30,0.5)">© 2026 Menetap. All rights reserved.</div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <div onClick="{{ toggleLang }}" style="display:flex;align-items:center;gap:4px;font-size:11px;font-weight:700;color:rgba(12,10,30,0.5);cursor:pointer;border:1px solid #E5E2F5;border-radius:24px;padding:5px 12px"><i data-lucide="globe" style="width:12px;height:12px"></i>{{ langLabel }}</div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:11px;color:rgba(12,10,30,0.45);background:#F7F6FF;border:1px solid #E5E2F5;border-radius:24px;padding:5px 12px">Managed by <a href="https://upscale.asia" target="_blank" style="font-weight:700;color:#7229FF">UPSCALE</a></div>
+      </div>
+    </div>
+  </footer>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const SERVICES = [
+  { id: 'cleaning', name: 'Cleaning & housekeeping', icon: 'sparkles', desc: 'Scheduled turnover cleaning between guest stays, plus on-demand deep cleans.', price: 'From Rp 85,000 / turnover' },
+  { id: 'photography', name: 'Professional photography', icon: 'camera', desc: 'A photographer shoots your property and delivers edited, listing-ready photos.', price: 'From Rp 950,000 / shoot' },
+  { id: 'crs', name: 'Central reservation service', icon: 'phone-call', desc: 'A Menetap team handles phone and WhatsApp booking inquiries on your behalf.', price: 'Rp 450,000 / month' },
+  { id: 'revenue', name: 'Revenue management', icon: 'trending-up', desc: 'UPSCALE analysts set and adjust your pricing weekly based on demand data.', price: 'Rp 1,200,000 / month' }
+];
+class Component extends DCLogic {
+  componentDidMount() { if (window.lucide) window.lucide.createIcons(); }
+  componentDidUpdate() { if (window.lucide) window.lucide.createIcons(); }
+  renderVals() {
+    const l = this.state.__lang || (typeof localStorage!=='undefined' && localStorage.getItem('menetapLang')) || 'en';
+    return {
+      langLabel: l === 'en' ? 'EN' : 'ID',
+      toggleLang: () => { const next = l === 'en' ? 'id' : 'en'; if (typeof localStorage!=='undefined') localStorage.setItem('menetapLang', next); this.setState({ __lang: next }); },
+      services: SERVICES
+    };
+  }
+}
+
+</script>
+</body>
+</html>

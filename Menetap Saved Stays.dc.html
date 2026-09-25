@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/fonts.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/colors.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/typography.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/spacing.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/shadows.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/motion.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/styles.css">
+<script src="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/_ds_bundle.js"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+body{margin:0;background:var(--color-bg,#F7F6FF);font-family:'JetBrains Mono',monospace;color:var(--color-ink,#0C0A1E)}
+a{color:#7229FF;text-decoration:none}
+a:hover{color:#5a1fd1;text-decoration:underline}
+.wrap{max-width:1080px;width:100%;margin:0 auto;padding:0 24px;box-sizing:border-box}
+.mobtabs{display:none}
+@media (max-width:820px){.acctgrid{grid-template-columns:1fr !important}.acctsidebar{display:none !important}.mobtabs{display:flex !important}.savedgrid{grid-template-columns:1fr 1fr !important}}
+</style>
+</helmet>
+
+<div style="min-height:100vh;display:flex;flex-direction:column">
+
+  <header style="position:sticky;top:0;z-index:50;background:rgba(247,246,255,0.9);backdrop-filter:blur(12px);border-bottom:1px solid #E5E2F5">
+    <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;height:64px">
+      <a href="#" style="display:flex;align-items:center;gap:9px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:19px;letter-spacing:-0.02em;color:#0C0A1E">
+        <span>menetap<span style="color:#7229FF">.</span></span>
+      </a>
+      <nav style="display:flex;gap:24px;font-size:13px;font-weight:600">
+        <a href="#" style="color:rgba(12,10,30,0.55)">Stays</a>
+        <a href="#" style="color:#7229FF">My trips</a>
+      </nav>
+      <div style="display:flex;align-items:center;gap:10px">
+        <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#7229FF,#00CAEF);display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:700">AW</div>
+      </div>
+    </div>
+  </header>
+
+  <div class="wrap" style="padding:32px 24px 64px">
+    <h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:26px;letter-spacing:-0.02em;margin:0 0 20px">Favorites</h1>
+
+    <div class="mobtabs" style="gap:8px;overflow-x:auto;padding-bottom:16px">
+      <a href="#" style="flex:none;font-size:12px;font-weight:600;color:rgba(12,10,30,0.65);padding:7px 14px;border-radius:24px;white-space:nowrap;border:1px solid #E5E2F5">Trips</a>
+      <a href="#" style="flex:none;font-size:12px;font-weight:700;background:rgba(114,41,255,0.08);color:#7229FF;padding:7px 14px;border-radius:24px;white-space:nowrap">Favorites</a>
+      <a href="#" style="flex:none;font-size:12px;font-weight:600;color:rgba(12,10,30,0.65);padding:7px 14px;border-radius:24px;white-space:nowrap;border:1px solid #E5E2F5">Rewards</a>
+      <a href="#" style="flex:none;font-size:12px;font-weight:600;color:rgba(12,10,30,0.65);padding:7px 14px;border-radius:24px;white-space:nowrap;border:1px solid #E5E2F5">Payment</a>
+      <a href="#" style="flex:none;font-size:12px;font-weight:600;color:rgba(12,10,30,0.65);padding:7px 14px;border-radius:24px;white-space:nowrap;border:1px solid #E5E2F5">Settings</a>
+    </div>
+
+    <div class="acctgrid" style="display:grid;grid-template-columns:220px 1fr;gap:32px">
+      <aside class="acctsidebar" style="display:flex;flex-direction:column;gap:4px">
+        <a href="#" style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;color:rgba(12,10,30,0.7);font-size:13px;font-weight:600"><i data-lucide="briefcase" style="width:16px;height:16px"></i>Trips</a>
+        <a href="#" style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;background:rgba(114,41,255,0.08);color:#7229FF;font-size:13px;font-weight:700"><i data-lucide="heart" style="width:16px;height:16px"></i>Favorites</a>
+        <a href="#" style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;color:rgba(12,10,30,0.7);font-size:13px;font-weight:600"><i data-lucide="gift" style="width:16px;height:16px"></i>Rewards</a>
+        <a href="#" style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;color:rgba(12,10,30,0.7);font-size:13px;font-weight:600"><i data-lucide="credit-card" style="width:16px;height:16px"></i>Payment methods</a>
+        <a href="#" style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;color:rgba(12,10,30,0.7);font-size:13px;font-weight:600"><i data-lucide="settings" style="width:16px;height:16px"></i>Settings</a>
+        <div style="height:1px;background:#E5E2F5;margin:8px 0"></div>
+        <a href="#" style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;color:rgba(12,10,30,0.5);font-size:13px;font-weight:600"><i data-lucide="log-out" style="width:16px;height:16px"></i>Log out</a>
+      </aside>
+
+      <div style="min-width:0">
+        <sc-if value="{{ hasSaved }}" hint-placeholder-val="{{ true }}">
+          <div class="savedgrid" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px">
+
+            <a href="Menetap Hotel Detail.dc.html" style="display:block;background:#fff;border:1px solid #E5E2F5;border-radius:8px;overflow:hidden;text-decoration:none;color:inherit">
+              <div style="position:relative;aspect-ratio:4/3;background:linear-gradient(135deg,#e5e2f5,#cfc8f0);display:flex;align-items:center;justify-content:center;color:rgba(12,10,30,0.35);font-size:12px">
+                Photo
+                <div style="position:absolute;top:8px;right:8px;width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,0.9);display:flex;align-items:center;justify-content:center;cursor:pointer" onClick="{{ unsaveVilla }}"><i data-lucide="heart" style="width:14px;height:14px;color:#7229FF;fill:#7229FF"></i></div>
+              </div>
+              <div style="padding:12px">
+                <div style="font-size:13px;font-weight:700">Kaliurang Heritage Villa</div>
+                <div style="font-size:11px;color:rgba(12,10,30,0.5);margin-top:3px">4.8 · Sleman, Yogyakarta</div>
+                <div style="font-size:13px;font-weight:800;margin-top:6px">Rp 890,000<span style="font-size:10px;font-weight:500;color:rgba(12,10,30,0.5)">/night</span></div>
+                <div onClick="{{ toggleAlertVilla }}" style="display:flex;align-items:center;gap:5px;margin-top:8px;font-size:11px;font-weight:700;color:{{ alertVillaColor }};cursor:pointer"><i data-lucide="bell" style="width:12px;height:12px"></i>{{ alertVillaLabel }}</div>
+              </div>
+            </a>
+
+            <a href="Menetap Hotel Detail.dc.html" style="display:block;background:#fff;border:1px solid #E5E2F5;border-radius:8px;overflow:hidden;text-decoration:none;color:inherit">
+              <div style="position:relative;aspect-ratio:4/3;background:linear-gradient(135deg,#dfe8ff,#c8d4f5);display:flex;align-items:center;justify-content:center;color:rgba(12,10,30,0.35);font-size:12px">
+                Photo
+                <div style="position:absolute;top:8px;right:8px;width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,0.9);display:flex;align-items:center;justify-content:center;cursor:pointer" onClick="{{ unsaveBoutique }}"><i data-lucide="heart" style="width:14px;height:14px;color:#7229FF;fill:#7229FF"></i></div>
+              </div>
+              <div style="padding:12px">
+                <div style="font-size:13px;font-weight:700">Prawirotaman Boutique</div>
+                <div style="font-size:11px;color:rgba(12,10,30,0.5);margin-top:3px">4.6 · Mergangsan, Yogyakarta</div>
+                <div style="font-size:13px;font-weight:800;margin-top:6px">Rp 620,000<span style="font-size:10px;font-weight:500;color:rgba(12,10,30,0.5)">/night</span></div>
+                <div onClick="{{ toggleAlertBoutique }}" style="display:flex;align-items:center;gap:5px;margin-top:8px;font-size:11px;font-weight:700;color:{{ alertBoutiqueColor }};cursor:pointer"><i data-lucide="bell" style="width:12px;height:12px"></i>{{ alertBoutiqueLabel }}</div>
+              </div>
+            </a>
+
+            <sc-if value="{{ showRiverside }}" hint-placeholder-val="{{ true }}">
+              <a href="Menetap Hotel Detail.dc.html" style="display:block;background:#fff;border:1px solid #E5E2F5;border-radius:8px;overflow:hidden;text-decoration:none;color:inherit">
+                <div style="position:relative;aspect-ratio:4/3;background:linear-gradient(135deg,#e5f0e0,#cde5c8);display:flex;align-items:center;justify-content:center;color:rgba(12,10,30,0.35);font-size:12px">
+                  Photo
+                  <div style="position:absolute;top:8px;right:8px;width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,0.9);display:flex;align-items:center;justify-content:center;cursor:pointer" onClick="{{ unsaveRiverside }}"><i data-lucide="heart" style="width:14px;height:14px;color:#7229FF;fill:#7229FF"></i></div>
+                </div>
+                <div style="padding:12px">
+                  <div style="font-size:13px;font-weight:700">Tugu Riverside Homestay</div>
+                  <div style="font-size:11px;color:rgba(12,10,30,0.5);margin-top:3px">4.5 · Jetis, Yogyakarta</div>
+                  <div style="font-size:13px;font-weight:800;margin-top:6px">Rp 540,000<span style="font-size:10px;font-weight:500;color:rgba(12,10,30,0.5)">/night</span></div>
+                  <div onClick="{{ toggleAlertRiverside }}" style="display:flex;align-items:center;gap:5px;margin-top:8px;font-size:11px;font-weight:700;color:{{ alertRiversideColor }};cursor:pointer"><i data-lucide="bell" style="width:12px;height:12px"></i>{{ alertRiversideLabel }}</div>
+                </div>
+              </a>
+            </sc-if>
+
+          </div>
+        </sc-if>
+        <sc-if value="{{ noSaved }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:12px;background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:56px 24px">
+            <i data-lucide="heart" style="width:28px;height:28px;color:rgba(12,10,30,0.3)"></i>
+            <div style="font-size:13px;color:rgba(12,10,30,0.5)">No favorites yet. Tap the heart icon on any stay to add it here.</div>
+            <x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="150px,38px" variant="primary" size="sm">Explore stays</x-import>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+  </div>
+
+  <footer style="border-top:1px solid #E5E2F5;padding:24px 0;margin-top:auto;background:#fff">
+    <div class="wrap" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px">
+      <div style="font-size:12px;color:rgba(12,10,30,0.5)">© 2026 Menetap. All rights reserved.</div>
+      
+      <!-- langgroup --><div style="display:flex;align-items:center;gap:10px"><div onClick="{{ toggleLang }}" style="display:flex;align-items:center;gap:4px;font-size:11px;font-weight:700;color:rgba(12,10,30,0.5);cursor:pointer;border:1px solid #E5E2F5;border-radius:24px;padding:5px 12px"><i data-lucide="globe" style="width:12px;height:12px"></i>{{ langLabel }}</div><div style="display:flex;align-items:center;gap:8px;font-size:11px;color:rgba(12,10,30,0.45);background:#F7F6FF;border:1px solid #E5E2F5;border-radius:24px;padding:5px 12px">
+        Managed by <a href="https://upscale.asia" target="_blank" style="font-weight:700;color:#7229FF">UPSCALE</a>
+      </div></div>
+    </div>
+  </footer>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { villa: true, boutique: true, riverside: true, alertVilla: false, alertBoutique: false, alertRiverside: false };
+  componentDidMount() {
+    if (window.lucide) window.lucide.createIcons();
+  }
+  componentDidUpdate() {
+    if (window.lucide) window.lucide.createIcons();
+  }
+  renderVals() {
+    const __lang = this.state.__lang || (typeof localStorage !== 'undefined' && localStorage.getItem('menetapLang')) || 'en';
+    const s = this.state;
+    const anySaved = s.villa || s.boutique || s.riverside;
+    const alertLabel = (on) => on ? 'Price alert on' : 'Notify on price drop';
+    const alertColor = (on) => on ? '#7229FF' : 'rgba(12,10,30,0.5)';
+    return {
+      langLabel: __lang === 'en' ? 'EN' : 'ID',
+      toggleLang: () => { const next = __lang === 'en' ? 'id' : 'en'; localStorage.setItem('menetapLang', next); this.setState({ __lang: next }); },
+      hasSaved: anySaved,
+      noSaved: !anySaved,
+      showRiverside: s.riverside,
+      unsaveVilla: (e) => { e.preventDefault(); e.stopPropagation(); this.setState({ villa: false }); },
+      unsaveBoutique: (e) => { e.preventDefault(); e.stopPropagation(); this.setState({ boutique: false }); },
+      unsaveRiverside: (e) => { e.preventDefault(); e.stopPropagation(); this.setState({ riverside: false }); },
+      alertVillaLabel: alertLabel(s.alertVilla), alertVillaColor: alertColor(s.alertVilla),
+      alertBoutiqueLabel: alertLabel(s.alertBoutique), alertBoutiqueColor: alertColor(s.alertBoutique),
+      alertRiversideLabel: alertLabel(s.alertRiverside), alertRiversideColor: alertColor(s.alertRiverside),
+      toggleAlertVilla: (e) => { e.preventDefault(); e.stopPropagation(); this.setState({ alertVilla: !s.alertVilla }); },
+      toggleAlertBoutique: (e) => { e.preventDefault(); e.stopPropagation(); this.setState({ alertBoutique: !s.alertBoutique }); },
+      toggleAlertRiverside: (e) => { e.preventDefault(); e.stopPropagation(); this.setState({ alertRiverside: !s.alertRiverside }); }
+    };
+  }
+}
+</script>
+</body>
+</html>

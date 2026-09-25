@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/fonts.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/colors.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/typography.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/styles.css">
+<script src="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/_ds_bundle.js"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+body{margin:0;background:#e5e2f5;font-family:'JetBrains Mono',monospace;color:#0C0A1E;display:flex;justify-content:center;padding:32px 0}
+a{color:#7229FF;text-decoration:none}
+a:hover{color:#5a1fd1}
+.mtab{display:flex;flex-direction:column;align-items:center;gap:3px;flex:1;cursor:pointer}
+@keyframes mshimmer{0%{opacity:.5}50%{opacity:1}100%{opacity:.5}}
+.skel{background:#E5E2F5;border-radius:6px;animation:mshimmer 1.2s ease-in-out infinite}
+.mscroll{scrollbar-width:none}
+.mscroll::-webkit-scrollbar{display:none}
+.mpress{transition:transform 100ms}
+.mpress:active{transform:scale(0.97);opacity:0.9}
+.mptr{display:flex;align-items:center;justify-content:center;height:0;overflow:hidden;color:#7229FF;font-size:11px;font-weight:700;transition:height 150ms}
+</style>
+</helmet>
+
+<x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" hint-size="402px,874px">
+  <div style="height:100%;display:flex;flex-direction:column;background:#F7F6FF;font-family:'JetBrains Mono',monospace;color:#0C0A1E">
+
+    <div class="mscroll" style="flex:1;overflow-y:auto;padding-top:62px">
+
+      <!-- EXPLORE -->
+      <sc-if value="{{ isExplore }}" hint-placeholder-val="{{ true }}">
+        <div style="padding:12px 16px 4px">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+            <div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:20px"><span>menetap<span style="color:#7229FF">.</span></span></div>
+            <div style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#7229FF,#00CAEF);display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:700">AW</div>
+          </div>
+          <div class="mpress" style="display:flex;align-items:center;gap:8px;background:#fff;border:1px solid #E5E2F5;border-radius:24px;padding:11px 14px;box-shadow:0 2px 8px rgba(114,41,255,0.06);cursor:pointer" onClick="{{ goSearch }}">
+            <i data-lucide="search" style="width:15px;height:15px;color:#7229FF"></i>
+            <div style="font-size:13px;font-weight:600;color:rgba(12,10,30,0.5)">{{ searchSummary }}</div>
+          </div>
+          <div style="display:flex;gap:8px;overflow-x:auto;margin-top:14px;padding-bottom:4px">
+            <div style="flex:none;font-size:12px;font-weight:700;background:#fff;border:1px solid #E5E2F5;border-radius:24px;padding:7px 14px;white-space:nowrap">Yogyakarta</div>
+            <div style="flex:none;font-size:12px;font-weight:600;color:rgba(12,10,30,0.6);background:#fff;border:1px solid #E5E2F5;border-radius:24px;padding:7px 14px;white-space:nowrap">Bandung</div>
+            <div style="flex:none;font-size:12px;font-weight:600;color:rgba(12,10,30,0.6);background:#fff;border:1px solid #E5E2F5;border-radius:24px;padding:7px 14px;white-space:nowrap">Semarang</div>
+          </div>
+        </div>
+        <div style="padding:16px 16px 16px;display:flex;flex-direction:column;gap:12px">
+          <div style="display:flex;justify-content:space-between;align-items:baseline">
+            <div style="font-size:14px;font-weight:800;font-family:'Plus Jakarta Sans',sans-serif">Featured in Yogyakarta</div>
+            <div style="display:flex;align-items:center;gap:8px">
+              <div class="mpress" style="display:flex;align-items:center;gap:4px;font-size:11px;font-weight:700;color:#7229FF;border:1px solid #E5E2F5;border-radius:24px;padding:5px 10px;cursor:pointer" onClick="{{ toggleFilters }}"><i data-lucide="sliders-horizontal" style="width:11px;height:11px"></i>Filters</div>
+            </div>
+          </div>
+          <div class="mptr" style="height:{{ ptrHeight }}"><i data-lucide="loader-2" style="width:13px;height:13px;margin-right:5px"></i>Pull to refresh</div>
+          <sc-if value="{{ filtersOpen }}" hint-placeholder-val="{{ false }}">
+            <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:12px;display:flex;flex-direction:column;gap:10px">
+              <div style="font-size:12px;font-weight:700">Guest rating</div>
+              <div style="display:flex;gap:6px;flex-wrap:wrap">
+                <div class="mpress" style="font-size:11px;font-weight:700;padding:6px 12px;border-radius:24px;cursor:pointer;background:{{ ratingAllBg }};color:{{ ratingAllColor }}" onClick="{{ selectRatingAll }}">All</div>
+                <div class="mpress" style="font-size:11px;font-weight:700;padding:6px 12px;border-radius:24px;cursor:pointer;background:{{ ratingTopBg }};color:{{ ratingTopColor }}" onClick="{{ selectRatingTop }}">4.5+ Excellent</div>
+              </div>
+              <div style="font-size:12px;font-weight:700;margin-top:4px">Free cancellation only</div>
+              <div class="toggle-row" style="display:flex;align-items:center;justify-content:space-between">
+                <div style="font-size:12px;color:rgba(12,10,30,0.6)">Show cancellable stays only</div>
+                <div style="width:36px;height:20px;border-radius:24px;position:relative;cursor:pointer;background:{{ freeCancelBg }}" onClick="{{ toggleFreeCancel }}"><div style="position:absolute;top:2px;width:16px;height:16px;border-radius:50%;background:#fff;left:{{ freeCancelLeft }};transition:left 150ms"></div></div>
+              </div>
+            </div>
+          </sc-if>
+          <sc-if value="{{ loading }}" hint-placeholder-val="{{ false }}">
+            <sc-for list="{{ skeletons }}" as="s" hint-placeholder-count="2">
+              <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;overflow:hidden">
+                <div class="skel" style="aspect-ratio:4/3;border-radius:0"></div>
+                <div style="padding:12px;display:flex;flex-direction:column;gap:8px">
+                  <div class="skel" style="height:13px;width:70%"></div>
+                  <div class="skel" style="height:11px;width:45%"></div>
+                  <div class="skel" style="height:14px;width:35%"></div>
+                </div>
+              </div>
+            </sc-for>
+          </sc-if>
+          <sc-if value="{{ loaded }}" hint-placeholder-val="{{ true }}">
+            <sc-for list="{{ hotels }}" as="h" hint-placeholder-count="3">
+              <div class="mpress" style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;overflow:hidden;cursor:pointer" onClick="{{ h.open }}">
+                <div style="position:relative;aspect-ratio:4/3;background:{{ h.bg }};display:flex;align-items:center;justify-content:center;color:rgba(12,10,30,0.35);font-size:12px">
+                  Photo
+                  <sc-if value="{{ h.picked }}" hint-placeholder-val="{{ false }}">
+                    <div style="position:absolute;top:8px;left:8px;background:linear-gradient(135deg,#7229FF,#00CAEF);color:#fff;font-size:10px;font-weight:700;padding:3px 8px;border-radius:24px">Featured Stay</div>
+                  </sc-if>
+                </div>
+                <div style="padding:12px">
+                  <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px">
+                    <div style="font-size:13px;font-weight:700">{{ h.name }}</div>
+                    <div style="display:flex;align-items:center;gap:3px;font-size:11px;font-weight:700;color:#0a8aa3;flex:none"><i data-lucide="star" style="width:11px;height:11px"></i>{{ h.rating }}</div>
+                  </div>
+                  <div style="font-size:11px;color:rgba(12,10,30,0.5);margin-top:2px">{{ h.area }}</div>
+                  <div style="font-size:14px;font-weight:800;margin-top:6px">{{ h.rate }}<span style="font-size:10px;font-weight:500;color:rgba(12,10,30,0.5)">/night</span></div>
+                  <div style="font-size:10px;color:rgba(12,10,30,0.45);margin-top:2px">{{ h.vsMarket }}</div>
+                </div>
+              </div>
+            </sc-for>
+          </sc-if>
+        </div>
+      </sc-if>
+
+      <!-- SEARCH -->
+      <sc-if value="{{ isSearch }}" hint-placeholder-val="{{ false }}">
+        <div style="padding:12px 16px;display:flex;flex-direction:column;gap:14px">
+          <div style="display:flex;align-items:center;gap:10px">
+            <div style="width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;margin-left:-7px" onClick="{{ goExplore }}"><i data-lucide="arrow-left" style="width:18px;height:18px;pointer-events:none"></i></div>
+            <div style="font-size:15px;font-weight:700">Where to?</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;background:#fff;border:1px solid #7229FF;border-radius:8px;padding:10px 12px">
+            <i data-lucide="map-pin" style="width:15px;height:15px;color:#7229FF"></i>
+            <input value="{{ destQuery }}" onInput="{{ onDestInput }}" placeholder="City, area or landmark" style="border:none;outline:none;flex:1;font-family:'JetBrains Mono',monospace;font-size:13px;background:transparent" />
+          </div>
+          <div style="display:flex;flex-direction:column;background:#fff;border:1px solid #E5E2F5;border-radius:8px">
+            <sc-for list="{{ destMatches }}" as="d" hint-placeholder-count="4">
+              <div style="display:flex;align-items:center;gap:10px;padding:12px;border-bottom:1px solid #E5E2F5;cursor:pointer" onClick="{{ d.select }}">
+                <i data-lucide="{{ d.icon }}" style="width:15px;height:15px;color:#7229FF"></i>
+                <div><div style="font-size:13px;font-weight:600">{{ d.name }}</div><div style="font-size:11px;color:rgba(12,10,30,0.5)">{{ d.type }}</div></div>
+              </div>
+            </sc-for>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+            <div class="mpress" style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:10px 12px;cursor:pointer" onClick="{{ cycleDates }}"><div style="font-size:10px;font-weight:700;color:rgba(12,10,30,0.5);text-transform:uppercase">Check-in – out</div><div style="font-size:13px;font-weight:600;margin-top:2px">{{ dateLabel }}</div></div>
+            <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:10px 12px;display:flex;align-items:center;justify-content:space-between">
+              <div><div style="font-size:10px;font-weight:700;color:rgba(12,10,30,0.5);text-transform:uppercase">Guests</div><div style="font-size:13px;font-weight:600;margin-top:2px">{{ guestCount }} adults</div></div>
+              <div style="display:flex;align-items:center;gap:8px">
+                <div style="width:20px;height:20px;border-radius:50%;border:1px solid #E5E2F5;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;cursor:pointer" onClick="{{ decGuest }}">–</div>
+                <div style="width:20px;height:20px;border-radius:50%;border:1px solid #E5E2F5;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;cursor:pointer" onClick="{{ incGuest }}">+</div>
+              </div>
+            </div>
+          </div>
+          <div class="mpress" style="background:#7229FF;color:#fff;font-size:14px;font-weight:700;padding:14px;border-radius:8px;text-align:center;cursor:pointer" onClick="{{ runSearch }}">Search stays</div>
+        </div>
+      </sc-if>
+
+      <!-- DETAIL -->
+      <sc-if value="{{ isDetail }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;align-items:center;gap:10px;padding:12px 16px">
+          <div style="width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;margin-left:-7px" onClick="{{ goExplore }}"><i data-lucide="arrow-left" style="width:18px;height:18px;pointer-events:none"></i></div>
+          <div style="font-size:13px;font-weight:700">{{ selHotel.name }}</div>
+        </div>
+        <div style="aspect-ratio:4/3;background:{{ selHotel.bg }};display:flex;align-items:center;justify-content:center;color:rgba(12,10,30,0.35);font-size:12px;margin:0 16px;border-radius:8px">Hotel photo</div>
+        <div style="padding:16px;display:flex;flex-direction:column;gap:12px">
+          <div>
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px">
+              <div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:17px">{{ selHotel.name }}</div>
+              <div style="display:flex;align-items:center;gap:3px;font-size:11px;font-weight:700;background:rgba(0,202,239,0.1);color:#0a8aa3;padding:3px 7px;border-radius:4px;flex:none"><i data-lucide="star" style="width:11px;height:11px"></i>{{ selHotel.rating }}</div>
+            </div>
+            <div style="font-size:12px;color:rgba(12,10,30,0.55);margin-top:3px">{{ selHotel.area }}</div>
+          </div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap">
+            <span style="font-size:10px;font-weight:600;background:rgba(114,41,255,0.08);color:#7229FF;padding:3px 7px;border-radius:4px">Free cancellation</span>
+            <span style="font-size:10px;font-weight:600;background:rgba(0,202,239,0.1);color:#0a8aa3;padding:3px 7px;border-radius:4px">Instant confirm</span>
+          </div>
+          <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:14px">
+            <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:6px"><span style="color:rgba(12,10,30,0.6)">Market avg</span><span style="font-weight:700">{{ selHotel.market }}</span></div>
+            <div style="display:flex;justify-content:space-between;font-size:12px"><span style="color:rgba(12,10,30,0.6)">Menetap rate</span><span style="font-weight:700;color:#7229FF">{{ selHotel.rate }}</span></div>
+            <div style="font-size:10px;color:rgba(12,10,30,0.45);margin-top:6px">{{ selHotel.vsMarket }}</div>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- ROOMS -->
+      <sc-if value="{{ isRooms }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;align-items:center;gap:10px;padding:12px 16px">
+          <div style="width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;margin-left:-7px" onClick="{{ goDetail }}"><i data-lucide="arrow-left" style="width:18px;height:18px;pointer-events:none"></i></div>
+          <div style="font-size:15px;font-weight:700">Choose rooms</div>
+        </div>
+        <div style="padding:0 16px 16px;display:flex;flex-direction:column;gap:12px">
+          <div style="font-size:11px;color:rgba(12,10,30,0.55)">Oct 12 – 15 · 3 nights · 2 adults</div>
+          <sc-for list="{{ rooms }}" as="r" hint-placeholder-count="3">
+            <div style="background:#fff;border-radius:8px;overflow:hidden;border:{{ r.border }}">
+              <div style="position:relative;aspect-ratio:4/3;background:{{ r.bg }};display:flex;align-items:center;justify-content:center;color:rgba(12,10,30,0.35);font-size:12px">
+                Photo
+                <div style="position:absolute;bottom:8px;right:10px;display:flex;gap:3px"><div style="width:5px;height:5px;border-radius:50%;background:#fff"></div><div style="width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,0.5)"></div><div style="width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,0.5)"></div></div>
+              </div>
+              <div style="padding:12px;display:flex;flex-direction:column;gap:6px">
+                <div style="display:flex;justify-content:space-between;gap:8px"><div style="font-size:14px;font-weight:700">{{ r.name }}</div><div style="font-size:14px;font-weight:800;flex:none">{{ r.rate }}</div></div>
+                <div style="font-size:11px;color:rgba(12,10,30,0.55)">{{ r.specs }}</div>
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-top:4px">
+                  <div style="font-size:11px;color:rgba(12,10,30,0.45)">{{ r.total }} for 3 nights</div>
+                  <div style="display:flex;align-items:center;gap:12px">
+                    <div style="width:30px;height:30px;border-radius:50%;border:1px solid #E5E2F5;display:flex;align-items:center;justify-content:center;font-weight:700;cursor:pointer" onClick="{{ r.dec }}">–</div>
+                    <div style="font-size:14px;font-weight:700;min-width:12px;text-align:center">{{ r.qty }}</div>
+                    <div style="width:30px;height:30px;border-radius:50%;border:1px solid #E5E2F5;display:flex;align-items:center;justify-content:center;font-weight:700;cursor:pointer" onClick="{{ r.inc }}">+</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </sc-if>
+
+      <!-- CHECKOUT -->
+      <sc-if value="{{ isCheckout }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;align-items:center;gap:10px;padding:12px 16px">
+          <div style="width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;margin-left:-7px" onClick="{{ goRooms }}"><i data-lucide="arrow-left" style="width:18px;height:18px;pointer-events:none"></i></div>
+          <div style="font-size:15px;font-weight:700">Checkout</div>
+        </div>
+        <div style="padding:0 16px 16px;display:flex;flex-direction:column;gap:12px">
+          <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:14px;display:flex;flex-direction:column;gap:8px">
+            <div style="font-size:13px;font-weight:700">{{ selHotel.name }}</div>
+            <sc-for list="{{ lineItems }}" as="li" hint-placeholder-count="1">
+              <div style="display:flex;justify-content:space-between;gap:8px;font-size:12px"><span style="color:rgba(12,10,30,0.65)">{{ li.label }}</span><span style="font-weight:600;flex:none">{{ li.subtotal }}</span></div>
+            </sc-for>
+            <div style="height:1px;background:#E5E2F5"></div>
+            <div style="display:flex;justify-content:space-between;font-size:14px"><span style="font-weight:700">Total</span><span style="font-weight:800">{{ grandTotal }}</span></div>
+          </div>
+          <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:14px;display:flex;flex-direction:column;gap:10px">
+            <div style="font-size:13px;font-weight:700">Guest details</div>
+            <input placeholder="Full name" value="Anin Wida" style="border:1px solid #E5E2F5;border-radius:6px;padding:10px;font-family:'JetBrains Mono',monospace;font-size:13px" />
+            <input placeholder="Email" value="anin@email.com" style="border:1px solid #E5E2F5;border-radius:6px;padding:10px;font-family:'JetBrains Mono',monospace;font-size:13px" />
+          </div>
+          <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:14px;display:flex;flex-direction:column;gap:8px">
+            <div style="font-size:13px;font-weight:700">Payment</div>
+            <div style="display:flex;align-items:center;gap:10px;padding:10px;border-radius:6px;cursor:pointer;border:{{ payCardBorder }}" onClick="{{ selectPayCard }}"><div style="width:36px;height:24px;border-radius:4px;background:#0C0A1E;color:#fff;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;flex:none">VISA</div><div style="font-size:13px;font-weight:600">•••• 4242</div></div>
+            <div style="display:flex;align-items:center;gap:10px;padding:10px;border-radius:6px;cursor:pointer;border:{{ payEwalletBorder }}" onClick="{{ selectPayEwallet }}"><i data-lucide="wallet" style="width:16px;height:16px;color:#7229FF;flex:none"></i><div style="font-size:13px;font-weight:600">GoPay / OVO</div></div>
+            <div style="display:flex;align-items:center;gap:10px;padding:10px;border-radius:6px;cursor:pointer;border:{{ payTransferBorder }}" onClick="{{ selectPayTransfer }}"><i data-lucide="landmark" style="width:16px;height:16px;color:#7229FF;flex:none"></i><div style="font-size:13px;font-weight:600">Bank transfer</div></div>
+            <div style="display:flex;align-items:center;gap:10px;padding:10px;border-radius:6px;cursor:pointer;border:{{ payHotelBorder }}" onClick="{{ selectPayHotel }}"><i data-lucide="building" style="width:16px;height:16px;color:#7229FF;flex:none"></i><div style="font-size:13px;font-weight:600">Pay at hotel</div></div>
+          </div>
+          <div style="font-size:11px;color:rgba(12,10,30,0.5)">Free cancellation before Oct 10 · No hidden fees</div>
+        </div>
+      </sc-if>
+
+      <!-- CONFIRMED -->
+      <sc-if value="{{ isConfirmed }}" hint-placeholder-val="{{ false }}">
+        <div style="padding:40px 20px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:12px">
+          <div style="width:56px;height:56px;border-radius:50%;background:rgba(0,202,239,0.1);display:flex;align-items:center;justify-content:center"><i data-lucide="check" style="width:28px;height:28px;color:#0a8aa3"></i></div>
+          <div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:20px">Booking confirmed</div>
+          <div style="font-size:12px;color:rgba(12,10,30,0.6)">Confirmation code <span style="font-weight:700;color:#7229FF">MTP-7X9K2Q</span></div>
+          <div style="font-size:13px;font-weight:700;margin-top:4px">{{ grandTotal }} paid</div>
+        </div>
+        <div style="padding:0 20px 16px;display:flex;flex-direction:column;gap:10px;text-align:left">
+          <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:14px">
+            <div style="font-size:13px;font-weight:700">{{ selHotel.name }}</div>
+            <div style="font-size:12px;color:rgba(12,10,30,0.6);margin-top:4px">Oct 12 – Oct 15, 2026 · {{ selHotel.area }}</div>
+            <sc-for list="{{ lineItems }}" as="li" hint-placeholder-count="1">
+              <div style="display:flex;justify-content:space-between;gap:8px;font-size:12px;margin-top:6px"><span style="color:rgba(12,10,30,0.65)">{{ li.label }}</span><span style="font-weight:600;flex:none">{{ li.subtotal }}</span></div>
+            </sc-for>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+            <div class="mpress" style="display:flex;align-items:center;justify-content:center;gap:6px;background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:11px;font-size:12px;font-weight:600;cursor:pointer"><i data-lucide="navigation" style="width:14px;height:14px;color:#7229FF"></i>Directions</div>
+            <div class="mpress" style="display:flex;align-items:center;justify-content:center;gap:6px;background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:11px;font-size:12px;font-weight:600;cursor:pointer" onClick="{{ goChat }}"><i data-lucide="message-circle" style="width:14px;height:14px;color:#7229FF"></i>Contact</div>
+          </div>
+          <div class="mpress" style="display:flex;align-items:center;justify-content:center;gap:6px;background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:11px;font-size:12px;font-weight:600;cursor:pointer"><i data-lucide="calendar" style="width:14px;height:14px;color:#7229FF"></i>Add to calendar</div>
+          <div class="mpress" style="background:#7229FF;color:#fff;font-size:13px;font-weight:700;padding:13px;border-radius:8px;margin-top:4px;cursor:pointer;text-align:center" onClick="{{ goTrips }}">View my trips</div>
+        </div>
+      </sc-if>
+
+      <!-- CHAT -->
+      <sc-if value="{{ isChat }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid #E5E2F5">
+          <div style="width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;margin-left:-7px" onClick="{{ backFromChat }}"><i data-lucide="arrow-left" style="width:18px;height:18px;pointer-events:none"></i></div>
+          <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#7229FF,#00CAEF);display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:700;flex:none">KH</div>
+          <div><div style="font-size:13px;font-weight:700">Kaliurang Heritage Villa</div><div style="font-size:10px;color:#0a8aa3;font-weight:600">Usually replies within an hour</div></div>
+        </div>
+        <div style="padding:14px 16px;display:flex;flex-direction:column;gap:10px">
+          <sc-for list="{{ chatMessages }}" as="m" hint-placeholder-count="3">
+            <div style="display:flex;justify-content:{{ m.align }}">
+              <div style="max-width:75%;background:{{ m.bg }};color:{{ m.color }};font-size:13px;padding:9px 12px;border-radius:14px;line-height:1.4">{{ m.text }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </sc-if>
+
+      <!-- TRIPS -->
+      <sc-if value="{{ isTrips }}" hint-placeholder-val="{{ false }}">
+        <div style="padding:16px">
+          <div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:19px;margin-bottom:12px">My trips</div>
+          <div style="display:flex;gap:6px;margin-bottom:14px">
+            <div style="font-size:12px;font-weight:700;padding:7px 12px;border-radius:24px;cursor:pointer;white-space:nowrap;background:{{ upBg }};color:{{ upColor }}" onClick="{{ tabUp }}">Upcoming (2)</div>
+            <div style="font-size:12px;font-weight:700;padding:7px 12px;border-radius:24px;cursor:pointer;white-space:nowrap;background:{{ pastBg }};color:{{ pastColor }}" onClick="{{ tabPast }}">Past (1)</div>
+            <div style="font-size:12px;font-weight:700;padding:7px 12px;border-radius:24px;cursor:pointer;white-space:nowrap;background:{{ canBg }};color:{{ canColor }}" onClick="{{ tabCan }}">Cancelled (0)</div>
+          </div>
+          <sc-if value="{{ tripUp }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex;flex-direction:column;gap:12px">
+              <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;overflow:hidden">
+                <div style="aspect-ratio:4/3;background:linear-gradient(135deg,#e5e2f5,#cfc8f0);display:flex;align-items:center;justify-content:center;color:rgba(12,10,30,0.35);font-size:12px">Photo</div>
+                <div style="padding:14px;display:flex;flex-direction:column;gap:4px">
+                  <div style="display:flex;justify-content:space-between;gap:8px"><div style="font-size:14px;font-weight:700">Kaliurang Heritage Villa</div><span style="font-size:10px;font-weight:700;background:rgba(0,202,239,0.1);color:#0a8aa3;padding:3px 7px;border-radius:4px;flex:none">Confirmed</span></div>
+                  <div style="font-size:12px;color:rgba(12,10,30,0.6)">Oct 12 – Oct 15, 2026 · 2 rooms</div>
+                  <div style="font-size:11px;font-weight:700;color:#7229FF">Check-in in 18 days</div>
+                  <div style="font-size:11px;color:rgba(12,10,30,0.45)">MTP-7X9K2Q · Rp 6,960,000 paid</div>
+                  <div class="mpress" style="display:flex;align-items:center;gap:5px;font-size:11px;font-weight:700;color:#7229FF;margin-top:4px;cursor:pointer;width:fit-content" onClick="{{ goChat }}"><i data-lucide="message-circle" style="width:12px;height:12px"></i>Message property</div>
+                </div>
+              </div>
+              <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;overflow:hidden">
+                <div style="aspect-ratio:4/3;background:linear-gradient(135deg,#dfe8ff,#c8d4f5);display:flex;align-items:center;justify-content:center;color:rgba(12,10,30,0.35);font-size:12px">Photo</div>
+                <div style="padding:14px;display:flex;flex-direction:column;gap:4px">
+                  <div style="display:flex;justify-content:space-between;gap:8px"><div style="font-size:14px;font-weight:700">Prawirotaman Boutique</div><span style="font-size:10px;font-weight:700;background:rgba(114,41,255,0.08);color:#7229FF;padding:3px 7px;border-radius:4px;flex:none">Pending payment</span></div>
+                  <div style="font-size:12px;color:rgba(12,10,30,0.6)">Nov 3 – Nov 5, 2026 · 1 room</div>
+                  <div style="font-size:11px;font-weight:700;color:#c0392b">Complete by Oct 26</div>
+                  <div style="font-size:11px;color:rgba(12,10,30,0.45)">MTP-4H1L8B · <span style="font-weight:700;color:#c0392b">Rp 1,240,000 due</span></div>
+                </div>
+              </div>
+            </div>
+          </sc-if>
+          <sc-if value="{{ tripPast }}" hint-placeholder-val="{{ false }}">
+            <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;overflow:hidden;opacity:0.85">
+              <div style="aspect-ratio:4/3;background:linear-gradient(135deg,#f0dff5,#e0c8ea);display:flex;align-items:center;justify-content:center;color:rgba(12,10,30,0.35);font-size:12px">Photo</div>
+              <div style="padding:14px;display:flex;flex-direction:column;gap:4px">
+                <div style="display:flex;justify-content:space-between;gap:8px"><div style="font-size:14px;font-weight:700">Malioboro Skyline Suites</div><span style="font-size:10px;font-weight:700;background:rgba(12,10,30,0.06);color:rgba(12,10,30,0.5);padding:3px 7px;border-radius:4px;flex:none">Completed</span></div>
+                <div style="font-size:12px;color:rgba(12,10,30,0.6)">Jul 4 – Jul 6, 2026 · 1 room</div>
+                <div style="font-size:11px;color:rgba(12,10,30,0.45)">MTP-2R6V9C · Rp 2,200,000 paid</div>
+              </div>
+            </div>
+          </sc-if>
+          <sc-if value="{{ tripCan }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px;background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:40px 20px">
+              <i data-lucide="inbox" style="width:26px;height:26px;color:rgba(12,10,30,0.3)"></i>
+              <div style="font-size:12px;color:rgba(12,10,30,0.5)">No cancelled trips.</div>
+            </div>
+          </sc-if>
+        </div>
+      </sc-if>
+
+      <!-- PROFILE -->
+      <sc-if value="{{ isProfile }}" hint-placeholder-val="{{ false }}">
+        <div style="padding:16px;display:flex;flex-direction:column;gap:16px">
+          <div style="display:flex;align-items:center;gap:12px">
+            <div style="width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#7229FF,#00CAEF);display:flex;align-items:center;justify-content:center;color:#fff;font-size:15px;font-weight:700">AW</div>
+            <div><div style="font-size:15px;font-weight:700">Anin Wida</div><div style="font-size:12px;color:rgba(12,10,30,0.5)">anin@email.com</div></div>
+          </div>
+          <div style="background:linear-gradient(135deg,#7229FF,#00CAEF);border-radius:8px;padding:14px;color:#fff">
+            <div style="font-size:10px;font-weight:700;opacity:0.85;text-transform:uppercase">Silver member</div>
+            <div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:20px;margin-top:2px">1,963 points</div>
+            <div style="font-size:11px;opacity:0.85;margin-top:2px">≈ Rp 19,630 in stay credit</div>
+          </div>
+          <div style="display:flex;flex-direction:column;background:#fff;border:1px solid #E5E2F5;border-radius:8px">
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 12px;border-bottom:1px solid #E5E2F5;cursor:pointer" onClick="{{ goFavorites }}"><div style="display:flex;align-items:center;gap:10px;font-size:13px;font-weight:600"><i data-lucide="heart" style="width:15px;height:15px;color:#7229FF"></i>Favorites</div><i data-lucide="chevron-right" style="width:15px;height:15px;color:rgba(12,10,30,0.3)"></i></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 12px;border-bottom:1px solid #E5E2F5;cursor:pointer" onClick="{{ goPayment }}"><div style="display:flex;align-items:center;gap:10px;font-size:13px;font-weight:600"><i data-lucide="credit-card" style="width:15px;height:15px;color:#7229FF"></i>Payment methods</div><i data-lucide="chevron-right" style="width:15px;height:15px;color:rgba(12,10,30,0.3)"></i></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 12px;border-bottom:1px solid #E5E2F5;cursor:pointer" onClick="{{ goSettings }}"><div style="display:flex;align-items:center;gap:10px;font-size:13px;font-weight:600"><i data-lucide="settings" style="width:15px;height:15px;color:#7229FF"></i>Settings</div><i data-lucide="chevron-right" style="width:15px;height:15px;color:rgba(12,10,30,0.3)"></i></div>
+            <div style="display:flex;align-items:center;gap:10px;padding:14px 12px;font-size:13px;font-weight:600;color:rgba(12,10,30,0.5)"><i data-lucide="log-out" style="width:15px;height:15px"></i>Log out</div>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- FAVORITES -->
+      <sc-if value="{{ isFavorites }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;align-items:center;gap:10px;padding:12px 16px">
+          <div style="width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;margin-left:-7px" onClick="{{ goProfile }}"><i data-lucide="arrow-left" style="width:18px;height:18px;pointer-events:none"></i></div>
+          <div style="font-size:15px;font-weight:700">Favorites</div>
+        </div>
+        <div style="padding:0 16px 16px;display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <sc-for list="{{ hotels }}" as="h" hint-placeholder-count="3">
+            <div class="mpress" style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;overflow:hidden;cursor:pointer" onClick="{{ h.open }}">
+              <div style="aspect-ratio:4/3;background:{{ h.bg }}"></div>
+              <div style="padding:8px"><div style="font-size:11px;font-weight:700">{{ h.name }}</div><div style="font-size:11px;font-weight:800;margin-top:3px">{{ h.rate }}</div></div>
+            </div>
+          </sc-for>
+        </div>
+      </sc-if>
+
+      <!-- PAYMENT -->
+      <sc-if value="{{ isPayment }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;align-items:center;gap:10px;padding:12px 16px">
+          <div style="width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;margin-left:-7px" onClick="{{ goProfile }}"><i data-lucide="arrow-left" style="width:18px;height:18px;pointer-events:none"></i></div>
+          <div style="font-size:15px;font-weight:700">Payment methods</div>
+        </div>
+        <div style="padding:0 16px 16px;display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;align-items:center;gap:12px;background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:14px"><div style="width:40px;height:26px;border-radius:4px;background:#0C0A1E;color:#fff;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center">VISA</div><div style="flex:1"><div style="font-size:13px;font-weight:700">•••• 4242</div><div style="font-size:11px;color:rgba(12,10,30,0.5)">Expires 08/28</div></div><span style="font-size:10px;font-weight:700;background:rgba(0,202,239,0.1);color:#0a8aa3;padding:3px 7px;border-radius:4px">Default</span></div>
+          <div style="display:flex;align-items:center;gap:12px;background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:14px"><div style="width:40px;height:26px;border-radius:4px;background:#0C0A1E;color:#fff;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center">MC</div><div style="flex:1"><div style="font-size:13px;font-weight:700">•••• 9021</div><div style="font-size:11px;color:rgba(12,10,30,0.5)">Expires 02/27</div></div></div>
+          <div style="display:flex;align-items:center;justify-content:center;gap:8px;border:1px dashed #E5E2F5;border-radius:8px;padding:14px;color:#7229FF;font-size:13px;font-weight:700"><i data-lucide="plus" style="width:14px;height:14px"></i>Add payment method</div>
+        </div>
+      </sc-if>
+
+      <!-- SETTINGS -->
+      <sc-if value="{{ isSettings }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;align-items:center;gap:10px;padding:12px 16px">
+          <div style="width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;margin-left:-7px" onClick="{{ goProfile }}"><i data-lucide="arrow-left" style="width:18px;height:18px;pointer-events:none"></i></div>
+          <div style="font-size:15px;font-weight:700">Settings</div>
+        </div>
+        <div style="padding:0 16px 16px;display:flex;flex-direction:column;background:#fff;border:1px solid #E5E2F5;border-radius:8px;margin:0 16px">
+          <div style="display:flex;justify-content:space-between;padding:14px 12px;border-bottom:1px solid #E5E2F5;font-size:13px"><span style="font-weight:600">Language</span><span style="color:rgba(12,10,30,0.5)">English</span></div>
+          <div style="display:flex;justify-content:space-between;padding:14px 12px;border-bottom:1px solid #E5E2F5;font-size:13px"><span style="font-weight:600">Notifications</span><span style="color:rgba(12,10,30,0.5)">On</span></div>
+          <div style="display:flex;justify-content:space-between;padding:14px 12px;border-bottom:1px solid #E5E2F5;font-size:13px"><span style="font-weight:600">Two-factor authentication</span><span style="color:rgba(12,10,30,0.5)">Off</span></div>
+          <div style="display:flex;justify-content:space-between;padding:14px 12px;font-size:13px"><span style="font-weight:600;color:#c0392b">Delete account</span></div>
+        </div>
+      </sc-if>
+
+    </div>
+
+    <!-- CHAT INPUT (sticky footer) -->
+    <sc-if value="{{ isChat }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;align-items:center;gap:8px;padding:10px 16px 30px;border-top:1px solid #E5E2F5;background:#fff">
+        <input value="{{ chatInput }}" onInput="{{ onChatInput }}" placeholder="Message the property" style="flex:1;border:1px solid #E5E2F5;border-radius:20px;padding:10px 14px;font-family:'JetBrains Mono',monospace;font-size:13px;outline:none" />
+        <div class="mpress" style="width:38px;height:38px;border-radius:50%;background:#7229FF;display:flex;align-items:center;justify-content:center;cursor:pointer;flex:none" onClick="{{ sendChat }}"><i data-lucide="arrow-up" style="width:16px;height:16px;color:#fff;pointer-events:none"></i></div>
+      </div>
+    </sc-if>
+
+    <!-- STICKY CTA (with home-indicator safe area) -->
+    <sc-if value="{{ showCta }}" hint-placeholder-val="{{ false }}">
+      <div style="background:#fff;border-top:1px solid #E5E2F5;padding:12px 16px 34px;display:flex;align-items:center;justify-content:space-between;gap:12px">
+        <div><div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:16px">{{ ctaPrice }}</div><div style="font-size:10px;color:rgba(12,10,30,0.5)">{{ ctaSub }}</div></div>
+        <div class="mpress" style="background:{{ ctaBg }};color:#fff;font-size:13px;font-weight:700;padding:12px 22px;border-radius:6px;cursor:pointer;white-space:nowrap" onClick="{{ ctaAction }}">{{ ctaLabel }}</div>
+      </div>
+    </sc-if>
+
+    <!-- BOTTOM TAB BAR -->
+    <sc-if value="{{ showTabs }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex;border-top:1px solid #E5E2F5;background:rgba(255,255,255,0.95);padding:8px 8px 30px">
+        <div class="mtab" onClick="{{ goExplore }}"><i data-lucide="search" style="width:19px;height:19px;color:{{ exploreColor }}"></i><div style="font-size:10px;font-weight:600;color:{{ exploreColor }}">Explore</div></div>
+        <div class="mtab" onClick="{{ goTrips }}"><i data-lucide="briefcase" style="width:19px;height:19px;color:{{ tripsColor }}"></i><div style="font-size:10px;font-weight:600;color:{{ tripsColor }}">Trips</div></div>
+        <div class="mtab" onClick="{{ goProfile }}"><i data-lucide="user" style="width:19px;height:19px;color:{{ profileColor }}"></i><div style="font-size:10px;font-weight:600;color:{{ profileColor }}">Profile</div></div>
+      </div>
+    </sc-if>
+
+  </div>
+</x-import>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const HOTELS = [
+  { id: 'villa', name: 'Kaliurang Heritage Villa', area: 'Sleman, Yogyakarta', rating: '4.8', rate: 890000, market: 980000, picked: true, bg: 'linear-gradient(135deg,#e5e2f5,#cfc8f0)' },
+  { id: 'boutique', name: 'Prawirotaman Boutique', area: 'Mergangsan, Yogyakarta', rating: '4.6', rate: 620000, market: 640000, picked: false, bg: 'linear-gradient(135deg,#dfe8ff,#c8d4f5)' },
+  { id: 'skyline', name: 'Malioboro Skyline Suites', area: 'Gedong Tengen, Yogyakarta', rating: '4.9', rate: 1100000, market: 1210000, picked: false, bg: 'linear-gradient(135deg,#f0dff5,#e0c8ea)' }
+];
+const ROOMS = [
+  { id: 'garden', name: 'Garden Suite', specs: '28m² · Garden view · up to 2 guests', rate: 890000, bg: 'linear-gradient(135deg,#e5e2f5,#cfc8f0)' },
+  { id: 'villa', name: 'Heritage Villa Room', specs: '42m² · Pool access · up to 3 guests', rate: 1240000, bg: 'linear-gradient(135deg,#dfe8ff,#c8d4f5)' },
+  { id: 'family', name: 'Family Bungalow', specs: '58m² · 2 bedrooms · up to 4 guests', rate: 1580000, bg: 'linear-gradient(135deg,#f0dff5,#e0c8ea)' }
+];
+const DESTS = [
+  { name: 'Yogyakarta', type: 'City · 128 stays', icon: 'building-2' },
+  { name: 'Bandung', type: 'City · 96 stays', icon: 'building-2' },
+  { name: 'Malioboro', type: 'Area · Yogyakarta', icon: 'map-pin' },
+  { name: 'Borobudur Temple', type: 'Landmark · near Yogyakarta', icon: 'landmark' }
+];
+const NIGHTS = 3;
+const fmt = (n) => 'Rp ' + n.toLocaleString('en-US');
+class Component extends DCLogic {
+  state = {
+    screen: 'explore', hotelId: 'villa', qty: { garden: 0, villa: 0, family: 0 }, tripTab: 'up',
+    destQuery: '', dest: 'Yogyakarta', loading: false, filtersOpen: false, rating: 'all', freeCancel: false,
+    dateIdx: 0, guestCount: 2, payMethod: 'card', ptrPulling: 0,
+    chatFrom: 'confirmed', chatInput: '',
+    chatMessages: [
+      { from: 'them', text: "Hi Anin! We're looking forward to hosting you Oct 12–15." },
+      { from: 'me', text: 'Thank you! Is early check-in possible around 11am?' },
+      { from: 'them', text: "We'll do our best \u2014 we'll confirm the day before your arrival." }
+    ]
+  };
+  componentDidMount() {
+    if (window.lucide) window.lucide.createIcons();
+    this._el = document.querySelector('.mscroll');
+    if (this._el) {
+      this._el.addEventListener('touchstart', this.onTouchStart, { passive: true });
+      this._el.addEventListener('touchmove', this.onTouchMove, { passive: true });
+      this._el.addEventListener('touchend', this.onTouchEnd, { passive: true });
+    }
+  }
+  componentDidUpdate() { if (window.lucide) window.lucide.createIcons(); }
+  componentWillUnmount() {
+    clearTimeout(this._t);
+    if (this._el) {
+      this._el.removeEventListener('touchstart', this.onTouchStart);
+      this._el.removeEventListener('touchmove', this.onTouchMove);
+      this._el.removeEventListener('touchend', this.onTouchEnd);
+    }
+  }
+  onTouchStart = (e) => { this._sx = e.touches[0].clientX; this._sy = e.touches[0].clientY; };
+  onTouchMove = (e) => {
+    if (this._sx == null) return;
+    const dx = e.touches[0].clientX - this._sx;
+    const dy = e.touches[0].clientY - this._sy;
+    if (this.state.screen === 'explore' && dy > 0 && this._el.scrollTop === 0 && Math.abs(dy) > Math.abs(dx)) {
+      this.setState({ ptrPulling: Math.min(60, dy) });
+    }
+  };
+  onTouchEnd = (e) => {
+    const dx = (this._lastX || 0) - (this._sx || 0);
+    if (this.state.ptrPulling > 40) { this.load(); }
+    this.setState({ ptrPulling: 0 });
+    const endX = (e.changedTouches && e.changedTouches[0].clientX) || this._sx;
+    const swipeDx = endX - this._sx;
+    if (this._sx < 30 && swipeDx > 60 && this.state.screen !== 'explore') {
+      this.goBackFromSwipe();
+    }
+    this._sx = null;
+  };
+  goBackFromSwipe() {
+    const back = {
+      search: 'explore', detail: 'explore', rooms: 'detail', checkout: 'rooms',
+      favorites: 'profile', payment: 'profile', settings: 'profile'
+    };
+    if (back[this.state.screen]) this.setState({ screen: back[this.state.screen] });
+  }
+  go(screen) { this.setState({ screen }); }
+  load() { this.setState({ loading: true }); clearTimeout(this._t); this._t = setTimeout(() => this.setState({ loading: false }), 1200); }
+  renderVals() {
+    const s = this.state;
+    const sel = HOTELS.find(h => h.id === s.hotelId);
+    const q = s.qty;
+    const roomCount = q.garden + q.villa + q.family;
+    const lineItems = ROOMS.filter(r => q[r.id] > 0).map(r => ({ label: q[r.id] + '× ' + r.name, subtotal: fmt(r.rate * NIGHTS * q[r.id]) }));
+    const total = ROOMS.reduce((sum, r) => sum + r.rate * NIGHTS * q[r.id], 0);
+    const tabRoot = ['explore', 'trips', 'profile'].includes(s.screen);
+    const tabColor = (t) => (s.screen === t ? '#7229FF' : 'rgba(12,10,30,0.4)');
+    const pill = (t) => ({ bg: s.tripTab === t ? '#7229FF' : '#fff', color: s.tripTab === t ? '#fff' : 'rgba(12,10,30,0.6)' });
+    const dq = s.destQuery.trim().toLowerCase();
+    const marketNote = (h) => { const pct = Math.round((1 - h.rate / h.market) * 100); return pct > 0 ? pct + '% below market avg' : pct < 0 ? Math.abs(pct) + '% above market avg' : 'Matches market avg'; };
+    const DATE_OPTIONS = [{ label: 'Oct 12 – Oct 15' }, { label: 'Nov 3 – Nov 5' }, { label: 'Dec 20 – Dec 24' }];
+    const payBorder = (m) => s.payMethod === m ? '1px solid #7229FF' : '1px solid #E5E2F5';
+    let cta = { show: false };
+    if (s.screen === 'detail') cta = { show: true, price: fmt(sel.rate), sub: 'per night · no hidden fees', label: 'Choose rooms', bg: '#7229FF', action: () => this.go('rooms') };
+    if (s.screen === 'rooms') cta = { show: true, price: roomCount ? fmt(total) : 'No rooms yet', sub: roomCount ? roomCount + (roomCount === 1 ? ' room' : ' rooms') + ' · 3 nights' : 'Add at least one room', label: 'Continue', bg: roomCount ? '#7229FF' : 'rgba(114,41,255,0.35)', action: () => { if (roomCount) this.go('checkout'); } };
+    if (s.screen === 'checkout') cta = { show: true, price: fmt(total), sub: 'Total · 3 nights', label: 'Confirm and pay', bg: '#7229FF', action: () => this.go('confirmed') };
+    const chatMessages = s.chatMessages.map(m => ({
+      align: m.from === 'me' ? 'flex-end' : 'flex-start',
+      bg: m.from === 'me' ? '#7229FF' : '#fff',
+      color: m.from === 'me' ? '#fff' : '#0C0A1E',
+      text: m.text
+    }));
+    return {
+      isExplore: s.screen === 'explore', isSearch: s.screen === 'search', isDetail: s.screen === 'detail',
+      isRooms: s.screen === 'rooms', isCheckout: s.screen === 'checkout', isConfirmed: s.screen === 'confirmed',
+      isTrips: s.screen === 'trips', isProfile: s.screen === 'profile',
+      isFavorites: s.screen === 'favorites', isPayment: s.screen === 'payment', isSettings: s.screen === 'settings',
+      isChat: s.screen === 'chat',
+      chatMessages, chatInput: s.chatInput,
+      onChatInput: (e) => this.setState({ chatInput: e.target.value }),
+      sendChat: () => {
+        if (!this.state.chatInput.trim()) return;
+        this.setState(st => ({ chatMessages: [...st.chatMessages, { from: 'me', text: st.chatInput.trim() }], chatInput: '' }));
+      },
+      goChat: () => this.setState({ chatFrom: this.state.screen, screen: 'chat' }),
+      backFromChat: () => this.setState({ screen: this.state.chatFrom }),
+      searchSummary: s.dest + ' · ' + DATE_OPTIONS[s.dateIdx].label + ' · ' + s.guestCount + ' adults',
+      loading: s.loading, loaded: !s.loading, skeletons: [1, 2],
+      refreshFeed: () => this.load(),
+      hotels: HOTELS.map(h => ({ ...h, rate: fmt(h.rate), vsMarket: marketNote(h), open: () => this.setState({ hotelId: h.id, screen: 'detail' }) })),
+      selHotel: { ...sel, rate: fmt(sel.rate), market: fmt(sel.market), vsMarket: marketNote(sel) },
+      filtersOpen: s.filtersOpen, toggleFilters: () => this.setState(st => ({ filtersOpen: !st.filtersOpen })),
+      ratingAllBg: s.rating === 'all' ? '#7229FF' : '#F7F6FF', ratingAllColor: s.rating === 'all' ? '#fff' : '#0C0A1E',
+      ratingTopBg: s.rating === 'top' ? '#7229FF' : '#F7F6FF', ratingTopColor: s.rating === 'top' ? '#fff' : '#0C0A1E',
+      selectRatingAll: () => this.setState({ rating: 'all' }), selectRatingTop: () => this.setState({ rating: 'top' }),
+      freeCancelBg: s.freeCancel ? '#7229FF' : '#E5E2F5', freeCancelLeft: s.freeCancel ? '18px' : '2px',
+      toggleFreeCancel: () => this.setState(st => ({ freeCancel: !st.freeCancel })),
+      ptrHeight: s.ptrPulling > 0 ? '28px' : '0px',
+      dateLabel: DATE_OPTIONS[s.dateIdx].label,
+      cycleDates: () => this.setState(st => ({ dateIdx: (st.dateIdx + 1) % DATE_OPTIONS.length })),
+      guestCount: s.guestCount,
+      incGuest: () => this.setState(st => ({ guestCount: Math.min(8, st.guestCount + 1) })),
+      decGuest: () => this.setState(st => ({ guestCount: Math.max(1, st.guestCount - 1) })),
+      payCardBorder: payBorder('card'), payEwalletBorder: payBorder('ewallet'), payTransferBorder: payBorder('transfer'), payHotelBorder: payBorder('hotel'),
+      selectPayCard: () => this.setState({ payMethod: 'card' }), selectPayEwallet: () => this.setState({ payMethod: 'ewallet' }),
+      selectPayTransfer: () => this.setState({ payMethod: 'transfer' }), selectPayHotel: () => this.setState({ payMethod: 'hotel' }),
+      destQuery: s.destQuery,
+      onDestInput: (e) => this.setState({ destQuery: e.target.value }),
+      destMatches: DESTS.filter(d => !dq || d.name.toLowerCase().includes(dq)).map(d => ({ ...d, select: () => this.setState({ dest: d.name, destQuery: d.name }) })),
+      runSearch: () => { this.setState({ screen: 'explore' }); this.load(); },
+      rooms: ROOMS.map(r => ({ ...r, rate: fmt(r.rate), total: fmt(r.rate * NIGHTS), qty: q[r.id], border: q[r.id] > 0 ? '2px solid #7229FF' : '1px solid #E5E2F5',
+        inc: () => this.setState(st => ({ qty: { ...st.qty, [r.id]: Math.min(6, st.qty[r.id] + 1) } })),
+        dec: () => this.setState(st => ({ qty: { ...st.qty, [r.id]: Math.max(0, st.qty[r.id] - 1) } })) })),
+      lineItems, grandTotal: fmt(total),
+      showCta: cta.show, ctaPrice: cta.price || '', ctaSub: cta.sub || '', ctaLabel: cta.label || '', ctaBg: cta.bg || '#7229FF', ctaAction: cta.action || (() => {}),
+      showTabs: tabRoot || s.screen === 'confirmed',
+      upBg: pill('up').bg, upColor: pill('up').color, pastBg: pill('past').bg, pastColor: pill('past').color, canBg: pill('can').bg, canColor: pill('can').color,
+      tabUp: () => this.setState({ tripTab: 'up' }), tabPast: () => this.setState({ tripTab: 'past' }), tabCan: () => this.setState({ tripTab: 'can' }),
+      tripUp: s.tripTab === 'up', tripPast: s.tripTab === 'past', tripCan: s.tripTab === 'can',
+      goExplore: () => this.go('explore'), goSearch: () => this.go('search'), goDetail: () => this.go('detail'), goRooms: () => this.go('rooms'),
+      goTrips: () => this.go('trips'), goProfile: () => this.go('profile'),
+      goFavorites: () => this.go('favorites'), goPayment: () => this.go('payment'), goSettings: () => this.go('settings'),
+      exploreColor: tabColor('explore'), tripsColor: tabColor('trips'), profileColor: tabColor('profile')
+    };
+  }
+}
+</script>
+</body>
+</html>

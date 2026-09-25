@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/fonts.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/colors.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/typography.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/spacing.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/shadows.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/motion.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/styles.css">
+<script src="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/_ds_bundle.js"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+body{margin:0;background:#F7F6FF;font-family:'JetBrains Mono',monospace;color:#0C0A1E}
+a{color:#7229FF;text-decoration:none}
+.wrap{max-width:1240px;margin:0 auto;padding:0 24px;box-sizing:border-box}
+@media (max-width:900px){.supgrid{grid-template-columns:1fr !important}.supcart{display:none !important}}
+</style>
+</helmet>
+
+<div style="min-height:100vh;display:flex;flex-direction:column">
+  <header style="position:sticky;top:0;z-index:50;background:rgba(247,246,255,0.9);backdrop-filter:blur(12px);border-bottom:1px solid #E5E2F5">
+    <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;height:64px">
+      <a href="Menetap Supply Landing.dc.html" style="display:flex;align-items:center;gap:9px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:19px;letter-spacing:-0.02em;color:#0C0A1E"><span>menetap<span style="color:#7229FF">.</span></span> <span style="font-size:11px;font-weight:600;color:rgba(12,10,30,0.4);margin-left:2px">supply</span></a>
+      <div style="position:relative;display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;cursor:pointer" onClick="{{ toggleCartPreview }}"><i data-lucide="shopping-cart" style="width:16px;height:16px;color:#7229FF"></i>{{ cartCount }} items</div>
+    </div>
+  </header>
+
+  <div class="wrap supgrid" style="display:grid;grid-template-columns:200px 1fr 300px;gap:28px;padding:24px 24px 64px">
+    <aside style="display:flex;flex-direction:column;gap:4px">
+      <sc-for list="{{ categoryFilters }}" as="cf" hint-placeholder-count="5">
+        <div onClick="{{ cf.select }}" style="padding:10px 12px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;background:{{ cf.bg }};color:{{ cf.color }}">{{ cf.name }}</div>
+      </sc-for>
+    </aside>
+
+    <div style="display:flex;flex-direction:column;gap:14px;min-width:0">
+      <div style="font-size:13px;color:rgba(12,10,30,0.5)">{{ productCount }} products in {{ activeCategoryLabel }}</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px">
+        <sc-for list="{{ products }}" as="p" hint-placeholder-count="6">
+          <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;overflow:hidden;display:flex;flex-direction:column">
+            <div style="aspect-ratio:4/3;background:{{ p.bg }};display:flex;align-items:center;justify-content:center;color:rgba(12,10,30,0.35);font-size:12px">Photo</div>
+            <div style="padding:14px;display:flex;flex-direction:column;gap:6px;flex:1">
+              <div style="font-size:13px;font-weight:700">{{ p.name }}</div>
+              <div style="font-size:11px;color:rgba(12,10,30,0.5)">{{ p.unit }}</div>
+              <div style="flex:1"></div>
+              <div style="display:flex;justify-content:space-between;align-items:center">
+                <div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:15px">{{ p.priceLabel }}</div>
+                <div style="display:flex;align-items:center;gap:8px">
+                  <div style="width:24px;height:24px;border-radius:50%;border:1px solid #E5E2F5;display:flex;align-items:center;justify-content:center;cursor:pointer;font-weight:700;font-size:13px" onClick="{{ p.dec }}">–</div>
+                  <div style="font-size:13px;font-weight:700;min-width:10px;text-align:center">{{ p.qty }}</div>
+                  <div style="width:24px;height:24px;border-radius:50%;border:1px solid #E5E2F5;display:flex;align-items:center;justify-content:center;cursor:pointer;font-weight:700;font-size:13px" onClick="{{ p.inc }}">+</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <aside class="supcart" style="position:sticky;top:84px;align-self:flex-start;background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:20px;display:flex;flex-direction:column;gap:12px">
+      <div style="font-size:14px;font-weight:700">Your order</div>
+      <sc-if value="{{ hasCartItems }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <sc-for list="{{ cartLines }}" as="cl" hint-placeholder-count="2">
+            <div style="display:flex;justify-content:space-between;font-size:12px"><span style="color:rgba(12,10,30,0.65)">{{ cl.qty }}× {{ cl.name }}</span><span style="font-weight:600">{{ cl.subtotal }}</span></div>
+          </sc-for>
+        </div>
+        <div style="height:1px;background:#E5E2F5"></div>
+        <div style="display:flex;justify-content:space-between;font-size:15px"><span style="font-weight:700">Subtotal</span><span style="font-weight:800;font-family:'Plus Jakarta Sans',sans-serif">{{ cartSubtotal }}</span></div>
+        <a href="Menetap Supply Checkout.dc.html" onClick="{{ persistCart }}"><x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="100%,44px" variant="primary" size="md">Checkout</x-import></a>
+      </sc-if>
+      <sc-if value="{{ noCartItems }}" hint-placeholder-val="{{ true }}">
+        <div style="font-size:13px;color:rgba(12,10,30,0.5);line-height:1.6">Your cart is empty — add items from the catalog.</div>
+      </sc-if>
+    </aside>
+  </div>
+
+  <footer style="border-top:1px solid #E5E2F5;padding:24px 0;margin-top:auto;background:#fff">
+    <div class="wrap" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px">
+      <div style="font-size:12px;color:rgba(12,10,30,0.5)">© 2026 Menetap. All rights reserved.</div>
+      <div style="display:flex;align-items:center;gap:10px"><div onClick="{{ toggleLang }}" style="display:flex;align-items:center;gap:4px;font-size:11px;font-weight:700;color:rgba(12,10,30,0.5);cursor:pointer;border:1px solid #E5E2F5;border-radius:24px;padding:5px 12px"><i data-lucide="globe" style="width:12px;height:12px"></i>{{ langLabel }}</div></div>
+    </div>
+  </footer>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const CATS = [
+  { key: 'bathroom', name: 'Bathroom amenities' },
+  { key: 'linens', name: 'Linens & towels' },
+  { key: 'cleaning', name: 'Cleaning supplies' },
+  { key: 'slippers', name: 'Slippers & robes' },
+  { key: 'stationery', name: 'Stationery & collateral' }
+];
+const PRODUCTS = {
+  bathroom: [
+    { name: 'Travel dental kit (toothbrush + paste)', unit: 'Box of 100', price: 145000, bg: 'linear-gradient(135deg,#e5e2f5,#cfc8f0)' },
+    { name: 'Hotel soap bar 20g', unit: 'Box of 200', price: 180000, bg: 'linear-gradient(135deg,#dfe8ff,#c8d4f5)' },
+    { name: 'Shampoo/conditioner sachets', unit: 'Box of 150', price: 210000, bg: 'linear-gradient(135deg,#f0dff5,#e0c8ea)' },
+    { name: 'Shower cap, individually wrapped', unit: 'Box of 300', price: 95000, bg: 'linear-gradient(135deg,#e5f0e0,#cde5c8)' }
+  ],
+  linens: [
+    { name: 'Bath towel, white, 70x140cm', unit: 'Pack of 20', price: 640000, bg: 'linear-gradient(135deg,#dfe8ff,#c8d4f5)' },
+    { name: 'Bedsheet set, queen, 300TC', unit: 'Pack of 10', price: 890000, bg: 'linear-gradient(135deg,#f0dff5,#e0c8ea)' },
+    { name: 'Pillowcase, standard', unit: 'Pack of 30', price: 310000, bg: 'linear-gradient(135deg,#e5e2f5,#cfc8f0)' }
+  ],
+  cleaning: [
+    { name: 'Multi-surface cleaner, 5L', unit: 'Carton of 4', price: 220000, bg: 'linear-gradient(135deg,#f0dff5,#e0c8ea)' },
+    { name: 'Microfiber cleaning cloths', unit: 'Pack of 50', price: 150000, bg: 'linear-gradient(135deg,#e5f0e0,#cde5c8)' },
+    { name: 'Toilet disinfectant, 1L', unit: 'Carton of 12', price: 280000, bg: 'linear-gradient(135deg,#dfe8ff,#c8d4f5)' }
+  ],
+  slippers: [
+    { name: 'Disposable slippers', unit: 'Box of 100 pairs', price: 260000, bg: 'linear-gradient(135deg,#e5f0e0,#cde5c8)' },
+    { name: 'Cotton bathrobe, one size', unit: 'Pack of 10', price: 950000, bg: 'linear-gradient(135deg,#f5e0e8,#eac8d8)' }
+  ],
+  stationery: [
+    { name: 'Guest directory holder + inserts', unit: 'Pack of 25', price: 175000, bg: 'linear-gradient(135deg,#f5e0e8,#eac8d8)' },
+    { name: 'Do-not-disturb door hangers', unit: 'Pack of 50', price: 90000, bg: 'linear-gradient(135deg,#e5e2f5,#cfc8f0)' },
+    { name: 'Branded notepad + pen sets', unit: 'Pack of 40', price: 220000, bg: 'linear-gradient(135deg,#dfe8ff,#c8d4f5)' }
+  ]
+};
+function fmt(n) { return 'Rp ' + n.toLocaleString('en-US'); }
+class Component extends DCLogic {
+  state = { activeCategory: (typeof localStorage!=='undefined' && localStorage.getItem('menetapSupplyCategory')) || 'bathroom', cart: {} };
+  componentDidMount() { if (window.lucide) window.lucide.createIcons(); }
+  componentDidUpdate() { if (window.lucide) window.lucide.createIcons(); }
+  renderVals() {
+    const s = this.state;
+    const list = PRODUCTS[s.activeCategory] || [];
+    const products = list.map((p, i) => {
+      const key = s.activeCategory + '_' + i;
+      const qty = s.cart[key] || 0;
+      return {
+        name: p.name, unit: p.unit, bg: p.bg, priceLabel: fmt(p.price), qty,
+        inc: () => this.setState(st => ({ cart: { ...st.cart, [key]: (st.cart[key] || 0) + 1 } })),
+        dec: () => this.setState(st => ({ cart: { ...st.cart, [key]: Math.max(0, (st.cart[key] || 0) - 1) } }))
+      };
+    });
+    const cartLines = [];
+    let subtotal = 0;
+    Object.entries(s.cart).forEach(([key, qty]) => {
+      if (qty <= 0) return;
+      const [catKey, idx] = key.split('_');
+      const p = (PRODUCTS[catKey] || [])[idx];
+      if (!p) return;
+      cartLines.push({ qty, name: p.name, subtotal: fmt(p.price * qty) });
+      subtotal += p.price * qty;
+    });
+    return {
+      langLabel: ((this.state.__lang || (typeof localStorage!=='undefined' && localStorage.getItem('menetapLang')) || 'en') === 'en') ? 'EN' : 'ID',
+      toggleLang: () => { const cur = this.state.__lang || (typeof localStorage!=='undefined' && localStorage.getItem('menetapLang')) || 'en'; const next = cur === 'en' ? 'id' : 'en'; if (typeof localStorage!=='undefined') localStorage.setItem('menetapLang', next); this.setState({ __lang: next }); },
+      categoryFilters: CATS.map(c => ({ name: c.name, bg: s.activeCategory === c.key ? 'rgba(114,41,255,0.08)' : 'transparent', color: s.activeCategory === c.key ? '#7229FF' : '#0C0A1E', select: () => this.setState({ activeCategory: c.key }) })),
+      activeCategoryLabel: (CATS.find(c => c.key === s.activeCategory) || {}).name || '',
+      productCount: products.length,
+      products,
+      cartCount: Object.values(s.cart).reduce((a, b) => a + b, 0),
+      toggleCartPreview: () => {},
+      hasCartItems: cartLines.length > 0, noCartItems: cartLines.length === 0,
+      cartLines, cartSubtotal: fmt(subtotal),
+      persistCart: () => { if (typeof localStorage!=='undefined') { localStorage.setItem('menetapSupplyCartLines', JSON.stringify(cartLines)); localStorage.setItem('menetapSupplyCartTotal', String(subtotal)); } }
+    };
+  }
+}
+
+</script>
+</body>
+</html>

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/fonts.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/colors.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/typography.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/spacing.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/shadows.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/motion.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/styles.css">
+<script src="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/_ds_bundle.js"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+body{margin:0;background:#F7F6FF;font-family:'JetBrains Mono',monospace;color:#0C0A1E}
+a{color:#7229FF;text-decoration:none}
+a:hover{color:#5a1fd1;text-decoration:underline}
+.wrap{max-width:1240px;margin:0 auto;padding:0 24px}
+</style>
+</helmet>
+
+<div style="min-height:100vh;display:flex;flex-direction:column">
+  <header style="position:sticky;top:0;z-index:50;background:rgba(247,246,255,0.9);backdrop-filter:blur(12px);border-bottom:1px solid #E5E2F5">
+    <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;height:72px">
+      <a href="Menetap Homepage.dc.html" style="display:flex;align-items:center;gap:9px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:20px;letter-spacing:-0.02em;color:#0C0A1E">
+        <span>menetap<span style="color:#7229FF">.</span></span> <span style="display:flex;align-items:center;gap:4px;font-size:11px;font-weight:700;color:#00CAEF;background:rgba(0,202,239,0.1);border-radius:24px;padding:3px 9px;margin-left:2px"><i data-lucide="map-pin" style="width:11px;height:11px"></i>rentals</span>
+      </a>
+      <nav style="display:flex;gap:24px;font-size:14px;font-weight:500">
+        <a href="Menetap Homepage.dc.html" style="color:#0C0A1E">Stays</a>
+        <a href="Menetap Rentals Search.dc.html" style="color:#7229FF;font-weight:700">Rentals</a>
+      </nav>
+      <a href="Menetap Login.dc.html" style="font-size:14px;font-weight:600;color:#0C0A1E">Log in</a>
+    </div>
+  </header>
+
+  <section style="padding:64px 0 40px">
+    <div class="wrap" style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px">
+      <div style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:#7229FF;background:rgba(114,41,255,0.08);border:1px solid rgba(114,41,255,0.2);border-radius:24px;padding:6px 14px">
+        <i data-lucide="car" style="width:14px;height:14px"></i>Menetap-managed fleet — no third-party surprises
+      </div>
+      <h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:40px;line-height:1.15;letter-spacing:-0.02em;margin:8px 0 0;max-width:600px">Scooters and cars, ready when you land.</h1>
+      <p style="font-size:15px;line-height:1.7;color:rgba(12,10,30,0.65);max-width:480px;margin:4px 0 0">Book a vehicle for your Indonesia trip — with or without a Menetap stay. Delivered to your hotel or the airport.</p>
+    </div>
+
+    <div class="wrap" style="display:flex;gap:40px;justify-content:center;margin-top:28px;flex-wrap:wrap">
+      <div style="text-align:center"><div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:22px;color:#7229FF">4.7★</div><div style="font-size:11px;color:rgba(12,10,30,0.55);margin-top:2px">Average rental rating</div></div>
+      <div style="text-align:center"><div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:22px;color:#7229FF">12,000+</div><div style="font-size:11px;color:rgba(12,10,30,0.55);margin-top:2px">Rentals completed</div></div>
+      <div style="text-align:center"><div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:22px;color:#7229FF">40+</div><div style="font-size:11px;color:rgba(12,10,30,0.55);margin-top:2px">Pickup locations</div></div>
+    </div>
+
+    <div class="wrap" style="margin-top:32px">
+      <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;box-shadow:0 2px 8px rgba(114,41,255,0.06);padding:20px;display:grid;grid-template-columns:1.1fr 1fr 1fr 0.7fr auto;gap:0;align-items:stretch">
+        <div style="padding:0 20px;border-right:1px solid #E5E2F5;display:flex;flex-direction:column;gap:4px">
+          <label style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:rgba(12,10,30,0.5)">Pickup location</label>
+          <input value="{{ pickupLocation }}" onInput="{{ onPickupLocation }}" placeholder="City, hotel, or airport" style="border:none;outline:none;font-size:15px;font-weight:600;font-family:'JetBrains Mono',monospace;background:transparent;color:#0C0A1E" />
+          <label style="display:flex;align-items:center;gap:6px;font-size:11px;color:rgba(12,10,30,0.5);cursor:pointer;margin-top:2px"><input type="checkbox" checked="{{ diffDropoff }}" onChange="{{ toggleDiffDropoff }}" style="accent-color:#7229FF" />Different drop-off</label>
+          <sc-if value="{{ diffDropoff }}" hint-placeholder-val="{{ false }}">
+            <input value="{{ dropoffLocation }}" onInput="{{ onDropoffLocation }}" placeholder="Drop-off city or location" style="border:none;outline:none;font-size:13px;font-weight:600;font-family:'JetBrains Mono',monospace;background:transparent;color:#7229FF;border-top:1px dashed #E5E2F5;padding-top:4px" />
+          </sc-if>
+        </div>
+        <div style="padding:0 20px;border-right:1px solid #E5E2F5;display:flex;flex-direction:column;gap:4px">
+          <label style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:rgba(12,10,30,0.5)">Pickup date</label>
+          <input type="date" value="{{ pickupDate }}" onInput="{{ onPickupDate }}" style="border:none;outline:none;font-size:14px;font-weight:600;font-family:'JetBrains Mono',monospace;background:transparent;color:#0C0A1E" />
+        </div>
+        <div style="padding:0 20px;border-right:1px solid #E5E2F5;display:flex;flex-direction:column;gap:4px">
+          <label style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:rgba(12,10,30,0.5)">Return date</label>
+          <input type="date" value="{{ returnDate }}" onInput="{{ onReturnDate }}" style="border:none;outline:none;font-size:14px;font-weight:600;font-family:'JetBrains Mono',monospace;background:transparent;color:#0C0A1E" />
+          <sc-if value="{{ dateError }}" hint-placeholder-val="{{ false }}"><div style="font-size:10px;color:#c0392b">Return after pickup</div></sc-if>
+        </div>
+        <div style="padding:0 20px;display:flex;flex-direction:column;gap:4px">
+          <label style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:rgba(12,10,30,0.5)">Passengers</label>
+          <div style="display:flex;align-items:center;gap:8px">
+            <div style="width:20px;height:20px;border-radius:50%;border:1px solid #E5E2F5;display:flex;align-items:center;justify-content:center;cursor:pointer;font-weight:700;font-size:12px" onClick="{{ decPassengers }}">–</div>
+            <div style="font-size:14px;font-weight:600;min-width:10px;text-align:center">{{ passengers }}</div>
+            <div style="width:20px;height:20px;border-radius:50%;border:1px solid #E5E2F5;display:flex;align-items:center;justify-content:center;cursor:pointer;font-weight:700;font-size:12px" onClick="{{ incPassengers }}">+</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;padding-left:16px">
+          <a href="Menetap Rentals Search.dc.html"><x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="140px,52px" variant="primary" size="lg">Find a vehicle</x-import></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="wrap" style="display:flex;align-items:center;gap:10px;justify-content:center;margin-top:20px;flex-wrap:wrap">
+      <span style="font-size:12px;color:rgba(12,10,30,0.5)">Popular pickup spots:</span>
+      <sc-for list="{{ popularSpots }}" as="sp" hint-placeholder-count="4">
+        <div onClick="{{ sp.select }}" style="font-size:12px;font-weight:600;background:#fff;border:1px solid #E5E2F5;border-radius:24px;padding:6px 14px;cursor:pointer;color:#0C0A1E">{{ sp.name }}</div>
+      </sc-for>
+    </div>
+  </section>
+
+  <!-- PRICING TRANSPARENCY -->
+  <section style="padding:8px 0 56px">
+    <div class="wrap" style="display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center">
+      <div>
+        <h2 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:24px;letter-spacing:-0.02em;margin:0 0 12px">No deposit surprises at pickup.</h2>
+        <p style="font-size:14px;line-height:1.8;color:rgba(12,10,30,0.65);margin:0;max-width:420px">Insurance, delivery, and driver costs are shown upfront at checkout — never added at the counter. The total you see when you book is the total you pay.</p>
+      </div>
+      <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;box-shadow:0 2px 8px rgba(114,41,255,0.06);padding:22px;display:flex;flex-direction:column;gap:10px;font-size:13px">
+        <div style="display:flex;justify-content:space-between"><span style="color:rgba(12,10,30,0.6)">Scooter, 3 days</span><span style="font-weight:700">Rp 195,000</span></div>
+        <div style="display:flex;justify-content:space-between"><span style="color:rgba(12,10,30,0.6)">Insurance</span><span style="font-weight:700">Rp 120,000</span></div>
+        <div style="display:flex;justify-content:space-between"><span style="color:rgba(12,10,30,0.6)">Delivery to hotel</span><span style="font-weight:700">Rp 50,000</span></div>
+        <div style="height:1px;background:#E5E2F5;margin:2px 0"></div>
+        <div style="display:flex;justify-content:space-between;font-size:15px"><span style="font-weight:700">Total at pickup</span><span style="font-weight:800;font-family:'Plus Jakarta Sans',sans-serif">Rp 365,000</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding:24px 0 56px">
+    <div class="wrap" style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:20px">
+      <h2 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:22px;letter-spacing:-0.01em;margin:0">What you can rent</h2>
+    </div>
+    <div class="wrap" style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+      <a href="{{ scooterLink }}" onClick="{{ selectScooterType }}" style="display:block;text-decoration:none;color:inherit;background:#fff;border:1px solid #E5E2F5;border-radius:8px;overflow:hidden">
+        <div style="aspect-ratio:4/3;background:linear-gradient(135deg,#e5e2f5,#cfc8f0);display:flex;align-items:center;justify-content:center;color:rgba(12,10,30,0.35);font-size:13px">Photo</div>
+        <div style="padding:18px">
+          <div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:17px">Scooter / automatic motorbike</div>
+          <p style="font-size:13px;color:rgba(12,10,30,0.6);line-height:1.6;margin:6px 0 0">From Rp 65,000/day. Helmet included, delivery to your hotel available.</p>
+        </div>
+      </a>
+      <a href="{{ carLink }}" onClick="{{ selectCarType }}" style="display:block;text-decoration:none;color:inherit;background:#fff;border:1px solid #E5E2F5;border-radius:8px;overflow:hidden">
+        <div style="aspect-ratio:4/3;background:linear-gradient(135deg,#dfe8ff,#c8d4f5);display:flex;align-items:center;justify-content:center;color:rgba(12,10,30,0.35);font-size:13px">Photo</div>
+        <div style="padding:18px">
+          <div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:17px">Economy car</div>
+          <p style="font-size:13px;color:rgba(12,10,30,0.6);line-height:1.6;margin:6px 0 0">From Rp 380,000/day. Self-drive or with a driver, insurance included.</p>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <section class="wrap" style="display:flex;gap:32px;padding:20px 0 56px;flex-wrap:wrap;border-top:1px solid #E5E2F5">
+    <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:rgba(12,10,30,0.6)"><i data-lucide="shield-check" style="width:16px;height:16px;color:#00CAEF"></i>Insurance available on every rental</div>
+    <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:rgba(12,10,30,0.6)"><i data-lucide="truck" style="width:16px;height:16px;color:#00CAEF"></i>Delivery to hotel or airport</div>
+    <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:rgba(12,10,30,0.6)"><i data-lucide="user-check" style="width:16px;height:16px;color:#00CAEF"></i>Driver option available</div>
+  </section>
+
+  <section class="wrap" style="padding:0 0 64px">
+    <div style="background:linear-gradient(135deg,rgba(114,41,255,0.06),rgba(0,202,239,0.06));border:1px solid #E5E2F5;border-radius:8px;padding:28px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap">
+      <div style="max-width:420px">
+        <div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:17px;margin-bottom:4px">Already have a Menetap stay booked?</div>
+        <p style="font-size:13px;color:rgba(12,10,30,0.6);margin:0">Add a rental to your existing trip — we'll deliver it to your hotel on arrival day.</p>
+      </div>
+      <a href="Menetap My Trips.dc.html"><x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="200px,44px" variant="primary" size="md">Add to my trip</x-import></a>
+    </div>
+  </section>
+
+  <footer style="border-top:1px solid #E5E2F5;padding:24px 0;margin-top:auto;background:#fff">
+    <div class="wrap" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px">
+      <div style="font-size:12px;color:rgba(12,10,30,0.5)">© 2026 Menetap. All rights reserved.</div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <div onClick="{{ toggleLang }}" style="display:flex;align-items:center;gap:4px;font-size:11px;font-weight:700;color:rgba(12,10,30,0.5);cursor:pointer;border:1px solid #E5E2F5;border-radius:24px;padding:5px 12px"><i data-lucide="globe" style="width:12px;height:12px"></i>{{ langLabel }}</div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:11px;color:rgba(12,10,30,0.45);background:#F7F6FF;border:1px solid #E5E2F5;border-radius:24px;padding:5px 12px">Managed by <a href="https://upscale.asia" target="_blank" style="font-weight:700;color:#7229FF">UPSCALE</a></div>
+      </div>
+    </div>
+  </footer>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { pickupLocation: 'Yogyakarta', pickupDate: '2026-10-12', returnDate: '2026-10-15', diffDropoff: false, dropoffLocation: '', passengers: 1 };
+  componentDidMount() { if (window.lucide) window.lucide.createIcons(); }
+  componentDidUpdate() { if (window.lucide) window.lucide.createIcons(); }
+  renderVals() {
+    const s = this.state;
+    return {
+      langLabel: ((this.state.__lang || (typeof localStorage!=='undefined' && localStorage.getItem('menetapLang')) || 'en') === 'en') ? 'EN' : 'ID',
+      toggleLang: () => { const cur = this.state.__lang || (typeof localStorage!=='undefined' && localStorage.getItem('menetapLang')) || 'en'; const next = cur === 'en' ? 'id' : 'en'; if (typeof localStorage!=='undefined') localStorage.setItem('menetapLang', next); this.setState({ __lang: next }); },
+      pickupLocation: s.pickupLocation, onPickupLocation: (e) => this.setState({ pickupLocation: e.target.value }),
+      pickupDate: s.pickupDate, onPickupDate: (e) => this.setState({ pickupDate: e.target.value }),
+      returnDate: s.returnDate, onReturnDate: (e) => this.setState({ returnDate: e.target.value }),
+      dateError: new Date(s.returnDate) < new Date(s.pickupDate),
+      diffDropoff: s.diffDropoff, toggleDiffDropoff: () => this.setState(st => ({ diffDropoff: !st.diffDropoff })),
+      dropoffLocation: s.dropoffLocation, onDropoffLocation: (e) => this.setState({ dropoffLocation: e.target.value }),
+      passengers: s.passengers,
+      incPassengers: () => this.setState(st => ({ passengers: Math.min(7, st.passengers + 1) })),
+      decPassengers: () => this.setState(st => ({ passengers: Math.max(1, st.passengers - 1) })),
+      popularSpots: ['Yogyakarta Airport', 'Malioboro', 'Ngurah Rai Airport (Bali)', 'Ubud'].map(name => ({ name, select: () => this.setState({ pickupLocation: name }) })),
+      scooterLink: 'Menetap Rentals Search.dc.html', carLink: 'Menetap Rentals Search.dc.html',
+      selectScooterType: () => { if (typeof localStorage!=='undefined') localStorage.setItem('menetapRentalTypeFilter', 'scooter'); },
+      selectCarType: () => { if (typeof localStorage!=='undefined') localStorage.setItem('menetapRentalTypeFilter', 'car'); }
+    };
+  }
+}
+
+</script>
+</body>
+</html>

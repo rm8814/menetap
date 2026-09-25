@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/fonts.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/colors.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/typography.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/spacing.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/shadows.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/motion.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/styles.css">
+<script src="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/_ds_bundle.js"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+body{margin:0;background:#F7F6FF;font-family:'JetBrains Mono',monospace;color:#0C0A1E}
+a{color:#7229FF;text-decoration:none}
+a:hover{color:#5a1fd1;text-decoration:underline}
+.wrap{max-width:760px;margin:0 auto;padding:0 24px;box-sizing:border-box}
+.faq{border:1px solid #E5E2F5;border-radius:8px;background:#fff;padding:16px 18px;box-shadow:0 2px 8px rgba(114,41,255,0.06)}
+</style>
+</helmet>
+
+<div style="min-height:100vh;display:flex;flex-direction:column">
+  <header style="position:sticky;top:0;z-index:50;background:rgba(247,246,255,0.85);backdrop-filter:blur(12px);border-bottom:1px solid #E5E2F5">
+    <div style="max-width:1240px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:72px;box-sizing:border-box">
+      <a href="Menetap Homepage.dc.html" style="display:flex;align-items:center;gap:10px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:22px;letter-spacing:-0.02em;color:#0C0A1E">
+        <span>menetap<span style="color:#7229FF">.</span></span>
+      </a>
+      <a href="Menetap Homepage.dc.html" style="font-size:13px;font-weight:600;color:#0C0A1E;display:flex;align-items:center;gap:6px"><i data-lucide="arrow-left" style="width:14px;height:14px"></i>Back to Menetap</a>
+    </div>
+  </header>
+
+  <section style="padding:64px 0 96px;flex:1">
+    <div class="wrap">
+      <h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:32px;letter-spacing:-0.02em;margin:0 0 8px">Help center</h1>
+      <p style="font-size:14px;line-height:1.7;color:rgba(12,10,30,0.7);margin:0 0 32px">Common questions about bookings, payments, and your account.</p>
+
+      <sc-for list="{{ faqs }}" as="f" hint-placeholder-count="6">
+        <div class="faq" style="margin-bottom:12px;cursor:pointer" onClick="{{ f.toggle }}">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:12px">
+            <div style="font-weight:700;font-size:14px">{{ f.q }}</div>
+            <i data-lucide="{{ f.icon }}" style="width:16px;height:16px;color:rgba(12,10,30,0.45);flex-shrink:0"></i>
+          </div>
+          <sc-if value="{{ f.open }}" hint-placeholder-val="{{ false }}">
+            <div style="font-size:13px;line-height:1.7;color:rgba(12,10,30,0.65);margin-top:10px">{{ f.a }}</div>
+          </sc-if>
+        </div>
+      </sc-for>
+
+      <div style="margin-top:32px;padding:20px;border:1px solid #E5E2F5;border-radius:8px;background:#fff;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">
+        <div>
+          <div style="font-weight:700;font-size:14px">Still need help?</div>
+          <div style="font-size:13px;color:rgba(12,10,30,0.6)">Our support team responds within a few hours.</div>
+        </div>
+        <a href="mailto:support@menetap.com"><x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="140px,40px" variant="primary" size="sm">Contact support</x-import></a>
+      </div>
+    </div>
+  </section>
+
+  <footer style="border-top:1px solid #E5E2F5;padding:24px 0;margin-top:auto;background:#fff">
+    <div class="wrap" style="max-width:1240px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px">
+      <div style="font-size:12px;color:rgba(12,10,30,0.5)">© 2026 Menetap. All rights reserved.</div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <div onClick="{{ toggleLang }}" style="display:flex;align-items:center;gap:4px;font-size:11px;font-weight:700;color:rgba(12,10,30,0.5);cursor:pointer;border:1px solid #E5E2F5;border-radius:24px;padding:5px 12px"><i data-lucide="globe" style="width:12px;height:12px"></i>{{ langLabel }}</div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:11px;color:rgba(12,10,30,0.45);background:#F7F6FF;border:1px solid #E5E2F5;border-radius:24px;padding:5px 12px">Managed by <a href="https://upscale.asia" target="_blank" style="font-weight:700;color:#7229FF">UPSCALE</a></div>
+      </div>
+    </div>
+  </footer>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = {
+    open: {},
+    items: [
+      { id: 1, q: 'How do I cancel or change a booking?', a: 'Go to My Trips, open the booking, and choose Cancel booking or Modify dates. Refund amount depends on the property\'s cancellation policy.' },
+      { id: 2, q: 'When will I be charged?', a: 'Most bookings are charged in full at the time of booking. Some rate plans charge a deposit now and the balance closer to check-in — this is shown at checkout.' },
+      { id: 3, q: 'How do Menetap Rewards points work?', a: 'You earn points on every completed stay. Points can be redeemed for stay credit at checkout once you have enough saved up.' },
+      { id: 4, q: 'Is the price I see the final price?', a: 'Yes. Menetap shows the real price up front — no hidden fees appear at checkout.' },
+      { id: 5, q: 'How do I contact my host?', a: 'Open your booking in My Trips and use Message host, or reach out from the property page before booking.' },
+      { id: 6, q: 'I want to list my property — where do I start?', a: 'Head to menetap.com/partners and click List your property to start onboarding.' }
+    ]
+  };
+  componentDidMount() { if (window.lucide) window.lucide.createIcons(); }
+  componentDidUpdate() { if (window.lucide) window.lucide.createIcons(); }
+  renderVals() {
+    const l = this.state.__lang || (typeof localStorage!=='undefined' && localStorage.getItem('menetapLang')) || 'en';
+    return {
+      langLabel: l === 'en' ? 'EN' : 'ID',
+      toggleLang: () => { const next = l === 'en' ? 'id' : 'en'; if (typeof localStorage!=='undefined') localStorage.setItem('menetapLang', next); this.setState({ __lang: next }); },
+      faqs: this.state.items.map(it => ({
+        q: it.q, a: it.a,
+        open: !!this.state.open[it.id],
+        icon: this.state.open[it.id] ? 'chevron-up' : 'chevron-down',
+        toggle: () => this.setState(st => ({ open: { ...st.open, [it.id]: !st.open[it.id] } }))
+      }))
+    };
+  }
+}
+
+</script>
+</body>
+</html>

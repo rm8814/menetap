@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/fonts.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/colors.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/typography.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/spacing.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/shadows.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/motion.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/styles.css">
+<script src="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/_ds_bundle.js"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+body{margin:0;background:var(--color-bg,#F7F6FF);font-family:'JetBrains Mono',monospace;color:var(--color-ink,#0C0A1E)}
+a{color:#7229FF;text-decoration:none}
+a:hover{color:#5a1fd1;text-decoration:underline}
+.wrap{max-width:1080px;width:100%;margin:0 auto;padding:0 24px;box-sizing:border-box}
+input[type="text"],input[type="email"],input[type="tel"],input[type="password"]{font-family:'JetBrains Mono',monospace;font-size:13px;border:1px solid #E5E2F5;border-radius:6px;padding:9px 12px;outline:none;background:#fff;color:#0C0A1E;width:100%;box-sizing:border-box}
+input:focus{border-color:#7229FF}
+.toggle{width:38px;height:22px;border-radius:24px;position:relative;cursor:pointer;flex:none;transition:background 150ms}
+.toggle-knob{position:absolute;top:2px;width:18px;height:18px;border-radius:50%;background:#fff;transition:left 150ms}
+.mobtabs{display:none}
+@media (max-width:820px){.acctgrid{grid-template-columns:1fr !important}.acctsidebar{display:none !important}.mobtabs{display:flex !important}}
+</style>
+</helmet>
+
+<div style="min-height:100vh;display:flex;flex-direction:column">
+
+  <header style="position:sticky;top:0;z-index:50;background:rgba(247,246,255,0.9);backdrop-filter:blur(12px);border-bottom:1px solid #E5E2F5">
+    <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;height:64px">
+      <a href="#" style="display:flex;align-items:center;gap:9px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:19px;letter-spacing:-0.02em;color:#0C0A1E">
+        <span>menetap<span style="color:#7229FF">.</span></span>
+      </a>
+      <nav style="display:flex;gap:24px;font-size:13px;font-weight:600">
+        <a href="#" style="color:rgba(12,10,30,0.55)">Stays</a>
+        <a href="#" style="color:#7229FF">My trips</a>
+      </nav>
+      <div style="display:flex;align-items:center;gap:10px">
+        <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#7229FF,#00CAEF);display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:700">AW</div>
+      </div>
+    </div>
+  </header>
+
+  <div class="wrap" style="padding:32px 24px 64px">
+    <h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:26px;letter-spacing:-0.02em;margin:0 0 20px">Settings</h1>
+
+    <div class="mobtabs" style="gap:8px;overflow-x:auto;padding-bottom:16px">
+      <a href="#" style="flex:none;font-size:12px;font-weight:600;color:rgba(12,10,30,0.65);padding:7px 14px;border-radius:24px;white-space:nowrap;border:1px solid #E5E2F5">Trips</a>
+      <a href="#" style="flex:none;font-size:12px;font-weight:600;color:rgba(12,10,30,0.65);padding:7px 14px;border-radius:24px;white-space:nowrap;border:1px solid #E5E2F5">Favorites</a>
+      <a href="#" style="flex:none;font-size:12px;font-weight:600;color:rgba(12,10,30,0.65);padding:7px 14px;border-radius:24px;white-space:nowrap;border:1px solid #E5E2F5">Rewards</a>
+      <a href="#" style="flex:none;font-size:12px;font-weight:600;color:rgba(12,10,30,0.65);padding:7px 14px;border-radius:24px;white-space:nowrap;border:1px solid #E5E2F5">Payment</a>
+      <a href="#" style="flex:none;font-size:12px;font-weight:700;background:rgba(114,41,255,0.08);color:#7229FF;padding:7px 14px;border-radius:24px;white-space:nowrap">Settings</a>
+    </div>
+
+    <div class="acctgrid" style="display:grid;grid-template-columns:220px 1fr;gap:32px">
+      <aside class="acctsidebar" style="display:flex;flex-direction:column;gap:4px">
+        <a href="#" style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;color:rgba(12,10,30,0.7);font-size:13px;font-weight:600"><i data-lucide="briefcase" style="width:16px;height:16px"></i>Trips</a>
+        <a href="#" style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;color:rgba(12,10,30,0.7);font-size:13px;font-weight:600"><i data-lucide="heart" style="width:16px;height:16px"></i>Favorites</a>
+        <a href="#" style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;color:rgba(12,10,30,0.7);font-size:13px;font-weight:600"><i data-lucide="gift" style="width:16px;height:16px"></i>Rewards</a>
+        <a href="#" style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;color:rgba(12,10,30,0.7);font-size:13px;font-weight:600"><i data-lucide="credit-card" style="width:16px;height:16px"></i>Payment methods</a>
+        <a href="#" style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;background:rgba(114,41,255,0.08);color:#7229FF;font-size:13px;font-weight:700"><i data-lucide="settings" style="width:16px;height:16px"></i>Settings</a>
+        <div style="height:1px;background:#E5E2F5;margin:8px 0"></div>
+        <a href="#" style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;color:rgba(12,10,30,0.5);font-size:13px;font-weight:600"><i data-lucide="log-out" style="width:16px;height:16px"></i>Log out</a>
+      </aside>
+
+      <div style="display:flex;flex-direction:column;gap:24px;min-width:0">
+
+        <!-- Profile -->
+        <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:22px">
+          <h2 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:16px;margin:0 0 16px">Profile</h2>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+            <div><label style="font-size:11px;font-weight:700;color:rgba(12,10,30,0.55);display:block;margin-bottom:5px">First name</label><input type="text" value="{{ firstName }}" onInput="{{ onFirstName }}" /></div>
+            <div><label style="font-size:11px;font-weight:700;color:rgba(12,10,30,0.55);display:block;margin-bottom:5px">Last name</label><input type="text" value="{{ lastName }}" onInput="{{ onLastName }}" /></div>
+            <div><label style="font-size:11px;font-weight:700;color:rgba(12,10,30,0.55);display:block;margin-bottom:5px">Email</label><input type="email" value="{{ email }}" onInput="{{ onEmail }}" /></div>
+            <div><label style="font-size:11px;font-weight:700;color:rgba(12,10,30,0.55);display:block;margin-bottom:5px">Phone</label><input type="tel" value="{{ phone }}" onInput="{{ onPhone }}" /></div>
+          </div>
+          <div style="margin-top:16px;display:flex;align-items:center;gap:12px">
+            <x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="120px,38px" variant="primary" size="sm" onClick="{{ saveProfile }}">Save changes</x-import>
+            <sc-if value="{{ profileSaved }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:#0a8aa3"><i data-lucide="check-circle-2" style="width:14px;height:14px"></i>Saved</div>
+            </sc-if>
+          </div>
+          <sc-if value="{{ emailChanged }}" hint-placeholder-val="{{ false }}">
+            <div style="margin-top:10px;font-size:11px;color:rgba(12,10,30,0.5)">We'll send a verification link to {{ email }} before the new address takes effect.</div>
+          </sc-if>
+        </div>
+
+        <!-- Language -->
+        <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:22px">
+          <h2 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:16px;margin:0 0 14px">Language</h2>
+          <div style="display:flex;align-items:center;gap:2px;background:rgba(114,41,255,0.06);border:1px solid #E5E2F5;border-radius:24px;padding:3px;width:fit-content">
+            <div style="padding:6px 16px;border-radius:20px;font-size:12px;font-weight:700;white-space:nowrap;cursor:pointer;background:{{ enBg }};color:{{ enColor }}" onClick="{{ selectEn }}">English</div>
+            <div style="padding:6px 16px;border-radius:20px;font-size:12px;font-weight:700;white-space:nowrap;cursor:pointer;background:{{ idBg }};color:{{ idColor }}" onClick="{{ selectId }}">Bahasa Indonesia</div>
+          </div>
+        </div>
+
+        <!-- Notifications -->
+        <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:22px">
+          <h2 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:16px;margin:0 0 4px">Notifications</h2>
+          <div style="display:grid;grid-template-columns:1fr auto auto;gap:8px 16px;align-items:center;margin-top:14px">
+            <div></div>
+            <div style="font-size:10px;font-weight:700;color:rgba(12,10,30,0.4);text-transform:uppercase;text-align:center">Email</div>
+            <div style="font-size:10px;font-weight:700;color:rgba(12,10,30,0.4);text-transform:uppercase;text-align:center">Push</div>
+
+            <div><div style="font-size:13px;font-weight:600">Booking updates</div><div style="font-size:11px;color:rgba(12,10,30,0.5);margin-top:2px">Confirmations, changes, cancellations</div></div>
+            <div class="toggle" style="background:{{ bookingEmailBg }}" onClick="{{ toggleBookingEmail }}"><div class="toggle-knob" style="left:{{ bookingEmailLeft }}"></div></div>
+            <div class="toggle" style="background:{{ bookingPushBg }}" onClick="{{ toggleBookingPush }}"><div class="toggle-knob" style="left:{{ bookingPushLeft }}"></div></div>
+
+            <div><div style="font-size:13px;font-weight:600">Price alerts</div><div style="font-size:11px;color:rgba(12,10,30,0.5);margin-top:2px">When saved destinations get cheaper</div></div>
+            <div class="toggle" style="background:{{ priceEmailBg }}" onClick="{{ togglePriceEmail }}"><div class="toggle-knob" style="left:{{ priceEmailLeft }}"></div></div>
+            <div class="toggle" style="background:{{ pricePushBg }}" onClick="{{ togglePricePush }}"><div class="toggle-knob" style="left:{{ pricePushLeft }}"></div></div>
+
+            <div><div style="font-size:13px;font-weight:600">Marketing</div><div style="font-size:11px;color:rgba(12,10,30,0.5);margin-top:2px">Deals, new destinations, Menetap news</div></div>
+            <div class="toggle" style="background:{{ marketingEmailBg }}" onClick="{{ toggleMarketingEmail }}"><div class="toggle-knob" style="left:{{ marketingEmailLeft }}"></div></div>
+            <div class="toggle" style="background:{{ marketingPushBg }}" onClick="{{ toggleMarketingPush }}"><div class="toggle-knob" style="left:{{ marketingPushLeft }}"></div></div>
+          </div>
+        </div>
+
+        <!-- Security -->
+        <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:22px">
+          <h2 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:16px;margin:0 0 14px">Security</h2>
+          <div style="display:flex;flex-direction:column;gap:12px;max-width:340px">
+            <div>
+              <label style="font-size:11px;font-weight:700;color:rgba(12,10,30,0.55);display:block;margin-bottom:5px">Current password</label>
+              <div style="position:relative">
+                <input type="{{ curPwType }}" value="{{ curPassword }}" onInput="{{ onCurPassword }}" placeholder="••••••••" style="padding-right:36px" />
+                <i data-lucide="{{ curPwIcon }}" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);width:15px;height:15px;color:rgba(12,10,30,0.4);cursor:pointer" onClick="{{ toggleCurPwVisible }}"></i>
+              </div>
+            </div>
+            <div>
+              <label style="font-size:11px;font-weight:700;color:rgba(12,10,30,0.55);display:block;margin-bottom:5px">New password</label>
+              <div style="position:relative">
+                <input type="{{ newPwType }}" value="{{ newPassword }}" onInput="{{ onNewPassword }}" placeholder="••••••••" style="padding-right:36px" />
+                <i data-lucide="{{ newPwIcon }}" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);width:15px;height:15px;color:rgba(12,10,30,0.4);cursor:pointer" onClick="{{ toggleNewPwVisible }}"></i>
+              </div>
+              <sc-if value="{{ showStrength }}" hint-placeholder-val="{{ false }}">
+                <div style="height:4px;border-radius:24px;background:#E5E2F5;margin-top:6px;overflow:hidden"><div style="width:{{ strengthPct }};height:100%;background:{{ strengthColor }}"></div></div>
+                <div style="font-size:10px;color:{{ strengthColor }};margin-top:3px">{{ strengthLabel }}</div>
+              </sc-if>
+            </div>
+            <div>
+              <label style="font-size:11px;font-weight:700;color:rgba(12,10,30,0.55);display:block;margin-bottom:5px">Confirm new password</label>
+              <div style="position:relative">
+                <input type="{{ confirmPwType }}" value="{{ confirmPassword }}" onInput="{{ onConfirmPassword }}" placeholder="••••••••" style="padding-right:36px" />
+                <i data-lucide="{{ confirmPwIcon }}" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);width:15px;height:15px;color:rgba(12,10,30,0.4);cursor:pointer" onClick="{{ toggleConfirmPwVisible }}"></i>
+              </div>
+              <sc-if value="{{ showMismatch }}" hint-placeholder-val="{{ false }}">
+                <div style="font-size:10px;color:#c0392b;margin-top:4px">Passwords don't match</div>
+              </sc-if>
+            </div>
+          </div>
+          <div style="margin-top:14px;display:flex;align-items:center;gap:12px">
+            <x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="140px,38px" variant="outline" size="sm" onClick="{{ updatePassword }}">Update password</x-import>
+            <sc-if value="{{ passwordSaved }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:#0a8aa3"><i data-lucide="check-circle-2" style="width:14px;height:14px"></i>Password updated</div>
+            </sc-if>
+          </div>
+
+          <div style="height:1px;background:#E5E2F5;margin:20px 0"></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+            <div><div style="font-size:13px;font-weight:600">Two-factor authentication</div><div style="font-size:11px;color:rgba(12,10,30,0.5);margin-top:2px">Get a code by SMS when logging in from a new device</div></div>
+            <div class="toggle" style="background:{{ twoFaBg }}" onClick="{{ toggleTwoFa }}"><div class="toggle-knob" style="left:{{ twoFaLeft }}"></div></div>
+          </div>
+
+          <div style="height:1px;background:#E5E2F5;margin:20px 0"></div>
+          <div style="font-size:13px;font-weight:700;margin-bottom:10px">Connected accounts</div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <div style="display:flex;align-items:center;gap:10px;font-size:13px"><i data-lucide="globe" style="width:15px;height:15px;color:rgba(12,10,30,0.6)"></i>Google</div>
+              <span style="font-size:11px;font-weight:700;color:#0a8aa3">Connected</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <div style="display:flex;align-items:center;gap:10px;font-size:13px"><i data-lucide="smartphone" style="width:15px;height:15px;color:rgba(12,10,30,0.6)"></i>Apple</div>
+              <span style="font-size:11px;font-weight:700;color:#7229FF;cursor:pointer">Connect</span>
+            </div>
+          </div>
+
+          <div style="height:1px;background:#E5E2F5;margin:20px 0"></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+            <div><div style="font-size:13px;font-weight:600">Active sessions</div><div style="font-size:11px;color:rgba(12,10,30,0.5);margin-top:2px">Signed in on 2 devices</div></div>
+            <x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="170px,36px" variant="outline" size="sm">Log out of all devices</x-import>
+          </div>
+        </div>
+
+        <!-- Privacy & data -->
+        <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:22px">
+          <div style="font-size:14px;font-weight:700;margin-bottom:14px">Privacy &amp; data</div>
+          <div style="display:flex;flex-direction:column;gap:14px">
+            <div style="display:flex;justify-content:space-between;align-items:center;max-width:440px">
+              <div><div style="font-size:13px;font-weight:600">Marketing emails</div><div style="font-size:12px;color:rgba(12,10,30,0.5)">Offers, price drops, product updates</div></div>
+              <div style="width:40px;height:22px;border-radius:24px;position:relative;cursor:pointer;flex:none;background:{{ marketingBg }}" onClick="{{ toggleMarketing }}"><div style="position:absolute;top:2px;width:18px;height:18px;border-radius:50%;background:#fff;left:{{ marketingLeft }};transition:left 150ms"></div></div>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;max-width:440px">
+              <div><div style="font-size:13px;font-weight:600">Personalized recommendations</div><div style="font-size:12px;color:rgba(12,10,30,0.5)">Use my booking history to tailor search results</div></div>
+              <div style="width:40px;height:22px;border-radius:24px;position:relative;cursor:pointer;flex:none;background:{{ personalizeBg }}" onClick="{{ togglePersonalize }}"><div style="position:absolute;top:2px;width:18px;height:18px;border-radius:50%;background:#fff;left:{{ personalizeLeft }};transition:left 150ms"></div></div>
+            </div>
+            <div style="height:1px;background:#E5E2F5;margin:4px 0"></div>
+            <div><x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="170px,38px" variant="outline" size="sm" onClick="{{ requestData }}">Request my data</x-import></div>
+            <sc-if value="{{ dataRequested }}" hint-placeholder-val="{{ false }}"><div style="font-size:12px;color:#0a8aa3">We'll email your data export within 30 days.</div></sc-if>
+          </div>
+        </div>
+
+        <!-- Danger zone -->
+        <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:22px">
+          <h2 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:16px;margin:0 0 8px;color:#c0392b">Delete account</h2>
+          <p style="font-size:12px;color:rgba(12,10,30,0.55);margin:0 0 14px;max-width:440px">This permanently removes your profile, saved stays, and rewards balance. Upcoming bookings must be cancelled first.</p>
+          <x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="150px,38px" variant="outline" size="sm" onClick="{{ openDeleteModal }}">Delete my account</x-import>
+        </div>
+
+        <sc-if value="{{ deleteModalOpen }}" hint-placeholder-val="{{ false }}">
+          <div style="position:fixed;inset:0;background:rgba(12,10,30,0.4);z-index:100;display:flex;align-items:center;justify-content:center;padding:24px" onClick="{{ closeDeleteModal }}">
+            <div style="background:#fff;border-radius:8px;padding:24px;max-width:380px;width:100%;display:flex;flex-direction:column;gap:14px" onClick="{{ stopClick }}">
+              <div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:17px;color:#c0392b">Delete your account?</div>
+              <p style="font-size:12px;color:rgba(12,10,30,0.6);margin:0;line-height:1.6">This can't be undone. Type <span style="font-weight:700;color:#0C0A1E">DELETE</span> to confirm.</p>
+              <input type="text" value="{{ deleteConfirmText }}" onInput="{{ onDeleteConfirmText }}" placeholder="Type DELETE" />
+              <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:4px">
+                <x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="90px,36px" variant="outline" size="sm" onClick="{{ closeDeleteModal }}">Cancel</x-import>
+                <x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="140px,36px" variant="{{ deleteConfirmVariant }}" size="sm" onClick="{{ confirmDelete }}">Delete account</x-import>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+      </div>
+    </div>
+  </div>
+
+  <footer style="border-top:1px solid #E5E2F5;padding:24px 0;margin-top:auto;background:#fff">
+    <div class="wrap" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px">
+      <div style="font-size:12px;color:rgba(12,10,30,0.5)">© 2026 Menetap. All rights reserved.</div>
+      
+      <!-- langgroup --><div style="display:flex;align-items:center;gap:10px"><div onClick="{{ toggleLang }}" style="display:flex;align-items:center;gap:4px;font-size:11px;font-weight:700;color:rgba(12,10,30,0.5);cursor:pointer;border:1px solid #E5E2F5;border-radius:24px;padding:5px 12px"><i data-lucide="globe" style="width:12px;height:12px"></i>{{ langLabel }}</div><div style="display:flex;align-items:center;gap:8px;font-size:11px;color:rgba(12,10,30,0.45);background:#F7F6FF;border:1px solid #E5E2F5;border-radius:24px;padding:5px 12px">
+        Managed by <a href="https://upscale.asia" target="_blank" style="font-weight:700;color:#7229FF">UPSCALE</a>
+      </div></div>
+    </div>
+  </footer>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = {
+    firstName: 'Anin', lastName: 'Wida', email: 'anin@email.com', phone: '+62 812 3456 7890',
+    initialEmail: 'anin@email.com',
+    lang: 'en',
+    notif: { bookingEmail: true, bookingPush: true, priceEmail: true, pricePush: false, marketingEmail: false, marketingPush: false },
+    profileSaved: false,
+    curPassword: '', newPassword: '', confirmPassword: '',
+    curPwVisible: false, newPwVisible: false, confirmPwVisible: false,
+    passwordSaved: false,
+    twoFa: false,
+    deleteModalOpen: false, deleteConfirmText: '',
+    marketing: true, personalize: true, dataRequested: false
+  };
+  componentDidMount() {
+    if (window.lucide) window.lucide.createIcons();
+  }
+  componentDidUpdate() {
+    if (window.lucide) window.lucide.createIcons();
+  }
+  toggleStyles(on) {
+    return { bg: on ? '#7229FF' : '#E5E2F5', left: on ? '18px' : '2px' };
+  }
+  passwordStrength(pw) {
+    if (!pw) return { pct: '0%', color: '#E5E2F5', label: '' };
+    let score = 0;
+    if (pw.length >= 8) score++;
+    if (/[A-Z]/.test(pw) && /[a-z]/.test(pw)) score++;
+    if (/[0-9]/.test(pw)) score++;
+    if (/[^A-Za-z0-9]/.test(pw)) score++;
+    const levels = [
+      { pct: '25%', color: '#c0392b', label: 'Weak' },
+      { pct: '50%', color: '#c0392b', label: 'Weak' },
+      { pct: '75%', color: '#7229FF', label: 'Good' },
+      { pct: '100%', color: '#0a8aa3', label: 'Strong' }
+    ];
+    return levels[Math.min(score, 3)];
+  }
+  renderVals() {
+    const __lang = this.state.__lang || (typeof localStorage !== 'undefined' && localStorage.getItem('menetapLang')) || 'en';
+    const n = this.state.notif;
+    const be = this.toggleStyles(n.bookingEmail), bp = this.toggleStyles(n.bookingPush);
+    const pe = this.toggleStyles(n.priceEmail), pp = this.toggleStyles(n.pricePush);
+    const me = this.toggleStyles(n.marketingEmail), mp = this.toggleStyles(n.marketingPush);
+    const tfa = this.toggleStyles(this.state.twoFa);
+    const strength = this.passwordStrength(this.state.newPassword);
+    const mismatch = this.state.confirmPassword.length > 0 && this.state.newPassword !== this.state.confirmPassword;
+    return {
+      langLabel: __lang === 'en' ? 'EN' : 'ID',
+      toggleLang: () => { const next = __lang === 'en' ? 'id' : 'en'; localStorage.setItem('menetapLang', next); this.setState({ __lang: next }); },
+      firstName: this.state.firstName, onFirstName: (e) => this.setState({ firstName: e.target.value }),
+      lastName: this.state.lastName, onLastName: (e) => this.setState({ lastName: e.target.value }),
+      email: this.state.email, onEmail: (e) => this.setState({ email: e.target.value }),
+      phone: this.state.phone, onPhone: (e) => this.setState({ phone: e.target.value }),
+      emailChanged: this.state.email !== this.state.initialEmail,
+      profileSaved: this.state.profileSaved,
+      saveProfile: () => { this.setState({ profileSaved: true }); setTimeout(() => this.setState({ profileSaved: false }), 2500); },
+      enBg: this.state.lang === 'en' ? '#7229FF' : 'transparent',
+      enColor: this.state.lang === 'en' ? '#fff' : '#0C0A1E',
+      idBg: this.state.lang === 'id' ? '#7229FF' : 'transparent',
+      idColor: this.state.lang === 'id' ? '#fff' : '#0C0A1E',
+      selectEn: () => this.setState({ lang: 'en' }),
+      selectId: () => this.setState({ lang: 'id' }),
+      bookingEmailBg: be.bg, bookingEmailLeft: be.left, toggleBookingEmail: () => this.setState(s => ({ notif: { ...s.notif, bookingEmail: !s.notif.bookingEmail } })),
+      bookingPushBg: bp.bg, bookingPushLeft: bp.left, toggleBookingPush: () => this.setState(s => ({ notif: { ...s.notif, bookingPush: !s.notif.bookingPush } })),
+      priceEmailBg: pe.bg, priceEmailLeft: pe.left, togglePriceEmail: () => this.setState(s => ({ notif: { ...s.notif, priceEmail: !s.notif.priceEmail } })),
+      pricePushBg: pp.bg, pricePushLeft: pp.left, togglePricePush: () => this.setState(s => ({ notif: { ...s.notif, pricePush: !s.notif.pricePush } })),
+      marketingEmailBg: me.bg, marketingEmailLeft: me.left, toggleMarketingEmail: () => this.setState(s => ({ notif: { ...s.notif, marketingEmail: !s.notif.marketingEmail } })),
+      marketingPushBg: mp.bg, marketingPushLeft: mp.left, toggleMarketingPush: () => this.setState(s => ({ notif: { ...s.notif, marketingPush: !s.notif.marketingPush } })),
+      curPassword: this.state.curPassword, onCurPassword: (e) => this.setState({ curPassword: e.target.value }),
+      newPassword: this.state.newPassword, onNewPassword: (e) => this.setState({ newPassword: e.target.value }),
+      confirmPassword: this.state.confirmPassword, onConfirmPassword: (e) => this.setState({ confirmPassword: e.target.value }),
+      curPwType: this.state.curPwVisible ? 'text' : 'password',
+      newPwType: this.state.newPwVisible ? 'text' : 'password',
+      confirmPwType: this.state.confirmPwVisible ? 'text' : 'password',
+      curPwIcon: this.state.curPwVisible ? 'eye-off' : 'eye',
+      newPwIcon: this.state.newPwVisible ? 'eye-off' : 'eye',
+      confirmPwIcon: this.state.confirmPwVisible ? 'eye-off' : 'eye',
+      toggleCurPwVisible: () => this.setState(s => ({ curPwVisible: !s.curPwVisible })),
+      toggleNewPwVisible: () => this.setState(s => ({ newPwVisible: !s.newPwVisible })),
+      toggleConfirmPwVisible: () => this.setState(s => ({ confirmPwVisible: !s.confirmPwVisible })),
+      showStrength: this.state.newPassword.length > 0,
+      strengthPct: strength.pct, strengthColor: strength.color, strengthLabel: strength.label,
+      showMismatch: mismatch,
+      passwordSaved: this.state.passwordSaved,
+      updatePassword: () => {
+        if (!this.state.curPassword || !this.state.newPassword || mismatch) return;
+        this.setState({ passwordSaved: true, curPassword: '', newPassword: '', confirmPassword: '' });
+        setTimeout(() => this.setState({ passwordSaved: false }), 2500);
+      },
+      twoFaBg: tfa.bg, twoFaLeft: tfa.left, toggleTwoFa: () => this.setState(s => ({ twoFa: !s.twoFa })),
+      deleteModalOpen: this.state.deleteModalOpen,
+      marketingBg: this.state.marketing ? '#7229FF' : '#E5E2F5', marketingLeft: this.state.marketing ? '20px' : '2px', toggleMarketing: () => this.setState(s => ({ marketing: !s.marketing })),
+      personalizeBg: this.state.personalize ? '#7229FF' : '#E5E2F5', personalizeLeft: this.state.personalize ? '20px' : '2px', togglePersonalize: () => this.setState(s => ({ personalize: !s.personalize })),
+      dataRequested: this.state.dataRequested, requestData: () => this.setState({ dataRequested: true }),
+      openDeleteModal: () => this.setState({ deleteModalOpen: true, deleteConfirmText: '' }),
+      closeDeleteModal: () => this.setState({ deleteModalOpen: false }),
+      stopClick: (e) => e.stopPropagation(),
+      deleteConfirmText: this.state.deleteConfirmText,
+      onDeleteConfirmText: (e) => this.setState({ deleteConfirmText: e.target.value }),
+      deleteConfirmVariant: this.state.deleteConfirmText === 'DELETE' ? 'primary' : 'outline',
+      confirmDelete: () => { if (this.state.deleteConfirmText === 'DELETE') this.setState({ deleteModalOpen: false }); }
+    };
+  }
+}
+</script>
+</body>
+</html>

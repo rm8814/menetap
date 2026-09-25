@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/fonts.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/colors.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/typography.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/spacing.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/shadows.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/motion.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/styles.css">
+<script src="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/_ds_bundle.js"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+body{margin:0;background:var(--color-bg,#F7F6FF);font-family:'JetBrains Mono',monospace;color:var(--color-ink,#0C0A1E)}
+a{color:#7229FF;text-decoration:none}
+a:hover{color:#5a1fd1;text-decoration:underline}
+.wrap{max-width:1080px;width:100%;margin:0 auto;padding:0 24px;box-sizing:border-box}
+input[type="text"],input[type="email"],input[type="tel"]{font-family:'JetBrains Mono',monospace;font-size:13px;border:1px solid #E5E2F5;border-radius:6px;padding:10px 12px;outline:none;background:#fff;color:#0C0A1E;width:100%;box-sizing:border-box}
+input:focus{border-color:#7229FF}
+@media (max-width:860px){.ckgrid{grid-template-columns:1fr !important}.sumcol{position:static !important;order:-1}}
+</style>
+</helmet>
+
+<div style="min-height:100vh;display:flex;flex-direction:column">
+
+  <header style="border-bottom:1px solid #E5E2F5;background:#fff">
+    <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;height:64px">
+      <a href="#" style="display:flex;align-items:center;gap:9px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:19px;letter-spacing:-0.02em;color:#0C0A1E">
+        <span>menetap<span style="color:#7229FF">.</span></span>
+      </a>
+      <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:rgba(12,10,30,0.5)">
+        <i data-lucide="lock" style="width:13px;height:13px;color:#00CAEF"></i>Secure checkout
+      </div>
+    </div>
+  </header>
+
+  <!-- STEPS -->
+  <div class="wrap" style="padding:20px 24px 0">
+    <div style="display:flex;align-items:center;gap:10px;font-size:12px;font-weight:600">
+      <div style="display:flex;align-items:center;gap:6px;color:rgba(12,10,30,0.4)"><div style="width:18px;height:18px;border-radius:50%;background:rgba(114,41,255,0.15);color:#7229FF;display:flex;align-items:center;justify-content:center;font-size:10px">✓</div>Room</div>
+      <div style="width:24px;height:1px;background:#E5E2F5"></div>
+      <div style="display:flex;align-items:center;gap:6px;color:rgba(12,10,30,0.4)"><div style="width:18px;height:18px;border-radius:50%;background:rgba(114,41,255,0.15);color:#7229FF;display:flex;align-items:center;justify-content:center;font-size:10px">✓</div>Guest details</div>
+      <div style="width:24px;height:1px;background:#E5E2F5"></div>
+      <div style="display:flex;align-items:center;gap:6px;color:#0C0A1E"><div style="width:18px;height:18px;border-radius:50%;background:#7229FF;color:#fff;display:flex;align-items:center;justify-content:center;font-size:10px">3</div>Payment</div>
+      <div style="width:24px;height:1px;background:#E5E2F5"></div>
+      <div style="display:flex;align-items:center;gap:6px;color:rgba(12,10,30,0.4)"><div style="width:18px;height:18px;border-radius:50%;background:#E5E2F5;display:flex;align-items:center;justify-content:center;font-size:10px">4</div>Confirm</div>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="wrap ckgrid" style="display:grid;grid-template-columns:1fr 360px;gap:36px;padding:24px 24px 64px">
+    <div style="display:flex;flex-direction:column;gap:28px;min-width:0">
+
+      <!-- Add-ons -->
+      <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:22px">
+        <h2 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:17px;margin:0 0 14px">Add to your stay</h2>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <label style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px;border:1px solid #E5E2F5;border-radius:8px;cursor:pointer">
+            <div style="display:flex;align-items:center;gap:10px"><input type="checkbox" checked="{{ addBorobudur }}" onChange="{{ toggleBorobudur }}" style="accent-color:#7229FF" /><div><div style="font-size:13px;font-weight:600">Borobudur sunrise tour</div><div style="font-size:11px;color:rgba(12,10,30,0.5)">Per person</div></div></div>
+            <div style="font-size:13px;font-weight:700">Rp 350,000</div>
+          </label>
+          <label style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px;border:1px solid #E5E2F5;border-radius:8px;cursor:pointer">
+            <div style="display:flex;align-items:center;gap:10px"><input type="checkbox" checked="{{ addAirportPickup }}" onChange="{{ toggleAirportPickup }}" style="accent-color:#7229FF" /><div><div style="font-size:13px;font-weight:600">Airport pickup</div><div style="font-size:11px;color:rgba(12,10,30,0.5)">One-way, private car</div></div></div>
+            <div style="font-size:13px;font-weight:700">Rp 220,000</div>
+          </label>
+        </div>
+      </div>
+
+      <!-- Payment -->
+      <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:22px">
+        <h2 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:17px;margin:0 0 4px">When do you want to pay?</h2>
+        <p style="font-size:12px;color:rgba(12,10,30,0.55);margin:0 0 14px">This rate plan allows a partial deposit now.</p>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:20px">
+          <label style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px;border-radius:8px;cursor:pointer;border:{{ payFullBorder }}">
+            <div style="display:flex;align-items:center;gap:10px"><input type="radio" name="paytime" checked="{{ payTimingFull }}" onChange="{{ selectPayFull }}" style="accent-color:#7229FF" /><span style="font-size:13px;font-weight:600">Pay in full now</span></div>
+            <span style="font-size:13px;font-weight:700">{{ grandTotal }}</span>
+          </label>
+          <label style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px;border-radius:8px;cursor:pointer;border:{{ payDepositBorder }}">
+            <div style="display:flex;align-items:center;gap:10px"><input type="radio" name="paytime" checked="{{ payTimingDeposit }}" onChange="{{ selectPayDeposit }}" style="accent-color:#7229FF" /><div><div style="font-size:13px;font-weight:600">Pay 30% deposit now</div><div style="font-size:11px;color:rgba(12,10,30,0.5)">Remaining balance due {{ balanceDueDate }}</div></div></div>
+            <span style="font-size:13px;font-weight:700">{{ depositLabel }}</span>
+          </label>
+        </div>
+        <h2 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:17px;margin:0 0 4px">Payment method</h2>
+        <div style="display:flex;align-items:center;gap:8px;font-size:11px;color:rgba(12,10,30,0.5);margin-bottom:14px"><i data-lucide="shield-check" style="width:13px;height:13px;color:#00CAEF"></i>256-bit encrypted · PCI-DSS compliant<div style="display:flex;gap:6px;margin-left:6px"><div style="padding:2px 8px;border:1px solid #E5E2F5;border-radius:4px;font-size:10px;font-weight:700">VISA</div><div style="padding:2px 8px;border:1px solid #E5E2F5;border-radius:4px;font-size:10px;font-weight:700">MC</div><div style="padding:2px 8px;border:1px solid #E5E2F5;border-radius:4px;font-size:10px;font-weight:700">GoPay</div></div></div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <label style="display:flex;align-items:center;gap:10px;padding:12px;border-radius:8px;cursor:pointer;border:{{ cardBorder }}">
+            <input type="radio" name="pay" checked="{{ payIsCard }}" onChange="{{ selectCard }}" style="accent-color:#7229FF" />
+            <i data-lucide="credit-card" style="width:16px;height:16px;color:#7229FF"></i>
+            <span style="font-size:13px;font-weight:600">Credit / debit card</span>
+          </label>
+          <label style="display:flex;align-items:center;gap:10px;padding:12px;border-radius:8px;cursor:pointer;border:{{ ewalletBorder }}">
+            <input type="radio" name="pay" checked="{{ payIsEwallet }}" onChange="{{ selectEwallet }}" style="accent-color:#7229FF" />
+            <i data-lucide="wallet" style="width:16px;height:16px;color:#7229FF"></i>
+            <span style="font-size:13px;font-weight:600">GoPay / OVO / e-wallet</span>
+          </label>
+          <label style="display:flex;align-items:center;gap:10px;padding:12px;border-radius:8px;cursor:pointer;border:{{ transferBorder }}">
+            <input type="radio" name="pay" checked="{{ payIsTransfer }}" onChange="{{ selectTransfer }}" style="accent-color:#7229FF" />
+            <i data-lucide="landmark" style="width:16px;height:16px;color:#7229FF"></i>
+            <span style="font-size:13px;font-weight:600">Bank transfer</span>
+          </label>
+          <sc-if value="{{ payAtHotelEnabled }}" hint-placeholder-val="{{ true }}">
+            <label style="display:flex;align-items:center;gap:10px;padding:12px;border-radius:8px;cursor:pointer;border:{{ hotelBorder }}">
+              <input type="radio" name="pay" checked="{{ payIsHotel }}" onChange="{{ selectHotel }}" style="accent-color:#7229FF" />
+              <i data-lucide="building" style="width:16px;height:16px;color:#7229FF"></i>
+              <span style="font-size:13px;font-weight:600">Pay at hotel</span>
+              <span style="font-size:11px;color:rgba(12,10,30,0.5);margin-left:auto">No card needed now</span>
+            </label>
+          </sc-if>
+        </div>
+        <sc-if value="{{ payIsCard }}" hint-placeholder-val="{{ true }}">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px">
+            <div style="grid-column:1/3"><label style="font-size:11px;font-weight:700;color:rgba(12,10,30,0.55);display:block;margin-bottom:5px">Card number</label><input type="text" placeholder="4242 4242 4242 4242" /></div>
+            <div><label style="font-size:11px;font-weight:700;color:rgba(12,10,30,0.55);display:block;margin-bottom:5px">Expiry</label><input type="text" placeholder="MM/YY" /></div>
+            <div><label style="font-size:11px;font-weight:700;color:rgba(12,10,30,0.55);display:block;margin-bottom:5px">CVC</label><input type="text" placeholder="123" /></div>
+          </div>
+        </sc-if>
+        <sc-if value="{{ payIsHotel }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-top:14px;background:rgba(0,202,239,0.06);border:1px solid #E5E2F5;border-radius:8px;padding:12px;font-size:12px;line-height:1.6;color:rgba(12,10,30,0.7)">Pay the full amount in cash or card when you check in. A valid card may be held to guarantee this reservation.</div>
+        </sc-if>
+        <sc-if value="{{ paymentDeclined }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-top:14px;background:rgba(192,57,43,0.06);border:1px solid rgba(192,57,43,0.2);border-radius:8px;padding:12px;font-size:12px;line-height:1.6;color:rgba(12,10,30,0.7);display:flex;gap:8px"><i data-lucide="x-circle" style="width:14px;height:14px;color:#c0392b;flex:none;margin-top:1px"></i><div><strong style="color:#0C0A1E">Payment declined.</strong> Your bank didn't approve this charge. Check your card details or try another payment method — you haven't been charged.</div></div>
+        </sc-if>
+        <sc-if value="{{ paymentTimedOut }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-top:14px;background:rgba(230,162,60,0.1);border:1px solid rgba(230,162,60,0.3);border-radius:8px;padding:12px;font-size:12px;line-height:1.6;color:rgba(12,10,30,0.7);display:flex;gap:8px"><i data-lucide="clock" style="width:14px;height:14px;color:#b8860b;flex:none;margin-top:1px"></i><div><strong style="color:#0C0A1E">Payment timed out.</strong> The connection to your bank took too long to respond. No charge was made — please try again.</div></div>
+        </sc-if>
+        <sc-if value="{{ paymentDuplicate }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-top:14px;background:rgba(0,202,239,0.08);border:1px solid #E5E2F5;border-radius:8px;padding:12px;font-size:12px;line-height:1.6;color:rgba(12,10,30,0.7);display:flex;gap:8px"><i data-lucide="copy" style="width:14px;height:14px;color:#0a8aa3;flex:none;margin-top:1px"></i><div><strong style="color:#0C0A1E">Looks like a duplicate.</strong> We found a matching charge from moments ago — we're checking with your bank so you're not billed twice. This can take a minute.</div></div>
+        </sc-if>
+      </div>
+
+      <!-- Promo code -->
+      <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:22px">
+        <h2 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:17px;margin:0 0 14px">Promo code</h2>
+        <div style="display:flex;gap:10px">
+          <input type="text" value="{{ promoInput }}" onInput="{{ onPromoInput }}" placeholder="Enter code" title="Demo codes: DECLINE, TIMEOUT, DUPLICATE, CONFIRMFAIL, PENDING, SOLDOUT, RATECHANGE, RACE" style="flex:1" />
+          <x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="90px,40px" variant="outline" size="md" onClick="{{ applyPromo }}">Apply</x-import>
+        </div>
+        <sc-if value="{{ promoApplied }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:#0a8aa3;margin-top:10px"><i data-lucide="check-circle-2" style="width:14px;height:14px"></i>{{ promoMessage }}</div>
+        </sc-if>
+        <sc-if value="{{ promoError }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:#c0392b;margin-top:10px"><i data-lucide="x-circle" style="width:14px;height:14px"></i>Code not recognized</div>
+        </sc-if>
+      </div>
+
+      <!-- Reward points -->
+      <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:22px">
+        <label style="display:flex;align-items:center;justify-content:space-between;gap:12px;cursor:pointer">
+          <div style="display:flex;align-items:center;gap:10px">
+            <input type="checkbox" checked="{{ usePoints }}" onChange="{{ toggleUsePoints }}" style="accent-color:#7229FF" />
+            <div>
+              <div style="font-size:13px;font-weight:700">Use reward points</div>
+              <div style="font-size:11px;color:rgba(12,10,30,0.5);margin-top:2px">{{ pointsAvailableLabel }}</div>
+            </div>
+          </div>
+          <div style="font-size:13px;font-weight:700;color:#0a8aa3">{{ pointsDiscountLabel }}</div>
+        </label>
+      </div>
+
+      <!-- Cancellation -->
+      <div style="background:rgba(0,202,239,0.06);border:1px solid #E5E2F5;border-radius:8px;padding:16px;display:flex;gap:10px;align-items:flex-start">
+        <i data-lucide="refresh-ccw" style="width:16px;height:16px;color:#00CAEF;flex:none;margin-top:1px"></i>
+        <div style="font-size:12px;line-height:1.6;color:rgba(12,10,30,0.7)"><span style="font-weight:700;color:#0C0A1E">Free cancellation before Oct 10.</span> Cancel after Oct 10: first night is non-refundable, remaining nights refunded in full.</div>
+      </div>
+
+    </div>
+
+    <!-- SUMMARY -->
+    <aside class="sumcol" style="position:sticky;top:24px;align-self:flex-start;display:flex;flex-direction:column;gap:16px">
+      <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;box-shadow:0 2px 8px rgba(114,41,255,0.06);padding:20px;display:flex;flex-direction:column;gap:16px">
+        <div style="display:flex;gap:12px">
+          <div style="width:64px;aspect-ratio:4/3;height:auto;border-radius:6px;flex:none;background:linear-gradient(135deg,#e5e2f5,#cfc8f0);display:flex;align-items:center;justify-content:center;color:rgba(12,10,30,0.35);font-size:10px">Photo</div>
+          <div>
+            <div style="font-size:13px;font-weight:700">Kaliurang Heritage Villa</div>
+            <div style="display:flex;align-items:center;gap:4px;font-size:11px;font-weight:700;color:#0a8aa3;margin-top:4px"><i data-lucide="star" style="width:11px;height:11px"></i>4.8 · 214 reviews</div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <sc-for list="{{ roomLines }}" as="item" hint-placeholder-count="1">
+            <div style="display:flex;justify-content:space-between;gap:8px;font-size:12px;color:rgba(12,10,30,0.65)">
+              <span style="flex:1;min-width:0">{{ item.qty }}× {{ item.name }}</span>
+              <span style="font-weight:600;white-space:nowrap;flex:none">{{ item.subtotal }}</span>
+            </div>
+          </sc-for>
+        </div>
+        <div style="height:1px;background:#E5E2F5"></div>
+        <div style="display:flex;justify-content:space-between;font-size:12px;color:rgba(12,10,30,0.6)">
+          <div><div style="font-weight:700;color:#0C0A1E">Check-in</div>{{ checkInLabel }}</div>
+          <div><div style="font-weight:700;color:#0C0A1E">Check-out</div>{{ checkOutLabel }}</div>
+          <div><div style="font-weight:700;color:#0C0A1E">Guests</div>{{ guestCount }} adults</div>
+        </div>
+        <div style="height:1px;background:#E5E2F5"></div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px">
+          <div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:nowrap"><span style="color:rgba(12,10,30,0.6);white-space:nowrap">{{ roomCountLabel }} · {{ nightsLabel }}</span><span style="white-space:nowrap">{{ roomSubtotal }}</span></div>
+          <sc-if value="{{ addBorobudur }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex;justify-content:space-between"><span style="color:rgba(12,10,30,0.6)">Borobudur sunrise tour</span><span>Rp 350,000</span></div>
+          </sc-if>
+          <sc-if value="{{ addAirportPickup }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex;justify-content:space-between"><span style="color:rgba(12,10,30,0.6)">Airport pickup</span><span>Rp 220,000</span></div>
+          </sc-if>
+          <sc-if value="{{ usePoints }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;justify-content:space-between"><span style="color:rgba(12,10,30,0.6)">Reward points credit</span><span style="color:#0a8aa3">− {{ pointsDiscountLabel }}</span></div>
+          </sc-if>
+          <div style="height:1px;background:#E5E2F5;margin:2px 0"></div>
+          <div style="display:flex;justify-content:space-between;font-size:16px"><span style="font-weight:700">Total</span><span style="font-weight:800;font-family:'Plus Jakarta Sans',sans-serif">{{ grandTotal }}</span></div>
+          <sc-if value="{{ payTimingDeposit }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;justify-content:space-between;font-size:13px;color:#7229FF;font-weight:700"><span>Due now (30% deposit)</span><span>{{ depositLabel }}</span></div>
+            <div style="display:flex;justify-content:space-between;font-size:12px;color:rgba(12,10,30,0.55)"><span>Balance due {{ balanceDueDate }}</span><span>{{ balanceLabel }}</span></div>
+          </sc-if>
+        </div>
+        <div style="font-size:11px;color:rgba(12,10,30,0.5)">No hidden service fees — this is what you pay.</div>
+        <x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="100%,50px" variant="primary" size="lg" onClick="{{ onConfirmPay }}">{{ confirmLabel }}</x-import>
+        <div style="font-size:11px;color:rgba(12,10,30,0.45);text-align:center;line-height:1.5">By continuing you agree to Menetap's <a href="#">Terms</a> and <a href="#">Cancellation Policy</a></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:14px">
+        <i data-lucide="gift" style="width:18px;height:18px;color:#7229FF;flex:none"></i>
+        <div style="font-size:12px;line-height:1.5;color:rgba(12,10,30,0.7)">Earn <span style="font-weight:700;color:#7229FF">267 points</span> in Menetap Rewards on this stay</div>
+      </div>
+    </aside>
+
+  </div>
+
+  <footer style="border-top:1px solid #E5E2F5;padding:24px 0;margin-top:auto;background:#fff">
+    <div class="wrap" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px">
+      <div style="font-size:12px;color:rgba(12,10,30,0.5)">© 2026 Menetap. All rights reserved.</div>
+      
+      <!-- langgroup --><div style="display:flex;align-items:center;gap:10px"><div onClick="{{ toggleLang }}" style="display:flex;align-items:center;gap:4px;font-size:11px;font-weight:700;color:rgba(12,10,30,0.5);cursor:pointer;border:1px solid #E5E2F5;border-radius:24px;padding:5px 12px"><i data-lucide="globe" style="width:12px;height:12px"></i>{{ langLabel }}</div><div style="display:flex;align-items:center;gap:8px;font-size:11px;color:rgba(12,10,30,0.45);background:#F7F6FF;border:1px solid #E5E2F5;border-radius:24px;padding:5px 12px">
+        Managed by <a href="https://upscale.asia" target="_blank" style="font-weight:700;color:#7229FF">UPSCALE</a>
+      </div></div>
+</div>
+  </footer>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const ROOMS = {
+  garden: { name: 'Garden Suite', total: 2670000 },
+  villa: { name: 'Heritage Villa Room', total: 3720000 },
+  family: { name: 'Family Bungalow', total: 4740000 }
+};
+const SELECTED_ROOMS = { garden: 1, villa: 1, family: 0 };
+const PROPERTY_PAY_AT_HOTEL_ENABLED = true;
+const BOROBUDUR = 350000;
+const AIRPORT = 220000;
+function fmt(n) { return 'Rp ' + n.toLocaleString('en-US'); }
+class Component extends DCLogic {
+  state = {
+    firstName: '', lastName: '', email: '', phone: '',
+    addBorobudur: true, addAirportPickup: true,
+    payMethod: 'card',
+    guestCount: 2, promoInput: '', promoApplied: false, promoError: false, promoDiscount: 0,
+    usePoints: false, memberPoints: 1963,
+    confirming: false,
+    checkIn: '2026-10-12', checkOut: '2026-10-15',
+    payTiming: 'full', paymentFailState: ''
+  };
+  fmtDateLabel(iso) {
+    const d = new Date(iso + 'T00:00:00');
+    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  }
+  nightsBetween() {
+    const a = new Date(this.state.checkIn), b = new Date(this.state.checkOut);
+    return Math.max(1, Math.round((b - a) / 86400000));
+  }
+  applyPromoCode() {
+    const code = this.state.promoInput.trim().toUpperCase();
+    if (code === 'MENETAP10') {
+      this.setState({ promoApplied: true, promoError: false, promoDiscount: 0.1 });
+    } else if (code) {
+      this.setState({ promoApplied: false, promoError: true, promoDiscount: 0 });
+    }
+  }
+  simulatePayment(total) {
+    this.setState({ confirming: true, paymentFailState: '' });
+    const code = this.state.promoInput.trim().toUpperCase();
+    let outcome = 'success';
+    if (code === 'DECLINE') outcome = 'declined';
+    else if (code === 'TIMEOUT') outcome = 'timeout';
+    else if (code === 'DUPLICATE') outcome = 'duplicate';
+    else if (['CONFIRMFAIL', 'PENDING', 'SOLDOUT', 'RATECHANGE', 'RACE'].includes(code)) outcome = 'issue:' + code.toLowerCase();
+    setTimeout(() => {
+      if (outcome === 'success') { if (typeof localStorage!=='undefined') localStorage.setItem('menetapLastPayTiming', this.state.payTiming); window.location.href = 'Menetap Booking Confirmation.dc.html'; return; }
+      if (outcome.startsWith('issue:')) { if (typeof localStorage!=='undefined') localStorage.setItem('menetapBookingIssue', outcome.split(':')[1]); window.location.href = 'Menetap Booking Issue.dc.html'; return; }
+      this.setState({ confirming: false, paymentFailState: outcome });
+    }, 1800);
+  }
+  componentDidMount() {
+    if (window.lucide) window.lucide.createIcons();
+  }
+  componentDidUpdate() {
+    if (window.lucide) window.lucide.createIcons();
+  }
+  renderVals() {
+    const roomKeys = Object.keys(SELECTED_ROOMS).filter(k => SELECTED_ROOMS[k] > 0);
+    const roomLines = roomKeys.map(k => ({ qty: SELECTED_ROOMS[k], name: ROOMS[k].name, subtotal: fmt(ROOMS[k].total * SELECTED_ROOMS[k]) }));
+    const roomsTotal = roomKeys.reduce((sum, k) => sum + ROOMS[k].total * SELECTED_ROOMS[k], 0);
+    const totalRoomCount = roomKeys.reduce((sum, k) => sum + SELECTED_ROOMS[k], 0);
+    let total = roomsTotal;
+    if (this.state.addBorobudur) total += BOROBUDUR;
+    if (this.state.addAirportPickup) total += AIRPORT;
+    if (this.state.promoDiscount) total = Math.round(total * (1 - this.state.promoDiscount));
+    const pointsCreditRp = Math.min(this.state.memberPoints * 10, Math.round(total * 0.2));
+    if (this.state.usePoints) total = Math.max(0, total - pointsCreditRp);
+    const depositAmt = Math.round(total * 0.3);
+    const balanceAmt = total - depositAmt;
+    const amountDueNow = this.state.payTiming === 'deposit' ? depositAmt : total;
+    return {
+      langLabel: ((this.state.__lang || (typeof localStorage!=='undefined' && localStorage.getItem('menetapLang')) || 'en') === 'en') ? 'EN' : 'ID',
+      toggleLang: () => { const cur = this.state.__lang || (typeof localStorage!=='undefined' && localStorage.getItem('menetapLang')) || 'en'; const next = cur === 'en' ? 'id' : 'en'; if (typeof localStorage!=='undefined') localStorage.setItem('menetapLang', next); this.setState({ __lang: next }); },
+
+      checkInLabel: this.fmtDateLabel(this.state.checkIn),
+      checkOutLabel: this.fmtDateLabel(this.state.checkOut),
+      nightsLabel: this.nightsBetween() + (this.nightsBetween() === 1 ? ' night' : ' nights'),
+      guestCount: this.state.guestCount,
+      roomLines,
+      roomCountLabel: totalRoomCount + (totalRoomCount === 1 ? ' room' : ' rooms'),
+      roomSubtotal: fmt(roomsTotal),
+      promoInput: this.state.promoInput,
+      onPromoInput: (e) => this.setState({ promoInput: e.target.value, promoApplied: false, promoError: false, promoDiscount: 0 }),
+      applyPromo: () => this.applyPromoCode(),
+      promoApplied: this.state.promoApplied,
+      promoError: this.state.promoError,
+      promoMessage: '10% off applied',
+      confirming: this.state.confirming,
+      confirmLabel: this.state.confirming ? 'Processing…' : (this.state.payTiming === 'deposit' ? 'Pay deposit and confirm' : 'Confirm and pay'),
+      onConfirmPay: () => { if (this.state.confirming) return; this.simulatePayment(amountDueNow); },
+      payTimingFull: this.state.payTiming === 'full', payTimingDeposit: this.state.payTiming === 'deposit',
+      selectPayFull: () => this.setState({ payTiming: 'full' }), selectPayDeposit: () => this.setState({ payTiming: 'deposit' }),
+      payFullBorder: this.state.payTiming === 'full' ? '1px solid #7229FF' : '1px solid #E5E2F5',
+      payDepositBorder: this.state.payTiming === 'deposit' ? '1px solid #7229FF' : '1px solid #E5E2F5',
+      depositLabel: fmt(depositAmt), balanceLabel: fmt(balanceAmt), balanceDueDate: 'Oct 5, 2026',
+      paymentDeclined: this.state.paymentFailState === 'declined',
+      paymentTimedOut: this.state.paymentFailState === 'timeout',
+      paymentDuplicate: this.state.paymentFailState === 'duplicate',
+      firstName: this.state.firstName, onFirstName: (e) => this.setState({ firstName: e.target.value }),
+      lastName: this.state.lastName, onLastName: (e) => this.setState({ lastName: e.target.value }),
+      email: this.state.email, onEmail: (e) => this.setState({ email: e.target.value }),
+      phone: this.state.phone, onPhone: (e) => this.setState({ phone: e.target.value }),
+      addBorobudur: this.state.addBorobudur,
+      addAirportPickup: this.state.addAirportPickup,
+      toggleBorobudur: () => this.setState(s => ({ addBorobudur: !s.addBorobudur })),
+      toggleAirportPickup: () => this.setState(s => ({ addAirportPickup: !s.addAirportPickup })),
+      payIsCard: this.state.payMethod === 'card',
+      payIsEwallet: this.state.payMethod === 'ewallet',
+      payIsTransfer: this.state.payMethod === 'transfer',
+      payIsHotel: this.state.payMethod === 'hotel',
+      payAtHotelEnabled: PROPERTY_PAY_AT_HOTEL_ENABLED,
+      cardBorder: this.state.payMethod === 'card' ? '1px solid #7229FF' : '1px solid #E5E2F5',
+      ewalletBorder: this.state.payMethod === 'ewallet' ? '1px solid #7229FF' : '1px solid #E5E2F5',
+      transferBorder: this.state.payMethod === 'transfer' ? '1px solid #7229FF' : '1px solid #E5E2F5',
+      hotelBorder: this.state.payMethod === 'hotel' ? '1px solid #7229FF' : '1px solid #E5E2F5',
+      selectCard: () => this.setState({ payMethod: 'card' }),
+      selectEwallet: () => this.setState({ payMethod: 'ewallet' }),
+      selectTransfer: () => this.setState({ payMethod: 'transfer' }),
+      selectHotel: () => this.setState({ payMethod: 'hotel' }),
+      usePoints: this.state.usePoints,
+      toggleUsePoints: () => this.setState(st => ({ usePoints: !st.usePoints })),
+      pointsAvailableLabel: `${this.state.memberPoints.toLocaleString()} pts available`,
+      pointsDiscountLabel: fmt(pointsCreditRp),
+      grandTotal: fmt(total)
+    };
+  }
+}
+</script>
+</body>
+</html>

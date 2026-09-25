@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/fonts.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/colors.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/typography.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/spacing.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/shadows.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/motion.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/styles.css">
+<script src="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/_ds_bundle.js"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+body{margin:0;background:var(--color-bg,#F7F6FF);font-family:'JetBrains Mono',monospace;color:var(--color-ink,#0C0A1E)}
+a{color:#7229FF;text-decoration:none}
+a:hover{color:#5a1fd1;text-decoration:underline}
+.wrap{max-width:1160px;width:100%;margin:0 auto;padding:0 24px;box-sizing:border-box}
+@media (max-width:900px){.rsgrid{grid-template-columns:1fr !important}.sumcol2{position:static !important;order:-1}.roomcard{grid-template-columns:1fr !important}}
+</style>
+</helmet>
+
+<div style="min-height:100vh;display:flex;flex-direction:column">
+
+  <header style="position:sticky;top:0;z-index:50;background:rgba(247,246,255,0.9);backdrop-filter:blur(12px);border-bottom:1px solid #E5E2F5">
+    <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;height:64px;gap:20px">
+      <a href="#" style="display:flex;align-items:center;gap:9px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:19px;letter-spacing:-0.02em;color:#0C0A1E">
+        <span>menetap<span style="color:#7229FF">.</span></span>
+      </a>
+      <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:rgba(12,10,30,0.5)">
+        <a href="Menetap Homepage.dc.html">Stays</a><i data-lucide="chevron-right" style="width:12px;height:12px"></i>
+        <a href="Menetap Search Results.dc.html">Yogyakarta</a><i data-lucide="chevron-right" style="width:12px;height:12px"></i>
+        <a href="Menetap Hotel Detail.dc.html">Kaliurang Heritage Villa</a><i data-lucide="chevron-right" style="width:12px;height:12px"></i>
+        <span style="color:#0C0A1E;font-weight:600">Rooms</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:14px">
+        <a href="Menetap Login.dc.html" style="font-size:13px;font-weight:600;color:#0C0A1E">Log in</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- STAY SUMMARY BAR -->
+  <div class="wrap" style="padding:20px 24px 0;display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:12px">
+    <div>
+      <h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:24px;letter-spacing:-0.02em;margin:0">Choose your room</h1>
+      <div style="font-size:12px;color:rgba(12,10,30,0.55);margin-top:4px">Kaliurang Heritage Villa · {{ dateRangeLabel }} ({{ nightsLabel }}) · {{ guestCount }} adults</div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:10px">
+        <span style="font-size:11px;font-weight:600;background:rgba(0,202,239,0.1);color:#0a8aa3;padding:3px 8px;border-radius:4px">Instant confirmation</span>
+      </div>
+    </div>
+    <div style="position:relative">
+      <div style="font-size:12px;font-weight:600;color:rgba(12,10,30,0.6);cursor:pointer" onClick="{{ toggleDateEditor }}">Change dates or guests</div>
+      <sc-if value="{{ dateEditorOpen }}" hint-placeholder-val="{{ false }}">
+        <div style="position:absolute;top:calc(100% + 8px);right:0;width:280px;background:#fff;border:1px solid #E5E2F5;border-radius:8px;box-shadow:0 8px 24px rgba(114,41,255,0.15);z-index:60;padding:16px;display:flex;flex-direction:column;gap:12px">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+            <div>
+              <label style="font-size:10px;font-weight:700;color:rgba(12,10,30,0.5);text-transform:uppercase">Check-in</label>
+              <input type="date" value="{{ checkIn }}" onInput="{{ onCheckIn }}" style="width:100%;border:1px solid #E5E2F5;border-radius:6px;padding:7px 8px;font-family:'JetBrains Mono',monospace;font-size:12px;margin-top:4px;box-sizing:border-box" />
+            </div>
+            <div>
+              <label style="font-size:10px;font-weight:700;color:rgba(12,10,30,0.5);text-transform:uppercase">Check-out</label>
+              <input type="date" value="{{ checkOut }}" onInput="{{ onCheckOut }}" style="width:100%;border:1px solid #E5E2F5;border-radius:6px;padding:7px 8px;font-family:'JetBrains Mono',monospace;font-size:12px;margin-top:4px;box-sizing:border-box" />
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between">
+            <label style="font-size:10px;font-weight:700;color:rgba(12,10,30,0.5);text-transform:uppercase">Guests</label>
+            <div style="display:flex;align-items:center;gap:10px">
+              <div style="width:22px;height:22px;border-radius:50%;border:1px solid #E5E2F5;display:flex;align-items:center;justify-content:center;cursor:pointer;font-weight:700;font-size:13px" onClick="{{ decGuestCount }}">–</div>
+              <div style="font-size:13px;font-weight:600">{{ guestCount }}</div>
+              <div style="width:22px;height:22px;border-radius:50%;border:1px solid #E5E2F5;display:flex;align-items:center;justify-content:center;cursor:pointer;font-weight:700;font-size:13px" onClick="{{ incGuestCount }}">+</div>
+            </div>
+          </div>
+          <sc-if value="{{ hasSelection }}" hint-placeholder-val="{{ false }}">
+            <div style="font-size:11px;color:#c0392b;background:rgba(192,57,43,0.06);padding:8px;border-radius:6px">Changing dates will re-check availability and may update room prices.</div>
+          </sc-if>
+          <x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="100%,38px" variant="primary" size="sm" onClick="{{ applyDateChange }}">Update search</x-import>
+        </div>
+      </sc-if>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="wrap rsgrid" style="display:grid;grid-template-columns:1fr 320px;gap:32px;padding:24px 24px 64px">
+    <div style="display:flex;flex-direction:column;gap:16px;min-width:0">
+
+      <sc-for list="{{ rooms }}" as="room" hint-placeholder-count="3">
+        <div class="roomcard" style="display:grid;grid-template-columns:220px 1fr;gap:0;align-items:stretch;background:#fff;border-radius:8px;border:1px solid #E5E2F5">
+          <div style="aspect-ratio:4/3;align-self:start;width:100%;background:{{ room.photoBg }};display:flex;align-items:center;justify-content:center;color:rgba(12,10,30,0.35);font-size:12px;position:relative;overflow:hidden;border-radius:8px 0 0 8px">
+            Photo
+            <sc-if value="{{ room.soldOut }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;inset:0;background:rgba(12,10,30,0.55);display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:700">Sold out</div></sc-if>
+          </div>
+          <div style="padding:20px;display:flex;flex-direction:column;gap:10px">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px">
+              <div>
+                <div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:17px">{{ room.name }}</div>
+                <div style="font-size:12px;color:rgba(12,10,30,0.55);margin-top:3px">{{ room.specs }}</div>
+              </div>
+            </div>
+            <div style="display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:rgba(12,10,30,0.65)">
+              <sc-for list="{{ room.amenities }}" as="am" hint-placeholder-count="3">
+                <div style="display:flex;align-items:center;gap:5px"><i data-lucide="{{ am.icon }}" style="width:13px;height:13px;color:#7229FF"></i>{{ am.label }}</div>
+              </sc-for>
+            </div>
+
+            <sc-if value="{{ room.soldOut }}" hint-placeholder-val="{{ false }}">
+              <div style="background:rgba(192,57,43,0.06);border:1px solid rgba(192,57,43,0.2);border-radius:8px;padding:12px;font-size:12px;color:rgba(12,10,30,0.7)">
+                No availability for {{ dateRangeLabel }}. <a href="Menetap Search Results.dc.html">See alternative dates →</a>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ room.notSoldOut }}" hint-placeholder-val="{{ true }}">
+              <div style="display:flex;flex-direction:column;gap:8px;margin-top:2px">
+                <sc-for list="{{ room.plans }}" as="plan" hint-placeholder-count="2">
+                  <div style="border:{{ plan.border }};border-radius:8px;padding:12px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+                    <div>
+                      <div style="display:flex;align-items:center;gap:8px">
+                        <span style="font-size:13px;font-weight:700">{{ plan.name }}</span>
+                        <span style="font-size:11px;font-weight:600;background:{{ plan.tagBg }};color:{{ plan.tagColor }};padding:2px 7px;border-radius:4px">{{ plan.tag }}</span>
+                      </div>
+                      <div style="font-size:11px;color:rgba(12,10,30,0.5);margin-top:3px">{{ plan.note }}</div>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:16px">
+                      <div style="text-align:right">
+                        <div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:16px">{{ plan.rateLabel }}</div>
+                        <div style="font-size:10px;color:rgba(12,10,30,0.45)">{{ plan.totalLabel }}</div>
+                      </div>
+                      <div style="display:flex;align-items:center;gap:10px">
+                        <div style="width:26px;height:26px;border-radius:50%;border:1px solid #E5E2F5;display:flex;align-items:center;justify-content:center;cursor:pointer;font-weight:700" onClick="{{ plan.dec }}">–</div>
+                        <div style="font-size:13px;font-weight:700;min-width:12px;text-align:center">{{ plan.qty }}</div>
+                        <div style="width:26px;height:26px;border-radius:50%;border:1px solid #E5E2F5;display:flex;align-items:center;justify-content:center;cursor:pointer;font-weight:700" onClick="{{ plan.inc }}">+</div>
+                      </div>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+            </sc-if>
+          </div>
+        </div>
+      </sc-for>
+
+    </div>
+
+    <!-- SELECTION SUMMARY -->
+    <aside class="sumcol2" style="position:sticky;top:84px;align-self:flex-start;display:flex;flex-direction:column;gap:16px">
+      <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;box-shadow:0 2px 8px rgba(114,41,255,0.06);padding:20px;display:flex;flex-direction:column;gap:14px">
+        <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.03em;color:rgba(12,10,30,0.5)">Your selection</div>
+        <sc-if value="{{ hasSelection }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <sc-for list="{{ lineItems }}" as="item" hint-placeholder-count="1">
+              <div style="display:flex;justify-content:space-between;align-items:baseline;font-size:13px">
+                <span style="color:rgba(12,10,30,0.7)">{{ item.qty }}× {{ item.name }}</span>
+                <span style="font-weight:600">{{ item.subtotal }}</span>
+              </div>
+            </sc-for>
+          </div>
+          <div style="font-size:11px;color:rgba(12,10,30,0.5)">{{ roomCountLabel }} · {{ nightsLabel }}</div>
+          <div style="height:1px;background:#E5E2F5"></div>
+          <div style="display:flex;justify-content:space-between;font-size:15px"><span style="font-weight:700">Total</span><span style="font-weight:800;font-family:'Plus Jakarta Sans',sans-serif">{{ grandTotal }}</span></div>
+          <a href="Menetap Guest Details.dc.html"><x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="100%,48px" variant="primary" size="lg">Continue to checkout</x-import></a>
+        </sc-if>
+        <sc-if value="{{ noSelection }}" hint-placeholder-val="{{ true }}">
+          <div style="font-size:13px;color:rgba(12,10,30,0.5);line-height:1.6">Pick one or more rooms — mix room types or rate plans if you need extra space.</div>
+        </sc-if>
+      </div>
+    </aside>
+
+  </div>
+
+  <footer style="border-top:1px solid #E5E2F5;padding:24px 0;margin-top:auto;background:#fff">
+    <div class="wrap" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px">
+      <div style="font-size:12px;color:rgba(12,10,30,0.5)">© 2026 Menetap. All rights reserved.</div>
+      <div style="display:flex;align-items:center;gap:10px"><div onClick="{{ toggleLang }}" style="display:flex;align-items:center;gap:4px;font-size:11px;font-weight:700;color:rgba(12,10,30,0.5);cursor:pointer;border:1px solid #E5E2F5;border-radius:24px;padding:5px 12px"><i data-lucide="globe" style="width:12px;height:12px"></i>{{ langLabel }}</div><div style="display:flex;align-items:center;gap:8px;font-size:11px;color:rgba(12,10,30,0.45);background:#F7F6FF;border:1px solid #E5E2F5;border-radius:24px;padding:5px 12px">
+        Managed by <a href="https://upscale.asia" target="_blank" style="font-weight:700;color:#7229FF">UPSCALE</a>
+      </div></div>
+    </div>
+  </footer>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const ROOM_DEFS = [
+  { key: 'garden', name: 'Garden Suite', specs: '28m² · Garden view · 1 double bed · up to 2 guests', photoBg: 'linear-gradient(135deg,#e5e2f5,#cfc8f0)', baseRate: 890000,
+    amenities: [{ icon: 'wifi', label: 'Free WiFi' }, { icon: 'wind', label: 'AC' }], soldOut: false },
+  { key: 'villa', name: 'Heritage Villa Room', specs: '42m² · Pool access · 1 king bed · up to 3 guests', photoBg: 'linear-gradient(135deg,#dfe8ff,#c8d4f5)', baseRate: 1240000,
+    amenities: [{ icon: 'waves', label: 'Private pool' }, { icon: 'wind', label: 'AC' }, { icon: 'chef-hat', label: 'Kitchen access' }], soldOut: false },
+  { key: 'family', name: 'Family Bungalow', specs: '58m² · Garden view · 2 bedrooms · up to 4 guests', photoBg: 'linear-gradient(135deg,#f0dff5,#e0c8ea)', baseRate: 1580000,
+    amenities: [{ icon: 'wifi', label: 'Free WiFi' }, { icon: 'car', label: 'Free parking' }], soldOut: true }
+];
+const PLAN_TYPES = [
+  { key: 'refundable', name: 'Refundable · Breakfast included', tag: 'Free cancellation', tagBg: 'rgba(114,41,255,0.08)', tagColor: '#7229FF', note: 'Free cancellation before Oct 10 · Breakfast for 2 included', mult: 1 },
+  { key: 'nonref', name: 'Non-refundable · Room only', tag: 'Save 12%', tagBg: 'rgba(0,202,239,0.1)', tagColor: '#0a8aa3', note: 'No refund if cancelled · Room only, breakfast not included', mult: 0.88 }
+];
+function fmt(n) { return 'Rp ' + Math.round(n).toLocaleString('en-US'); }
+class Component extends DCLogic {
+  state = {
+    qty: { garden_refundable: 0, garden_nonref: 0, villa_refundable: 0, villa_nonref: 0, family_refundable: 0, family_nonref: 0 },
+    checkIn: '2026-10-12', checkOut: '2026-10-15', guestCount: 2, dateEditorOpen: false
+  };
+  fmtDateLabel(iso) { const d = new Date(iso + 'T00:00:00'); return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }); }
+  nightsBetween() { const a = new Date(this.state.checkIn), b = new Date(this.state.checkOut); return Math.max(1, Math.round((b - a) / 86400000)); }
+  componentDidMount() { if (window.lucide) window.lucide.createIcons(); }
+  componentDidUpdate() { if (window.lucide) window.lucide.createIcons(); }
+  setQty(id, delta) { this.setState(s => ({ qty: { ...s.qty, [id]: Math.max(0, Math.min(6, s.qty[id] + delta)) } })); }
+  renderVals() {
+    const q = this.state.qty;
+    const nights = this.nightsBetween();
+    const lineItems = [];
+    let grandTotal = 0, totalRooms = 0;
+    ROOM_DEFS.forEach(rd => { PLAN_TYPES.forEach(pt => {
+      const id = rd.key + '_' + pt.key;
+      const n = q[id];
+      if (n > 0) {
+        const subtotal = rd.baseRate * pt.mult * nights * n;
+        lineItems.push({ qty: n, name: rd.name + ' (' + pt.name.split(' · ')[0] + ')', subtotal: fmt(subtotal) });
+        grandTotal += subtotal; totalRooms += n;
+      }
+    }); });
+    const rooms = ROOM_DEFS.map(rd => ({
+      name: rd.name, specs: rd.specs, photoBg: rd.photoBg, amenities: rd.amenities,
+      soldOut: rd.soldOut, notSoldOut: !rd.soldOut,
+      plans: PLAN_TYPES.map(pt => {
+        const id = rd.key + '_' + pt.key;
+        const rate = rd.baseRate * pt.mult;
+        return {
+          name: pt.name, tag: pt.tag, tagBg: pt.tagBg, tagColor: pt.tagColor, note: pt.note,
+          rateLabel: fmt(rate) + '/night',
+          totalLabel: fmt(rate * nights) + ' total',
+          border: q[id] > 0 ? '2px solid #7229FF' : '1px solid #E5E2F5',
+          qty: q[id], inc: () => this.setQty(id, 1), dec: () => this.setQty(id, -1)
+        };
+      })
+    }));
+    return {
+      langLabel: ((this.state.__lang || (typeof localStorage!=='undefined' && localStorage.getItem('menetapLang')) || 'en') === 'en') ? 'EN' : 'ID',
+      toggleLang: () => { const cur = this.state.__lang || (typeof localStorage!=='undefined' && localStorage.getItem('menetapLang')) || 'en'; const next = cur === 'en' ? 'id' : 'en'; if (typeof localStorage!=='undefined') localStorage.setItem('menetapLang', next); this.setState({ __lang: next }); },
+      dateRangeLabel: this.fmtDateLabel(this.state.checkIn) + ' – ' + this.fmtDateLabel(this.state.checkOut),
+      nightsLabel: nights + (nights === 1 ? ' night' : ' nights'),
+      guestCount: this.state.guestCount,
+      incGuestCount: () => this.setState(s => ({ guestCount: Math.min(10, s.guestCount + 1) })),
+      decGuestCount: () => this.setState(s => ({ guestCount: Math.max(1, s.guestCount - 1) })),
+      checkIn: this.state.checkIn, checkOut: this.state.checkOut,
+      onCheckIn: (e) => this.setState({ checkIn: e.target.value }),
+      onCheckOut: (e) => this.setState({ checkOut: e.target.value }),
+      dateEditorOpen: this.state.dateEditorOpen,
+      toggleDateEditor: () => this.setState(s => ({ dateEditorOpen: !s.dateEditorOpen })),
+      applyDateChange: () => this.setState(s => ({ dateEditorOpen: false, qty: Object.fromEntries(Object.keys(s.qty).map(k => [k, 0])) })),
+      rooms,
+      hasSelection: totalRooms > 0,
+      noSelection: totalRooms === 0,
+      lineItems,
+      roomCountLabel: totalRooms + (totalRooms === 1 ? ' room' : ' rooms'),
+      grandTotal: fmt(grandTotal)
+    };
+  }
+}
+
+</script>
+</body>
+</html>

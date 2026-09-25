@@ -1,0 +1,71 @@
+/* Aninda Wida Design System — Colors
+ * Inverted UPSCALE: light background, electric violet + cyan accents.
+ */
+
+:root {
+  /* ── Base surfaces ─────────────────────────────────── */
+  --color-bg:            #F7F6FF;  /* Off-white with faint violet cast */
+  --color-bg-alt:        #FFFFFF;  /* Pure white */
+  --color-surface:       #FFFFFF;
+  --color-surface-tint:  #F0EEFF;  /* Violet-tinted surface for callouts */
+
+  /* ── Ink (text) ────────────────────────────────────── */
+  --color-ink-1:         #0C0A1E;  /* Near-black with deep violet undertone */
+  --color-ink-2:         #3B3754;  /* Dark muted violet-gray */
+  --color-ink-3:         #8784A0;  /* Subdued — labels, placeholders */
+  --color-ink-inverse:   #FFFFFF;  /* On dark/violet backgrounds */
+
+  /* ── Electric Violet ───────────────────────────────── */
+  --color-violet-50:     #F4F1FF;
+  --color-violet-100:    #E9E3FF;
+  --color-violet-200:    #CEBFFF;
+  --color-violet-300:    #B09BFF;
+  --color-violet-400:    #9478FD;
+  --color-violet-500:    #7C5CFC;  /* Primary brand violet — exact UPSCALE value */
+  --color-violet-600:    #6345E0;
+  --color-violet-700:    #4B30C4;
+  --color-violet-800:    #341DA8;
+  --color-violet-900:    #1E0F8C;
+
+  /* ── Electric Cyan ─────────────────────────────────── */
+  --color-cyan-50:       #F0FEFF;
+  --color-cyan-100:      #CCFBFF;
+  --color-cyan-200:      #99F5FF;
+  --color-cyan-300:      #5AEBFF;
+  --color-cyan-400:      #24DDFF;
+  --color-cyan-500:      #00D4FF;  /* Primary brand cyan — exact UPSCALE value */
+  --color-cyan-600:      #00A3C4;
+  --color-cyan-700:      #007A96;
+  --color-cyan-800:      #005468;
+  --color-cyan-900:      #00303E;
+
+  /* ── Borders ───────────────────────────────────────── */
+  --color-border:        #E5E2F5;  /* Violet-tinted default border */
+  --color-border-strong: #C8C3E0;  /* Stronger border for focus, dividers */
+
+  /* ── Semantic ──────────────────────────────────────── */
+  --color-success:       #16A34A;
+  --color-success-bg:    #F0FDF4;
+  --color-error:         #DC2626;
+  --color-error-bg:      #FEF2F2;
+  --color-warning:       #D97706;
+  --color-warning-bg:    #FFFBEB;
+  --color-info:          var(--color-cyan-500);
+  --color-info-bg:       var(--color-cyan-50);
+
+  /* ── Semantic aliases ──────────────────────────────── */
+  --color-primary:       var(--color-violet-500);
+  --color-primary-hover: var(--color-violet-600);
+  --color-primary-bg:    var(--color-violet-50);
+  --color-secondary:     var(--color-cyan-500);
+  --color-secondary-hover: var(--color-cyan-600);
+  --color-secondary-bg:  var(--color-cyan-50);
+
+  --color-text:          var(--color-ink-1);
+  --color-text-muted:    var(--color-ink-2);
+  --color-text-subtle:   var(--color-ink-3);
+  --color-text-on-dark:  var(--color-ink-inverse);
+
+  --color-bg-page:       var(--color-bg);
+  --color-bg-surface:    var(--color-surface);
+}

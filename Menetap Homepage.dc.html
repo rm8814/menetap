@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/fonts.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/colors.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/typography.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/spacing.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/shadows.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/motion.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/styles.css">
+<script src="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/_ds_bundle.js"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+body{margin:0;background:var(--color-bg,#F7F6FF);font-family:'JetBrains Mono',monospace;color:var(--color-ink,#0C0A1E)}
+a{color:#7229FF;text-decoration:none}
+a:hover{color:#5a1fd1;text-decoration:underline}
+.wrap{max-width:1240px;margin:0 auto;padding:0 24px}
+@media (max-width:860px){.wrap{padding:0 16px}}
+</style>
+</helmet>
+
+<div style="min-height:100vh;display:flex;flex-direction:column">
+
+  <!-- NAV -->
+  <header style="position:sticky;top:0;z-index:50;background:rgba(247,246,255,0.85);backdrop-filter:blur(12px);border-bottom:1px solid #E5E2F5">
+    <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;height:72px;gap:24px">
+      <div style="display:flex;align-items:center;gap:10px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:22px;letter-spacing:-0.02em">
+        <span>menetap<span style="color:#7229FF">.</span></span>
+      </div>
+      <nav style="display:flex;gap:28px;font-size:14px;font-weight:500" class="navlinks">
+        <a href="Menetap Search Results.dc.html" style="color:#0C0A1E">Stays</a>
+        <a href="Menetap Rentals Landing.dc.html" style="color:#0C0A1E">Rentals</a>
+        <a href="Menetap Search Results.dc.html" style="color:#0C0A1E">Experiences</a>
+        <a href="Menetap Rewards.dc.html" style="color:#0C0A1E">Rewards</a>
+        <a href="Menetap Partner Landing.dc.html" style="color:#0C0A1E">List your property</a>
+      </nav>
+      <div style="display:flex;align-items:center;gap:16px">
+        <div style="display:flex;align-items:center;gap:2px;font-size:13px;font-weight:700;background:rgba(114,41,255,0.06);border:1px solid #E5E2F5;border-radius:24px;padding:3px">
+          <span onClick="{{ toggleLang }}" style="padding:5px 10px;border-radius:20px;background:{{ enBg }};color:{{ enColor }};cursor:pointer">EN</span>
+          <span onClick="{{ toggleLang }}" style="padding:5px 10px;border-radius:20px;color:{{ idColor }};background:{{ idBg }};cursor:pointer">ID</span>
+        </div>
+        <a href="Menetap Login.dc.html" style="font-size:14px;font-weight:600;color:#0C0A1E">Log in</a>
+        <a href="Menetap Sign Up.dc.html"><x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="auto,40px" variant="outline" size="sm">Sign up</x-import></a>
+      </div>
+    </div>
+    <div id="stickySearch" style="max-height:0;overflow:hidden;transition:max-height 250ms cubic-bezier(0.22,1,0.36,1);border-top:1px solid #E5E2F5">
+      <div class="wrap" style="display:flex;align-items:center;gap:12px;padding:12px 24px">
+        <div style="display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600"><i data-lucide="map-pin" style="width:14px;height:14px;color:#7229FF"></i>{{ destQuery }}</div>
+        <div style="width:1px;height:16px;background:#E5E2F5"></div>
+        <div style="position:relative;display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;cursor:pointer" onClick="{{ toggleCalendar }}"><i data-lucide="calendar" style="width:14px;height:14px;color:#7229FF"></i>{{ dateRangeLabel }}</div>
+        <div style="width:1px;height:16px;background:#E5E2F5"></div>
+        <div style="position:relative;display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;cursor:pointer" onClick="{{ toggleGuests }}"><i data-lucide="users" style="width:14px;height:14px;color:#7229FF"></i>{{ guestsLabel }}</div>
+        <div style="flex:1"></div>
+        <x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="100px,36px" variant="primary" size="sm" onClick="{{ runSearch }}">Search</x-import>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO / SEARCH -->
+  <section style="padding:64px 0 40px">
+    <div class="wrap" style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px;margin-bottom:36px">
+      <div style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:#7229FF;background:rgba(114,41,255,0.08);border:1px solid rgba(114,41,255,0.2);border-radius:24px;padding:6px 14px;width:fit-content">
+        <i data-lucide="zap" style="width:14px;height:14px"></i>
+        Priced by UPSCALE's revenue engine — no guesswork
+      </div>
+      <h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:44px;line-height:1.1;letter-spacing:-0.02em;margin:12px 0 0;max-width:640px">
+        Find your stay anywhere in Indonesia. See the real price.
+      </h1>
+      <p style="font-size:15px;line-height:1.7;color:rgba(12,10,30,0.65);max-width:520px;margin:8px 0 0">
+        No inflated rack rates, no fake discounts, no surprise fees at checkout. What you see is what you pay.
+      </p>
+    </div>
+
+    <!-- search card -->
+    <div class="wrap">
+      <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;box-shadow:0 2px 8px rgba(114,41,255,0.06);padding:20px;display:grid;grid-template-columns:1.4fr 1fr 1fr 0.8fr auto;gap:0;align-items:stretch" class="searchgrid">
+        <div data-dest-field="true" style="position:relative;padding:0 20px;border-right:1px solid #E5E2F5;display:flex;flex-direction:column;gap:4px">
+          <label style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:rgba(12,10,30,0.5)">Destination</label>
+          <div style="display:flex;align-items:center;gap:8px">
+            <i data-lucide="map-pin" style="width:16px;height:16px;color:#7229FF;flex:none"></i>
+            <input value="{{ destQuery }}" onInput="{{ onDestInput }}" placeholder="Where to? Try a hotel name, city, or area" style="border:none;outline:none;font-size:15px;font-weight:600;font-family:'JetBrains Mono',monospace;width:100%;background:transparent;color:#0C0A1E" />
+          </div>
+        </div>
+        <div style="padding:0 20px;border-right:1px solid #E5E2F5;display:flex;flex-direction:column;gap:4px;position:relative;cursor:pointer" onClick="{{ openCalendarCheckin }}">
+          <label style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:rgba(12,10,30,0.5)">Check-in</label>
+          <div style="display:flex;align-items:center;gap:8px">
+            <i data-lucide="calendar" style="width:16px;height:16px;color:#7229FF"></i>
+            <span style="font-size:15px;font-weight:600">{{ checkInLabel }}</span>
+          </div>
+        </div>
+        <div style="padding:0 20px;border-right:1px solid #E5E2F5;display:flex;flex-direction:column;gap:4px;position:relative;cursor:pointer" onClick="{{ openCalendarCheckout }}">
+          <label style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:rgba(12,10,30,0.5)">Check-out</label>
+          <div style="display:flex;align-items:center;gap:8px">
+            <i data-lucide="calendar" style="width:16px;height:16px;color:#7229FF"></i>
+            <span style="font-size:15px;font-weight:600">{{ checkOutLabel }}</span>
+          </div>
+          <sc-if value="{{ calendarOpen }}" hint-placeholder-val="{{ false }}">
+            <div onClick="{{ stopClick }}" style="position:absolute;top:calc(100% + 8px);left:0;width:300px;background:#fff;border:1px solid #E5E2F5;border-radius:8px;box-shadow:0 8px 24px rgba(114,41,255,0.15);z-index:70;padding:14px;cursor:default">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+                <i data-lucide="chevron-left" style="width:16px;height:16px;color:#7229FF;cursor:pointer" onClick="{{ prevMonth }}"></i>
+                <div style="font-size:13px;font-weight:700">{{ calMonthLabel }}</div>
+                <i data-lucide="chevron-right" style="width:16px;height:16px;color:#7229FF;cursor:pointer" onClick="{{ nextMonth }}"></i>
+              </div>
+              <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:2px;font-size:10px;font-weight:700;color:rgba(12,10,30,0.4);text-align:center;margin-bottom:4px">
+                <div>S</div><div>M</div><div>T</div><div>W</div><div>T</div><div>F</div><div>S</div>
+              </div>
+              <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:2px">
+                <sc-for list="{{ calDays }}" as="cd" hint-placeholder-count="35">
+                  <div onClick="{{ cd.select }}" style="aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;border-radius:6px;cursor:{{ cd.cursor }};background:{{ cd.bg }};color:{{ cd.color }}">{{ cd.label }}</div>
+                </sc-for>
+              </div>
+              <div style="font-size:11px;color:rgba(12,10,30,0.5);margin-top:10px">{{ calHint }}</div>
+            </div>
+          </sc-if>
+        </div>
+        <div style="padding:0 20px;display:flex;flex-direction:column;gap:4px;position:relative;cursor:pointer" onClick="{{ toggleGuests }}">
+          <label style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:rgba(12,10,30,0.5)">Guests</label>
+          <div style="display:flex;align-items:center;gap:8px">
+            <i data-lucide="users" style="width:16px;height:16px;color:#7229FF"></i>
+            <span style="font-size:15px;font-weight:600">{{ guestsLabel }}</span>
+          </div>
+          <sc-if value="{{ guestsOpen }}" hint-placeholder-val="{{ false }}">
+            <div onClick="{{ stopClick }}" style="position:absolute;top:calc(100% + 8px);right:0;width:240px;background:#fff;border:1px solid #E5E2F5;border-radius:8px;box-shadow:0 8px 24px rgba(114,41,255,0.15);z-index:70;padding:16px;display:flex;flex-direction:column;gap:14px;cursor:default">
+              <div style="display:flex;justify-content:space-between;align-items:center">
+                <div><div style="font-size:13px;font-weight:700">Adults</div><div style="font-size:11px;color:rgba(12,10,30,0.5)">Ages 13+</div></div>
+                <div style="display:flex;align-items:center;gap:10px">
+                  <div style="width:24px;height:24px;border-radius:50%;border:1px solid #E5E2F5;display:flex;align-items:center;justify-content:center;cursor:pointer;font-weight:700" onClick="{{ decAdults }}">–</div>
+                  <div style="font-size:13px;font-weight:700;min-width:14px;text-align:center">{{ adults }}</div>
+                  <div style="width:24px;height:24px;border-radius:50%;border:1px solid #E5E2F5;display:flex;align-items:center;justify-content:center;cursor:pointer;font-weight:700" onClick="{{ incAdults }}">+</div>
+                </div>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center">
+                <div><div style="font-size:13px;font-weight:700">Children</div><div style="font-size:11px;color:rgba(12,10,30,0.5)">Ages 0–12</div></div>
+                <div style="display:flex;align-items:center;gap:10px">
+                  <div style="width:24px;height:24px;border-radius:50%;border:1px solid #E5E2F5;display:flex;align-items:center;justify-content:center;cursor:pointer;font-weight:700" onClick="{{ decChildren }}">–</div>
+                  <div style="font-size:13px;font-weight:700;min-width:14px;text-align:center">{{ children }}</div>
+                  <div style="width:24px;height:24px;border-radius:50%;border:1px solid #E5E2F5;display:flex;align-items:center;justify-content:center;cursor:pointer;font-weight:700" onClick="{{ incChildren }}">+</div>
+                </div>
+              </div>
+              <x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="100%,36px" variant="primary" size="sm" onClick="{{ closeGuests }}">Done</x-import>
+            </div>
+          </sc-if>
+        </div>
+        <div style="display:flex;align-items:center;padding-left:16px">
+          <x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="140px,52px" variant="primary" size="lg" onClick="{{ runSearch }}">Search</x-import>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:20px;justify-content:center;margin-top:14px;flex-wrap:wrap">
+        <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:rgba(12,10,30,0.55)"><i data-lucide="refresh-ccw" style="width:13px;height:13px;color:#00CAEF"></i>Free cancellation on most stays</div>
+        <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:rgba(12,10,30,0.55)"><i data-lucide="shield-check" style="width:13px;height:13px;color:#00CAEF"></i>Secure payment</div>
+        <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:rgba(12,10,30,0.55)"><i data-lucide="gift" style="width:13px;height:13px;color:#00CAEF"></i>Earn Menetap Rewards on this booking</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- POPULAR DESTINATIONS -->
+  <section style="padding:8px 0 48px">
+    <div class="wrap" style="text-align:center;margin-bottom:16px">
+      <h2 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:20px;letter-spacing:-0.01em;margin:0">Popular across Indonesia right now</h2>
+    </div>
+    <div class="wrap" style="display:flex;gap:12px;overflow-x:auto;padding-bottom:4px;justify-content:center;flex-wrap:wrap">
+      <sc-for list="{{ destinationPills }}" as="d" hint-placeholder-count="10">
+        <div onClick="{{ d.select }}" style="flex:none;display:flex;align-items:center;gap:8px;background:{{ d.bg }};border:1px solid {{ d.border }};border-radius:24px;padding:8px 16px;font-size:13px;font-weight:600;color:{{ d.color }};white-space:nowrap;cursor:pointer">{{ d.name }}</div>
+      </sc-for>
+    </div>
+
+    <div class="wrap" style="margin-top:28px">
+      <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:16px">
+        <h3 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:18px;letter-spacing:-0.01em;margin:0">Stays in {{ selectedCity }}</h3>
+        <a href="Menetap Search Results.dc.html" style="font-size:13px;font-weight:600">See all →</a>
+      </div>
+      <div class="wrap" style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;padding:0" class="cardgrid">
+        <sc-for list="{{ cityHotels }}" as="h" hint-placeholder-count="3">
+          <a href="{{ h.detailLink }}" style="position:relative;display:block;text-decoration:none;color:inherit;background:#fff;border:1px solid #E5E2F5;border-radius:8px;box-shadow:0 2px 8px rgba(114,41,255,0.06);overflow:hidden">
+            <div style="aspect-ratio:4/3;background:{{ h.bg }};display:flex;align-items:center;justify-content:center;color:rgba(12,10,30,0.35);font-size:13px">Hotel photo</div>
+            <div style="padding:14px;display:flex;flex-direction:column;gap:6px">
+              <div style="display:flex;justify-content:space-between;align-items:flex-start">
+                <div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:15px">{{ h.name }}</div>
+                <div style="display:flex;align-items:center;gap:4px;font-size:11px;font-weight:700;background:rgba(0,202,239,0.1);color:#0a8aa3;padding:3px 7px;border-radius:4px;flex:none"><i data-lucide="star" style="width:11px;height:11px"></i>{{ h.rating }}</div>
+              </div>
+              <div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:16px;margin-top:2px">{{ h.price }}<span style="font-size:11px;font-weight:500;color:rgba(12,10,30,0.5)">/night</span></div>
+            </div>
+          </a>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRUST STRIP -->
+  <section class="wrap" style="display:flex;gap:32px;padding:20px 0 8px;flex-wrap:wrap;border-top:1px solid #E5E2F5">
+    <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:rgba(12,10,30,0.6)"><i data-lucide="shield-check" style="width:16px;height:16px;color:#00CAEF"></i>Verified reviews only</div>
+    <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:rgba(12,10,30,0.6)"><i data-lucide="check-circle-2" style="width:16px;height:16px;color:#00CAEF"></i>Instant confirmation</div>
+    <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:rgba(12,10,30,0.6)"><i data-lucide="refresh-ccw" style="width:16px;height:16px;color:#00CAEF"></i>Flexible cancellation</div>
+    <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:rgba(12,10,30,0.6)"><i data-lucide="award" style="width:16px;height:16px;color:#00CAEF"></i>Menetap Rewards on every stay</div>
+  </section>
+
+  <!-- FEATURED / SPONSORED -->
+  <section style="padding:56px 0 8px">
+    <div class="wrap" style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:20px">
+      <h2 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:24px;letter-spacing:-0.01em;margin:0">Featured in Yogyakarta</h2>
+      <a href="Menetap Search Results.dc.html" style="font-size:13px;font-weight:600">See all stays →</a>
+    </div>
+    <div class="wrap" style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px" class="cardgrid">
+
+      <div style="position:relative;background:#fff;border:1px solid #E5E2F5;border-radius:8px;box-shadow:0 2px 8px rgba(114,41,255,0.06);overflow:hidden;transition:transform 250ms cubic-bezier(0.22,1,0.36,1),box-shadow 250ms cubic-bezier(0.22,1,0.36,1)" style-hover="transform:translateY(-2px);box-shadow:0 8px 20px rgba(114,41,255,0.12)"><a href="Menetap Hotel Detail.dc.html" style="position:absolute;inset:0;z-index:1" aria-label="View property"></a>
+        <div style="position:relative;aspect-ratio:4/3;background:linear-gradient(135deg,#e5e2f5,#cfc8f0);display:flex;align-items:center;justify-content:center;color:rgba(12,10,30,0.35);font-size:13px">Hotel photo</div>
+        <div style="position:absolute;top:12px;left:12px;background:linear-gradient(135deg,#7229FF,#00CAEF);color:#fff;font-size:11px;font-weight:700;padding:4px 10px;border-radius:24px;z-index:2">Featured Stay</div>
+        <div style="position:absolute;top:12px;right:12px;background:rgba(12,10,30,0.75);color:#fff;font-size:11px;font-weight:600;padding:4px 10px;border-radius:24px;z-index:2">Only 3 rooms left</div>
+        <div style="padding:16px;display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start">
+            <div>
+              <div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:16px">Kaliurang Heritage Villa</div>
+              <div style="font-size:12px;color:rgba(12,10,30,0.55)">Sleman, Yogyakarta</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:4px;font-size:12px;font-weight:700;background:rgba(0,202,239,0.1);color:#0a8aa3;padding:3px 8px;border-radius:4px">
+              <i data-lucide="star" style="width:12px;height:12px"></i>4.8
+            </div>
+          </div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap">
+            <span style="font-size:11px;font-weight:600;background:rgba(114,41,255,0.08);color:#7229FF;padding:3px 8px;border-radius:4px">Free cancellation</span>
+            <span style="font-size:11px;font-weight:600;background:rgba(114,41,255,0.08);color:#7229FF;padding:3px 8px;border-radius:4px">Breakfast incl.</span>
+          </div>
+          <div style="display:flex;justify-content:flex-end;align-items:baseline;margin-top:6px">
+            <div><span style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:18px">Rp 890,000</span><span style="font-size:11px;color:rgba(12,10,30,0.5)">/night</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div style="position:relative;background:#fff;border:1px solid #E5E2F5;border-radius:8px;box-shadow:0 2px 8px rgba(114,41,255,0.06);overflow:hidden">
+        <div style="position:relative;aspect-ratio:4/3;background:linear-gradient(135deg,#dfe8ff,#c8d4f5);display:flex;align-items:center;justify-content:center;color:rgba(12,10,30,0.35);font-size:13px">Hotel photo</div><a href="Menetap Search Results.dc.html" style="position:absolute;inset:0;z-index:1" aria-label="View property"></a>
+        <div style="position:absolute;top:12px;right:12px;background:rgba(12,10,30,0.75);color:#fff;font-size:11px;font-weight:600;padding:4px 10px;border-radius:24px;z-index:2">Booked 8 times today</div>
+        <div style="padding:16px;display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start">
+            <div>
+              <div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:16px">Prawirotaman Boutique</div>
+              <div style="font-size:12px;color:rgba(12,10,30,0.55)">Mergangsan, Yogyakarta</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:4px;font-size:12px;font-weight:700;background:rgba(0,202,239,0.1);color:#0a8aa3;padding:3px 8px;border-radius:4px">
+              <i data-lucide="star" style="width:12px;height:12px"></i>4.6
+            </div>
+          </div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap">
+            <span style="font-size:11px;font-weight:600;background:rgba(0,202,239,0.1);color:#0a8aa3;padding:3px 8px;border-radius:4px">Instant confirm</span>
+            <span style="font-size:11px;font-weight:600;background:rgba(114,41,255,0.08);color:#7229FF;padding:3px 8px;border-radius:4px">Pool</span>
+          </div>
+          <div style="display:flex;justify-content:flex-end;align-items:baseline;margin-top:6px">
+            <div><span style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:18px">Rp 620,000</span><span style="font-size:11px;color:rgba(12,10,30,0.5)">/night</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;box-shadow:0 2px 8px rgba(114,41,255,0.06);overflow:hidden">
+        <div style="position:relative;aspect-ratio:4/3;background:linear-gradient(135deg,#f0dff5,#e0c8ea);display:flex;align-items:center;justify-content:center;color:rgba(12,10,30,0.35);font-size:13px">Hotel photo</div><a href="Menetap Search Results.dc.html" style="position:absolute;inset:0;z-index:1" aria-label="View property"></a>
+        <div style="padding:16px;display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start">
+            <div>
+              <div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:16px">Malioboro Skyline Suites</div>
+              <div style="font-size:12px;color:rgba(12,10,30,0.55)">Gedong Tengen, Yogyakarta</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:4px;font-size:12px;font-weight:700;background:rgba(0,202,239,0.1);color:#0a8aa3;padding:3px 8px;border-radius:4px">
+              <i data-lucide="star" style="width:12px;height:12px"></i>4.9
+            </div>
+          </div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap">
+            <span style="font-size:11px;font-weight:600;background:rgba(114,41,255,0.08);color:#7229FF;padding:3px 8px;border-radius:4px">Free cancellation</span>
+            <span style="font-size:11px;font-weight:600;background:rgba(114,41,255,0.08);color:#7229FF;padding:3px 8px;border-radius:4px">City view</span>
+          </div>
+          <div style="display:flex;justify-content:flex-end;align-items:baseline;margin-top:6px">
+            <div><span style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:18px">Rp 1,100,000</span><span style="font-size:11px;color:rgba(12,10,30,0.5)">/night</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- WHY MENETAP / PRICING TRANSPARENCY -->
+  <section style="padding:80px 0">
+    <div class="wrap" style="display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center" class="whygrid">
+      <div>
+        <h2 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:28px;letter-spacing:-0.02em;margin:0 0 12px">The price you see is the price you pay.</h2>
+        <p style="font-size:14px;line-height:1.8;color:rgba(12,10,30,0.65);margin:0 0 24px;max-width:460px">
+          Every rate on Menetap is checked against real market data in Java, so you're never guessing if a "deal" is really a deal. No hidden service fees — the total you see at search is your total at checkout.
+        </p>
+        <a href="Menetap Cancellation Policy.dc.html" style="font-size:13px;font-weight:700;display:inline-flex;align-items:center;gap:6px">Learn how pricing works <i data-lucide="arrow-right" style="width:14px;height:14px"></i></a>
+      </div>
+      <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;box-shadow:0 2px 8px rgba(114,41,255,0.06);padding:24px;display:flex;flex-direction:column;gap:16px">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:rgba(12,10,30,0.5)">Rate breakdown</div>
+          <div style="font-size:11px;font-weight:700;background:rgba(0,202,239,0.1);color:#0a8aa3;padding:3px 8px;border-radius:4px">Live pricing</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px;font-size:13px">
+          <div style="display:flex;justify-content:space-between"><span style="color:rgba(12,10,30,0.6)">Market average (Yogyakarta, this date)</span><span style="font-weight:700">Rp 980,000</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:rgba(12,10,30,0.6)">Menetap rate</span><span style="font-weight:700;color:#7229FF">Rp 890,000</span></div>
+          <div style="height:1px;background:#E5E2F5;margin:2px 0"></div>
+          <div style="display:flex;justify-content:space-between;font-size:15px"><span style="font-weight:700">Total tonight</span><span style="font-weight:800;font-family:'Plus Jakarta Sans',sans-serif">Rp 890,000</span></div>
+        </div>
+        <div style="height:8px;border-radius:24px;background:#E5E2F5;overflow:hidden;margin-top:4px">
+          <div style="width:91%;height:100%;background:linear-gradient(90deg,#7229FF,#00CAEF)"></div>
+        </div>
+        <div style="font-size:11px;color:rgba(12,10,30,0.5)">9% below Yogyakarta market average today — no fees added later</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RECOMMENDED FOR YOU -->
+  <section style="padding:8px 0 56px">
+    <div class="wrap" style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:20px">
+      <h2 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:24px;letter-spacing:-0.01em;margin:0">Recommended for you</h2>
+      <div style="font-size:12px;color:rgba(12,10,30,0.5)">Based on your recent searches</div>
+    </div>
+    <div class="wrap" style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px" class="cardgrid">
+      <div style="position:relative;background:#fff;border:1px solid #E5E2F5;border-radius:8px;box-shadow:0 2px 8px rgba(114,41,255,0.06);overflow:hidden">
+        <div style="aspect-ratio:4/3;background:linear-gradient(135deg,#e0eaf5,#c8dcf0);display:flex;align-items:center;justify-content:center;color:rgba(12,10,30,0.35);font-size:13px">Hotel photo</div><a href="Menetap Search Results.dc.html" style="position:absolute;inset:0;z-index:1" aria-label="View property"></a>
+        <div style="padding:14px;display:flex;flex-direction:column;gap:6px">
+          <div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:15px">Tugu Riverside Homestay</div>
+          <div style="font-size:12px;color:rgba(12,10,30,0.55)">Yogyakarta · viewed 2 days ago</div>
+          <div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:16px;margin-top:4px">Rp 540,000<span style="font-size:11px;font-weight:500;color:rgba(12,10,30,0.5)">/night</span></div>
+        </div>
+      </div>
+      <div style="position:relative;background:#fff;border:1px solid #E5E2F5;border-radius:8px;box-shadow:0 2px 8px rgba(114,41,255,0.06);overflow:hidden">
+        <div style="aspect-ratio:4/3;background:linear-gradient(135deg,#f5e0e8,#eac8d8);display:flex;align-items:center;justify-content:center;color:rgba(12,10,30,0.35);font-size:13px">Hotel photo</div><a href="Menetap Search Results.dc.html" style="position:absolute;inset:0;z-index:1" aria-label="View property"></a>
+        <div style="padding:14px;display:flex;flex-direction:column;gap:6px">
+          <div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:15px">Sosrowijayan Guesthouse</div>
+          <div style="font-size:12px;color:rgba(12,10,30,0.55)">Yogyakarta · similar to your last stay</div>
+          <div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:16px;margin-top:4px">Rp 410,000<span style="font-size:11px;font-weight:500;color:rgba(12,10,30,0.5)">/night</span></div>
+        </div>
+      </div>
+      <div style="position:relative;background:#fff;border:1px solid #E5E2F5;border-radius:8px;box-shadow:0 2px 8px rgba(114,41,255,0.06);overflow:hidden">
+        <div style="aspect-ratio:4/3;background:linear-gradient(135deg,#e5f0e0,#cde5c8);display:flex;align-items:center;justify-content:center;color:rgba(12,10,30,0.35);font-size:13px">Hotel photo</div><a href="Menetap Search Results.dc.html" style="position:absolute;inset:0;z-index:1" aria-label="View property"></a>
+        <div style="padding:14px;display:flex;flex-direction:column;gap:6px">
+          <div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:15px">Alun-Alun Kidul Residence</div>
+          <div style="font-size:12px;color:rgba(12,10,30,0.55)">Yogyakarta · trending in Rewards</div>
+          <div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:16px;margin-top:4px">Rp 675,000<span style="font-size:11px;font-weight:500;color:rgba(12,10,30,0.5)">/night</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICE ALERT CAPTURE -->
+  <section class="wrap" style="padding:0 0 56px">
+    <div style="background:linear-gradient(135deg,rgba(114,41,255,0.06),rgba(0,202,239,0.06));border:1px solid #E5E2F5;border-radius:8px;padding:32px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap">
+      <div style="max-width:420px">
+        <div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:18px;margin-bottom:6px">Get a nudge when hotel prices drop</div>
+        <p style="font-size:13px;line-height:1.6;color:rgba(12,10,30,0.6);margin:0">We'll email you the moment rates for your dates fall below today's price.</p>
+      </div>
+      <div style="display:flex;gap:8px;flex:1;min-width:280px;max-width:420px">
+        <input type="email" value="{{ alertEmail }}" onInput="{{ onAlertEmail }}" placeholder="you@email.com" style="flex:1;border:1px solid #E5E2F5;border-radius:4px;padding:10px 14px;font-family:'JetBrains Mono',monospace;font-size:13px;background:#fff" />
+        <x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="130px,42px" variant="primary" size="md" onClick="{{ subscribeAlert }}">{{ alertButtonLabel }}</x-import>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCES -->
+  <section style="padding:16px 0 80px">
+    <div class="wrap" style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:20px">
+      <h2 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:24px;letter-spacing:-0.01em;margin:0">Add local experiences</h2>
+      <a href="Menetap Search Results.dc.html" style="font-size:13px;font-weight:600">See all →</a>
+    </div>
+    <div class="wrap" style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px" class="expgrid">
+      <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;overflow:hidden">
+        <div style="aspect-ratio:4/3;background:linear-gradient(135deg,#e5e2f5,#cfc8f0);display:flex;align-items:center;justify-content:center;color:rgba(12,10,30,0.35);font-size:12px">Photo</div>
+        <div style="padding:12px"><div style="font-size:13px;font-weight:700">Borobudur sunrise tour</div><div style="font-size:11px;color:rgba(12,10,30,0.5);margin-top:4px">From Rp 350,000/person</div></div>
+      </div>
+      <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;overflow:hidden">
+        <div style="aspect-ratio:4/3;background:linear-gradient(135deg,#dfe8ff,#c8d4f5);display:flex;align-items:center;justify-content:center;color:rgba(12,10,30,0.35);font-size:12px">Photo</div>
+        <div style="padding:12px"><div style="font-size:13px;font-weight:700">Merapi jeep adventure</div><div style="font-size:11px;color:rgba(12,10,30,0.5);margin-top:4px">From Rp 275,000/person</div></div>
+      </div>
+      <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;overflow:hidden">
+        <div style="aspect-ratio:4/3;background:linear-gradient(135deg,#f0dff5,#e0c8ea);display:flex;align-items:center;justify-content:center;color:rgba(12,10,30,0.35);font-size:12px">Photo</div>
+        <div style="padding:12px"><div style="font-size:13px;font-weight:700">Batik-making class</div><div style="font-size:11px;color:rgba(12,10,30,0.5);margin-top:4px">From Rp 180,000/person</div></div>
+      </div>
+      <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;overflow:hidden">
+        <div style="aspect-ratio:4/3;background:linear-gradient(135deg,#d8f0ea,#c0e5db);display:flex;align-items:center;justify-content:center;color:rgba(12,10,30,0.35);font-size:12px">Photo</div>
+        <div style="padding:12px"><div style="font-size:13px;font-weight:700">Ratu Boko sunset walk</div><div style="font-size:11px;color:rgba(12,10,30,0.5);margin-top:4px">From Rp 150,000/person</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer style="border-top:1px solid #E5E2F5;padding:56px 0 32px;margin-top:auto;background:#fff">
+    <div class="wrap" style="display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:32px;padding-bottom:40px" class="footergrid">
+      <div>
+        <div style="display:flex;align-items:center;gap:10px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:18px;letter-spacing:-0.02em;margin-bottom:12px">
+          <span>menetap<span style="color:#7229FF">.</span></span>
+        </div>
+        <p style="font-size:12px;line-height:1.7;color:rgba(12,10,30,0.55);max-width:260px;margin:0">Stays across Indonesia, priced fairly. Powered by UPSCALE's revenue engine.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:rgba(12,10,30,0.45)">For guests</div>
+        <a href="Menetap Search Results.dc.html" style="font-size:13px;color:rgba(12,10,30,0.75)">Search stays</a>
+        <a href="Menetap My Trips.dc.html" style="font-size:13px;color:rgba(12,10,30,0.75)">Manage booking</a>
+        <a href="Menetap Rewards.dc.html" style="font-size:13px;color:rgba(12,10,30,0.75)">Menetap Rewards</a>
+        <a href="Menetap Cancellation Policy.dc.html" style="font-size:13px;color:rgba(12,10,30,0.75)">Cancellation policy</a>
+        <a href="Menetap Help Center.dc.html" style="font-size:13px;color:rgba(12,10,30,0.75)">Help center</a>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:rgba(12,10,30,0.45)">For partners</div>
+        <a href="Menetap Partner Landing.dc.html" style="font-size:13px;color:rgba(12,10,30,0.75)">List your property</a>
+        <a href="Menetap Partner Dashboard.dc.html" style="font-size:13px;color:rgba(12,10,30,0.75)">Partner dashboard</a>
+        <a href="Menetap Partner Onboarding.dc.html" style="font-size:13px;color:rgba(12,10,30,0.75)">Commission &amp; pricing</a>
+        <a href="Menetap Partner Services.dc.html" style="font-size:13px;color:rgba(12,10,30,0.75)">Services</a>
+        <a href="Menetap Partner Landing.dc.html" style="font-size:13px;color:rgba(12,10,30,0.75)">Partner support</a>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:rgba(12,10,30,0.45)">Company</div>
+        <a href="Menetap About.dc.html" style="font-size:13px;color:rgba(12,10,30,0.75)">About Menetap</a>
+        <a href="Menetap Careers.dc.html" style="font-size:13px;color:rgba(12,10,30,0.75)">Careers</a>
+        <a href="Menetap Terms of Service.dc.html" style="font-size:13px;color:rgba(12,10,30,0.75)">Terms of service</a>
+        <a href="Menetap Privacy Policy.dc.html" style="font-size:13px;color:rgba(12,10,30,0.75)">Privacy policy</a>
+      </div>
+    </div>
+    <div class="wrap" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;border-top:1px solid #E5E2F5;padding-top:24px">
+      <div style="font-size:12px;color:rgba(12,10,30,0.5)">© 2026 Menetap. All rights reserved.</div>
+      
+      <!-- langgroup --><div style="display:flex;align-items:center;gap:10px"><div onClick="{{ toggleLang }}" style="display:flex;align-items:center;gap:4px;font-size:11px;font-weight:700;color:rgba(12,10,30,0.5);cursor:pointer;border:1px solid #E5E2F5;border-radius:24px;padding:5px 12px"><i data-lucide="globe" style="width:12px;height:12px"></i>{{ langLabel }}</div><div style="display:flex;align-items:center;gap:8px;font-size:11px;color:rgba(12,10,30,0.45);background:#fff;border:1px solid #E5E2F5;border-radius:24px;padding:5px 12px">
+        Managed by <a href="https://upscale.asia" target="_blank" style="font-weight:700;color:#7229FF">UPSCALE</a>
+      </div></div>
+  </footer>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const DESTINATIONS = {
+  cities: [
+    { name: 'Yogyakarta, Java', count: 128 },
+    { name: 'Bandung, Java', count: 96 },
+    { name: 'Semarang, Java', count: 54 },
+    { name: 'Malang, Java', count: 61 },
+    { name: 'Solo, Java', count: 40 },
+    { name: 'Surabaya, Java', count: 88 }
+  ],
+  areas: [
+    { name: 'Malioboro', city: 'Yogyakarta' },
+    { name: 'Prawirotaman', city: 'Yogyakarta' },
+    { name: 'Sleman', city: 'Yogyakarta' },
+    { name: 'Dago', city: 'Bandung' },
+    { name: 'Braga', city: 'Bandung' }
+  ],
+  landmarks: [
+    { name: 'Borobudur Temple', city: 'near Yogyakarta' },
+    { name: 'Malioboro Street', city: 'Yogyakarta' },
+    { name: 'Tangkuban Perahu', city: 'near Bandung' }
+  ]
+};
+const CITY_HOTELS = {
+  'Yogyakarta': [
+    { name: 'Kaliurang Heritage Villa', rating: 4.8, price: 'Rp 890,000', bg: 'linear-gradient(135deg,#e5e2f5,#cfc8f0)' },
+    { name: 'Prawirotaman Boutique', rating: 4.6, price: 'Rp 620,000', bg: 'linear-gradient(135deg,#dfe8ff,#c8d4f5)' },
+    { name: 'Malioboro Skyline Suites', rating: 4.9, price: 'Rp 1,100,000', bg: 'linear-gradient(135deg,#f0dff5,#e0c8ea)' }
+  ],
+  'Bandung': [
+    { name: 'Dago Hillside Retreat', rating: 4.7, price: 'Rp 740,000', bg: 'linear-gradient(135deg,#dfe8ff,#c8d4f5)' },
+    { name: 'Braga Heritage Inn', rating: 4.5, price: 'Rp 510,000', bg: 'linear-gradient(135deg,#e5f0e0,#cde5c8)' },
+    { name: 'Lembang Garden Cottage', rating: 4.8, price: 'Rp 680,000', bg: 'linear-gradient(135deg,#f5e0e8,#eac8d8)' }
+  ],
+  'Semarang': [
+    { name: 'Old Town Loft', rating: 4.4, price: 'Rp 480,000', bg: 'linear-gradient(135deg,#e0eaf5,#c8dcf0)' },
+    { name: 'Simpang Lima Suites', rating: 4.6, price: 'Rp 560,000', bg: 'linear-gradient(135deg,#f0dff5,#e0c8ea)' },
+    { name: 'Kota Lama Heritage House', rating: 4.7, price: 'Rp 620,000', bg: 'linear-gradient(135deg,#dfe8ff,#c8d4f5)' }
+  ],
+  'Malang': [
+    { name: 'Batu Hill Cottage', rating: 4.7, price: 'Rp 590,000', bg: 'linear-gradient(135deg,#e5f0e0,#cde5c8)' },
+    { name: 'Ijen View Homestay', rating: 4.5, price: 'Rp 450,000', bg: 'linear-gradient(135deg,#e0eaf5,#c8dcf0)' },
+    { name: 'Malang City Suites', rating: 4.6, price: 'Rp 520,000', bg: 'linear-gradient(135deg,#f5e0e8,#eac8d8)' }
+  ],
+  'Solo': [
+    { name: 'Solo Heritage House', rating: 4.6, price: 'Rp 470,000', bg: 'linear-gradient(135deg,#dfe8ff,#c8d4f5)' },
+    { name: 'Kasunanan Palace View Inn', rating: 4.4, price: 'Rp 410,000', bg: 'linear-gradient(135deg,#e5e2f5,#cfc8f0)' },
+    { name: 'Laweyan Batik Stay', rating: 4.7, price: 'Rp 530,000', bg: 'linear-gradient(135deg,#e5f0e0,#cde5c8)' }
+  ],
+  'Surabaya': [
+    { name: 'Surabaya City Suites', rating: 4.6, price: 'Rp 630,000', bg: 'linear-gradient(135deg,#f0dff5,#e0c8ea)' },
+    { name: 'Tunjungan Business Stay', rating: 4.5, price: 'Rp 590,000', bg: 'linear-gradient(135deg,#e0eaf5,#c8dcf0)' },
+    { name: 'Kenjeran Beachside Inn', rating: 4.3, price: 'Rp 460,000', bg: 'linear-gradient(135deg,#dfe8ff,#c8d4f5)' }
+  ],
+  'Bali': [
+    { name: 'Ubud Rice Terrace Villa', rating: 4.9, price: 'Rp 1,350,000', bg: 'linear-gradient(135deg,#e5f0e0,#cde5c8)' },
+    { name: 'Seminyak Beachfront Suites', rating: 4.8, price: 'Rp 1,680,000', bg: 'linear-gradient(135deg,#e0eaf5,#c8dcf0)' },
+    { name: 'Canggu Surf House', rating: 4.6, price: 'Rp 780,000', bg: 'linear-gradient(135deg,#f5e0e8,#eac8d8)' }
+  ],
+  'Jakarta': [
+    { name: 'SCBD Skyline Tower Suites', rating: 4.7, price: 'Rp 1,240,000', bg: 'linear-gradient(135deg,#e0eaf5,#c8dcf0)' },
+    { name: 'Kemang Boutique Stay', rating: 4.5, price: 'Rp 780,000', bg: 'linear-gradient(135deg,#f0dff5,#e0c8ea)' },
+    { name: 'Menteng Heritage Hotel', rating: 4.8, price: 'Rp 1,050,000', bg: 'linear-gradient(135deg,#dfe8ff,#c8d4f5)' }
+  ],
+  'Lombok': [
+    { name: 'Kuta Lombok Cliffside Villa', rating: 4.8, price: 'Rp 920,000', bg: 'linear-gradient(135deg,#e5f0e0,#cde5c8)' },
+    { name: 'Senggigi Beach Bungalow', rating: 4.6, price: 'Rp 640,000', bg: 'linear-gradient(135deg,#f5e0e8,#eac8d8)' },
+    { name: 'Rinjani Basecamp Lodge', rating: 4.5, price: 'Rp 380,000', bg: 'linear-gradient(135deg,#e0eaf5,#c8dcf0)' }
+  ],
+  'Medan': [
+    { name: 'Lake Toba View Cottage', rating: 4.7, price: 'Rp 560,000', bg: 'linear-gradient(135deg,#e5e2f5,#cfc8f0)' },
+    { name: 'Medan City Center Suites', rating: 4.5, price: 'Rp 490,000', bg: 'linear-gradient(135deg,#dfe8ff,#c8d4f5)' },
+    { name: 'Berastagi Highland Retreat', rating: 4.6, price: 'Rp 420,000', bg: 'linear-gradient(135deg,#e5f0e0,#cde5c8)' }
+  ]
+};
+class Component extends DCLogic {
+  state = { destQuery: 'Yogyakarta, Java', destDropdownOpen: false, alertEmail: '', alertSubscribed: false, selectedCity: 'Yogyakarta',
+    checkIn: '2026-10-12', checkOut: '2026-10-15', calendarOpen: false, calMonth: 9, calYear: 2026, calStep: 'checkin',
+    guestsOpen: false, adults: 2, children: 0
+  };
+  matchesQuery(name) {
+    const q = (this.state.destQuery || '').trim().toLowerCase();
+    if (!q) return true;
+    return name.toLowerCase().includes(q);
+  }
+  selectDest(name) {
+    this.setState({ destQuery: name, destDropdownOpen: false });
+  }
+  fmtDateLabel(iso) { const d = new Date(iso + 'T00:00:00'); return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }); }
+  componentDidMount() {
+    if (window.lucide) window.lucide.createIcons();
+    this._onDocClick = (e) => {
+      if (!e.target.closest('[data-dest-field]')) this.setState({ destDropdownOpen: false });
+      if (!e.target.closest('.searchgrid')) this.setState({ calendarOpen: false, guestsOpen: false });
+    };
+    document.addEventListener('click', this._onDocClick);
+    this._onScroll = () => {
+      const el = document.getElementById('stickySearch');
+      if (!el) return;
+      el.style.maxHeight = window.scrollY > 260 ? '64px' : '0';
+    };
+    window.addEventListener('scroll', this._onScroll);
+  }
+  componentWillUnmount() {
+    if (this._onScroll) window.removeEventListener('scroll', this._onScroll);
+    if (this._onDocClick) document.removeEventListener('click', this._onDocClick);
+  }
+  componentDidUpdate() {
+    if (window.lucide) window.lucide.createIcons();
+  }
+  renderVals() {
+    const cityMatches = DESTINATIONS.cities.filter(c => this.matchesQuery(c.name)).slice(0, 4).map(c => ({ name: c.name, count: c.count, select: () => this.selectDest(c.name) }));
+    const areaMatches = DESTINATIONS.areas.filter(a => this.matchesQuery(a.name) || this.matchesQuery(a.city)).slice(0, 4).map(a => ({ name: a.name, city: a.city, select: () => this.selectDest(a.name + ', ' + a.city) }));
+    const landmarkMatches = DESTINATIONS.landmarks.filter(l => this.matchesQuery(l.name)).slice(0, 3).map(l => ({ name: l.name, city: l.city, select: () => this.selectDest(l.name) }));
+    const allHotels = Object.entries(CITY_HOTELS).flatMap(([city, hs]) => hs.map(h => ({ ...h, city })));
+    const hotelMatches = this.state.destQuery.trim() ? allHotels.filter(h => this.matchesQuery(h.name)).slice(0, 4).map(h => ({ name: h.name, city: h.city, select: () => this.selectDest(h.name) })) : [];
+    const s = this.state;
+    const nights = Math.max(1, Math.round((new Date(s.checkOut) - new Date(s.checkIn)) / 86400000));
+    const monthStart = new Date(s.calYear, s.calMonth, 1);
+    const startDow = monthStart.getDay();
+    const daysInMonth = new Date(s.calYear, s.calMonth + 1, 0).getDate();
+    const toIso = (y, m, d) => `${y}-${String(m + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+    const calDays = [];
+    for (let i = 0; i < startDow; i++) calDays.push({ label: '', cursor: 'default', bg: 'transparent', color: 'transparent', select: () => {} });
+    for (let d = 1; d <= daysInMonth; d++) {
+      const iso = toIso(s.calYear, s.calMonth, d);
+      const isCheckIn = iso === s.checkIn, isCheckOut = iso === s.checkOut;
+      const inRange = iso > s.checkIn && iso < s.checkOut;
+      calDays.push({
+        label: d, cursor: 'pointer',
+        bg: isCheckIn || isCheckOut ? '#7229FF' : inRange ? 'rgba(114,41,255,0.1)' : 'transparent',
+        color: isCheckIn || isCheckOut ? '#fff' : '#0C0A1E',
+        select: () => this.pickCalDate(iso)
+      });
+    }
+    return {
+      langLabel: ((this.state.__lang || (typeof localStorage!=='undefined' && localStorage.getItem('menetapLang')) || 'en') === 'en') ? 'EN' : 'ID',
+      toggleLang: () => { const cur = this.state.__lang || (typeof localStorage!=='undefined' && localStorage.getItem('menetapLang')) || 'en'; const next = cur === 'en' ? 'id' : 'en'; if (typeof localStorage!=='undefined') localStorage.setItem('menetapLang', next); this.setState({ __lang: next }); },
+      enBg: ((this.state.__lang || (typeof localStorage!=='undefined' && localStorage.getItem('menetapLang')) || 'en') === 'en') ? '#7229FF' : 'transparent',
+      enColor: ((this.state.__lang || (typeof localStorage!=='undefined' && localStorage.getItem('menetapLang')) || 'en') === 'en') ? '#fff' : 'rgba(12,10,30,0.5)',
+      idBg: ((this.state.__lang || (typeof localStorage!=='undefined' && localStorage.getItem('menetapLang')) || 'en') === 'id') ? '#7229FF' : 'transparent',
+      idColor: ((this.state.__lang || (typeof localStorage!=='undefined' && localStorage.getItem('menetapLang')) || 'en') === 'id') ? '#fff' : 'rgba(12,10,30,0.5)',
+      alertEmail: this.state.alertEmail, onAlertEmail: (e) => this.setState({ alertEmail: e.target.value }),
+      alertButtonLabel: this.state.alertSubscribed ? 'Subscribed ✓' : 'Notify me',
+      subscribeAlert: () => { if (!this.state.alertEmail.includes('@')) return; this.setState({ alertSubscribed: true }); },
+      selectedCity: this.state.selectedCity,
+      destinationPills: ['Yogyakarta', 'Bandung', 'Semarang', 'Malang', 'Solo', 'Surabaya', 'Bali', 'Jakarta', 'Lombok', 'Medan'].map(city => ({
+        name: city,
+        bg: this.state.selectedCity === city ? '#7229FF' : '#fff',
+        color: this.state.selectedCity === city ? '#fff' : '#0C0A1E',
+        border: this.state.selectedCity === city ? '#7229FF' : '#E5E2F5',
+        select: () => this.setState({ selectedCity: city })
+      })),
+      cityHotels: (CITY_HOTELS[this.state.selectedCity] || []).map(h => ({ ...h, detailLink: h.name === 'Kaliurang Heritage Villa' ? 'Menetap Hotel Detail.dc.html' : 'Menetap Search Results.dc.html' })),
+
+      destQuery: this.state.destQuery,
+      onDestInput: (e) => this.setState({ destQuery: e.target.value }),
+
+      checkInLabel: this.fmtDateLabel(s.checkIn), checkOutLabel: this.fmtDateLabel(s.checkOut),
+      dateRangeLabel: this.fmtDateLabel(s.checkIn) + ' – ' + this.fmtDateLabel(s.checkOut),
+      calendarOpen: s.calendarOpen, stopClick: (e) => e.stopPropagation(),
+      openCalendarCheckin: () => this.setState({ calendarOpen: true, guestsOpen: false, calStep: 'checkin' }),
+      openCalendarCheckout: () => this.setState({ calendarOpen: true, guestsOpen: false, calStep: 'checkout' }),
+      toggleCalendar: () => { window.scrollTo({ top: 0, behavior: 'smooth' }); this.setState({ calendarOpen: true, guestsOpen: false, calStep: 'checkin' }); },
+      calMonthLabel: monthStart.toLocaleDateString('en-US', { month: 'long', year: 'numeric' }),
+      prevMonth: () => this.setState(st => st.calMonth === 0 ? { calMonth: 11, calYear: st.calYear - 1 } : { calMonth: st.calMonth - 1 }),
+      nextMonth: () => this.setState(st => st.calMonth === 11 ? { calMonth: 0, calYear: st.calYear + 1 } : { calMonth: st.calMonth + 1 }),
+      calDays,
+      calHint: nights + (nights === 1 ? ' night' : ' nights') + ' selected',
+
+      guestsOpen: s.guestsOpen,
+      toggleGuests: () => { window.scrollTo({ top: 0, behavior: 'smooth' }); this.setState(st => ({ guestsOpen: !st.guestsOpen, calendarOpen: false })); },
+      closeGuests: () => this.setState({ guestsOpen: false }),
+      adults: s.adults, children: s.children,
+      incAdults: () => this.setState(st => ({ adults: Math.min(10, st.adults + 1) })),
+      decAdults: () => this.setState(st => ({ adults: Math.max(1, st.adults - 1) })),
+      incChildren: () => this.setState(st => ({ children: Math.min(8, st.children + 1) })),
+      decChildren: () => this.setState(st => ({ children: Math.max(0, st.children - 1) })),
+      guestsLabel: s.adults + (s.adults === 1 ? ' adult' : ' adults') + (s.children > 0 ? ', ' + s.children + (s.children === 1 ? ' child' : ' children') : ''),
+
+      runSearch: () => {
+        if (typeof localStorage!=='undefined') {
+          localStorage.setItem('menetapSearchDest', s.destQuery);
+          localStorage.setItem('menetapSearchCheckIn', s.checkIn);
+          localStorage.setItem('menetapSearchCheckOut', s.checkOut);
+          localStorage.setItem('menetapSearchAdults', String(s.adults));
+          localStorage.setItem('menetapSearchChildren', String(s.children));
+        }
+        window.location.href = 'Menetap Search Results.dc.html';
+      }
+    };
+  }
+  pickCalDate(iso) {
+    const s = this.state;
+    if (s.calStep === 'checkin' || iso <= s.checkIn) {
+      this.setState({ checkIn: iso, checkOut: iso, calStep: 'checkout' });
+    } else {
+      this.setState({ checkOut: iso, calendarOpen: false, calStep: 'checkin' });
+    }
+  }
+}
+</script>
+</body>
+</html>

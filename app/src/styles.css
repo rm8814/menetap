@@ -1,0 +1,34 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap');
+
+:root {
+  color: #0c0a1e;
+  background: #f7f6ff;
+  font-family: 'JetBrains Mono', monospace;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; min-width: 320px; }
+a { color: inherit; text-decoration: none; }
+.shell { min-height: 100vh; padding: 0 6vw 48px; }
+.nav { display: flex; align-items: center; justify-content: space-between; gap: 24px; height: 78px; border-bottom: 1px solid #e5e2f5; }
+.wordmark { font: 800 24px 'Plus Jakarta Sans', sans-serif; letter-spacing: -.06em; }
+.wordmark span, .eyebrow, em { color: #7229ff; }
+.nav-links { display: flex; gap: 26px; color: #5e5a78; font-size: 12px; }
+.nav-links a:hover, .login:hover { color: #7229ff; }
+.login { font-size: 12px; font-weight: 700; }
+.hero { max-width: 960px; margin: 0 auto; padding: 104px 0 72px; text-align: center; }
+.eyebrow { font-size: 11px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+h1 { margin: 18px 0; font: 800 clamp(44px, 8vw, 88px)/.98 'Plus Jakarta Sans', sans-serif; letter-spacing: -.07em; }
+h1 em { font-style: normal; }
+.hero-copy { max-width: 540px; margin: 0 auto 40px; color: #5e5a78; font-size: 14px; line-height: 1.8; }
+.search-card { display: grid; grid-template-columns: 1.4fr 1fr 1fr auto; gap: 10px; padding: 10px; background: #fff; border: 1px solid #e5e2f5; border-radius: 12px; box-shadow: 0 12px 32px rgba(65,42,145,.1); text-align: left; }
+label { padding: 11px 13px; color: #8784a0; font-size: 10px; }
+input { display: block; width: 100%; margin-top: 6px; padding: 0; border: 0; outline: 0; color: #0c0a1e; background: transparent; font: 600 12px 'JetBrains Mono', monospace; }
+button { align-self: stretch; padding: 0 22px; border: 0; border-radius: 8px; color: #fff; background: #7229ff; cursor: pointer; font: 700 12px 'JetBrains Mono', monospace; }
+button:hover { background: #5b20d5; }
+.status-card { display: flex; align-items: center; gap: 10px; max-width: 960px; margin: 0 auto; padding: 13px 16px; border: 1px solid #c7f4fb; border-radius: 8px; background: #eafcff; color: #007a96; font-size: 11px; }
+.status-dot { width: 8px; height: 8px; border-radius: 50%; background: #00caef; }
+.status-note { margin-left: auto; color: #5e5a78; }
+@media (max-width: 760px) { .nav-links { display: none; } .hero { padding: 72px 0 48px; } .search-card { grid-template-columns: 1fr; } button { min-height: 48px; } .status-card { align-items: flex-start; flex-wrap: wrap; } .status-note { width: 100%; margin-left: 18px; } }

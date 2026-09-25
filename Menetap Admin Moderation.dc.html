@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/fonts.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/colors.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/typography.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/spacing.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/shadows.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/motion.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/styles.css">
+<script src="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/_ds_bundle.js"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+body{margin:0;background:#F7F6FF;font-family:'JetBrains Mono',monospace;color:#0C0A1E}
+a{color:#7229FF;text-decoration:none}
+.wrap{max-width:1240px;width:100%;margin:0 auto;padding:0 24px;box-sizing:border-box}
+.admingrid{display:grid;grid-template-columns:200px 1fr;gap:32px}
+@media (max-width:900px){.admingrid{grid-template-columns:1fr !important}.adminnav{display:none !important}}
+.navlink{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;color:rgba(12,10,30,0.7);font-size:13px;font-weight:600}
+.navlink.active{background:rgba(114,41,255,0.08);color:#7229FF;font-weight:700}
+</style>
+</helmet>
+
+<div style="min-height:100vh;display:flex;flex-direction:column">
+  <header style="border-bottom:1px solid #E5E2F5;background:#fff">
+    <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;height:64px">
+      <a href="Menetap Admin Console.dc.html" style="display:flex;align-items:center;gap:9px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:19px;letter-spacing:-0.02em;color:#0C0A1E">
+        <span>menetap<span style="color:#7229FF">.</span></span> <span style="font-size:11px;font-weight:600;color:rgba(12,10,30,0.4);margin-left:4px">admin</span>
+      </a>
+      <div style="display:flex;align-items:center;gap:14px">
+        <div style="position:relative;display:none" class="admin-search-wrap"></div>
+        <div style="position:relative;width:220px">
+          <i data-lucide="search" style="width:14px;height:14px;position:absolute;left:10px;top:50%;transform:translateY(-50%);color:rgba(12,10,30,0.4)"></i>
+          <input type="text" placeholder="Search everything..." style="width:100%;box-sizing:border-box;font-family:'JetBrains Mono',monospace;font-size:12px;border:1px solid #E5E2F5;border-radius:6px;padding:7px 10px 7px 30px;outline:none;background:#F7F6FF" />
+        </div>
+        <details style="position:relative">
+          <summary style="list-style:none;cursor:pointer;width:32px;height:32px;border-radius:50%;background:#F7F6FF;display:flex;align-items:center;justify-content:center;position:relative">
+            <i data-lucide="bell" style="width:16px;height:16px;color:#0C0A1E"></i>
+            <span style="position:absolute;top:-2px;right:-2px;width:8px;height:8px;border-radius:50%;background:#c0392b"></span>
+          </summary>
+          <div style="position:absolute;right:0;top:40px;width:280px;background:#fff;border:1px solid #E5E2F5;border-radius:8px;box-shadow:0 4px 16px rgba(114,41,255,0.12);z-index:50;overflow:hidden">
+            <div style="padding:12px 16px;font-size:12px;font-weight:700;border-bottom:1px solid #E5E2F5">Notifications</div>
+            <a href="Menetap Admin Disputes.dc.html" style="display:block;padding:12px 16px;border-bottom:1px solid #E5E2F5;font-size:12px;color:#0C0A1E">2 new disputes need review</a>
+            <a href="Menetap Admin Risk.dc.html" style="display:block;padding:12px 16px;border-bottom:1px solid #E5E2F5;font-size:12px;color:#0C0A1E">4 risk flags raised today</a>
+            <a href="Menetap Admin Moderation.dc.html" style="display:block;padding:12px 16px;font-size:12px;color:#0C0A1E">3 listings pending moderation</a>
+          </div>
+        </details>
+        <span style="font-size:11px;font-weight:700;color:#0a8aa3;background:rgba(0,202,239,0.1);padding:4px 10px;border-radius:24px">Superadmin access · full edit</span>
+        <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#7229FF,#00CAEF);display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:700">UP</div>
+      </div>
+    </div>
+  </header>
+
+  <sc-if value="{{ toastMsg }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;top:20px;right:20px;background:#0C0A1E;color:#fff;font-size:13px;font-weight:600;padding:12px 18px;border-radius:8px;display:flex;align-items:center;gap:8px;z-index:100"><i data-lucide="check-circle" style="width:16px;height:16px;color:#00CAEF"></i>{{ toastMsg }}</div>
+  </sc-if>
+
+  <div class="wrap" style="padding:32px 24px 64px">
+    <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:rgba(12,10,30,0.45);margin-bottom:10px"><a href="Menetap Admin Console.dc.html" style="color:rgba(12,10,30,0.45)">Admin</a><i data-lucide="chevron-right" style="width:12px;height:12px"></i><span>Trust & Safety</span><i data-lucide="chevron-right" style="width:12px;height:12px"></i><span style="color:#0C0A1E;font-weight:600">Listing moderation</span></div>
+    <h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:26px;margin:0 0 24px">Listing moderation</h1>
+
+    <div class="admingrid">
+      <nav class="adminnav" style="display:flex;flex-direction:column;gap:4px">
+        <div style="font-size:10px;font-weight:700;color:rgba(12,10,30,0.35);text-transform:uppercase;letter-spacing:0.04em;padding:10px 12px 4px">Commerce</div>
+        <a href="Menetap Admin Console.dc.html" class="navlink"><i data-lucide="percent" style="width:16px;height:16px"></i>Commission</a>
+        <a href="Menetap Admin Properties.dc.html" class="navlink"><i data-lucide="building-2" style="width:16px;height:16px"></i>Properties</a>
+        <a href="Menetap Admin Payouts.dc.html" class="navlink"><i data-lucide="wallet" style="width:16px;height:16px"></i>Payouts</a>
+        <a href="Menetap Admin Finance.dc.html" class="navlink"><i data-lucide="landmark" style="width:16px;height:16px"></i>Finance</a>
+        <div style="font-size:10px;font-weight:700;color:rgba(12,10,30,0.35);text-transform:uppercase;letter-spacing:0.04em;padding:10px 12px 4px">People</div>
+        <a href="Menetap Admin Users.dc.html" class="navlink"><i data-lucide="users" style="width:16px;height:16px"></i>Users</a>
+        <a href="Menetap Admin Team.dc.html" class="navlink"><i data-lucide="user-cog" style="width:16px;height:16px"></i>Team</a>
+        <div style="font-size:10px;font-weight:700;color:rgba(12,10,30,0.35);text-transform:uppercase;letter-spacing:0.04em;padding:10px 12px 4px">Trust & safety</div>
+        <a href="Menetap Admin Moderation.dc.html" class="navlink active"><i data-lucide="shield-check" style="width:16px;height:16px"></i>Moderation</a>
+        <a href="Menetap Admin Disputes.dc.html" class="navlink"><i data-lucide="scale" style="width:16px;height:16px"></i>Disputes & refunds</a>
+        <a href="Menetap Admin Risk.dc.html" class="navlink"><i data-lucide="alert-triangle" style="width:16px;height:16px"></i>Risk & fraud</a>
+        <div style="font-size:10px;font-weight:700;color:rgba(12,10,30,0.35);text-transform:uppercase;letter-spacing:0.04em;padding:10px 12px 4px">Communication</div>
+        <a href="Menetap Admin Support.dc.html" class="navlink"><i data-lucide="inbox" style="width:16px;height:16px"></i>Support inbox</a>
+        <a href="Menetap Admin Announcements.dc.html" class="navlink"><i data-lucide="megaphone" style="width:16px;height:16px"></i>Announcements</a>
+        <div style="font-size:10px;font-weight:700;color:rgba(12,10,30,0.35);text-transform:uppercase;letter-spacing:0.04em;padding:10px 12px 4px">Insights</div>
+        <a href="Menetap Admin Reports.dc.html" class="navlink"><i data-lucide="file-text" style="width:16px;height:16px"></i>Reports</a>
+        <a href="Menetap Admin System.dc.html" class="navlink"><i data-lucide="activity" style="width:16px;height:16px"></i>System health</a>
+        <div style="font-size:10px;font-weight:700;color:rgba(12,10,30,0.35);text-transform:uppercase;letter-spacing:0.04em;padding:10px 12px 4px">Account</div>
+        <a href="Menetap Admin Settings.dc.html" class="navlink"><i data-lucide="settings" style="width:16px;height:16px"></i>Settings</a>
+        <a href="Menetap Partner Landing.dc.html" class="navlink" style="color:rgba(12,10,30,0.5)"><i data-lucide="log-out" style="width:16px;height:16px"></i>Sign out</a>
+      </nav>
+
+      <div style="display:flex;flex-direction:column;gap:14px;min-width:0">
+        <sc-for list="{{ pending }}" as="p" hint-placeholder-count="3">
+          <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:18px">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;cursor:pointer" onClick="{{ p.toggleExpand }}">
+              <div>
+                <div style="font-size:13px;font-weight:700">{{ p.name }}</div>
+                <div style="font-size:12px;color:rgba(12,10,30,0.6);margin-top:2px">{{ p.location }} · Submitted by {{ p.host }}</div>
+                <div style="font-size:11px;color:rgba(12,10,30,0.45);margin-top:6px">{{ p.flags }}</div>
+              </div>
+              <sc-if value="{{ p.isPending }}" hint-placeholder-val="{{ true }}">
+                <span style="font-size:11px;font-weight:700;padding:3px 9px;border-radius:4px;background:rgba(230,162,60,0.12);color:#b8860b">Pending review</span>
+              </sc-if>
+              <sc-if value="{{ p.isApproved }}" hint-placeholder-val="{{ false }}">
+                <span style="font-size:11px;font-weight:700;padding:3px 9px;border-radius:4px;background:rgba(0,202,239,0.1);color:#0a8aa3">{{ p.liveStatusLabel }}</span>
+              </sc-if>
+              <sc-if value="{{ p.isRejected }}" hint-placeholder-val="{{ false }}">
+                <span style="font-size:11px;font-weight:700;padding:3px 9px;border-radius:4px;background:rgba(192,57,43,0.1);color:#c0392b">Rejected</span>
+              </sc-if>
+              <sc-if value="{{ p.isCorrections }}" hint-placeholder-val="{{ false }}">
+                <span style="font-size:11px;font-weight:700;padding:3px 9px;border-radius:4px;background:rgba(114,41,255,0.08);color:#7229FF">Corrections requested</span>
+              </sc-if>
+            </div>
+            <sc-if value="{{ p.expanded }}" hint-placeholder-val="{{ false }}">
+              <div style="border-top:1px solid #E5E2F5;margin-top:12px;padding-top:12px;display:flex;flex-direction:column;gap:8px">
+                <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px">
+                  <div style="aspect-ratio:4/3;background:linear-gradient(135deg,#e5e2f5,#cfc8f0);border-radius:6px;display:flex;align-items:center;justify-content:center;color:rgba(12,10,30,0.35);font-size:10px">Photo</div>
+                  <div style="aspect-ratio:4/3;background:linear-gradient(135deg,#dfe8ff,#c8d4f5);border-radius:6px;display:flex;align-items:center;justify-content:center;color:rgba(12,10,30,0.35);font-size:10px">Photo</div>
+                  <div style="aspect-ratio:4/3;background:linear-gradient(135deg,#f0dff5,#e0c8ea);border-radius:6px;display:flex;align-items:center;justify-content:center;color:rgba(12,10,30,0.35);font-size:10px">Photo</div>
+                  <div style="aspect-ratio:4/3;background:#F7F6FF;border-radius:6px;display:flex;align-items:center;justify-content:center;color:rgba(12,10,30,0.35);font-size:10px">+{{ p.morePhotos }}</div>
+                </div>
+                <div style="font-size:12px;color:rgba(12,10,30,0.65);line-height:1.6">{{ p.description }}</div>
+                <div style="font-size:12px;color:rgba(12,10,30,0.55)">Policy: {{ p.policy }} · Rooms: {{ p.roomCount }}</div>
+              </div>
+            </sc-if>
+            <sc-if value="{{ p.isPending }}" hint-placeholder-val="{{ true }}">
+              <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap">
+                <x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="90px,34px" variant="primary" size="sm" onClick="{{ p.approve }}">Approve</x-import>
+                <x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="90px,34px" variant="outline" size="sm" onClick="{{ p.reject }}">Reject</x-import>
+                <x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="150px,34px" variant="outline" size="sm" onClick="{{ p.requestCorrections }}">Request corrections</x-import>
+              </div>
+            </sc-if>
+            <sc-if value="{{ p.isApproved }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;gap:8px;margin-top:14px">
+                <x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="{{ p.pauseWidth }}px,34px" variant="outline" size="sm" onClick="{{ p.togglePause }}">{{ p.pauseLabel }}</x-import>
+              </div>
+            </sc-if>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+
+  <footer style="border-top:1px solid #E5E2F5;padding:24px 0;background:#fff;margin-top:auto">
+    <div class="wrap" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px">
+      <div style="font-size:12px;color:rgba(12,10,30,0.5)">© 2026 Menetap. All rights reserved.</div>
+      
+      <!-- langgroup --><div style="display:flex;align-items:center;gap:10px"><div onClick="{{ toggleLang }}" style="display:flex;align-items:center;gap:4px;font-size:11px;font-weight:700;color:rgba(12,10,30,0.5);cursor:pointer;border:1px solid #E5E2F5;border-radius:24px;padding:5px 12px"><i data-lucide="globe" style="width:12px;height:12px"></i>{{ langLabel }}</div><div style="display:flex;align-items:center;gap:8px;font-size:11px;color:rgba(12,10,30,0.45);background:#F7F6FF;border:1px solid #E5E2F5;border-radius:24px;padding:5px 12px">
+        Managed by <a href="https://upscale.asia" target="_blank" style="font-weight:700;color:#7229FF">UPSCALE</a>
+      </div></div>
+</div>
+  </footer>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const SEED = [
+  { name: 'Solo Heritage House', location: 'Surakarta, Central Java', host: 'Java Heritage Group', flags: 'New listing · 6 photos uploaded', status: 'Pending', description: 'A restored heritage house with 3 rooms, close to Solo\'s old town.', policy: 'Moderate', roomCount: 3, morePhotos: 3 },
+  { name: 'Prambanan Boutique Stay', location: 'Klaten, Central Java', host: 'Rian Hakim', flags: 'New listing · missing address verification', status: 'Pending', description: 'Boutique rooms near Prambanan temple with a rooftop cafe.', policy: 'Flexible', roomCount: 4, morePhotos: 5 },
+  { name: 'Ijen Crater View Lodge', location: 'Banyuwangi, East Java', host: 'Tara Wijaya', flags: 'New listing · price flagged as unusually high', status: 'Pending', description: 'Lodge with crater views, popular for sunrise tours.', policy: 'Strict', roomCount: 6, morePhotos: 8 },
+  { name: 'Kaliurang Heritage Villa', location: 'Sleman, Yogyakarta', host: 'Anin Wida', flags: 'Live listing', status: 'Approved', description: 'Well-reviewed villa near Kaliurang.', policy: 'Moderate', roomCount: 3, morePhotos: 12, paused: false }
+];
+class Component extends DCLogic {
+  state = { pending: SEED.map((p, i) => ({ ...p, id: i, expanded: false })), toastMsg: '' };
+  componentDidMount() { if (window.lucide) window.lucide.createIcons(); }
+  componentDidUpdate() { if (window.lucide) window.lucide.createIcons(); }
+  toast(msg) { this.setState({ toastMsg: msg }); clearTimeout(this._t); this._t = setTimeout(() => this.setState({ toastMsg: '' }), 2200); }
+  renderVals() {
+    const s = this.state;
+    return {
+      langLabel: ((this.state.__lang || (typeof localStorage!=='undefined' && localStorage.getItem('menetapLang')) || 'en') === 'en') ? 'EN' : 'ID',
+      toggleLang: () => { const cur = this.state.__lang || (typeof localStorage!=='undefined' && localStorage.getItem('menetapLang')) || 'en'; const next = cur === 'en' ? 'id' : 'en'; if (typeof localStorage!=='undefined') localStorage.setItem('menetapLang', next); this.setState({ __lang: next }); },
+
+      toastMsg: s.toastMsg,
+      pending: s.pending.map(p => ({
+        name: p.name, location: p.location, host: p.host, flags: p.flags, description: p.description, policy: p.policy, roomCount: p.roomCount, morePhotos: p.morePhotos,
+        isPending: p.status === 'Pending', isApproved: p.status === 'Approved', isRejected: p.status === 'Rejected', isCorrections: p.status === 'Corrections',
+        expanded: p.expanded, toggleExpand: () => this.setState(st => ({ pending: st.pending.map(x => x.id === p.id ? { ...x, expanded: !x.expanded } : x) })),
+        liveStatusLabel: p.paused ? 'Paused' : 'Approved · Live',
+        pauseLabel: p.paused ? 'Reactivate' : 'Pause listing', pauseWidth: p.paused ? 110 : 120,
+        togglePause: () => { this.setState(st => ({ pending: st.pending.map(x => x.id === p.id ? { ...x, paused: !x.paused } : x) })); this.toast(p.paused ? `${p.name} reactivated` : `${p.name} paused`); },
+        approve: () => { this.setState(st => ({ pending: st.pending.map(x => x.id === p.id ? { ...x, status: 'Approved' } : x) })); this.toast(`${p.name} approved`); },
+        reject: () => { this.setState(st => ({ pending: st.pending.map(x => x.id === p.id ? { ...x, status: 'Rejected' } : x) })); this.toast(`${p.name} rejected`); },
+        requestCorrections: () => { this.setState(st => ({ pending: st.pending.map(x => x.id === p.id ? { ...x, status: 'Corrections' } : x) })); this.toast(`Corrections requested from ${p.host}`); }
+      }))
+    };
+  }
+}
+</script>
+</body>
+</html>
