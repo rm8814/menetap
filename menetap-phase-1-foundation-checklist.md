@@ -190,6 +190,7 @@ Phase 1 is complete when:
 - [x] Add localized internal links to Yogyakarta and Bantul from a homepage Popular destinations section.
 - [x] Set Popular destinations to four columns on desktop with 4:3 image ratio.
 - [x] Add the Bandung destination landing page, DC reference, unique content, properties, FAQs, and internal links.
+- [x] Add the Solo destination landing page, DC reference, unique content, properties, FAQs, and internal links.
 - [x] Prevent horizontal slide-in by keeping the fixed-state centering transform instantaneous.
 - [x] Smooth the sticky dock-in with a short opacity/vertical settle animation.
 - [x] Keep the homepage compact widget visible after the hero section using a viewport-pinned scrolled state.
