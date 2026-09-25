@@ -28,9 +28,32 @@
 - Production deploys require a successful typecheck, test run, and production build.
 - Convex preview deployments should be used for pull-request validation.
 
+## Deployment workflow
+
+1. Develop locally against the Convex development deployment.
+2. Run `npm run typecheck`, `npm test`, and `npm run build` from `app/`.
+3. Push the reviewed change to `main` on GitHub.
+4. Hostinger pulls `main`, runs `npm ci` and `npm run build`, and publishes `dist/`.
+5. Convex backend changes are deployed by GitHub Actions after `CONVEX_DEPLOY_KEY` is configured.
+6. Confirm the deployed frontend points to the intended Convex environment before accepting traffic.
+
+The current Hostinger deployment uses the `app` root directory, Node 22, React preset, `npm ci`, `npm run build`, and `dist` output.
+
+## Data migration and rollback
+
+Convex schema changes are deployed through the Convex CLI/GitHub workflow. Before a production schema change:
+
+- confirm the change is backward-compatible with the currently deployed frontend;
+- deploy additive fields and indexes before code that reads them;
+- avoid destructive field removal until all readers and historical data are migrated;
+- record the commit SHA and deployment time in the release notes;
+- test the affected query or mutation against the target deployment.
+
+If a release fails, roll back the frontend to the last known-good Git commit in Hostinger and revert the application code. Keep additive Convex fields in place unless a separate, verified cleanup is required. For data corrections, use an explicit, reviewed Convex migration or admin mutation; never edit production data manually through an untracked script.
+
 ## Remaining account setup
 
-- Confirm Hostinger static hosting, DNS, HTTPS, and deployment method.
+- Add `CONVEX_DEPLOY_KEY` to GitHub repository secrets.
 - Add `CONVEX_DEPLOY_KEY` to GitHub repository secrets.
 - Create the production Convex deployment.
 - Configure staging and production frontend environment variables.

@@ -49,10 +49,10 @@ Establish a secure, maintainable, production-oriented technical foundation for t
 - [x] Add GitHub Actions app check workflow.
 - [x] Create GitHub repository and configure local `origin` remote.
 - [x] Create the first commit and push the application to GitHub.
-- [ ] Confirm Hostinger supports static frontend hosting, custom domains, HTTPS, and deployment access.
+- [x] Confirm Hostinger supports static frontend hosting, custom domains, HTTPS, and deployment access; verified through the successful GitHub-connected deployment to `menetap.com`.
 - [x] Configure local Convex development environment.
 - [x] Configure `.env.example` without secrets.
-- [ ] Add application README and setup instructions.
+- [x] Add application README and setup instructions.
 - [x] Establish linting conventions and add ESLint configuration.
 - [x] Add baseline automated test setup with Vitest.
 - [x] Verify ESLint passes.
@@ -62,10 +62,10 @@ Establish a secure, maintainable, production-oriented technical foundation for t
 
 - [x] Define local, preview, staging, and production environments.
 - [x] Define environment variables and secret ownership.
-- [ ] Decide deployment method: Git/SSH or Hostinger deployment workflow.
+- [x] Decide deployment method: GitHub `main` → Hostinger connected deployment workflow; Convex backend deployment through GitHub Actions.
 - [ ] Configure staging deployment.
-- [ ] Configure production deployment placeholder.
-- [ ] Document database migration and rollback procedure.
+- [x] Configure production deployment placeholder; Hostinger production build is configured for `menetap.com`, while Convex production credentials remain pending.
+- [x] Document database migration and rollback procedure.
 - [x] Document release environment rules in `docs/deployment-environments.md`.
 
 ## Workstream 3 — Core architecture
