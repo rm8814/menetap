@@ -74,6 +74,7 @@ The `.dc.html` screens in the project root are the visual and interaction source
 - Destination scope clarified: the landing page focuses on Yogyakarta city neighborhoods only, with the eyebrow “Explore Yogyakarta.” Greater Yogyakarta regional destinations are intentionally excluded from this page.
 - Added a separate Bantul destination landing route at `/en/destinations/bantul` and `/id/destinations/bantul`, with unique area content, properties, FAQs, internal links, and a standalone DC reference.
 - Homepage now includes a Popular destinations section before local experiences, linking to the localized Yogyakarta and Bantul landing pages.
+- Popular destinations uses a four-column desktop grid with strict 4:3 destination imagery and responsive two-column/mobile fallbacks.
 - Added a separate Bandung destination landing route at `/en/destinations/bandung` and `/id/destinations/bandung`, with unique neighborhood content, properties, FAQs, internal links, and a standalone DC reference.
 - Removed horizontal transform animation from the homepage transition so the fixed compact widget no longer slides in from the left.
 - Added a short opacity and vertical settle animation with GPU compositing hints for a smoother dock-in.

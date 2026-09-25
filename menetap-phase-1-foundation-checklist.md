@@ -188,6 +188,7 @@ Phase 1 is complete when:
 - [x] Narrow the Yogyakarta landing page back to city neighborhoods and remove wider-region positioning.
 - [x] Add the Bantul destination landing page, DC reference, unique content, properties, FAQs, and internal links.
 - [x] Add localized internal links to Yogyakarta and Bantul from a homepage Popular destinations section.
+- [x] Set Popular destinations to four columns on desktop with 4:3 image ratio.
 - [x] Add the Bandung destination landing page, DC reference, unique content, properties, FAQs, and internal links.
 - [x] Prevent horizontal slide-in by keeping the fixed-state centering transform instantaneous.
 - [x] Smooth the sticky dock-in with a short opacity/vertical settle animation.

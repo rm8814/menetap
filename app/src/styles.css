@@ -160,13 +160,15 @@ button:active { transform: scale(.97); }
 .destination-faq summary { cursor: pointer; font-size: 14px; font-weight: 700; }
 .destination-faq details p { padding-top: 10px; }
 .destination-internal-links { display: flex; flex-wrap: wrap; gap: 18px; padding: 48px 0 24px; }
-.popular-destination-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+.popular-destination-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
 .popular-destination-grid > a { overflow: hidden; border: 1px solid #e5e2f5; border-radius: 8px; background: #fff; color: #0c0a1e; }
-.destination-card-image { display: grid; place-items: center; aspect-ratio: 16 / 7; color: rgba(12,10,30,.45); background: linear-gradient(135deg,#e5e2f5,#dbe6f2); font: 800 22px 'Plus Jakarta Sans',sans-serif; }
+.destination-card-image { display: grid; place-items: center; aspect-ratio: 4 / 3; color: rgba(12,10,30,.45); background: linear-gradient(135deg,#e5e2f5,#dbe6f2); font: 800 22px 'Plus Jakarta Sans',sans-serif; }
 .popular-destination-grid > a > div:last-child { display: grid; gap: 8px; padding: 18px; }
 .popular-destination-grid h3 { margin: 0; }
 .popular-destination-grid p { margin: 0; color: #5e5a78; font-size: 12px; line-height: 1.6; }
 .popular-destination-grid span { color: #7229ff; font-size: 12px; font-weight: 700; }
+@media (max-width: 900px) { .popular-destination-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 760px) { .popular-destination-grid { grid-template-columns: 1fr; } }
 .section { padding: 36px 0; }
 .destination-section { padding-top: 8px; padding-bottom: 48px; }
 .centered-heading { justify-content: flex-start; margin-bottom: 16px; }
