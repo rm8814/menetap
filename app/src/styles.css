@@ -50,7 +50,7 @@ button:active { transform: scale(.97); }
 .status-note { margin-left: auto; color: #5e5a78; }
 @media (max-width: 760px) { .nav-links { display: none; } .hero { padding: 72px 0 48px; } .search-card { grid-template-columns: 1fr; } button { min-height: 48px; } .status-card { align-items: flex-start; flex-wrap: wrap; } .status-note { width: 100%; margin-left: 18px; } }
 
-.app-shell { min-height: 100vh; padding: 0 6vw 48px; }
+.app-shell { min-height: 100vh; padding: 0 6vw; }
 .nav button, .nav-button { border: 0; padding: 0; background: none; color: inherit; cursor: pointer; font: 500 12px 'JetBrains Mono', monospace; }
 .nav nav { display: flex; gap: 26px; color: #5e5a78; }
 .nav button:hover { color: #7229ff; }
