@@ -62,6 +62,7 @@ The `.dc.html` screens in the project root are the visual and interaction source
 - Search results map view now retains the filter sidebar while replacing only the result-card panel with the map.
 - The results-page mini search widget is sticky below the 72px topbar during scrolling.
 - Map view uses synchronized clickable price markers, deterministic overlap clustering, and the same property-detail action as hotel cards.
+- Homepage search now uses the same sticky mini-widget treatment while scrolling, with the original homepage search behavior preserved.
 - `npm run typecheck` passes. Browser screenshot verification remains pending while no browser surface is available in the current session.
 
 ## Next migration groups
