@@ -89,6 +89,11 @@ Establish a secure, maintainable, production-oriented technical foundation for t
 
 - [x] Create initial Convex schema.
 - [x] Add published-property queries for guest search and property detail.
+- [x] Add room inventory query for property detail to room selection.
+- [x] Add real booking mutation with availability validation and inventory decrement.
+- [x] Connect checkout to Convex booking creation.
+- [x] Load booking confirmation data from Convex.
+- [x] Seed one Greater Yogyakarta demo property with 30 days of availability.
 - [x] Create users and roles model.
 - [x] Create properties and partner contacts model.
 - [x] Create rooms, rate plans, and availability model.

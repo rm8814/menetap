@@ -9,9 +9,12 @@
  */
 
 import type * as authorization from "../authorization.js";
+import type * as bookings from "../bookings.js";
 import type * as health from "../health.js";
 import type * as properties from "../properties.js";
 import type * as roles from "../roles.js";
+import type * as rooms from "../rooms.js";
+import type * as seed from "../seed.js";
 
 import type {
   ApiFromModules,
@@ -21,9 +24,12 @@ import type {
 
 declare const fullApi: ApiFromModules<{
   authorization: typeof authorization;
+  bookings: typeof bookings;
   health: typeof health;
   properties: typeof properties;
   roles: typeof roles;
+  rooms: typeof rooms;
+  seed: typeof seed;
 }>;
 
 /**
