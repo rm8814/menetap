@@ -104,7 +104,7 @@ Establish a secure, maintainable, production-oriented technical foundation for t
 - [x] Create add-on-services and booking-add-ons model.
 - [x] Create commissions and audit-logs model.
 - [x] Add indexes for search, dates, booking references, and statuses.
-- [ ] Create seed data for development.
+- [x] Create idempotent development seed data for the Greater Yogyakarta property, room inventory, 30-day availability, and MVP add-on services.
 
 ## Workstream 5 — Authentication and authorization
 
