@@ -2,7 +2,7 @@
 
 ## Current state
 
-Menetap has the user-role model and authorization helpers in `app/convex/roles.ts` and `app/convex/authorization.ts`. Convex Auth is now initialized with an email/password provider, password-reset flow, and a Menetap guest profile. Guest booking still works without an account, which is intentional for the MVP funnel.
+Menetap has the user-role model and authorization helpers in `app/convex/roles.ts` and `app/convex/authorization.ts`. Convex Auth is now initialized with an email/password provider, password-reset flow, and a Menetap guest profile. The frontend header is session-aware and a reusable `RoleGate` is available for protected screens. Guest booking still works without an account, which is intentional for the MVP funnel.
 
 ## Planned identity boundary
 

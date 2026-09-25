@@ -3,6 +3,7 @@ import { useMutation, useQuery } from 'convex/react';
 import { api } from '../convex/_generated/api';
 import type { GuestScreen, SearchState } from './types';
 import { AuthPanel } from './auth';
+import { useAuthActions, useConvexAuth } from '@convex-dev/auth/react';
 
 const initialSearch: SearchState = { destination: 'Greater Yogyakarta', checkIn: '', checkOut: '', guests: 2 };
 
@@ -24,7 +25,7 @@ export function App() {
   </div>;
 }
 
-function Header({ onHome, onAuth }: { onHome: () => void; onAuth: () => void }) { return <header className="nav"><button className="wordmark nav-button" onClick={onHome}>menetap<span>.</span></button><nav><button onClick={onHome}>Stays</button><button onClick={onHome}>Rentals</button><button onClick={onHome}>Experiences</button><button onClick={onHome}>Rewards</button></nav><div className="nav-actions"><button onClick={onAuth}>Log in</button><button className="outline-button" onClick={onAuth}>Sign up</button></div></header>; }
+function Header({ onHome, onAuth }: { onHome: () => void; onAuth: () => void }) { const { isAuthenticated } = useConvexAuth(); const { signOut } = useAuthActions(); return <header className="nav"><button className="wordmark nav-button" onClick={onHome}>menetap<span>.</span></button><nav><button onClick={onHome}>Stays</button><button onClick={onHome}>Rentals</button><button onClick={onHome}>Experiences</button><button onClick={onHome}>Rewards</button></nav><div className="nav-actions">{isAuthenticated ? <button onClick={() => void signOut()}>Log out</button> : <><button onClick={onAuth}>Log in</button><button className="outline-button" onClick={onAuth}>Sign up</button></>}</div></header>; }
 
 function Home({ search, setSearch, onSearch }: { search: SearchState; setSearch: (value: SearchState) => void; onSearch: () => void }) { return <main><section className="hero"><p className="eyebrow">Curated stays in Indonesia</p><h1>Find your stay.<br /><em>Stay better.</em></h1><p className="hero-copy">Transparent prices, carefully selected properties, and everything you need around the stay.</p><SearchBar search={search} setSearch={setSearch} onSearch={onSearch} /></section><section className="section"><div className="section-heading"><div><p className="eyebrow">Popular across Indonesia right now</p><h2>Stay somewhere worth remembering.</h2></div><span className="muted">Curated by Menetap</span></div><div className="destination-pills">{['Yogyakarta', 'Bandung', 'Semarang', 'Malang', 'Solo', 'Surabaya', 'Bali', 'Jakarta'].map((city) => <button key={city} className="pill" onClick={onSearch}>{city}</button>)}</div><div className="feature-grid"><FeatureCard title="Curated, not crowded" text="Every property is reviewed for accuracy, cleanliness, and a better stay experience." /><FeatureCard title="Real prices" text="What you see is what you pay. No inflated rates or surprise fees at checkout." /><FeatureCard title="Everything around the stay" text="Add breakfast, transfers, early check-in, and more when you need them." /></div></section><TrustStrip /><FeaturedSection /><PricingSection /><ExperienceSection /><Footer /></main>; }
 

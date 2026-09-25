@@ -112,7 +112,7 @@ Establish a secure, maintainable, production-oriented technical foundation for t
 - [ ] Implement password reset; UI and Resend integration are present, but delivery secrets and end-to-end verification remain.
 - [x] Define guest, partner, vendor, support, operations, finance, and admin roles.
 - [x] Add authorization helper foundations.
-- [ ] Add role-aware navigation and route protection; architecture and implementation gate documented in `docs/authentication-authorization.md`.
+- [ ] Add role-aware navigation and route protection; authenticated session state and reusable `RoleGate` are present, but protected staff routes are not yet built.
 - [ ] Add audit events for sensitive access and account changes; required event policy documented in `docs/authentication-authorization.md`.
 
 ## Workstream 6 — Design-system implementation
