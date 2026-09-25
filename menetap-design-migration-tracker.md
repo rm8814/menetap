@@ -67,6 +67,7 @@ The `.dc.html` screens in the project root are the visual and interaction source
 - The homepage full widget keeps the text “Search”; only its compact scrolled state and the results mini widget use the icon-only action.
 - Homepage full-to-compact search transitions now animate shell positioning, card shape, spacing, shadow, and button geometry.
 - Removed horizontal transform animation from the homepage transition so the fixed compact widget no longer slides in from the left.
+- Added a short opacity and vertical settle animation with GPU compositing hints for a smoother dock-in.
 - Homepage scrolled state uses a viewport-pinned shell because the original hero parent would otherwise bound native sticky positioning.
 - `npm run typecheck` passes. Browser screenshot verification remains pending while no browser surface is available in the current session.
 
