@@ -353,6 +353,9 @@ h3 { margin: 0 0 8px; font: 800 var(--type-card)/1.2 'Plus Jakarta Sans', sans-s
 .experience-card-content { display: grid; gap: 4px; padding: 12px; }
 .experience-card strong { color: #0c0a1e; font-size: 13px; font-weight: 700; line-height: 1.35; }
 .experience-card small { color: rgba(12,10,30,.5); font-size: 11px; line-height: 1.4; }
+.destination-area-grid, .destination-property-grid, .feature-grid, .detail-grid, .property-grid, .stay-grid { gap: 24px; }
+.pricing-section, .room-card, .checkout-grid, .search-results-layout { gap: 24px; }
+@media (max-width: 760px) { .destination-area-grid, .destination-property-grid, .feature-grid, .detail-grid, .property-grid, .stay-grid, .pricing-section, .room-card, .checkout-grid, .search-results-layout { gap: 16px; } }
 .dc-footer { max-width: none; margin: 30px -6vw 0; padding: 56px 6vw 32px; border-top: 1px solid #e5e2f5; background: #fff; }
 .dc-footer-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 32px; max-width: 1200px; margin: 0 auto; padding-bottom: 40px; }
 .dc-footer-grid > div { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
