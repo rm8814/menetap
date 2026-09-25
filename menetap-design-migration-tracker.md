@@ -18,7 +18,7 @@ The `.dc.html` screens in the project root are the visual and interaction source
 ## Next migration groups
 
 - [ ] Match homepage sections pixel-by-pixel: destinations, trust strip, featured stays, pricing transparency, recommendations, experiences, and footer.
-- [x] Match homepage topbar and footer structure, typography, spacing, controls, surfaces, and responsive behavior to the DC reference.
+- [x] Match homepage topbar and footer structure, typography, spacing, controls, surfaces, and responsive behavior to the DC reference, including the exact logo font treatment.
 - [ ] Match search results cards, filters, sorting, map/list behavior, and mobile layout.
 - [ ] Match hotel detail gallery, amenities, policies, reviews, and add-on presentation.
 - [ ] Match room selection rate cards, date calendar, and policies.
