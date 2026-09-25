@@ -146,6 +146,7 @@ h3 { margin: 0 0 8px; font: 800 17px/1.2 'Plus Jakarta Sans', sans-serif; letter
 .destination-pills { display: flex; flex-wrap: wrap; justify-content: flex-start; gap: 10px; margin: 20px 0 30px; }
 .pill { min-height: 0; padding: 8px 16px; border: 1px solid #e5e2f5; border-radius: 999px; color: #0c0a1e; background: #fff; font-size: 12px; }
 .pill:hover { color: #fff; background: #7229ff; }
+.pill.selected { color: #fff; border-color: #7229ff; background: #7229ff; }
 .trust-strip { display: flex; flex-wrap: wrap; gap: 32px; max-width: 1200px; margin: 0 auto; padding: 20px 0 8px; border-top: 1px solid #e5e2f5; color: #5e5a78; font-size: 12px; }
 .stay-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
 .stay-card { overflow: hidden; border: 1px solid #e5e2f5; border-radius: 8px; background: #fff; box-shadow: 0 2px 8px rgba(114,41,255,.06); }
