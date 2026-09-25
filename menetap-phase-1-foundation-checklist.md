@@ -124,7 +124,7 @@ Establish a secure, maintainable, production-oriented technical foundation for t
 - [x] Implement initial guest-flow layouts: homepage, search, detail, rooms, checkout, confirmation.
 - [x] Implement focus, error, loading, empty, success, and permission-denied states across the frontend foundation.
 - [x] Verify responsive behavior through CSS breakpoints and production build review; detailed pixel comparison against every DC screen remains ongoing.
-- [ ] Preserve the design rules documented in `AGENTS.md`.
+- [x] Preserve the design rules documented in `AGENTS.md`; current React tokens, typography, responsive layout, focus states, hover motion, and surface treatment follow the Menetap design rules.
 
 ## Workstream 7 — Security and operations baseline
 
