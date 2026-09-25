@@ -216,9 +216,9 @@ h3 { margin: 0 0 8px; font: 800 17px/1.2 'Plus Jakarta Sans', sans-serif; letter
 .dc-footer .footer-brand { gap: 0; }
 .dc-footer .footer-brand .wordmark { margin-bottom: 12px; font-size: 18px; }
 .dc-footer strong { margin-bottom: 4px; color: rgba(12,10,30,.45); font-size: 12px; letter-spacing: .04em; text-transform: uppercase; }
-.dc-footer a, .dc-footer p { color: rgba(12,10,30,.75); font-size: 13px; }
+.dc-footer a, .dc-footer p { color: rgba(12,10,30,.75); font-size: 14px; }
 .dc-footer a:hover { color: #7229ff; text-decoration: underline; }
-.dc-footer p { max-width: 260px; margin: 0; color: rgba(12,10,30,.55); font-size: 12px; line-height: 1.7; }
+.dc-footer p { max-width: 260px; margin: 0; color: rgba(12,10,30,.55); font-size: 14px; line-height: 1.7; }
 .dc-footer-bottom { display: flex; align-items: center; justify-content: space-between; max-width: 1200px; margin: 0 auto; padding-top: 24px; border-top: 1px solid #e5e2f5; color: rgba(12,10,30,.5); font-size: 12px; }
 .dc-footer-meta { display: flex; align-items: center; gap: 10px; }
 .language-chip { gap: 4px; }
