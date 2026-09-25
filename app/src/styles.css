@@ -195,7 +195,8 @@ h3 { margin: 0 0 8px; font: 800 17px/1.2 'Plus Jakarta Sans', sans-serif; letter
 .dc-footer-bottom { display: flex; align-items: center; justify-content: space-between; max-width: 1200px; margin: 0 auto; padding-top: 24px; border-top: 1px solid #e5e2f5; color: rgba(12,10,30,.5); font-size: 12px; }
 .dc-footer-meta { display: flex; align-items: center; gap: 10px; }
 .language-chip { gap: 4px; }
-.language-chip, .managed-chip { padding: 5px 12px; border: 1px solid #e5e2f5; border-radius: 24px; background: #fff; font-size: 11px; }
+.language-chip, .managed-chip { padding: 5px 12px; border: 1px solid #e5e2f5; border-radius: 24px; background: #fff; color: rgba(12,10,30,.5); font: 700 11px 'JetBrains Mono', monospace; }
+.language-chip { min-height: 0; cursor: pointer; }
 .managed-chip a { color: #7229ff; font-weight: 700; font-size: 11px; }
 @media (max-width: 760px) { .stay-grid, .pricing-section, .experience-grid, .dc-footer-grid { grid-template-columns: 1fr; } .pricing-section { gap: 24px; padding: 54px 0; } .trust-strip { gap: 14px; } .dc-topbar { margin: 0 -18px; padding: 0 18px; } .dc-navlinks { display: none !important; } .dc-footer { margin-left: -18px; margin-right: -18px; padding-right: 18px; padding-left: 18px; } .dc-footer-bottom { align-items: flex-start; flex-direction: column; } }
 @media (max-width: 480px) { .app-shell { padding: 0 18px 32px; } .nav { height: 68px; } .wordmark { font-size: 21px; } .nav-actions { gap: 8px; } .nav-actions button { padding: 0 8px; font-size: 11px; } .hero { padding-top: 54px; } .page { padding-top: 32px; } .auth-panel { margin: 32px auto; padding: 22px; } .detail-hero .detail-image { min-height: 220px; } .property-image { min-height: 140px; } }
