@@ -93,7 +93,7 @@ h1 em { font-style: normal; }
 .guest-field { position: relative; }
 .guest-trigger { display: flex; align-items: center; justify-content: flex-start; gap: 8px; width: 100%; height: 20px; min-height: 0; padding: 0; color: #0c0a1e; background: transparent; font-size: 14px; font-weight: 600; line-height: 20px; text-align: left; }
 .guest-trigger span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 14px; }
-.dc-search-card label .guest-trigger > span { color: #0c0a1e; font-size: 14px; font-weight: 600; letter-spacing: normal; text-transform: none; }
+.dc-search-card label .guest-trigger > span { display: inline; margin-bottom: 0; color: #0c0a1e; font-size: 14px; font-weight: 600; letter-spacing: normal; line-height: 20px; text-transform: none; }
 .guest-trigger svg { color: #7229ff; }
 .guest-trigger:hover { color: #0c0a1e; background: transparent; transform: none; }
 .dc-search-card label .guest-popover { position: absolute; top: calc(100% + 14px); right: 0; z-index: 5; display: flex; flex-direction: column; gap: 0; width: 320px; padding: 8px 20px; border: 1px solid #e5e2f5; border-radius: 12px; background: #fff; box-shadow: 0 16px 36px rgba(65,42,145,.16); }
