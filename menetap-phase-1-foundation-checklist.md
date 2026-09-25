@@ -112,8 +112,8 @@ Establish a secure, maintainable, production-oriented technical foundation for t
 - [ ] Implement password reset.
 - [x] Define guest, partner, vendor, support, operations, finance, and admin roles.
 - [x] Add authorization helper foundations.
-- [ ] Add role-aware navigation and route protection.
-- [ ] Add audit events for sensitive access and account changes.
+- [ ] Add role-aware navigation and route protection; architecture and implementation gate documented in `docs/authentication-authorization.md`.
+- [ ] Add audit events for sensitive access and account changes; required event policy documented in `docs/authentication-authorization.md`.
 
 ## Workstream 6 — Design-system implementation
 
