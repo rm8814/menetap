@@ -104,12 +104,12 @@ Use this hierarchy across the React implementation unless a DC reference screen 
 |---|---:|---:|---|
 | Display / hero | 48px desktop, responsive down to 36px | 800 | Homepage hero headline |
 | Page heading | 40–44px | 800 | Major page titles |
-| Section heading | 28–32px | 800 | Homepage and dashboard sections |
-| Card heading | 16–18px | 700–800 | Property, room, and service names |
+| Section heading | 24px | 800 | Homepage and dashboard sections |
+| Card heading | 18px | 700–800 | Property, room, and service names |
 | Body | 14px | 400–500 | Descriptions, footer copy, primary content |
 | Navigation / controls | 14px | 500–700 | Topbar links and primary controls |
-| Labels / eyebrows | 11–12px | 600–700 | Form labels, section eyebrows, metadata headings |
-| Supporting metadata | 10–12px | 400–600 | Prices, hints, badges, secondary context |
+| Labels / eyebrows | 12px | 600–700 | Form labels, section eyebrows, metadata headings |
+| Supporting metadata | 11px | 400–600 | Prices, hints, badges, secondary context |
 
 Use Plus Jakarta Sans for display and headings, and JetBrains Mono for body/UI text. Do not reduce body or footer copy below 14px without a specific component-level reason.
 - Fonts are currently loaded through the design-system font token file and may use a remote Google Fonts import.
