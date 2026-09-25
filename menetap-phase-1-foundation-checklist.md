@@ -178,6 +178,7 @@ Phase 1 is complete when:
 - [x] Transition the homepage widget to the compact sticky pill after scrolling, with the original widget restored at the top.
 - [x] Keep “Search” text on the full homepage widget while retaining the icon-only compact state.
 - [x] Add a smooth transition between the full homepage widget and compact sticky state.
+- [x] Keep the Stays navigation and homepage searches reflected at the `/stays` route.
 - [x] Prevent horizontal slide-in by keeping the fixed-state centering transform instantaneous.
 - [x] Smooth the sticky dock-in with a short opacity/vertical settle animation.
 - [x] Keep the homepage compact widget visible after the hero section using a viewport-pinned scrolled state.
