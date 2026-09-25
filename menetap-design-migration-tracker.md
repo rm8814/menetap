@@ -24,6 +24,7 @@ The `.dc.html` screens in the project root are the visual and interaction source
 - Property cards use 11px property-type labels and 12px location text.
 - Footer bottom-row text, language switcher, and “Managed by UPSCALE” capsule use 14px type.
 - The destination field starts empty, uses the placeholder “Try hotel name, city, keyword…”, and has its native datalist indicator hidden.
+- Check-in and check-out use a single visible Lucide calendar icon with the native picker retained; dates are click-to-select, keyboard editing is blocked, check-in defaults to the local current date, and checkout defaults to the following local date.
 - The guest selector uses an explicit responsive popup layout with vertically stacked guest rows, right-aligned quantity controls, tighter counter spacing, and outside-click dismissal. The Done button was removed.
 - Search results include client-side stay-type filtering, name sorting, filter-aware counts, and a no-match state.
 - `npm run typecheck` passes. Browser screenshot verification remains pending while no browser surface is available in the current session.

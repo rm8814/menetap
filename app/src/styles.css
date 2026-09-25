@@ -63,12 +63,14 @@ h1 em { font-style: normal; }
 .dc-search-card label input { min-width: 0; margin-top: 0; color: #0c0a1e; font-size: 14px; font-weight: 600; }
 .dc-search-card label input[type=date] { color-scheme: light; cursor: pointer; }
 .dc-search-card label input[type=date]::-webkit-calendar-picker-indicator { width: 16px; height: 16px; opacity: .55; cursor: pointer; }
+.dc-search-card label input[type=date]::-webkit-calendar-picker-indicator { display: block; opacity: 0; cursor: pointer; }
 .dc-search-card > button.search-submit { align-self: stretch; min-width: 0; margin-left: 16px; padding: 0 16px; border-radius: 6px; }
 .dc-search-card > button.search-submit { font-size: 14px; }
 .search-widget-wrap { position: relative; }
 .guest-field { position: relative; }
 .guest-trigger { display: flex; align-items: center; gap: 8px; width: 100%; min-height: 0; padding: 0; color: #0c0a1e; background: transparent; font-size: 14px; font-weight: 600; text-align: left; }
 .guest-trigger span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.guest-trigger svg { color: #7229ff; }
 .guest-trigger:hover { color: #0c0a1e; background: transparent; transform: none; }
 .dc-search-card label .guest-popover { position: absolute; top: calc(100% + 14px); right: 0; z-index: 5; display: flex; flex-direction: column; gap: 0; width: 320px; padding: 8px 20px; border: 1px solid #e5e2f5; border-radius: 12px; background: #fff; box-shadow: 0 16px 36px rgba(65,42,145,.16); }
 .dc-search-card label .guest-popover .guest-counter { display: flex; align-items: center; justify-content: space-between; width: 100%; min-height: 0; gap: 20px; padding: 14px 0; border-bottom: 1px solid #f0eef9; }
