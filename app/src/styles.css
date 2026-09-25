@@ -54,6 +54,19 @@ h1 em { font-style: normal; }
 .dc-search-card label div { display: flex; align-items: center; gap: 8px; color: #7229ff; font-size: 16px; }
 .dc-search-card label input { min-width: 0; margin-top: 0; color: #0c0a1e; font-size: 15px; font-weight: 600; }
 .dc-search-card > button { align-self: stretch; min-width: 140px; margin-left: 16px; }
+.search-widget-wrap { position: relative; }
+.guest-field { position: relative; }
+.guest-trigger { display: flex; align-items: center; gap: 8px; width: 100%; min-height: 0; padding: 0; color: #0c0a1e; background: transparent; font-size: 15px; font-weight: 600; text-align: left; }
+.guest-trigger:hover { color: #0c0a1e; background: transparent; transform: none; }
+.guest-popover { position: absolute; top: calc(100% + 12px); right: 20px; z-index: 5; display: grid; gap: 16px; width: 260px; padding: 16px; border: 1px solid #e5e2f5; border-radius: 8px; background: #fff; box-shadow: 0 8px 24px rgba(114,41,255,.15); }
+.guest-counter { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.guest-counter > div:first-child { display: grid; gap: 4px; }
+.guest-counter small { color: #5e5a78; font-size: 10px; }
+.counter-actions { display: flex; align-items: center; gap: 10px; }
+.counter-actions button { display: grid; place-items: center; width: 26px; height: 26px; min-height: 0; padding: 0; border: 1px solid #e5e2f5; border-radius: 50%; color: #0c0a1e; background: #fff; }
+.counter-actions button:disabled { opacity: .4; cursor: not-allowed; }
+.guest-popover > button { min-height: 36px; }
+.search-error { margin: 10px 0 0; color: #dc2626; font-size: 11px; text-align: left; }
 label { padding: 11px 13px; color: #8784a0; font-size: 10px; }
 input { display: block; width: 100%; margin-top: 6px; padding: 0; border: 0; outline: 0; color: #0c0a1e; background: transparent; font: 600 12px 'JetBrains Mono', monospace; }
 button { align-self: stretch; padding: 0 22px; border: 0; border-radius: 8px; color: #fff; background: #7229ff; cursor: pointer; font: 700 12px 'JetBrains Mono', monospace; }
