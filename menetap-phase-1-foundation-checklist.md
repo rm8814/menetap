@@ -122,8 +122,8 @@ Establish a secure, maintainable, production-oriented technical foundation for t
 - [x] Implement base layout and responsive container.
 - [x] Implement initial buttons, inputs, and status primitives.
 - [x] Implement initial guest-flow layouts: homepage, search, detail, rooms, checkout, confirmation.
-- [ ] Implement focus, error, loading, empty, and permission-denied states.
-- [ ] Verify mobile and desktop behavior.
+- [x] Implement focus, error, loading, empty, success, and permission-denied states across the frontend foundation.
+- [x] Verify responsive behavior through CSS breakpoints and production build review; detailed pixel comparison against every DC screen remains ongoing.
 - [ ] Preserve the design rules documented in `AGENTS.md`.
 
 ## Workstream 7 — Security and operations baseline

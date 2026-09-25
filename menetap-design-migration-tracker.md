@@ -9,9 +9,9 @@ The `.dc.html` screens in the project root are the visual and interaction source
 | Screen | DC source | React status | Notes |
 |---|---|---|---|
 | Homepage | `Menetap Homepage.dc.html` | Expanded first pass | Search, destination pills, trust strip, featured stays, pricing transparency, experiences, and footer implemented; detailed pixel comparison still pending. |
-| Search results | `Menetap Search Results.dc.html` | Functional first pass | Connected to published Convex properties; empty state included. |
+| Search results | `Menetap Search Results.dc.html` | Functional responsive pass | Connected to published Convex properties; loading and empty states included. |
 | Hotel detail | `Menetap Hotel Detail.dc.html` | Functional first pass | Connected to Convex property data; image/gallery parity pending. |
-| Room selection | `Menetap Room Selection.dc.html` | Functional first pass | Connected to Convex room inventory. |
+| Room selection | `Menetap Room Selection.dc.html` | Functional responsive pass | Connected to Convex room inventory; loading and empty states included. |
 | Checkout | `Menetap Checkout.dc.html` | Functional first pass | Creates real pay-at-hotel booking; add-ons and exact DC layout pending. |
 | Confirmation | `Menetap Booking Confirmation.dc.html` | Functional first pass | Loads booking reference from Convex. |
 
@@ -22,6 +22,9 @@ The `.dc.html` screens in the project root are the visual and interaction source
 - [ ] Match hotel detail gallery, amenities, policies, reviews, and add-on presentation.
 - [ ] Match room selection rate cards, date calendar, and policies.
 - [ ] Match checkout details, add-on selection, payment explanation, and validation states.
+- [x] Add shared loading, empty, success, error, and permission-state primitives to the React foundation.
+- [x] Add responsive mobile refinements for navigation, forms, cards, detail, and checkout layouts.
+- [x] Extract shared state and access primitives for guest and future staff screens.
 - [ ] Migrate partner onboarding.
 - [ ] Migrate partner dashboard.
 - [ ] Migrate admin console and admin property management.

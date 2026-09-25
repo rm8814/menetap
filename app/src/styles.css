@@ -99,6 +99,16 @@ h3 { margin: 0 0 8px; font: 800 17px/1.2 'Plus Jakarta Sans', sans-serif; letter
 .success-icon { display: grid; place-items: center; width: 56px; height: 56px; margin: 20px auto; border-radius: 50%; background: #eafcff; color: #00a3c4; font-size: 28px; font-weight: 700; }
 .confirmation-card { display: grid; gap: 8px; max-width: 420px; margin: 28px auto; text-align: left; }
 .error-text { margin: 0; color: #dc2626; font-size: 11px; }
+.loading-state { display: flex; align-items: center; justify-content: center; gap: 10px; min-height: 180px; color: #5e5a78; font-size: 12px; }
+.loading-spinner { width: 16px; height: 16px; border: 2px solid #e5e2f5; border-top-color: #7229ff; border-radius: 50%; animation: spin .8s linear infinite; }
+.state-mark { display: grid; place-items: center; width: 34px; height: 34px; margin: 0 auto 12px; border-radius: 50%; color: #7229ff; background: rgba(114,41,255,.08); font-weight: 800; }
+.auth-panel { max-width: 460px; margin: 70px auto; padding: 32px; border: 1px solid #e5e2f5; border-radius: 12px; background: #fff; box-shadow: 0 12px 32px rgba(65,42,145,.1); }
+.auth-panel form { display: grid; gap: 14px; margin-top: 24px; }
+.auth-panel form label { padding: 0; color: #5e5a78; }
+.auth-panel form input { margin-top: 8px; padding: 12px; border: 1px solid #e5e2f5; border-radius: 6px; }
+.text-button { min-height: 0; margin-top: 14px; padding: 0; color: #7229ff; background: transparent; font-size: 11px; }
+.text-button:hover { background: transparent; transform: none; }
+@keyframes spin { to { transform: rotate(360deg); } }
 @media (max-width: 760px) { .nav nav { display: none; } .section-heading, .page-heading { display: block; } .feature-grid, .detail-grid, .property-grid, .detail-hero, .checkout-grid { grid-template-columns: 1fr; } .room-card { grid-template-columns: 1fr; } .room-price { text-align: left; } .nav-actions button { min-height: auto; } }
 .destination-pills { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin: 20px 0 30px; }
 .pill { min-height: 0; padding: 8px 16px; border: 1px solid #e5e2f5; border-radius: 999px; color: #0c0a1e; background: #fff; font-size: 12px; }
@@ -142,3 +152,4 @@ footer strong { margin-bottom: 4px; font-size: 11px; }
 footer a, footer p { color: #5e5a78; font-size: 11px; }
 footer p { max-width: 220px; line-height: 1.7; }
 @media (max-width: 760px) { .stay-grid, .pricing-section, .experience-grid, footer { grid-template-columns: 1fr; } .pricing-section { gap: 24px; padding: 54px 0; } .trust-strip { gap: 14px; } }
+@media (max-width: 480px) { .app-shell { padding: 0 18px 32px; } .nav { height: 68px; } .wordmark { font-size: 21px; } .nav-actions { gap: 8px; } .nav-actions button { padding: 0 8px; font-size: 11px; } .hero { padding-top: 54px; } .page { padding-top: 32px; } .auth-panel { margin: 32px auto; padding: 22px; } .detail-hero .detail-image { min-height: 220px; } .property-image { min-height: 140px; } }
