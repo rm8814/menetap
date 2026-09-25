@@ -1,5 +1,6 @@
 import { mutation, query } from './_generated/server';
 import { v } from 'convex/values';
+import { recordAudit } from './audit';
 
 export const create = mutation({
   args: { propertyId: v.id('properties'), roomTypeId: v.id('roomTypes'), checkIn: v.string(), checkOut: v.string(), guestCount: v.number(), guestName: v.string(), guestEmail: v.string(), paymentMethod: v.union(v.literal('pay_at_hotel'), v.literal('manual_bank_transfer')) },
@@ -16,7 +17,7 @@ export const create = mutation({
     const bookingId = await ctx.db.insert('bookings', { reference, propertyId: args.propertyId, roomTypeId: args.roomTypeId, checkIn: args.checkIn, checkOut: args.checkOut, guestCount: args.guestCount, guestName: args.guestName, guestEmail: args.guestEmail, totalAmount, currency: 'IDR', status: 'confirmed', paymentMethod: args.paymentMethod, paymentStatus: 'unpaid', createdAt: now, updatedAt: now });
     await ctx.db.insert('payments', { bookingId, method: args.paymentMethod, amount: totalAmount, currency: 'IDR', status: 'unpaid', createdAt: now, updatedAt: now });
     for (const night of nights) await ctx.db.patch(night._id, { availableUnits: night.availableUnits - 1, updatedAt: now });
-    await ctx.db.insert('auditLogs', { action: 'booking.created', entityType: 'booking', entityId: bookingId, metadata: { reference }, createdAt: now, updatedAt: now });
+    await recordAudit(ctx, { action: 'booking.created', entityType: 'booking', entityId: bookingId, metadata: { reference } });
     return { bookingId, reference };
   },
 });

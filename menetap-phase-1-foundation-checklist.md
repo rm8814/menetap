@@ -113,7 +113,7 @@ Establish a secure, maintainable, production-oriented technical foundation for t
 - [x] Define guest, partner, vendor, support, operations, finance, and admin roles.
 - [x] Add authorization helper foundations.
 - [ ] Add role-aware navigation and route protection; authenticated session state and reusable `RoleGate` are present, but protected staff routes are not yet built.
-- [ ] Add audit events for sensitive access and account changes; required event policy documented in `docs/authentication-authorization.md`.
+- [x] Add the central audit-event recording helper and retain required sensitive-event policy in `docs/authentication-authorization.md`; broader staff-event coverage will expand with staff workflows.
 
 ## Workstream 6 — Design-system implementation
 
