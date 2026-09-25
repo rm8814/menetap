@@ -176,6 +176,7 @@ Phase 1 is complete when:
 - [x] Add synchronized price markers and overlap clusters to the prototype map view.
 - [x] Preserve the original homepage search widget; sticky behavior is limited to search results.
 - [x] Transition the homepage widget to the compact sticky pill after scrolling, with the original widget restored at the top.
+- [x] Keep the homepage compact widget visible after the hero section using a viewport-pinned scrolled state.
 - [x] `npm run typecheck` and `npm run lint` pass for the compact search widget change.
 - [~] `npm test -- --run` could not start in the restricted Windows environment (`spawn EPERM` while loading Vitest config).
 
