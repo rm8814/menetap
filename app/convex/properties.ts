@@ -25,3 +25,18 @@ export const listPublished = query({
 });
 
 export const get = query({ args: { id: v.id('properties') }, handler: async (ctx, args) => ctx.db.get(args.id) });
+
+export const searchSuggestions = query({
+  args: { query: v.string() },
+  handler: async (ctx, args) => {
+    const query = args.query.trim().toLowerCase();
+    if (!query) return [];
+    const properties = (await ctx.db.query('properties').withIndex('by_status', (q) => q.eq('status', 'published')).collect());
+    const matches = properties.filter((property) => [property.name, property.area, property.city].some((value) => value.toLowerCase().includes(query)));
+    const suggestions = matches.flatMap((property) => [
+      property.name.toLowerCase().includes(query) ? { kind: 'property' as const, id: property._id, label: property.name, detail: `${property.area}, ${property.city}` } : null,
+      property.area.toLowerCase().includes(query) || property.city.toLowerCase().includes(query) ? { kind: 'area' as const, id: property.area, label: property.area, detail: property.city } : null,
+    ]).filter((suggestion): suggestion is NonNullable<typeof suggestion> => Boolean(suggestion));
+    return Array.from(new Map(suggestions.map((suggestion) => [`${suggestion.kind}:${suggestion.label.toLowerCase()}`, suggestion])).values()).slice(0, 8);
+  },
+});

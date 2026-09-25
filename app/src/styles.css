@@ -75,6 +75,11 @@ h1 em { font-style: normal; }
 .mini-search-widget .dc-search-card label:first-child { padding-left: 18px; }
 .mini-search-widget .dc-search-card label.guest-field { border-right: 0; }
 .mini-search-widget .dc-search-card > button.search-submit { display: grid; place-items: center; width: 48px; height: 48px; margin-left: auto; padding: 0; border-radius: 50%; }
+.destination-field { position: relative; }
+.destination-suggestions { position: absolute; top: calc(100% + 12px); left: 14px; z-index: 10; display: grid; width: min(360px, 80vw); padding: 6px; border: 1px solid #e5e2f5; border-radius: 10px; background: #fff; box-shadow: 0 14px 30px rgba(65,42,145,.16); }
+.destination-suggestions button { display: grid; gap: 3px; min-height: 0; padding: 10px 12px; border-radius: 6px; color: #0c0a1e; background: #fff; text-align: left; font: 600 12px 'JetBrains Mono', monospace; }
+.destination-suggestions button:hover { color: #7229ff; background: #f7f6ff; transform: none; }
+.destination-suggestions small { color: #5e5a78; font-size: 10px; font-weight: 400; }
 .guest-field { position: relative; }
 .guest-trigger { display: flex; align-items: center; gap: 8px; width: 100%; min-height: 0; padding: 0; color: #0c0a1e; background: transparent; font-size: 14px; font-weight: 600; text-align: left; }
 .guest-trigger span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
