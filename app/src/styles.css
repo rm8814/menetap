@@ -69,10 +69,10 @@ h1 em { font-style: normal; }
 .search-widget-wrap { position: relative; }
 .mini-search-widget { margin: 18px 0 30px; }
 .mini-search-widget .search-card { box-shadow: 0 4px 14px rgba(65,42,145,.07); }
-.mini-search-widget .dc-search-card { height: 72px; padding: 10px 14px; }
+.mini-search-widget .dc-search-card { height: 72px; padding: 10px 14px; border-radius: 999px; }
 .mini-search-widget .dc-search-card label { padding: 0 14px; }
 .mini-search-widget .dc-search-card label:first-child { padding-left: 0; }
-.mini-search-widget .dc-search-card > button.search-submit { margin-left: 10px; }
+.mini-search-widget .dc-search-card > button.search-submit { width: 48px; height: 48px; margin-left: 10px; padding: 0; border-radius: 50%; }
 .guest-field { position: relative; }
 .guest-trigger { display: flex; align-items: center; gap: 8px; width: 100%; min-height: 0; padding: 0; color: #0c0a1e; background: transparent; font-size: 14px; font-weight: 600; text-align: left; }
 .guest-trigger span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
