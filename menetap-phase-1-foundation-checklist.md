@@ -178,6 +178,7 @@ Phase 1 is complete when:
 - [x] Transition the homepage widget to the compact sticky pill after scrolling, with the original widget restored at the top.
 - [x] Keep “Search” text on the full homepage widget while retaining the icon-only compact state.
 - [x] Add a smooth transition between the full homepage widget and compact sticky state.
+- [x] Prevent horizontal slide-in by keeping the fixed-state centering transform instantaneous.
 - [x] Keep the homepage compact widget visible after the hero section using a viewport-pinned scrolled state.
 - [x] `npm run typecheck` and `npm run lint` pass for the compact search widget change.
 - [~] `npm test -- --run` could not start in the restricted Windows environment (`spawn EPERM` while loading Vitest config).
