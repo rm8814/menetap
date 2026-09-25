@@ -95,6 +95,23 @@ Prefer design tokens over hard-coded values. If a screen uses a legacy prototype
 - Use sentence case for headings.
 - Use concise, verb-first CTAs such as “Search stays”, “Add transfer”, “Save changes”, and “View booking”.
 - Keep display line-height tight and body line-height generous for readability.
+
+### Menetap type hierarchy
+
+Use this hierarchy across the React implementation unless a DC reference screen explicitly requires a documented exception:
+
+| Role | Size | Weight | Typical use |
+|---|---:|---:|---|
+| Display / hero | 48px desktop, responsive down to 36px | 800 | Homepage hero headline |
+| Page heading | 40–44px | 800 | Major page titles |
+| Section heading | 28–32px | 800 | Homepage and dashboard sections |
+| Card heading | 16–18px | 700–800 | Property, room, and service names |
+| Body | 14px | 400–500 | Descriptions, footer copy, primary content |
+| Navigation / controls | 14px | 500–700 | Topbar links and primary controls |
+| Labels / eyebrows | 11–12px | 600–700 | Form labels, section eyebrows, metadata headings |
+| Supporting metadata | 10–12px | 400–600 | Prices, hints, badges, secondary context |
+
+Use Plus Jakarta Sans for display and headings, and JetBrains Mono for body/UI text. Do not reduce body or footer copy below 14px without a specific component-level reason.
 - Fonts are currently loaded through the design-system font token file and may use a remote Google Fonts import.
 
 ### Layout and spacing
