@@ -81,11 +81,11 @@ Establish a secure, maintainable, production-oriented technical foundation for t
 -  - [x] Support
 -  - [x] Commissions
 -  - [x] Audit logs
-- [ ] Define route and controller conventions.
-- [ ] Define service/action class conventions.
+- [x] Define route and controller conventions in `docs/architecture-conventions.md`.
+- [x] Define service/action conventions in `docs/architecture-conventions.md`.
 - [x] Define validation and authorization helper conventions.
 - [x] Define booking and payment state transitions.
-- [ ] Define error-handling and user-facing error states.
+- [x] Define error-handling and user-facing error-state conventions in `docs/architecture-conventions.md`.
 
 ## Workstream 4 — Database foundation
 
