@@ -8,18 +8,31 @@ The `.dc.html` screens in the project root are the visual and interaction source
 
 | Screen | DC source | React status | Notes |
 |---|---|---|---|
-| Homepage | `Menetap Homepage.dc.html` | Full structural parity pass | Homepage now follows the DC section hierarchy and visual language across topbar, hero, five-field search, assurances, destinations, stays, trust strip, featured cards, pricing, experiences, and footer; final screenshot-level pixel tuning remains possible. |
-| Search results | `Menetap Search Results.dc.html` | Functional responsive pass | Connected to published Convex properties; loading and empty states included. |
+| Homepage | `Menetap Homepage.dc.html` | Full structural parity pass | Homepage now follows the DC section hierarchy and visual language across topbar, hero, five-field search, assurances, destinations, stays, trust strip, featured cards, pricing, experiences, and footer; typography and guest-selector refinements are documented below; final screenshot-level pixel tuning remains possible. |
+| Search results | `Menetap Search Results.dc.html` | Functional responsive pass | Connected to published Convex properties; loading, empty, filtering, sorting, and mobile states included. |
 | Hotel detail | `Menetap Hotel Detail.dc.html` | Functional first pass | Connected to Convex property data; image/gallery parity pending. |
 | Room selection | `Menetap Room Selection.dc.html` | Functional responsive pass | Connected to Convex room inventory; loading and empty states included. |
 | Checkout | `Menetap Checkout.dc.html` | Functional first pass | Creates real pay-at-hotel booking; add-ons and exact DC layout pending. |
 | Confirmation | `Menetap Booking Confirmation.dc.html` | Functional first pass | Loads booking reference from Convex. |
 
+## Documented implementation refinements
+
+- Homepage typography follows the `AGENTS.md` hierarchy: 48px display, 39px page headings, 24px section headings, 18px card headings, 14px body/navigation text, 12px labels, and 11px supporting metadata.
+- Trust-strip assurances (“Verified reviews only”, “Instant confirmation”, “Flexible cancellation”, and “Menetap Rewards on every stay”) use 12px text.
+- The price-alert email input and “Alert me” button share the same row height.
+- Hotel/property cards now use one reusable `PropertyCard` pattern across homepage stay sections and search results, carrying photography, type, identity, location, rating, amenities, price, scarcity/featured badges, and a “View rooms” action where applicable.
+- Property cards use 11px property-type labels and 12px location text.
+- Footer bottom-row text, language switcher, and “Managed by UPSCALE” capsule use 14px type.
+- The destination field starts empty, uses the placeholder “Try hotel name, city, keyword…”, and has its native datalist indicator hidden.
+- The guest selector uses an explicit responsive popup layout with vertically stacked guest rows, right-aligned quantity controls, tighter counter spacing, and outside-click dismissal. The Done button was removed.
+- Search results include client-side stay-type filtering, name sorting, filter-aware counts, and a no-match state.
+- `npm run typecheck` passes. Browser screenshot verification remains pending while no browser surface is available in the current session.
+
 ## Next migration groups
 
 - [x] Match homepage sections structurally and visually: destinations, trust strip, featured stays, pricing transparency, recommendations, experiences, and footer.
 - [x] Match homepage topbar and footer structure, typography, spacing, controls, surfaces, and responsive behavior to the DC reference, including the exact logo font treatment.
-- [ ] Match search results cards, filters, sorting, map/list behavior, and mobile layout.
+- [ ] Match search results cards, filters, sorting, map/list behavior, and mobile layout. (Client-side type filter and name sorting added; visual/map parity remains.)
 - [ ] Match hotel detail gallery, amenities, policies, reviews, and add-on presentation.
 - [ ] Match room selection rate cards, date calendar, and policies.
 - [ ] Match checkout details, add-on selection, payment explanation, and validation states.
