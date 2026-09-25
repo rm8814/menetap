@@ -175,7 +175,8 @@ button:active { transform: scale(.97); }
 .popular-destination-grid h3 { margin: 0; }
 .popular-destination-grid p { margin: 0; color: #5e5a78; font-size: 12px; line-height: 1.6; }
 .popular-destination-grid span { color: #7229ff; font-size: 12px; font-weight: 700; }
-@media (max-width: 900px) { .popular-destination-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 1100px) and (min-width: 901px) { .popular-destination-grid { grid-template-columns: repeat(3, 1fr); gap: 24px; } }
+@media (max-width: 900px) { .popular-destination-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; } }
 @media (max-width: 760px) { .popular-destination-grid { grid-template-columns: 1fr; } }
 .section { padding: 36px 0; }
 .destination-section { padding-top: 8px; padding-bottom: 48px; }
@@ -341,6 +342,8 @@ h3 { margin: 0 0 8px; font: 800 var(--type-card)/1.2 'Plus Jakarta Sans', sans-s
 .rate-bar i { display: block; width: 91%; height: 100%; background: linear-gradient(90deg,#7229ff,#00caef); }
 .rate-card small { font-size: 10px; }
 .experience-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+@media (max-width: 1100px) and (min-width: 761px) { .experience-grid { grid-template-columns: repeat(3, 1fr); gap: 24px; } }
+@media (max-width: 760px) { .experience-grid { gap: 16px; } }
 .experience-card { overflow: hidden; border: 1px solid #e5e2f5; border-radius: 8px; background: #fff; box-shadow: 0 2px 8px rgba(114,41,255,.04); transition: border-color .15s ease, box-shadow .15s ease, transform .15s ease; }
 .experience-card:hover { border-color: rgba(114,41,255,.3); box-shadow: 0 8px 20px rgba(114,41,255,.1); transform: translateY(-1px); }
 .experience-card-sunrise .experience-photo { background: linear-gradient(135deg,#e5e2f5,#cfc8f0); }
