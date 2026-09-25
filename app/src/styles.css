@@ -68,7 +68,7 @@ h1 em { font-style: normal; }
 .dc-search-card > button.search-submit { font-size: 14px; }
 .search-widget-wrap { position: relative; }
 .mini-search-widget { position: sticky; top: 72px; z-index: 20; margin: 0 0 18px; padding: 12px 0; background: var(--color-bg); }
-.homepage-sticky-search { margin-bottom: 0; }
+.homepage-sticky-search { margin: 0; padding: 0; background: transparent; }
 .mini-search-widget .search-card { box-shadow: 0 4px 14px rgba(65,42,145,.07); }
 .mini-search-widget .dc-search-card { height: 72px; padding: 10px 14px; border-radius: 999px; }
 .mini-search-widget .dc-search-card label > span { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
