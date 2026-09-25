@@ -83,7 +83,7 @@ button:active { transform: scale(.97); }
 .section, .page { max-width: 1120px; margin: 0 auto; }
 .section { padding: 36px 0; }
 .destination-section { padding-top: 8px; padding-bottom: 48px; }
-.centered-heading { justify-content: center; margin-bottom: 16px; }
+.centered-heading { justify-content: flex-start; margin-bottom: 16px; }
 .centered-heading h2 { font-size: 20px; }
 .stays-heading { align-items: baseline; margin-top: 28px; margin-bottom: 16px; }
 .stays-heading h3 { font-size: 18px; }
@@ -140,7 +140,7 @@ h3 { margin: 0 0 8px; font: 800 17px/1.2 'Plus Jakarta Sans', sans-serif; letter
 .text-button:hover { background: transparent; transform: none; }
 @keyframes spin { to { transform: rotate(360deg); } }
 @media (max-width: 760px) { .nav nav { display: none; } .section-heading, .page-heading { display: block; } .feature-grid, .detail-grid, .property-grid, .detail-hero, .checkout-grid { grid-template-columns: 1fr; } .room-card { grid-template-columns: 1fr; } .room-price { text-align: left; } .nav-actions button { min-height: auto; } .dc-search-card { grid-template-columns: 1fr; gap: 16px; padding: 16px; } .dc-search-card label, .dc-search-card label:first-child { padding: 0 0 12px; border-right: 0; border-bottom: 1px solid #e5e2f5; } .dc-search-card > button { margin-left: 0; } .hero-assurances { gap: 10px; flex-direction: column; } }
-.destination-pills { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin: 20px 0 30px; }
+.destination-pills { display: flex; flex-wrap: wrap; justify-content: flex-start; gap: 10px; margin: 20px 0 30px; }
 .pill { min-height: 0; padding: 8px 16px; border: 1px solid #e5e2f5; border-radius: 999px; color: #0c0a1e; background: #fff; font-size: 12px; }
 .pill:hover { color: #fff; background: #7229ff; }
 .trust-strip { display: flex; flex-wrap: wrap; gap: 32px; max-width: 1120px; margin: 0 auto; padding: 20px 0 8px; border-top: 1px solid #e5e2f5; color: #5e5a78; font-size: 12px; }
