@@ -68,6 +68,7 @@ The `.dc.html` screens in the project root are the visual and interaction source
 - Homepage full-to-compact search transitions now animate shell positioning, card shape, spacing, shadow, and button geometry.
 - The topbar “Stays” action now updates the browser URL to `/stays`; homepage searches use `/stays` with query parameters so refreshes retain the results route.
 - Search results now include the shared footer with language switching and the “Managed by UPSCALE” capsule.
+- Canonical public routes now use language prefixes: `/en` and `/id`, including `/en/stays` and `/id/stays`; language switching preserves the current path and query string.
 - Removed horizontal transform animation from the homepage transition so the fixed compact widget no longer slides in from the left.
 - Added a short opacity and vertical settle animation with GPU compositing hints for a smoother dock-in.
 - Homepage scrolled state uses a viewport-pinned shell because the original hero parent would otherwise bound native sticky positioning.
