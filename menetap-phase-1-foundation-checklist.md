@@ -63,7 +63,7 @@ Establish a secure, maintainable, production-oriented technical foundation for t
 - [x] Define local, preview, staging, and production environments.
 - [x] Define environment variables and secret ownership.
 - [x] Decide deployment method: GitHub `main` → Hostinger connected deployment workflow; Convex backend deployment through GitHub Actions.
-- [ ] Configure staging deployment.
+- [ ] Configure staging deployment (repository workflow and branch prepared; Hostinger subdomain and staging Convex deployment still require account configuration).
 - [x] Configure production deployment placeholder; Hostinger production build is configured for `menetap.com`, while Convex production credentials remain pending.
 - [x] Document database migration and rollback procedure.
 - [x] Document release environment rules in `docs/deployment-environments.md`.

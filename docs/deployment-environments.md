@@ -24,7 +24,7 @@
 
 - `.env.local` is local-only and is ignored by Git.
 - `.env.example` documents variable names without secrets.
-- Development data must not contain real guest personal data.
+- Development and staging data must not contain real guest personal data.
 - Production deploys require a successful typecheck, test run, and production build.
 - Convex preview deployments should be used for pull-request validation.
 
@@ -38,6 +38,25 @@
 6. Confirm the deployed frontend points to the intended Convex environment before accepting traffic.
 
 The current Hostinger deployment uses the `app` root directory, Node 22, React preset, `npm ci`, `npm run build`, and `dist` output.
+
+## Staging configuration
+
+Repository configuration:
+
+- Branch: `staging`
+- GitHub workflow: `.github/workflows/staging-check.yml`
+- GitHub Actions variable: `STAGING_VITE_CONVEX_URL`
+- Frontend build variable: `VITE_CONVEX_URL`
+
+Hostinger configuration:
+
+- Create a staging subdomain such as `staging.menetap.com`.
+- Create a separate Hostinger application connected to this repository and the `staging` branch.
+- Use the same React, Node 22, `app`, `npm ci`, `npm run build`, and `dist` settings as production.
+- Set `VITE_CONVEX_URL` to the staging Convex deployment URL.
+- Enable HTTPS and password/access protection before sharing the URL externally.
+
+Staging is only complete after the Hostinger subdomain serves the `staging` branch and a booking test succeeds against the staging Convex deployment.
 
 ## Data migration and rollback
 
@@ -53,7 +72,6 @@ If a release fails, roll back the frontend to the last known-good Git commit in 
 
 ## Remaining account setup
 
-- Add `CONVEX_DEPLOY_KEY` to GitHub repository secrets.
 - Add `CONVEX_DEPLOY_KEY` to GitHub repository secrets.
 - Create the production Convex deployment.
 - Configure staging and production frontend environment variables.
