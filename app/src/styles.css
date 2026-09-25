@@ -147,7 +147,8 @@ button:active { transform: scale(.97); }
 .destination-area-section { padding-top: 64px; }
 .destination-area-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
 .destination-directory-grid { grid-template-columns: repeat(4, 1fr); }
-.destination-directory-card { padding: 0; overflow: hidden; }
+.destination-directory-card { grid-template-columns: minmax(0, 1fr); padding: 0 !important; overflow: hidden; }
+.destination-directory-card > .destination-card-image { grid-column: 1; width: 100%; margin: 0; }
 .destination-directory-card > strong, .destination-directory-card > p, .destination-directory-card > span { margin-right: 22px; margin-left: 22px; }
 .destination-directory-card > strong { margin-top: 12px; }
 .destination-directory-card > span { margin-bottom: 22px; }
