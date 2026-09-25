@@ -106,14 +106,14 @@ h3 { margin: 0 0 8px; font: 800 17px/1.2 'Plus Jakarta Sans', sans-serif; letter
 .property-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
 .property-card { padding: 0; overflow: hidden; border: 1px solid #e5e2f5; border-radius: 10px; background: #fff; color: #0c0a1e; text-align: left; cursor: pointer; }
 .property-card:hover { box-shadow: 0 12px 28px rgba(65,42,145,.1); }
-.property-image, .detail-image { display: grid; place-items: center; min-height: 170px; background: linear-gradient(135deg,#e9e7f7,#dbe6f2); color: #7229ff; font-size: 11px; text-transform: uppercase; }
+.property-image, .detail-image { display: grid; place-items: center; aspect-ratio: 4 / 3; min-height: 0; background: linear-gradient(135deg,#e9e7f7,#dbe6f2); color: #7229ff; font-size: 11px; text-transform: uppercase; }
 .property-info { padding: 16px; }
 .property-info p { margin: 4px 0 18px; color: #5e5a78; font-size: 11px; }
 .property-info strong { color: #7229ff; font-size: 11px; }
 .empty-state { margin-top: 24px; padding: 52px 24px; border: 1px dashed #c8c3e0; border-radius: 10px; text-align: center; }
 .empty-state p { max-width: 420px; margin: auto; color: #5e5a78; font-size: 12px; line-height: 1.7; }
 .detail-hero { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: center; margin: 24px 0 32px; }
-.detail-hero .detail-image { min-height: 330px; border-radius: 10px; }
+.detail-hero .detail-image { border-radius: 10px; }
 .room-card, .checkout-grid { display: grid; grid-template-columns: 1fr auto; gap: 20px; align-items: center; margin-top: 24px; }
 .room-price { display: grid; gap: 6px; text-align: right; }
 .room-price strong { font: 800 20px 'Plus Jakarta Sans', sans-serif; }
@@ -153,7 +153,7 @@ h3 { margin: 0 0 8px; font: 800 17px/1.2 'Plus Jakarta Sans', sans-serif; letter
 .featured-badge, .scarcity-badge { position: absolute; top: 12px; z-index: 1; padding: 4px 10px; border-radius: 24px; color: #fff; font-size: 11px; font-weight: 700; }
 .featured-badge { left: 12px; background: linear-gradient(135deg,#7229ff,#00caef); }
 .scarcity-badge { right: 12px; background: rgba(12,10,30,.75); font-weight: 600; }
-.stay-photo { display: grid; place-items: center; aspect-ratio: 4/3; color: rgba(12,10,30,.35); background: linear-gradient(135deg,#e5e2f5,#cfc8f0); font-size: 12px; }
+.stay-photo, .experience-photo { display: grid; place-items: center; aspect-ratio: 4 / 3; color: rgba(12,10,30,.35); background: linear-gradient(135deg,#e5e2f5,#cfc8f0); font-size: 12px; }
 .stay-content { display: grid; gap: 10px; padding: 16px; }
 .stay-title { display: flex; justify-content: space-between; gap: 10px; }
 .stay-title h3 { margin: 0; font-size: 15px; }
@@ -186,7 +186,6 @@ h3 { margin: 0 0 8px; font: 800 17px/1.2 'Plus Jakarta Sans', sans-serif; letter
 .rate-card small { font-size: 10px; }
 .experience-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
 .experience-card { overflow: hidden; border: 1px solid #e5e2f5; border-radius: 8px; background: #fff; }
-.experience-photo { display: grid; place-items: center; aspect-ratio: 4/3; color: rgba(12,10,30,.35); background: linear-gradient(135deg,#e5e2f5,#cfc8f0); font-size: 11px; }
 .experience-card > div:last-child { display: grid; gap: 4px; padding: 12px; }
 .experience-card strong { font-size: 12px; }
 .experience-card small { color: #5e5a78; font-size: 10px; }
@@ -206,4 +205,4 @@ h3 { margin: 0 0 8px; font: 800 17px/1.2 'Plus Jakarta Sans', sans-serif; letter
 .language-chip { min-height: 0; cursor: pointer; }
 .managed-chip a { color: #7229ff; font-weight: 700; font-size: 11px; }
 @media (max-width: 760px) { .stay-grid, .pricing-section, .experience-grid, .dc-footer-grid { grid-template-columns: 1fr; } .pricing-section { gap: 24px; padding: 54px 0; } .trust-strip { gap: 14px; } .dc-topbar { margin: 0 -18px; padding: 0 18px; } .dc-navlinks { display: none !important; } .dc-footer { margin-left: -18px; margin-right: -18px; padding-right: 18px; padding-left: 18px; } .dc-footer-bottom { align-items: flex-start; flex-direction: column; } .price-alert { align-items: stretch; margin-right: 0; margin-left: 0; padding: 24px; } .price-alert form { max-width: none; } }
-@media (max-width: 480px) { .app-shell { padding: 0 18px 32px; } .nav { height: 68px; } .wordmark { font-size: 21px; } .nav-actions { gap: 8px; } .nav-actions button { padding: 0 8px; font-size: 11px; } .hero { padding-top: 54px; } .page { padding-top: 32px; } .auth-panel { margin: 32px auto; padding: 22px; } .detail-hero .detail-image { min-height: 220px; } .property-image { min-height: 140px; } }
+@media (max-width: 480px) { .app-shell { padding: 0 18px 32px; } .nav { height: 68px; } .wordmark { font-size: 21px; } .nav-actions { gap: 8px; } .nav-actions button { padding: 0 8px; font-size: 11px; } .hero { padding-top: 54px; } .page { padding-top: 32px; } .auth-panel { margin: 32px auto; padding: 22px; } }
