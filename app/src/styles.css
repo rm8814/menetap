@@ -72,8 +72,9 @@ h1 em { font-style: normal; }
 .mini-search-widget .dc-search-card { height: 72px; padding: 10px 14px; border-radius: 999px; }
 .mini-search-widget .dc-search-card label > span { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
 .mini-search-widget .dc-search-card label { padding: 0 14px; }
-.mini-search-widget .dc-search-card label:first-child { padding-left: 0; }
-.mini-search-widget .dc-search-card > button.search-submit { width: 48px; height: 48px; margin-left: auto; padding: 0; border-radius: 50%; }
+.mini-search-widget .dc-search-card label:first-child { padding-left: 18px; }
+.mini-search-widget .dc-search-card label.guest-field { border-right: 0; }
+.mini-search-widget .dc-search-card > button.search-submit { display: grid; place-items: center; width: 48px; height: 48px; margin-left: auto; padding: 0; border-radius: 50%; }
 .guest-field { position: relative; }
 .guest-trigger { display: flex; align-items: center; gap: 8px; width: 100%; min-height: 0; padding: 0; color: #0c0a1e; background: transparent; font-size: 14px; font-weight: 600; text-align: left; }
 .guest-trigger span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
