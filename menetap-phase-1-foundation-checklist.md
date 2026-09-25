@@ -108,7 +108,7 @@ Establish a secure, maintainable, production-oriented technical foundation for t
 
 ## Workstream 5 — Authentication and authorization
 
-- [ ] Implement guest registration and login.
+- [x] Implement guest registration and login with Convex Auth email/password provider.
 - [ ] Implement password reset.
 - [x] Define guest, partner, vendor, support, operations, finance, and admin roles.
 - [x] Add authorization helper foundations.

@@ -1,10 +1,18 @@
 import { defineSchema, defineTable } from 'convex/server';
 import { v } from 'convex/values';
+import { authTables } from '@convex-dev/auth/server';
 
 const timestamps = { createdAt: v.number(), updatedAt: v.number() };
+const { users: _authUsers, ...authSchema } = authTables;
 
 export default defineSchema({
-  users: defineTable({ email: v.string(), name: v.optional(v.string()), role: v.union(v.literal('guest'), v.literal('partner'), v.literal('vendor'), v.literal('support'), v.literal('operations'), v.literal('finance'), v.literal('admin')), status: v.union(v.literal('active'), v.literal('pending'), v.literal('suspended')), ...timestamps }).index('by_email', ['email']).index('by_role', ['role']),
+  ...authSchema,
+  users: defineTable({
+    email: v.optional(v.string()), name: v.optional(v.string()), image: v.optional(v.string()),
+    emailVerificationTime: v.optional(v.number()), phone: v.optional(v.string()), phoneVerificationTime: v.optional(v.number()), isAnonymous: v.optional(v.boolean()),
+    role: v.union(v.literal('guest'), v.literal('partner'), v.literal('vendor'), v.literal('support'), v.literal('operations'), v.literal('finance'), v.literal('admin')),
+    status: v.union(v.literal('active'), v.literal('pending'), v.literal('suspended')), ...timestamps,
+  }).index('email', ['email']).index('by_role', ['role']),
   properties: defineTable({ name: v.string(), type: v.union(v.literal('hotel'), v.literal('villa'), v.literal('guesthouse'), v.literal('homestay')), segment: v.optional(v.union(v.literal('budget'), v.literal('midscale'), v.literal('upscale'), v.literal('boutique'))), description: v.string(), address: v.string(), area: v.string(), city: v.string(), country: v.string(), status: v.union(v.literal('draft'), v.literal('verification'), v.literal('approved'), v.literal('published'), v.literal('suspended')), ownerUserId: v.optional(v.id('users')), verifiedAt: v.optional(v.number()), ...timestamps }).index('by_status', ['status']).index('by_area', ['area']).index('by_owner', ['ownerUserId']),
   roomTypes: defineTable({ propertyId: v.id('properties'), name: v.string(), description: v.string(), maxGuests: v.number(), totalUnits: v.number(), amenities: v.array(v.string()), active: v.boolean(), ...timestamps }).index('by_property', ['propertyId']),
   ratePlans: defineTable({ propertyId: v.id('properties'), roomTypeId: v.id('roomTypes'), name: v.string(), price: v.number(), currency: v.string(), includes: v.array(v.string()), cancellationPolicy: v.string(), active: v.boolean(), ...timestamps }).index('by_room_type', ['roomTypeId']).index('by_property', ['propertyId']),
