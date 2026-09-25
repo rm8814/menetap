@@ -109,8 +109,9 @@ button:active { transform: scale(.97); }
 .dc-navlinks button { font-size: 14px; font-weight: 500; }
 .dc-nav-actions { gap: 16px; }
 .dc-nav-actions > button { font-size: 14px; font-weight: 600; }
-.language-toggle { display: flex; align-items: center; gap: 2px; padding: 3px; border: 1px solid #e5e2f5; border-radius: 24px; background: rgba(114,41,255,.06); }
-.language-toggle button { min-height: 0; padding: 5px 10px; border-radius: 20px; color: rgba(12,10,30,.5); background: transparent; font-size: 13px; font-weight: 700; }
+.language-toggle, .results-view-toggle { display: flex; align-items: center; gap: 2px; height: 32px; padding: 3px; border: 1px solid #e5e2f5; border-radius: 24px; }
+.language-toggle { background: rgba(114,41,255,.06); }
+.language-toggle button, .results-view-toggle button { min-height: 0; height: 24px; padding: 0 10px; border-radius: 20px; color: rgba(12,10,30,.5); background: transparent; font: 700 13px/24px 'JetBrains Mono', monospace; }
 .language-toggle button.active { color: #fff; background: #7229ff; }
 .outline-button { border: 1px solid #e5e2f5 !important; border-radius: 999px; padding: 9px 14px !important; }
 .section, .page { max-width: 1200px; margin: 0 auto; }
@@ -134,9 +135,40 @@ h3 { margin: 0 0 8px; font: 800 var(--type-card)/1.2 'Plus Jakarta Sans', sans-s
 .centered { text-align: center; }
 .back-button { padding: 0; border: 0; background: transparent; color: #7229ff; font: 700 12px 'JetBrains Mono', monospace; cursor: pointer; }
 .result-count { color: #5e5a78; font-size: 12px; }
-.results-toolbar { display: flex; justify-content: flex-end; gap: 12px; margin: -4px 0 20px; }
-.results-toolbar label { display: grid; gap: 6px; color: #5e5a78; font-size: 10px; font-weight: 700; }
-.results-toolbar select { min-width: 140px; padding: 9px 28px 9px 10px; border: 1px solid #e5e2f5; border-radius: 6px; color: #0c0a1e; background: #fff; font: 500 11px 'JetBrains Mono', monospace; }
+.results-toolbar { display: flex; align-items: center; justify-content: flex-end; gap: 12px; margin: -4px 0 20px; }
+.results-toolbar label { display: inline-flex; align-items: center; gap: 8px; color: #5e5a78; font-size: 13px; font-weight: 700; }
+.results-toolbar select { min-width: 140px; padding: 9px 28px 9px 10px; border: 1px solid #e5e2f5; border-radius: 6px; color: #0c0a1e; background: #fff; font: 500 13px 'JetBrains Mono', monospace; }
+.search-results-layout { display: grid; grid-template-columns: 260px minmax(0, 1fr); gap: 28px; align-items: start; }
+.search-filter-sidebar { position: sticky; top: 84px; display: grid; gap: 20px; }
+.filter-sidebar-header, .filter-panel { padding: 18px; border: 1px solid #e5e2f5; border-radius: 8px; background: #fff; }
+.filter-sidebar-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.filter-sidebar-header button { min-height: 0; padding: 0; color: #7229ff; background: transparent; font-size: 11px; }
+.filter-sidebar-header button:hover { background: transparent; transform: none; }
+.filter-panel { display: grid; gap: 12px; }
+.filter-panel h3 { margin: 0 0 2px; font-size: 13px; }
+.filter-option { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 0; color: #0c0a1e; font-size: 13px; }
+.filter-option span { display: flex; align-items: center; gap: 8px; }
+.filter-option input { width: auto; margin: 0; accent-color: #7229ff; }
+.filter-option small { color: rgba(12,10,30,.4); font-size: 11px; }
+.search-results-layout > .property-grid { grid-template-columns: 1fr; min-width: 0; }
+.mobile-filter-button { display: none; }
+.results-view-toggle { display: inline-flex; background: #fff; }
+.results-view-toggle button { display: inline-flex; align-items: center; justify-content: center; width: 64px; color: #5e5a78; }
+.results-view-toggle button.active { border-radius: 20px; color: #fff; background: #7229ff; }
+.results-view-toggle button:hover { background: rgba(114,41,255,.08); color: #7229ff; transform: none; }
+.results-view-toggle button.active:hover { color: #fff; background: #5b20d5; }
+.search-map-preview { position: relative; min-height: 560px; overflow: hidden; border: 1px solid #e5e2f5; border-radius: 8px; background: linear-gradient(135deg,#e9e7f7,#dbe6f2); color: rgba(12,10,30,.35); }
+.search-map-preview::before, .search-map-preview::after { position: absolute; content: ''; border: 1px solid rgba(114,41,255,.12); border-radius: 50%; transform: rotate(-18deg); }
+.search-map-preview::before { inset: 18% 12% 30% 20%; }
+.search-map-preview::after { inset: 45% 25% 12% 8%; }
+.map-label { position: absolute; top: 20px; left: 20px; font-size: 13px; }
+.map-pin { position: absolute; z-index: 1; max-width: 150px; overflow: hidden; padding: 6px 10px; border-radius: 24px; color: #fff; background: #0c0a1e; box-shadow: 0 2px 6px rgba(0,0,0,.15); font-size: 11px; font-weight: 700; text-overflow: ellipsis; white-space: nowrap; }
+.map-pin-1 { top: 24%; left: 28%; background: #7229ff; }
+.map-pin-2 { top: 44%; left: 54%; }
+.map-pin-3 { top: 62%; left: 34%; }
+.map-pin-4 { top: 34%; left: 68%; }
+.map-pin-5 { top: 72%; left: 62%; }
+.map-pin-6 { top: 18%; left: 52%; }
 .property-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
 .property-card { padding: 0; overflow: hidden; border: 1px solid #e5e2f5; border-radius: 10px; background: #fff; color: #0c0a1e; text-align: left; cursor: pointer; }
 .property-card:hover { box-shadow: 0 12px 28px rgba(65,42,145,.1); }
@@ -154,6 +186,15 @@ h3 { margin: 0 0 8px; font: 800 var(--type-card)/1.2 'Plus Jakarta Sans', sans-s
 .property-card-footer small { margin-left: 3px; color: #5e5a78; font: 400 11px 'JetBrains Mono', monospace; }
 .property-card-action { color: #7229ff; font-size: 12px; font-weight: 700; }
 .property-card.is-clickable:focus-visible { outline: 3px solid rgba(114,41,255,.3); outline-offset: 3px; }
+.property-grid .property-card { display: grid; grid-template-columns: 280px minmax(0, 1fr); align-items: stretch; border-radius: 8px; box-shadow: 0 2px 8px rgba(114,41,255,.06); }
+.property-grid .property-card-media { min-height: 224px; }
+.property-grid .property-card-media .property-image { height: 100%; min-height: 224px; aspect-ratio: auto; }
+.property-grid .property-card-body { min-width: 0; padding: 20px; gap: 10px; }
+.property-grid .property-card-heading h3 { font-size: 18px; }
+.property-grid .property-card-heading p { display: block; padding: 0; color: #5e5a78; background: transparent; font-size: 12px; font-weight: 400; }
+.property-grid .property-card-footer { margin-top: auto; }
+.property-grid .property-card-footer strong { font-size: 20px; }
+.property-grid .property-card .tags { display: flex; flex-wrap: wrap; gap: 6px; }
 .property-image, .detail-image { display: grid; place-items: center; aspect-ratio: 4 / 3; min-height: 0; background: linear-gradient(135deg,#e9e7f7,#dbe6f2); color: #7229ff; font-size: 11px; text-transform: uppercase; }
 .property-info { padding: 16px; }
 .property-info p { margin: 4px 0 18px; color: #5e5a78; font-size: 11px; }
@@ -190,7 +231,8 @@ h3 { margin: 0 0 8px; font: 800 var(--type-card)/1.2 'Plus Jakarta Sans', sans-s
 .text-button { min-height: 0; margin-top: 14px; padding: 0; color: #7229ff; background: transparent; font-size: 11px; }
 .text-button:hover { background: transparent; transform: none; }
 @keyframes spin { to { transform: rotate(360deg); } }
-@media (max-width: 760px) { .nav nav { display: none; } .section-heading, .page-heading { display: block; } .feature-grid, .detail-grid, .property-grid, .detail-hero, .checkout-grid { grid-template-columns: 1fr; } .room-card { grid-template-columns: 1fr; } .room-price { text-align: left; } .nav-actions button { min-height: auto; } .dc-search-card { grid-template-columns: 1fr; gap: 16px; height: auto; padding: 16px; } .dc-search-card label, .dc-search-card label:first-child { padding: 0 0 12px; border-right: 0; border-bottom: 1px solid #e5e2f5; } .dc-search-card > button.search-submit { margin-left: 0; min-height: 48px; } .dc-search-card label .guest-popover { right: 0; left: 0; width: auto; } .hero-assurances { gap: 10px; flex-direction: column; } }
+@media (max-width: 900px) { .search-results-layout { grid-template-columns: 1fr; } .search-filter-sidebar { position: static; } }
+@media (max-width: 760px) { .nav nav { display: none; } .section-heading, .page-heading { display: block; } .feature-grid, .detail-grid, .property-grid, .detail-hero, .checkout-grid { grid-template-columns: 1fr; } .property-grid .property-card { grid-template-columns: 1fr; } .property-grid .property-card-media, .property-grid .property-card-media .property-image { min-height: 210px; height: auto; aspect-ratio: 4 / 3; } .room-card { grid-template-columns: 1fr; } .room-price { text-align: left; } .nav-actions button { min-height: auto; } .dc-search-card { grid-template-columns: 1fr; gap: 16px; height: auto; padding: 16px; } .dc-search-card label, .dc-search-card label:first-child { padding: 0 0 12px; border-right: 0; border-bottom: 1px solid #e5e2f5; } .dc-search-card > button.search-submit { margin-left: 0; min-height: 48px; } .dc-search-card label .guest-popover { right: 0; left: 0; width: auto; } .mobile-filter-button { display: inline-flex; align-items: center; gap: 6px; min-height: 0; padding: 9px 12px; border: 1px solid #e5e2f5; border-radius: 4px; color: #0c0a1e; background: #fff; font-size: 12px; } .mobile-filter-button:hover { color: #fff; } .results-view-toggle button { padding: 6px 12px; font-size: 11px; } .search-filter-sidebar { display: none; } .search-filter-sidebar.is-open { display: grid; } .hero-assurances { gap: 10px; flex-direction: column; } }
 .destination-pills { display: flex; flex-wrap: wrap; justify-content: flex-start; gap: 10px; margin: 20px 0 30px; }
 .pill { min-height: 0; padding: 8px 16px; border: 1px solid #e5e2f5; border-radius: 999px; color: #0c0a1e; background: #fff; font-size: 12px; }
 .pill:hover { color: #fff; background: #7229ff; }
@@ -209,7 +251,6 @@ h3 { margin: 0 0 8px; font: 800 var(--type-card)/1.2 'Plus Jakarta Sans', sans-s
 .stay-title p { margin: 4px 0 0; color: #5e5a78; font-size: 14px; }
 .rating { height: fit-content; padding: 4px 7px; border-radius: 4px; color: #0a8aa3; background: rgba(0,202,239,.1); font-size: 11px; font-weight: 700; }
 .tags { display: flex; flex-wrap: wrap; gap: 6px; }
-.tags span { padding: 3px 8px; border-radius: 4px; color: #7229ff; background: rgba(114,41,255,.08); font-size: 11px; font-weight: 600; }
 .stay-content > strong { text-align: right; font: 800 17px 'Plus Jakarta Sans', sans-serif; }
 .stay-content small { margin-left: 3px; color: #5e5a78; font: 400 10px 'JetBrains Mono', monospace; }
 .stay-context { margin: -4px 0 2px; color: rgba(12,10,30,.55); font-size: 14px; }
@@ -255,3 +296,5 @@ h3 { margin: 0 0 8px; font: 800 var(--type-card)/1.2 'Plus Jakarta Sans', sans-s
 .managed-chip a { color: #7229ff; font-weight: 700; font-size: 14px; }
 @media (max-width: 760px) { .stay-grid, .pricing-section, .experience-grid, .dc-footer-grid { grid-template-columns: 1fr; } .pricing-section { gap: 24px; padding: 54px 0; } .trust-strip { gap: 14px; } .dc-topbar { margin: 0 -18px; padding: 0 18px; } .dc-navlinks { display: none !important; } .dc-footer { margin-left: -18px; margin-right: -18px; padding-right: 18px; padding-left: 18px; } .dc-footer-bottom { align-items: flex-start; flex-direction: column; } .price-alert { align-items: stretch; margin-right: 0; margin-left: 0; padding: 24px; } .price-alert form { max-width: none; } }
 @media (max-width: 480px) { .app-shell { padding: 0 18px 32px; } .nav { height: 68px; } .wordmark { font-size: 21px; } .nav-actions { gap: 8px; } .nav-actions button { padding: 0 8px; font-size: 11px; } .hero { padding-top: 54px; } .page { padding-top: 32px; } .auth-panel { margin: 32px auto; padding: 22px; } }
+.results-view-toggle button { padding: 0 10px; font-size: 13px; }
+.property-card .amenity-pill { display: inline-flex; align-items: center; width: max-content; height: auto !important; margin: 0; padding: 3px 8px !important; border: 0; border-radius: 4px; color: #7229ff; background: rgba(114,41,255,.08); font: 600 11px/1.2 'JetBrains Mono', monospace; }

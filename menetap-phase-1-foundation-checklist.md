@@ -67,6 +67,7 @@ Establish a secure, maintainable, production-oriented technical foundation for t
 - [x] Configure production deployment path; verified commits are pushed to GitHub `main` for Hostinger to publish, while live-site confirmation and Convex production credentials remain pending.
 - [x] Document database migration and rollback procedure.
 - [x] Document release environment rules in `docs/deployment-environments.md`.
+- [x] Create the pages and workflows inventory in `docs/pages-and-workflows-checklist.md`.
 
 ## Workstream 3 — Core architecture
 
@@ -135,7 +136,7 @@ Establish a secure, maintainable, production-oriented technical foundation for t
 - [ ] Configure secure session and cookie settings.
 - [ ] Configure CSRF protection.
 - [ ] Configure request validation and rate limiting.
-- [ ] Define upload restrictions for property images and documents.
+- [x] Define upload restrictions for property images and documents in `docs/security-operations-baseline.md`; implementation and scanning infrastructure remain open.
 - [ ] Define backup and restore process.
 - [ ] Define log retention and sensitive-data redaction.
 - [ ] Configure application error monitoring.

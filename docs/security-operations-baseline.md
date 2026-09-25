@@ -48,16 +48,39 @@ Owner: Convex/application maintainers. Verification: validation tests and produc
 
 ## Upload restrictions
 
-Before property images or documents are enabled:
+Approved policy for property media and documents:
 
-- Allow only the required MIME types and file extensions.
-- Enforce maximum file size, image dimensions, and document page/size limits.
-- Generate storage keys server-side; never trust a client-provided path.
-- Store files privately by default and issue short-lived access URLs when needed.
-- Strip metadata where appropriate and scan files before staff or guests can download them.
-- Authorize every read, replace, and delete operation by role and owning entity.
+### Property images
 
-Owner: Convex/storage and operations maintainers. Verification: accepted/rejected fixture files and authorization tests.
+- Accept only `.jpg`, `.jpeg`, `.png`, and `.webp` uploads.
+- Reject every other file type, including SVG, HTML, executable files, archives, and office documents.
+- Require a strict 4:3 aspect ratio.
+- Require a minimum size of 1600 × 1200px.
+- Enforce a maximum size of 3 MB per file.
+- Require at least 1 image per property and allow no more than 30 images per property.
+- Convert accepted images to WebP before storage; serve the converted WebP asset publicly only after explicit approval.
+- Strip EXIF metadata where practical.
+- Validate the decoded image rather than trusting the client-provided extension or MIME type.
+
+### Property documents
+
+- Accept only PDF files.
+- Enforce a maximum size of 3 MB per file.
+- Allow no more than 4 documents per property.
+- Reject every non-PDF type and validate the decoded file signature.
+- Documents are private by default.
+
+### Access and audit requirements
+
+- Only the property owner, authorized partner staff, operations, support, finance, and administrators may access private documents according to role and owning property.
+- Guests may access only explicitly approved public property images and public-facing documents.
+- Use short-lived signed URLs for private downloads; never expose permanent storage paths.
+- Generate storage keys server-side and never trust a client-provided path.
+- Authorize every upload, replacement, download, and deletion by role and owning entity.
+- Audit log every upload, replacement, download, and deletion with actor, property, file category, result, and timestamp. Do not log file contents or sensitive document data.
+- Scan files before staff or guests can download them when scanning infrastructure is available.
+
+Owner: Convex/storage and operations maintainers. Verification: accepted/rejected fixture files, image conversion and ratio tests, file-size/count tests, authorization tests, signed-URL expiry tests, and audit-log assertions.
 
 ## Backup and restore
 
@@ -98,4 +121,4 @@ Owner: operations lead. Verification: test event in a non-production environment
 - [ ] Configure production backups and complete a restore drill.
 - [ ] Select and configure error monitoring and uptime monitoring.
 - [ ] Define log retention and access ownership.
-- [ ] Define upload policy before enabling property media/document uploads.
+- [x] Define upload policy before enabling property media/document uploads; implementation and infrastructure remain open.
