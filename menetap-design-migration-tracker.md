@@ -73,6 +73,7 @@ The `.dc.html` screens in the project root are the visual and interaction source
 - Yogyakarta landing content now includes original destination copy, neighborhood links, property discovery cards, practical FAQs, and internal links to localized stays searches.
 - Destination scope clarified: the landing page focuses on Yogyakarta city neighborhoods only, with the eyebrow “Explore Yogyakarta.” Greater Yogyakarta regional destinations are intentionally excluded from this page.
 - Added a separate Bantul destination landing route at `/en/destinations/bantul` and `/id/destinations/bantul`, with unique area content, properties, FAQs, internal links, and a standalone DC reference.
+- Homepage now includes a Popular destinations section before local experiences, linking to the localized Yogyakarta and Bantul landing pages.
 - Removed horizontal transform animation from the homepage transition so the fixed compact widget no longer slides in from the left.
 - Added a short opacity and vertical settle animation with GPU compositing hints for a smoother dock-in.
 - Homepage scrolled state uses a viewport-pinned shell because the original hero parent would otherwise bound native sticky positioning.

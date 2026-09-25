@@ -187,6 +187,7 @@ Phase 1 is complete when:
 - [x] Define the Yogyakarta landing page as city-only, with neighborhood-level area links.
 - [x] Narrow the Yogyakarta landing page back to city neighborhoods and remove wider-region positioning.
 - [x] Add the Bantul destination landing page, DC reference, unique content, properties, FAQs, and internal links.
+- [x] Add localized internal links to Yogyakarta and Bantul from a homepage Popular destinations section.
 - [x] Prevent horizontal slide-in by keeping the fixed-state centering transform instantaneous.
 - [x] Smooth the sticky dock-in with a short opacity/vertical settle animation.
 - [x] Keep the homepage compact widget visible after the hero section using a viewport-pinned scrolled state.
