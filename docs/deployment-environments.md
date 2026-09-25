@@ -48,15 +48,11 @@ Repository configuration:
 - GitHub Actions variable: `STAGING_VITE_CONVEX_URL`
 - Frontend build variable: `VITE_CONVEX_URL`
 
-Hostinger configuration:
+Hostinger remains production-only because the current plan may not provide a suitable staging subdomain/application. Until a separate preview host is selected, validate staging builds locally with `npm run build` and `npm run preview`.
 
-- Create a staging subdomain such as `staging.menetap.com`.
-- Create a separate Hostinger application connected to this repository and the `staging` branch.
-- Use the same React, Node 22, `app`, `npm ci`, `npm run build`, and `dist` settings as production.
-- Set `VITE_CONVEX_URL` to the staging Convex deployment URL.
-- Enable HTTPS and password/access protection before sharing the URL externally.
+When a preview host is selected, connect the `staging` branch using the same `app`, `npm ci`, `npm run build`, and `dist` settings, set `VITE_CONVEX_URL` to the staging Convex deployment URL, and enable access protection before sharing the URL externally.
 
-Staging is only complete after the Hostinger subdomain serves the `staging` branch and a booking test succeeds against the staging Convex deployment.
+Do not use `menetap.com/staging`: it can mix production frontend assets or environment variables with staging data.
 
 ## Data migration and rollback
 
