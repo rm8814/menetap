@@ -56,6 +56,7 @@ The `.dc.html` screens in the project root are the visual and interaction source
 - The results-page search widget uses a full-pill surface, keeps destination as free text with the homepage placeholder, and uses an icon-only accessible search action.
 - The results-page mini widget hides visual field labels while retaining accessible labels and keeps the search icon action right-aligned.
 - The mini widget gives destination extra left inset, removes the divider before search, and explicitly centers the search icon horizontally and vertically.
+- On search results, the back link now sits directly below the mini widget and above the “Search results” heading.
 - `npm run typecheck` passes. Browser screenshot verification remains pending while no browser surface is available in the current session.
 
 ## Next migration groups
