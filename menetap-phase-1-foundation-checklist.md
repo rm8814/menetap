@@ -192,6 +192,7 @@ Phase 1 is complete when:
 - [x] Add the Bandung destination landing page, DC reference, unique content, properties, FAQs, and internal links.
 - [x] Add the Solo destination landing page, DC reference, unique content, properties, FAQs, and internal links.
 - [x] Add SEO-ready 1600×1200 WebP landmark imagery for Yogyakarta, Bandung, and Solo destination cards with descriptive alternative text.
+- [x] Add a Denpasar-specific 1600×1200 WebP civic-landmark image for the destination directory, avoiding generic Bali resort imagery.
 - [x] Add a localized all-destinations directory and link to it from homepage and every destination landing page.
 - [x] Add localized destination landing pages for Malang, Surabaya, Denpasar, and Semarang with unique areas, property highlights, FAQs, and internal links.
 - [x] Add Jakarta city destination landing page with city-only neighborhoods, property highlights, FAQs, and internal links.
