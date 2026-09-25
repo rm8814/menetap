@@ -8,7 +8,7 @@ The `.dc.html` screens in the project root are the visual and interaction source
 
 | Screen | DC source | React status | Notes |
 |---|---|---|---|
-| Homepage | `Menetap Homepage.dc.html` | Functional first pass | Search shell and responsive layout implemented; detailed visual parity still pending. |
+| Homepage | `Menetap Homepage.dc.html` | Expanded first pass | Search, destination pills, trust strip, featured stays, pricing transparency, experiences, and footer implemented; detailed pixel comparison still pending. |
 | Search results | `Menetap Search Results.dc.html` | Functional first pass | Connected to published Convex properties; empty state included. |
 | Hotel detail | `Menetap Hotel Detail.dc.html` | Functional first pass | Connected to Convex property data; image/gallery parity pending. |
 | Room selection | `Menetap Room Selection.dc.html` | Functional first pass | Connected to Convex room inventory. |
@@ -38,4 +38,3 @@ Each screen is complete only when:
 - [ ] Interactions map to real React state or Convex data.
 - [ ] Typecheck and production build pass.
 - [ ] The screen is manually compared against its DC reference.
-

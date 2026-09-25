@@ -100,3 +100,45 @@ h3 { margin: 0 0 8px; font: 800 17px/1.2 'Plus Jakarta Sans', sans-serif; letter
 .confirmation-card { display: grid; gap: 8px; max-width: 420px; margin: 28px auto; text-align: left; }
 .error-text { margin: 0; color: #dc2626; font-size: 11px; }
 @media (max-width: 760px) { .nav nav { display: none; } .section-heading, .page-heading { display: block; } .feature-grid, .detail-grid, .property-grid, .detail-hero, .checkout-grid { grid-template-columns: 1fr; } .room-card { grid-template-columns: 1fr; } .room-price { text-align: left; } .nav-actions button { min-height: auto; } }
+.destination-pills { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin: 20px 0 30px; }
+.pill { min-height: 0; padding: 8px 16px; border: 1px solid #e5e2f5; border-radius: 999px; color: #0c0a1e; background: #fff; font-size: 12px; }
+.pill:hover { color: #fff; background: #7229ff; }
+.trust-strip { display: flex; flex-wrap: wrap; gap: 32px; max-width: 1120px; margin: 0 auto; padding: 20px 0 8px; border-top: 1px solid #e5e2f5; color: #5e5a78; font-size: 12px; }
+.stay-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.stay-card { overflow: hidden; border: 1px solid #e5e2f5; border-radius: 8px; background: #fff; box-shadow: 0 2px 8px rgba(114,41,255,.06); }
+.stay-photo { display: grid; place-items: center; aspect-ratio: 4/3; color: rgba(12,10,30,.35); background: linear-gradient(135deg,#e5e2f5,#cfc8f0); font-size: 12px; }
+.stay-content { display: grid; gap: 10px; padding: 16px; }
+.stay-title { display: flex; justify-content: space-between; gap: 10px; }
+.stay-title h3 { margin: 0; font-size: 15px; }
+.stay-title p { margin: 4px 0 0; color: #5e5a78; font-size: 11px; }
+.rating { height: fit-content; padding: 4px 7px; border-radius: 4px; color: #0a8aa3; background: rgba(0,202,239,.1); font-size: 11px; font-weight: 700; }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.tags span { padding: 3px 8px; border-radius: 4px; color: #7229ff; background: rgba(114,41,255,.08); font-size: 10px; font-weight: 600; }
+.stay-content > strong { text-align: right; font: 800 17px 'Plus Jakarta Sans', sans-serif; }
+.stay-content small { margin-left: 3px; color: #5e5a78; font: 400 10px 'JetBrains Mono', monospace; }
+.pricing-section { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; max-width: 1120px; margin: 0 auto; padding: 80px 0; }
+.pricing-section h2 { max-width: 480px; }
+.pricing-section a { color: #7229ff; font-size: 12px; font-weight: 700; }
+.rate-card { display: grid; gap: 14px; padding: 24px; border: 1px solid #e5e2f5; border-radius: 8px; background: #fff; box-shadow: 0 2px 8px rgba(114,41,255,.06); }
+.rate-heading, .rate-row, .rate-total { display: flex; justify-content: space-between; gap: 12px; font-size: 12px; }
+.rate-heading { color: #5e5a78; font-size: 11px; font-weight: 700; text-transform: uppercase; }
+.rate-heading b { padding: 3px 8px; border-radius: 4px; color: #0a8aa3; background: rgba(0,202,239,.1); font-size: 10px; text-transform: none; }
+.rate-row span, .rate-card small { color: #5e5a78; }
+.rate-total { padding-top: 12px; border-top: 1px solid #e5e2f5; font-size: 14px; font-weight: 700; }
+.rate-total strong { font: 800 16px 'Plus Jakarta Sans', sans-serif; }
+.violet { color: #7229ff; }
+.rate-bar { height: 8px; overflow: hidden; border-radius: 999px; background: #e5e2f5; }
+.rate-bar i { display: block; width: 91%; height: 100%; background: linear-gradient(90deg,#7229ff,#00caef); }
+.rate-card small { font-size: 10px; }
+.experience-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.experience-card { overflow: hidden; border: 1px solid #e5e2f5; border-radius: 8px; background: #fff; }
+.experience-photo { display: grid; place-items: center; aspect-ratio: 4/3; color: rgba(12,10,30,.35); background: linear-gradient(135deg,#e5e2f5,#cfc8f0); font-size: 11px; }
+.experience-card > div:last-child { display: grid; gap: 4px; padding: 12px; }
+.experience-card strong { font-size: 12px; }
+.experience-card small { color: #5e5a78; font-size: 10px; }
+footer { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 32px; max-width: 1120px; margin: 30px auto 0; padding: 36px 0 10px; border-top: 1px solid #e5e2f5; }
+footer > div { display: grid; align-content: start; gap: 8px; }
+footer strong { margin-bottom: 4px; font-size: 11px; }
+footer a, footer p { color: #5e5a78; font-size: 11px; }
+footer p { max-width: 220px; line-height: 1.7; }
+@media (max-width: 760px) { .stay-grid, .pricing-section, .experience-grid, footer { grid-template-columns: 1fr; } .pricing-section { gap: 24px; padding: 54px 0; } .trust-strip { gap: 14px; } }
