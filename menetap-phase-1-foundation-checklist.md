@@ -181,6 +181,8 @@ Phase 1 is complete when:
 - [x] Keep the Stays navigation and homepage searches reflected at the `/stays` route.
 - [x] Add the shared footer to the search-results page.
 - [x] Implement EN/ID language-prefixed public paths and preserve query parameters during language switching.
+- [x] Mark homepage and search-results visual implementation as complete for the current prototype scope.
+- [~] Add Yogyakarta destination landing page with a new DC reference file and initial React route.
 - [x] Prevent horizontal slide-in by keeping the fixed-state centering transform instantaneous.
 - [x] Smooth the sticky dock-in with a short opacity/vertical settle animation.
 - [x] Keep the homepage compact widget visible after the hero section using a viewport-pinned scrolled state.

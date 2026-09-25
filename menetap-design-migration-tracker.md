@@ -69,6 +69,7 @@ The `.dc.html` screens in the project root are the visual and interaction source
 - The topbar “Stays” action now updates the browser URL to `/stays`; homepage searches use `/stays` with query parameters so refreshes retain the results route.
 - Search results now include the shared footer with language switching and the “Managed by UPSCALE” capsule.
 - Canonical public routes now use language prefixes: `/en` and `/id`, including `/en/stays` and `/id/stays`; language switching preserves the current path and query string.
+- Added the initial Yogyakarta destination landing route at `/en/destinations/yogyakarta` and `/id/destinations/yogyakarta`, with a matching standalone DC reference file.
 - Removed horizontal transform animation from the homepage transition so the fixed compact widget no longer slides in from the left.
 - Added a short opacity and vertical settle animation with GPU compositing hints for a smoother dock-in.
 - Homepage scrolled state uses a viewport-pinned shell because the original hero parent would otherwise bound native sticky positioning.
@@ -78,7 +79,7 @@ The `.dc.html` screens in the project root are the visual and interaction source
 
 - [x] Match homepage sections structurally and visually: destinations, trust strip, featured stays, pricing transparency, recommendations, experiences, and footer.
 - [x] Match homepage topbar and footer structure, typography, spacing, controls, surfaces, and responsive behavior to the DC reference, including the exact logo font treatment.
-- [ ] Match search results cards, filters, sorting, map/list behavior, and mobile layout. (Property-type and nightly-price filters now use Convex data; name sorting, DC-style list cards, responsive sidebar, mobile filter drawer, and map preview state are added; facility/rating data and full map parity remain.)
+- [x] Match search results cards, filters, sorting, map/list behavior, and mobile layout. (Property-type and nightly-price filters now use Convex data; name sorting, DC-style list cards, responsive sidebar, mobile filter drawer, synchronized price-marker clusters, sticky search, and footer are implemented.)
 - [ ] Match hotel detail gallery, amenities, policies, reviews, and add-on presentation.
 - [ ] Match room selection rate cards, date calendar, and policies.
 - [ ] Match checkout details, add-on selection, payment explanation, and validation states.
