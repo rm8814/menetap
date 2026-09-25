@@ -174,8 +174,7 @@ Phase 1 is complete when:
 - [x] Keep the search filter sidebar visible in map view.
 - [x] Keep the results-page mini search widget sticky below the top navigation while scrolling.
 - [x] Add synchronized price markers and overlap clusters to the prototype map view.
-- [x] Make the homepage search widget sticky on scroll using the same treatment as search results.
-- [x] Preserve the original homepage widget spacing and surface before scrolling.
+- [x] Preserve the original homepage search widget; sticky behavior is limited to search results.
 - [x] `npm run typecheck` and `npm run lint` pass for the compact search widget change.
 - [~] `npm test -- --run` could not start in the restricted Windows environment (`spawn EPERM` while loading Vitest config).
 
