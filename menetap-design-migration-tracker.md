@@ -88,6 +88,7 @@ The `.dc.html` screens in the project root are the visual and interaction source
 - [x] Align homepage local experience cards with the DC reference: compact 13px titles, 11px pricing, 4:3 media, per-card visual tones, and consistent hover treatment.
 - [x] Link homepage “Go beyond the city” and destination landing pages to the all-destinations directory.
 - [x] Add destination routes for Malang, Surabaya, Denpasar, and Semarang using a reusable city landing-page pattern with unique content and localized links.
+- [x] Add a Jakarta city destination route with city-only content and localized internal links.
 - [x] Match homepage topbar and footer structure, typography, spacing, controls, surfaces, and responsive behavior to the DC reference, including the exact logo font treatment.
 - [x] Match search results cards, filters, sorting, map/list behavior, and mobile layout. (Property-type and nightly-price filters now use Convex data; name sorting, DC-style list cards, responsive sidebar, mobile filter drawer, synchronized price-marker clusters, sticky search, and footer are implemented.)
 - [ ] Match hotel detail gallery, amenities, policies, reviews, and add-on presentation.
