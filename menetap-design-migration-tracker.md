@@ -8,7 +8,7 @@ The `.dc.html` screens in the project root are the visual and interaction source
 
 | Screen | DC source | React status | Notes |
 |---|---|---|---|
-| Homepage | `Menetap Homepage.dc.html` | Expanded first pass | Search, destination pills, trust strip, featured stays, pricing transparency, experiences, and footer implemented; detailed pixel comparison still pending. |
+| Homepage | `Menetap Homepage.dc.html` | Topbar/footer parity pass | Homepage topbar and footer now closely mirror the DC reference structure, spacing, language control, link columns, sticky treatment, and mobile behavior; remaining homepage sections still need detailed pixel comparison. |
 | Search results | `Menetap Search Results.dc.html` | Functional responsive pass | Connected to published Convex properties; loading and empty states included. |
 | Hotel detail | `Menetap Hotel Detail.dc.html` | Functional first pass | Connected to Convex property data; image/gallery parity pending. |
 | Room selection | `Menetap Room Selection.dc.html` | Functional responsive pass | Connected to Convex room inventory; loading and empty states included. |
@@ -18,6 +18,7 @@ The `.dc.html` screens in the project root are the visual and interaction source
 ## Next migration groups
 
 - [ ] Match homepage sections pixel-by-pixel: destinations, trust strip, featured stays, pricing transparency, recommendations, experiences, and footer.
+- [x] Match homepage topbar and footer structure, typography, spacing, controls, surfaces, and responsive behavior to the DC reference.
 - [ ] Match search results cards, filters, sorting, map/list behavior, and mobile layout.
 - [ ] Match hotel detail gallery, amenities, policies, reviews, and add-on presentation.
 - [ ] Match room selection rate cards, date calendar, and policies.
