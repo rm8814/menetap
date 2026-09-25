@@ -47,7 +47,7 @@ Establish a secure, maintainable, production-oriented technical foundation for t
 - [x] Initialize the local Git repository.
 - [x] Add GitHub Actions app check workflow.
 - [x] Create GitHub repository and configure local `origin` remote.
-- [ ] Create the first commit and push the application to GitHub.
+- [x] Create the first commit and push the application to GitHub.
 - [ ] Confirm Hostinger supports static frontend hosting, custom domains, HTTPS, and deployment access.
 - [ ] Configure local development environment.
 - [ ] Configure `.env.example` without secrets.
