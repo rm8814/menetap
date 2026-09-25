@@ -65,6 +65,7 @@ The `.dc.html` screens in the project root are the visual and interaction source
 - Homepage search remains the original non-sticky widget; sticky behavior is limited to the search-results mini widget.
 - Homepage search transitions to the results-page compact pill only after scrolling past the hero threshold, then restores its original design at the top.
 - The homepage full widget keeps the text “Search”; only its compact scrolled state and the results mini widget use the icon-only action.
+- Homepage full-to-compact search transitions now animate shell positioning, card shape, spacing, shadow, and button geometry.
 - Homepage scrolled state uses a viewport-pinned shell because the original hero parent would otherwise bound native sticky positioning.
 - `npm run typecheck` passes. Browser screenshot verification remains pending while no browser surface is available in the current session.
 
