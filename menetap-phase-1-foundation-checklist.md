@@ -173,6 +173,7 @@ Phase 1 is complete when:
 - [x] Align amenity tag geometry with the verified-rating pill reference while retaining violet status styling.
 - [x] Keep the search filter sidebar visible in map view.
 - [x] Keep the results-page mini search widget sticky below the top navigation while scrolling.
+- [x] Add synchronized price markers and overlap clusters to the prototype map view.
 - [x] `npm run typecheck` and `npm run lint` pass for the compact search widget change.
 - [~] `npm test -- --run` could not start in the restricted Windows environment (`spawn EPERM` while loading Vitest config).
 
