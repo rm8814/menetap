@@ -58,6 +58,7 @@ The `.dc.html` screens in the project root are the visual and interaction source
 - The mini widget gives destination extra left inset, removes the divider before search, and explicitly centers the search icon horizontally and vertically.
 - On search results, the back link now sits directly below the mini widget and above the “Search results” heading.
 - Search destination autocomplete now returns published properties and areas; exact property names route directly to property detail from both homepage and results widgets, while area/city matches continue through filtered search results.
+- Amenity pills now reuse the verified-rating pill geometry (`4px 7px` padding, 4px radius, 11px bold UI type) with a violet treatment.
 - `npm run typecheck` passes. Browser screenshot verification remains pending while no browser surface is available in the current session.
 
 ## Next migration groups
