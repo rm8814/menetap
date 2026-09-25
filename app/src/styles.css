@@ -163,6 +163,13 @@ h3 { margin: 0 0 8px; font: 800 17px/1.2 'Plus Jakarta Sans', sans-serif; letter
 .tags span { padding: 3px 8px; border-radius: 4px; color: #7229ff; background: rgba(114,41,255,.08); font-size: 10px; font-weight: 600; }
 .stay-content > strong { text-align: right; font: 800 17px 'Plus Jakarta Sans', sans-serif; }
 .stay-content small { margin-left: 3px; color: #5e5a78; font: 400 10px 'JetBrains Mono', monospace; }
+.stay-context { margin: -4px 0 2px; color: rgba(12,10,30,.55); font-size: 12px; }
+.price-alert { display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; max-width: 1200px; margin: 0 auto 56px; padding: 32px; border: 1px solid #e5e2f5; border-radius: 8px; background: linear-gradient(135deg,rgba(114,41,255,.06),rgba(0,202,239,.06)); }
+.price-alert h3 { margin-bottom: 6px; }
+.price-alert p { max-width: 420px; margin: 0; color: rgba(12,10,30,.6); font-size: 13px; line-height: 1.6; }
+.price-alert form { display: flex; flex: 1; gap: 8px; min-width: 280px; max-width: 420px; }
+.price-alert input { padding: 10px 14px; border: 1px solid #e5e2f5; border-radius: 4px; background: #fff; font-size: 13px; }
+.price-alert button { min-width: 130px; }
 .pricing-section { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; max-width: 1200px; margin: 0 auto; padding: 80px 0; }
 .pricing-section h2 { max-width: 480px; }
 .pricing-section a { color: #7229ff; font-size: 12px; font-weight: 700; }
@@ -198,5 +205,5 @@ h3 { margin: 0 0 8px; font: 800 17px/1.2 'Plus Jakarta Sans', sans-serif; letter
 .language-chip, .managed-chip { padding: 5px 12px; border: 1px solid #e5e2f5; border-radius: 24px; background: #fff; color: rgba(12,10,30,.5); font: 700 11px 'JetBrains Mono', monospace; }
 .language-chip { min-height: 0; cursor: pointer; }
 .managed-chip a { color: #7229ff; font-weight: 700; font-size: 11px; }
-@media (max-width: 760px) { .stay-grid, .pricing-section, .experience-grid, .dc-footer-grid { grid-template-columns: 1fr; } .pricing-section { gap: 24px; padding: 54px 0; } .trust-strip { gap: 14px; } .dc-topbar { margin: 0 -18px; padding: 0 18px; } .dc-navlinks { display: none !important; } .dc-footer { margin-left: -18px; margin-right: -18px; padding-right: 18px; padding-left: 18px; } .dc-footer-bottom { align-items: flex-start; flex-direction: column; } }
+@media (max-width: 760px) { .stay-grid, .pricing-section, .experience-grid, .dc-footer-grid { grid-template-columns: 1fr; } .pricing-section { gap: 24px; padding: 54px 0; } .trust-strip { gap: 14px; } .dc-topbar { margin: 0 -18px; padding: 0 18px; } .dc-navlinks { display: none !important; } .dc-footer { margin-left: -18px; margin-right: -18px; padding-right: 18px; padding-left: 18px; } .dc-footer-bottom { align-items: flex-start; flex-direction: column; } .price-alert { align-items: stretch; margin-right: 0; margin-left: 0; padding: 24px; } .price-alert form { max-width: none; } }
 @media (max-width: 480px) { .app-shell { padding: 0 18px 32px; } .nav { height: 68px; } .wordmark { font-size: 21px; } .nav-actions { gap: 8px; } .nav-actions button { padding: 0 8px; font-size: 11px; } .hero { padding-top: 54px; } .page { padding-top: 32px; } .auth-panel { margin: 32px auto; padding: 22px; } .detail-hero .detail-image { min-height: 220px; } .property-image { min-height: 140px; } }
