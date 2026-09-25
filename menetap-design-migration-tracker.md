@@ -63,6 +63,7 @@ The `.dc.html` screens in the project root are the visual and interaction source
 - The results-page mini search widget is sticky below the 72px topbar during scrolling.
 - Map view uses synchronized clickable price markers, deterministic overlap clustering, and the same property-detail action as hotel cards.
 - Homepage search remains the original non-sticky widget; sticky behavior is limited to the search-results mini widget.
+- Homepage search transitions to the results-page compact pill only after scrolling past the hero threshold, then restores its original design at the top.
 - `npm run typecheck` passes. Browser screenshot verification remains pending while no browser surface is available in the current session.
 
 ## Next migration groups
