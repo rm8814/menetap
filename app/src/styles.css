@@ -47,16 +47,19 @@ h1 { margin: 18px 0; font: 800 clamp(44px, 8vw, 88px)/.98 'Plus Jakarta Sans', s
 h1 em { font-style: normal; }
 .hero-copy { max-width: 540px; margin: 0 auto 40px; color: #5e5a78; font-size: 14px; line-height: 1.8; }
 .search-card { display: grid; grid-template-columns: 1.4fr 1fr 1fr auto; gap: 10px; padding: 10px; background: #fff; border: 1px solid #e5e2f5; border-radius: 12px; box-shadow: 0 12px 32px rgba(65,42,145,.1); text-align: left; }
-.dc-search-card { grid-template-columns: 1.4fr 1fr 1fr .8fr auto; gap: 0; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(114,41,255,.06); }
+.dc-search-card { grid-template-columns: 1.4fr 1fr 1fr .8fr auto; gap: 0; min-height: 104px; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(114,41,255,.06); }
 .dc-search-card label { min-width: 0; padding: 0 20px; border-right: 1px solid #e5e2f5; }
 .dc-search-card label:first-child { padding-left: 0; }
 .dc-search-card label span { display: block; margin-bottom: 4px; color: rgba(12,10,30,.5); font-size: 11px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
 .dc-search-card label div { display: flex; align-items: center; gap: 8px; color: #7229ff; font-size: 16px; }
 .dc-search-card label input { min-width: 0; margin-top: 0; color: #0c0a1e; font-size: 15px; font-weight: 600; }
-.dc-search-card > button { align-self: stretch; min-width: 140px; margin-left: 16px; }
+.dc-search-card label input[type=date] { color-scheme: light; cursor: pointer; }
+.dc-search-card label input[type=date]::-webkit-calendar-picker-indicator { width: 16px; height: 16px; opacity: .55; cursor: pointer; }
+.dc-search-card > button.search-submit { align-self: stretch; min-width: 140px; margin-left: 16px; }
 .search-widget-wrap { position: relative; }
 .guest-field { position: relative; }
 .guest-trigger { display: flex; align-items: center; gap: 8px; width: 100%; min-height: 0; padding: 0; color: #0c0a1e; background: transparent; font-size: 15px; font-weight: 600; text-align: left; }
+.guest-trigger span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .guest-trigger:hover { color: #0c0a1e; background: transparent; transform: none; }
 .guest-popover { position: absolute; top: calc(100% + 12px); right: 20px; z-index: 5; display: grid; gap: 16px; width: 260px; padding: 16px; border: 1px solid #e5e2f5; border-radius: 8px; background: #fff; box-shadow: 0 8px 24px rgba(114,41,255,.15); }
 .guest-counter { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
@@ -155,7 +158,7 @@ h3 { margin: 0 0 8px; font: 800 17px/1.2 'Plus Jakarta Sans', sans-serif; letter
 .text-button { min-height: 0; margin-top: 14px; padding: 0; color: #7229ff; background: transparent; font-size: 11px; }
 .text-button:hover { background: transparent; transform: none; }
 @keyframes spin { to { transform: rotate(360deg); } }
-@media (max-width: 760px) { .nav nav { display: none; } .section-heading, .page-heading { display: block; } .feature-grid, .detail-grid, .property-grid, .detail-hero, .checkout-grid { grid-template-columns: 1fr; } .room-card { grid-template-columns: 1fr; } .room-price { text-align: left; } .nav-actions button { min-height: auto; } .dc-search-card { grid-template-columns: 1fr; gap: 16px; padding: 16px; } .dc-search-card label, .dc-search-card label:first-child { padding: 0 0 12px; border-right: 0; border-bottom: 1px solid #e5e2f5; } .dc-search-card > button { margin-left: 0; } .hero-assurances { gap: 10px; flex-direction: column; } }
+@media (max-width: 760px) { .nav nav { display: none; } .section-heading, .page-heading { display: block; } .feature-grid, .detail-grid, .property-grid, .detail-hero, .checkout-grid { grid-template-columns: 1fr; } .room-card { grid-template-columns: 1fr; } .room-price { text-align: left; } .nav-actions button { min-height: auto; } .dc-search-card { grid-template-columns: 1fr; gap: 16px; padding: 16px; } .dc-search-card label, .dc-search-card label:first-child { padding: 0 0 12px; border-right: 0; border-bottom: 1px solid #e5e2f5; } .dc-search-card > button.search-submit { margin-left: 0; } .guest-popover { right: 0; left: 0; width: auto; } .hero-assurances { gap: 10px; flex-direction: column; } }
 .destination-pills { display: flex; flex-wrap: wrap; justify-content: flex-start; gap: 10px; margin: 20px 0 30px; }
 .pill { min-height: 0; padding: 8px 16px; border: 1px solid #e5e2f5; border-radius: 999px; color: #0c0a1e; background: #fff; font-size: 12px; }
 .pill:hover { color: #fff; background: #7229ff; }
