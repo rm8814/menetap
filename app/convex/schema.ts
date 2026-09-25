@@ -4,6 +4,7 @@ import { authTables } from '@convex-dev/auth/server';
 
 const timestamps = { createdAt: v.number(), updatedAt: v.number() };
 const { users: _authUsers, ...authSchema } = authTables;
+void _authUsers;
 
 export default defineSchema({
   ...authSchema,

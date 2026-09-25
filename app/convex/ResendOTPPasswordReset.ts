@@ -8,7 +8,7 @@ export const ResendOTPPasswordReset = Resend({
   id: 'resend-otp',
   apiKey: env.AUTH_RESEND_KEY,
   async generateVerificationToken() {
-    const random: RandomReader = { read(bytes) { crypto.getRandomValues(bytes as Uint8Array<ArrayBuffer>); } };
+    const random: RandomReader = { read(bytes) { globalThis.crypto.getRandomValues(bytes as Uint8Array<ArrayBuffer>); } };
     return generateRandomString(random, '0123456789', 8);
   },
   async sendVerificationRequest({ identifier: email, provider, token }) {

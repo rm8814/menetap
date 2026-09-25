@@ -53,9 +53,9 @@ Establish a secure, maintainable, production-oriented technical foundation for t
 - [x] Configure local Convex development environment.
 - [x] Configure `.env.example` without secrets.
 - [x] Add application README and setup instructions.
-- [x] Establish linting conventions and add ESLint configuration; TypeScript parser integration remains to be corrected.
+- [x] Establish linting conventions and configure ESLint with the TypeScript parser and React rules.
 - [x] Add baseline automated test setup with Vitest.
-- [ ] Verify ESLint passes; current configuration reports TypeScript parsing errors across the existing `src/` and `convex/` files.
+- [x] Verify ESLint passes after adding TypeScript-aware parsing, browser/runtime globals, and intentional rule exceptions.
 - [x] Verify Vitest passes with 2 tests.
 
 ## Workstream 2 — Environments and deployment
@@ -130,6 +130,7 @@ Establish a secure, maintainable, production-oriented technical foundation for t
 
 ## Workstream 7 — Security and operations baseline
 
+- [x] Document HTTPS, session, CSRF, validation, uploads, backup, logging, and monitoring requirements in `docs/security-operations-baseline.md`.
 - [ ] Configure HTTPS expectations.
 - [ ] Configure secure session and cookie settings.
 - [ ] Configure CSRF protection.
@@ -162,6 +163,6 @@ Phase 1 is complete when:
 
 ## Immediate next tasks
 
-1. Correct the ESLint TypeScript parser configuration and restore a passing lint check.
-2. Confirm the latest `main` deployment is live on `menetap.com` and verify the homepage booking controls in a real browser.
-3. Complete production Convex credentials, staging deployment configuration, and security/observability baselines before production traffic.
+1. Confirm the latest `main` deployment is live on `menetap.com` and verify the homepage booking controls in a real browser.
+2. Complete production Convex credentials, staging deployment configuration, and security/observability baselines before production traffic.
+3. Add deeper validation and authorization tests for booking, role, and sensitive operational flows.
