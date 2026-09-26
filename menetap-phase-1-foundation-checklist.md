@@ -215,3 +215,5 @@ Phase 1 is complete when:
 - [x] Add a Semarang-specific destination image for the destination directory, with descriptive alternative text.
 
 - [x] Add a Malang-specific destination image for the destination directory, with descriptive alternative text.
+
+- [x] Add a Bantul-specific destination image for the destination directory, with descriptive alternative text.
