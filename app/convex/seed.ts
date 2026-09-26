@@ -49,6 +49,43 @@ export const seedDemo = mutation({
       }
     }
 
+    const additionalProperties = [
+      {
+        name: 'Prawirotaman Courtyard House', type: 'guesthouse' as const, segment: 'upscale' as const,
+        description: 'A leafy courtyard guesthouse in the heart of Prawirotaman, with thoughtful rooms, local breakfast, and an easy walk to cafés and galleries.',
+        address: 'Jl. Prawirotaman II, Mergangsan', area: 'Prawirotaman', city: 'Yogyakarta', rate: 625000,
+        room: 'Courtyard King Room', roomDescription: 'A quiet king room opening onto the shared tropical courtyard.', maxGuests: 2, units: 5,
+        amenities: ['Wi-Fi', 'Air conditioning', 'Courtyard view', 'Breakfast available'],
+      },
+      {
+        name: 'Kotagede Copper House', type: 'homestay' as const, segment: 'boutique' as const,
+        description: 'A restored Javanese home in historic Kotagede, pairing handmade details with a calm garden and generous family rooms.',
+        address: 'Jl. Kemasan, Kotagede', area: 'Kotagede', city: 'Yogyakarta', rate: 720000,
+        room: 'Family Garden Room', roomDescription: 'A spacious family room with a private garden terrace and flexible bedding.', maxGuests: 4, units: 3,
+        amenities: ['Wi-Fi', 'Air conditioning', 'Garden view', 'Kitchenette', 'Breakfast available'],
+      },
+    ];
+    for (const item of additionalProperties) {
+      const found = await ctx.db.query('properties').withIndex('by_area', (q) => q.eq('area', item.area)).first();
+      if (found) continue;
+      const additionalPropertyId = await ctx.db.insert('properties', {
+        name: item.name, type: item.type, segment: item.segment, description: item.description,
+        address: item.address, area: item.area, city: item.city, country: 'Indonesia', status: 'published', verifiedAt: now, createdAt: now, updatedAt: now,
+      });
+      const additionalRoomId = await ctx.db.insert('roomTypes', {
+        propertyId: additionalPropertyId, name: item.room, description: item.roomDescription, maxGuests: item.maxGuests, totalUnits: item.units,
+        amenities: item.amenities, active: true, createdAt: now, updatedAt: now,
+      });
+      await ctx.db.insert('ratePlans', {
+        propertyId: additionalPropertyId, roomTypeId: additionalRoomId, name: 'Flexible rate', price: item.rate, currency: 'IDR', includes: ['Room only'],
+        cancellationPolicy: 'Free cancellation up to 24 hours before check-in.', active: true, createdAt: now, updatedAt: now,
+      });
+      for (let offset = 0; offset < 30; offset += 1) {
+        const date = new Date(Date.now() + offset * 86400000).toISOString().slice(0, 10);
+        await ctx.db.insert('availability', { propertyId: additionalPropertyId, roomTypeId: additionalRoomId, date, totalUnits: item.units, availableUnits: item.units, rate: item.rate, status: 'open', createdAt: now, updatedAt: now });
+      }
+    }
+
     const serviceSeeds = [
       ['Airport shuttle', 'airport_shuttle', 'Yogyakarta Transfer Co.', 180000, 'One-way airport transfer for up to four guests.'],
       ['Train station transfer', 'train_transfer', 'Jogja Transfer Co.', 90000, 'One-way transfer to or from Yogyakarta Station.'],

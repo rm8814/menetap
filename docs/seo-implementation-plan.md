@@ -139,9 +139,9 @@ Document and configure:
 ### Phase A — foundation
 
 - [ ] Route-aware metadata.
-- [ ] Canonicals and `hreflang`.
+- [x] Canonicals and `hreflang`; search-result states use a clean language-aware stays canonical and `noindex,follow`.
 - [ ] Correct 404 handling.
-- [ ] Index/noindex rules for screens and query variants.
+- [x] Index/noindex rules for search query variants; search screens are `noindex,follow` while public marketing routes remain indexable.
 - [x] Sitemap and robots.txt.
 - [ ] Staging blocked from indexing.
 

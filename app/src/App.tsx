@@ -181,6 +181,19 @@ export function App() {
       setScreen("search");
     }
   }, []);
+  useEffect(() => {
+    const isSearchRoute = screen === "search";
+    const languagePrefix = language === "ID" ? "/id" : "/en";
+    const canonicalPath = isSearchRoute ? `${languagePrefix}/stays` : window.location.pathname;
+    const canonicalUrl = `https://menetap.com${canonicalPath}`;
+    let canonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
+    if (!canonical) { canonical = document.createElement("link"); canonical.rel = "canonical"; document.head.appendChild(canonical); }
+    canonical.href = canonicalUrl;
+    let robots = document.querySelector<HTMLMetaElement>('meta[name="robots"]');
+    if (!robots) { robots = document.createElement("meta"); robots.name = "robots"; document.head.appendChild(robots); }
+    robots.content = isSearchRoute ? "noindex,follow" : "index,follow";
+    return () => { if (isSearchRoute) robots!.content = "index,follow"; };
+  }, [screen, language, search]);
   if (authOpen)
     return (
       <div className="app-shell">
@@ -3824,21 +3837,16 @@ function RoomSelection({
         86400000,
     ),
   );
+  const roomNightlyRate = (room: any) => {
+    const liveRate = room.liveNightlyRates?.length ? Math.min(...room.liveNightlyRates.map((night: { rate: number }) => night.rate)) : room.ratePlans?.[0]?.price ?? 0;
+    return selectedPlans[room._id] === "nonref" ? Math.round(liveRate * 0.9) : liveRate;
+  };
+  const childNightlyRate = (room: any) => room.childPolicy?.pricing === "flat" ? (room.childPolicy.flatRate ?? 0) * search.childAges.length : room.childPolicy?.pricing === "age_band" ? search.childAges.reduce((sum: number, age: number) => sum + (room.childPolicy.ageRates?.find((band: { maxAge: number }) => age <= band.maxAge)?.nightlyRate ?? 0), 0) : 0;
+  const roomSubtotal = selectedRoomEntries.reduce((sum, room) => sum + roomNightlyRate(room) * nights * (selectedRooms[room._id] ?? 0), 0);
+  const childSubtotal = selectedRoomEntries.reduce((sum, room) => sum + childNightlyRate(room) * nights * (selectedRooms[room._id] ?? 0), 0);
+  const addonSubtotal = selectedRoomEntries.reduce((sum, room) => sum + (breakfastRooms[room._id] ? 75000 * search.guests * nights * (selectedRooms[room._id] ?? 0) : 0), 0) + (reservationAddOns ?? []).reduce((sum, service) => sum + (selectedReservationAddOns[service._id] ? service.price : 0), 0);
   const total =
-    selectedRoomEntries.reduce(
-      (sum, room) =>
-        sum +
-        ((selectedPlans[room._id] === "nonref" ? 801000 : 890000) +
-          (breakfastRooms[room._id] ? 75000 * search.guests : 0)) *
-          nights *
-          (selectedRooms[room._id] ?? 0),
-      0,
-    ) +
-    (reservationAddOns ?? []).reduce(
-      (sum, service) =>
-        sum + (selectedReservationAddOns[service._id] ? service.price : 0),
-      0,
-    );
+    roomSubtotal + childSubtotal + addonSubtotal;
   const selectedRoomCount = Object.values(selectedRooms).reduce(
     (sum, quantity) => sum + quantity,
     0,
@@ -3936,6 +3944,7 @@ function RoomSelection({
                   guests: editAdults + editChildren,
                   adults: editAdults,
                   children: editChildren,
+                  childAges: Array.from({ length: editChildren }, (_, index) => search.childAges[index] ?? 5),
                 });
                 setSelectedRooms({});
                 setBreakfastRooms({});
@@ -3954,6 +3963,8 @@ function RoomSelection({
           ) : rooms.length ? (
             rooms.map((room, index) => {
               const selected = (selectedRooms[room._id] ?? 0) > 0;
+              const liveRate = room.liveNightlyRates?.length ? Math.min(...room.liveNightlyRates.map((night: { rate: number }) => night.rate)) : room.ratePlans?.[0]?.price ?? 0;
+              const nonRefundableRate = Math.round(liveRate * 0.9);
               return (
                 <article
                   className={`room-option-card ${selected ? "is-selected" : ""}`}
@@ -4008,7 +4019,7 @@ function RoomSelection({
                       </div>
                       <div className="rate-plan-price">
                         <b>
-                          Rp 890,000
+                          Rp {liveRate.toLocaleString("en-US")}
                           <small className="night-suffix">/night</small>
                         </b>
                       </div>
@@ -4040,7 +4051,7 @@ function RoomSelection({
                       </div>
                       <div className="rate-plan-price">
                         <b>
-                          Rp 801,000
+                          Rp {nonRefundableRate.toLocaleString("en-US")}
                           <small className="night-suffix">/night</small>
                         </b>
                       </div>
@@ -4163,9 +4174,7 @@ function RoomSelection({
                       <b>
                         Rp{" "}
                         {(
-                          (selectedPlans[room._id] === "nonref"
-                            ? 801000
-                            : 890000) *
+                          roomNightlyRate(room) *
                           nights *
                           (selectedRooms[room._id] ?? 0)
                         ).toLocaleString("en-US")}
@@ -4190,6 +4199,8 @@ function RoomSelection({
                     )}
                   </>
                 ))}
+                {childSubtotal > 0 && <div><span>Child charges</span><b>Rp {childSubtotal.toLocaleString("en-US")}</b></div>}
+                <div className="pricing-note"><span>Taxes & service fees</span><b>Included</b></div>
                 {reservationAddOns
                   ?.filter((service) => selectedReservationAddOns[service._id])
                   .map((service) => (
@@ -4204,7 +4215,7 @@ function RoomSelection({
                 <span>Total</span>
                 <b>Rp {total.toLocaleString("en-US")}</b>
               </div>
-              <button onClick={() => onContinue(selectedRoom._id)}>
+              <button onClick={() => { localStorage.setItem("menetapBookingCart", JSON.stringify({ rooms: selectedRoomEntries.map((room) => ({ roomTypeId: room._id, name: room.name, quantity: selectedRooms[room._id] ?? 0, ratePlan: selectedPlans[room._id] === "nonref" ? "Non-refundable" : "Refundable", roomTotal: roomNightlyRate(room) * nights * (selectedRooms[room._id] ?? 0), breakfast: breakfastRooms[room._id] ? 75000 * search.guests * nights * (selectedRooms[room._id] ?? 0) : 0 })), childTotal: childSubtotal, addOns: (reservationAddOns ?? []).filter((service) => selectedReservationAddOns[service._id]).map((service) => ({ name: service.name, price: service.price })), total })); onContinue(selectedRoom._id); }}>
                 Continue to checkout
               </button>
             </>
@@ -4269,6 +4280,7 @@ function PartnerPayouts() {
 }
 
 function PartnerBookings() {
+  const liveBookings = useQuery(api.bookings.listForPartner, {});
   const bookings = [{guest:"Anin W.",room:"Garden Suite",dates:"12 Oct → 15 Oct",amount:"Rp 2,670,000",status:"Confirmed",booked:"20 Sep",guests:"2 guests",arrival:"12 Oct 2026",departure:"15 Oct 2026"},{guest:"Dimas P.",room:"Deluxe room",dates:"08 Oct → 10 Oct",amount:"Rp 1,780,000",status:"Confirmed",booked:"24 Sep",guests:"1 guest",arrival:"08 Oct 2026",departure:"10 Oct 2026"},{guest:"Sinta Dewi",room:"Deluxe room",dates:"02 Oct → 04 Oct",amount:"Rp 1,780,000",status:"Pending",booked:"25 Sep",guests:"2 guests",arrival:"02 Oct 2026",departure:"04 Oct 2026"},{guest:"Rizky Mahendra",room:"Garden Suite",dates:"28 Sep → 30 Sep",amount:"Rp 1,780,000",status:"Confirmed",booked:"19 Sep",guests:"2 guests",arrival:"28 Sep 2026",departure:"30 Sep 2026"}]; const [view,setView]=useState("list"); const [query,setQuery]=useState(""); const [selected,setSelected]=useState<typeof bookings[number]|null>(null); const filtered=bookings.filter(b=>`${b.guest} ${b.room}`.toLowerCase().includes(query.toLowerCase()));
   return <div className="partner-bookings-page"><header className="partner-header"><div className="partner-wrap"><a href="/en/partner-dashboard" className="partner-back">← Partner dashboard</a><button className="partner-avatar">KH</button></div></header><main className="partner-bookings-wrap"><div className="bookings-heading"><div><p className="eyebrow">Guests</p><h1>Bookings</h1><p>Review arrivals, departures, guest details, and reservation value.</p></div><button className="outline-button">Export CSV</button></div><div className="booking-toolbar"><label className="booking-search"><Search size={15}/><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Search guest or room"/></label><div className="view-toggle"><button className={view === "list" ? "active" : ""} onClick={()=>setView("list")}>List</button><button className={view === "calendar" ? "active" : ""} onClick={()=>setView("calendar")}>Calendar</button></div></div>{view === "list" ? <section className="booking-table-card"><div className="booking-table"><div className="booking-table-head"><span>Guest</span><span>Room</span><span>Dates</span><span>Amount</span><span>Status</span></div>{filtered.map(b=><button className="booking-table-row" key={b.guest} onClick={()=>setSelected(b)}><span><b>{b.guest}</b><small>{b.guests}</small></span><span>{b.room}</span><span>{b.dates}</span><strong>{b.amount}</strong><span className={`booking-status ${b.status.toLowerCase()}`}>{b.status}</span></button>)}{!filtered.length && <div className="booking-empty">No bookings match your search.</div>}</div></section> : <section className="booking-calendar-card"><div className="calendar-title"><button>‹</button><b>September 2026</b><button>›</button><a>Today</a></div><div className="mini-calendar">{["Mon","Tue","Wed","Thu","Fri","Sat","Sun"].map(d=><b key={d}>{d}</b>)}{Array.from({length:35},(_,i)=><button key={i} className={[12,15,19,24,28].includes(i) ? "has-booking" : ""} onClick={()=>[12,15,19,24,28].includes(i) ? setSelected(bookings[(i/6|0)%bookings.length]) : undefined}>{i+1}</button>)}</div><div className="calendar-note"><i className="arrival-dot"/> Arrival <i className="departure-dot"/> Departure <i className="staying-dot"/> Staying over</div></section>}{selected && <div className="booking-modal-backdrop" onClick={()=>setSelected(null)}><article className="booking-modal" onClick={e=>e.stopPropagation()}><div className="modal-head"><h2>{selected.guest}</h2><button onClick={()=>setSelected(null)}>×</button></div><span className={`booking-status ${selected.status.toLowerCase()}`}>{selected.status}</span><div className="booking-facts"><div><small>Room type</small><b>{selected.room}</b></div><div><small>Guests</small><b>{selected.guests}</b></div><div><small>Arrival</small><b>{selected.arrival}</b></div><div><small>Departure</small><b>{selected.departure}</b></div><div><small>Booked on</small><b>{selected.booked}</b></div><div><small>Total</small><b>{selected.amount}</b></div></div><label className="booking-note">Internal note<textarea placeholder="e.g. VIP guest, requested late checkout"/></label><div className="booking-actions"><button>Mark no-show</button><button>Early departure</button><button className="danger">Cancel booking</button></div></article></div>}</main></div>;
 }
@@ -4356,8 +4368,12 @@ function AccountFrame({ active, children, title, intro }: { active: string; chil
 
 function MyTrips() {
   const [tab, setTab] = useState("upcoming"); const [query, setQuery] = useState("");
+  const liveBookings = useQuery(api.bookings.listMine, {});
+  if (liveBookings === undefined) return <AccountFrame active="trips" title="My trips" intro="Keep track of upcoming stays, past visits, and anything that needs your attention."><LoadingState label="Loading your trips…" /></AccountFrame>;
   const trips = tab === "past" ? [{ name: "Malioboro Skyline Suites", place: "Danurejan, Yogyakarta", dates: "04-Jul-2026 → 06-Jul-2026", meta: "1 room · 2 adults", ref: "MTP-2R6V9C", price: "Rp 2,200,000 paid", status: "Completed" }] : tab === "cancelled" ? [] : [{ name: "Kaliurang Heritage Villa", place: "Sleman, Yogyakarta", dates: "12-Oct-2026 → 15-Oct-2026", meta: "2 rooms · 2 adults", ref: "MTP-7X9K2Q", price: "Rp 6,960,000 paid", status: "Confirmed" }, { name: "Prawirotaman Boutique", place: "Mergangsan, Yogyakarta", dates: "03-Nov-2026 → 05-Nov-2026", meta: "1 room · 2 adults", ref: "MTP-4H1L8B", price: "Rp 1,240,000 due", status: "Pending payment" }];
-  const visible = trips.filter(t => t.name.toLowerCase().includes(query.toLowerCase()));
+  const liveTrips = liveBookings?.map((booking: any) => ({ name: booking.propertyName, place: "Indonesia", dates: `${booking.checkIn} → ${booking.checkOut}`, meta: `${booking.guestCount} guests`, ref: booking.reference, price: `Rp ${booking.totalAmount.toLocaleString("en-US")} ${booking.paymentStatus === "paid" ? "paid" : "due"}`, status: booking.status === "completed" ? "Completed" : booking.status === "cancelled" ? "Cancelled" : booking.status === "pending" ? "Pending payment" : "Confirmed" })) ?? [];
+  const sourceTrips = liveBookings?.length ? liveTrips : trips;
+  const visible = sourceTrips.filter(t => (tab === "past" ? t.status === "Completed" : tab === "cancelled" ? t.status === "Cancelled" : t.status !== "Completed" && t.status !== "Cancelled") && t.name.toLowerCase().includes(query.toLowerCase()));
   return <AccountFrame active="trips" title="My trips" intro="Keep track of upcoming stays, past visits, and anything that needs your attention."><div className="account-alert"><strong>One trip needs your attention</strong><span>Complete payment for Prawirotaman Boutique before 26-Oct-2026.</span></div><div className="account-toolbar"><label className="account-search"><Search size={16}/><input value={query} onChange={e => setQuery(e.target.value)} placeholder="Search trips by hotel name"/></label></div><div className="account-tabs">{[["upcoming","Upcoming (2)"],["past","Past (1)"],["cancelled","Cancelled (0)"]].map(([key,label]) => <button className={tab === key ? "active" : ""} onClick={() => setTab(key)} key={key}>{label}</button>)}</div><div className="trip-list">{visible.length ? visible.map((trip, i) => <article className="trip-card" key={trip.ref}><div className="trip-card-top"><div><h3>{trip.name}</h3><p>{trip.place}</p></div><span className={trip.status === "Pending payment" ? "status pending" : "status"}>{trip.status}</span></div><div className="trip-details"><span><CalendarDays size={15}/>{trip.dates}</span><span><Users size={15}/>{trip.meta}</span><span><span className="mono">{trip.ref}</span> · {trip.price}</span></div><div className="trip-actions">{tab === "past" ? <><button>Book again</button><button className="secondary">Leave review</button><button className="text-action">Download invoice</button></> : trip.status === "Pending payment" ? <button>Complete payment</button> : <><button>View details</button><button className="secondary">During stay</button><button className="text-action">Cancel</button></>}</div></article>) : <div className="account-empty"><h3>No {tab} trips</h3><p>{tab === "cancelled" ? "You do not have any cancelled trips." : "Your trips will appear here."}</p><a href="/en/stays">Explore stays</a></div>}</div></AccountFrame>;
 }
 
@@ -4392,6 +4408,8 @@ function Checkout({
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
+  const [paymentMethod, setPaymentMethod] = useState<"pay_at_hotel" | "manual_bank_transfer">("pay_at_hotel");
+  const cart = (() => { try { return JSON.parse(localStorage.getItem("menetapBookingCart") || "null") as { rooms?: Array<{ roomTypeId: string; name: string; quantity: number; ratePlan: string; roomTotal: number; breakfast: number }>; childTotal?: number; addOns?: Array<{ name: string; price: number }>; total?: number } | null; } catch { return null; } })();
   const submit = async () => {
     if (!propertyId || !roomTypeId || !name || !email) {
       setError("Please provide your name and email.");
@@ -4407,9 +4425,11 @@ function Checkout({
           new Date(Date.now() + 86400000).toISOString().slice(0, 10),
         guestCount: search.guests,
         childAges: search.childAges,
+        roomSelections: cart?.rooms?.map((room) => ({ roomTypeId: room.roomTypeId, roomName: room.name, quantity: room.quantity, ratePlan: room.ratePlan, roomAmount: room.roomTotal, breakfastAmount: room.breakfast })) as never,
+        idempotencyKey: `${propertyId}:${roomTypeId}:${search.checkIn}:${search.checkOut}:${name.trim().toLowerCase()}:${email.trim().toLowerCase()}`,
         guestName: name,
         guestEmail: email,
-        paymentMethod: "pay_at_hotel",
+        paymentMethod,
       });
       onComplete(result.reference);
     } catch (err) {
@@ -4448,30 +4468,11 @@ function Checkout({
             Phone number
             <input placeholder="+62" />
           </label>
-          <label className="check-row">
-            <input type="checkbox" /> Add breakfast and airport transfer options
-            after booking
-          </label>
+          <fieldset className="payment-methods"><legend>Payment method</legend><label><input type="radio" name="payment-method" checked={paymentMethod === "pay_at_hotel"} onChange={() => setPaymentMethod("pay_at_hotel")} /> Pay at hotel <small>No payment required now</small></label><label><input type="radio" name="payment-method" checked={paymentMethod === "manual_bank_transfer"} onChange={() => setPaymentMethod("manual_bank_transfer")} /> Manual bank transfer <small>We’ll show transfer instructions after booking</small></label></fieldset>
           {error && <p className="error-text">{error}</p>}
           <button onClick={submit}>Confirm booking</button>
         </div>
-        <aside className="summary-card">
-          <span className="eyebrow">Your stay</span>
-          <h3>Greater Yogyakarta</h3>
-          <p className="muted">
-            {search.checkIn || "Your check-in"} →{" "}
-            {search.checkOut || "Your check-out"}
-          </p>
-          <div className="summary-line">
-            <span>Room × 1 night</span>
-            <strong>Rp 850.000</strong>
-          </div>
-          <div className="summary-line total">
-            <span>Total at hotel</span>
-            <strong>Rp 850.000</strong>
-          </div>
-          <small>Pay at hotel. No payment gateway required for this MVP.</small>
-        </aside>
+        <aside className="summary-card checkout-summary"><span className="eyebrow">Your stay</span><h3>Kaliurang Heritage Villa</h3><p>{search.checkIn} → {search.checkOut}<br />{search.adults} adults + {search.children} children</p>{cart?.rooms?.map((room) => <div className="summary-line" key={room.name}><span>{room.name} ×{room.quantity}<small>{room.ratePlan}</small></span><strong>Rp {(room.roomTotal + room.breakfast).toLocaleString("en-US")}</strong></div>)}{(cart?.childTotal ?? 0) > 0 && <div className="summary-line"><span>Child charges</span><strong>Rp {cart!.childTotal!.toLocaleString("en-US")}</strong></div>}{cart?.addOns?.map((addon) => <div className="summary-line" key={addon.name}><span>{addon.name}</span><strong>Rp {addon.price.toLocaleString("en-US")}</strong></div>)}<div className="summary-line"><span>Taxes & service fees</span><strong>Included</strong></div><div className="summary-line total"><span>Total</span><strong>Rp {(cart?.total ?? 0).toLocaleString("en-US")}</strong></div></aside>
       </div>
     </main>
   );
@@ -4484,33 +4485,50 @@ function Confirmation({
   code: string | null;
   onHome: () => void;
 }) {
+  const requestCancellation = useMutation(api.bookings.requestCancellation);
+  const requestRefund = useMutation(api.bookings.requestRefund);
+  const [contactEmail, setContactEmail] = useState("");
+  const [action, setAction] = useState<"cancel" | "refund" | null>(null);
+  const [actionMessage, setActionMessage] = useState("");
+  const [actionError, setActionError] = useState("");
   const booking = useQuery(
     api.bookings.getByReference,
     code ? { reference: code } : "skip",
   );
+  if (!code) return <main className="page narrow centered"><div className="empty-state"><h2>Confirmation not found</h2><p className="muted">Open the confirmation link from your booking email.</p><button onClick={onHome}>Explore stays</button></div></main>;
+  if (booking === undefined) return <main className="page narrow centered"><LoadingState label="Loading your confirmation…" /></main>;
+  if (!booking) return <main className="page narrow centered"><div className="empty-state"><h2>We couldn’t find that booking</h2><p className="muted">Check the confirmation reference and try again, or contact support.</p><button onClick={onHome}>Explore stays</button></div></main>;
+  const nights = Math.max(1, Math.round((new Date(`${booking.checkOut}T00:00:00`).getTime() - new Date(`${booking.checkIn}T00:00:00`).getTime()) / 86400000));
+  const childAges = booking.childAges ?? [];
+  const paymentLabel = booking.paymentMethod === "pay_at_hotel" ? "Pay at hotel" : "Manual bank transfer";
+  const submitAction = async () => {
+    setActionError(""); setActionMessage("");
+    if (!contactEmail.trim()) { setActionError("Enter the email used for this booking."); return; }
+    try {
+      if (action === "cancel") { await requestCancellation({ reference: code, guestEmail: contactEmail }); setActionMessage("Your cancellation request has been submitted."); }
+      if (action === "refund") { await requestRefund({ reference: code, guestEmail: contactEmail, reason: "Guest requested a refund from confirmation." }); setActionMessage("Your refund request has been sent for review."); }
+      setAction(null);
+    } catch (err) { setActionError(err instanceof Error ? err.message : "We couldn’t submit that request."); }
+  };
   return (
     <main className="page narrow centered">
       <div className="success-icon">✓</div>
       <p className="eyebrow">Booking confirmed</p>
       <h2>Your stay is ready.</h2>
       <p className="muted">
-        We have saved your reservation. Your confirmation code is{" "}
-        <strong>{code}</strong>.
+        We have saved your reservation. Your confirmation code is <strong>{code}</strong>.
       </p>
       <div className="confirmation-card">
-        <span>
-          {booking
-            ? `${booking.checkIn} → ${booking.checkOut}`
-            : "Greater Yogyakarta"}
-        </span>
-        <strong>
-          {booking?.paymentMethod === "pay_at_hotel"
-            ? "Pay at hotel"
-            : "Manual bank transfer"}
-        </strong>
-        <small>Menetap support will be here if you need anything.</small>
+        <span><b>{booking.guestName}</b><br />{booking.checkIn} → {booking.checkOut} · {nights} {nights === 1 ? "night" : "nights"}</span>
+        <span>{booking.guestCount} guests{childAges.length ? ` · ${childAges.length} children (${childAges.join(", ")} years)` : ""}</span>
+        <span>Booking status: <strong>{booking.status}</strong></span>
+        <span>Payment: <strong>{paymentLabel}</strong> · {booking.paymentStatus}</span>
+        <strong>Total · Rp {booking.totalAmount.toLocaleString("en-US")}</strong>
+        <small>Free cancellation terms follow the selected rate plan. Menetap support will be here if you need anything.</small>
       </div>
-      <button onClick={onHome}>Explore more stays</button>
+      {actionMessage && <p className="success-text">{actionMessage}</p>}
+      <div className="confirmation-actions"><button onClick={onHome}>Explore more stays</button><a className="outline-button" href={`/en/help?booking=${encodeURIComponent(code)}`}>Get support</a><button className="outline-button" onClick={() => setAction("cancel")}>Request cancellation</button><button className="outline-button" onClick={() => setAction("refund")}>Request refund</button></div>
+      {action && <div className="booking-modal-backdrop" onClick={() => setAction(null)}><div className="ops-modal" onClick={(event) => event.stopPropagation()}><h2>{action === "cancel" ? "Request cancellation" : "Request refund"}</h2><p>For security, confirm the email address used for this booking.</p><label>Email<input type="email" value={contactEmail} onChange={(event) => setContactEmail(event.target.value)} placeholder="you@example.com" /></label>{actionError && <p className="error-text">{actionError}</p>}<div><button className="outline-button" onClick={() => setAction(null)}>Close</button><button className="save-property" onClick={submitAction}>Submit request</button></div></div></div>}
     </main>
   );
 }
@@ -4538,6 +4556,9 @@ function EmptyState({ title, text }: { title: string; text: string }) {
       <p>{text}</p>
     </div>
   );
+}
+function RetryState({ title = "Something went wrong", text = "We couldn’t load this right now.", onRetry }: { title?: string; text?: string; onRetry: () => void }) {
+  return <div className="empty-state error-state" role="alert"><div className="state-mark">!</div><h3>{title}</h3><p>{text}</p><button onClick={onRetry}>Try again</button></div>;
 }
 function MapPreview({
   properties,
