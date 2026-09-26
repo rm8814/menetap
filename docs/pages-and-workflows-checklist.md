@@ -33,11 +33,12 @@ This checklist is the product-scope inventory. The `.dc.html` screens remain the
 - `[ ]` Booking lookup without account using booking reference plus verified contact information.
 - `[ ]` My trips and booking history.
 - `[ ]` Saved stays.
-- `[ ]` Rewards balance, earning, redemption, and rewards history.
+- `[~]` Rewards landing — DC-inspired public landing page with join CTA, how-it-works, tiers, member perks, FAQ, and responsive layout implemented; live rewards data and production membership flow remain.
+- `[~]` Rewards dashboard — DC-inspired guest balance, membership tiers, progress, redemption options, activity history, responsive account navigation, and redemption feedback implemented; live rewards data and production redemption workflow remain.
 - `[ ]` Payment methods.
 - `[ ]` During-stay requests and support.
 - `[ ]` Guest cancellation and refund request workflow.
-- `[ ]` Help center and contact support workflow.
+- `[x]` Help center — DC-inspired FAQ accordion, topic categories, back navigation, bilingual EN/ID content, validated persisted support requests via Convex, success/error states, responsive layout, and footer routing implemented.
 
 ## Partner and property workflows
 

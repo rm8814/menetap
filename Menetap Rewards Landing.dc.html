@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+
+<helmet>
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/fonts.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/colors.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/typography.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/spacing.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/shadows.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/motion.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/styles.css">
+<script src="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/_ds_bundle.js"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+body{margin:0;background:var(--color-bg,#F7F6FF);font-family:'JetBrains Mono',monospace;color:var(--color-ink,#0C0A1E)}
+a{color:#7229FF;text-decoration:none}
+a:hover{color:#5a1fd1;text-decoration:underline}
+.wrap{max-width:1160px;margin:0 auto;padding:0 24px}
+@media (max-width:860px){.wrap{padding:0 16px}.tiergrid{grid-template-columns:1fr !important}.perkgrid{grid-template-columns:1fr 1fr !important}.howgrid{grid-template-columns:1fr !important}}
+@media (max-width:560px){.perkgrid{grid-template-columns:1fr !important}}
+</style>
+</helmet>
+
+<div style="min-height:100vh;display:flex;flex-direction:column">
+
+  <header style="position:sticky;top:0;z-index:50;background:rgba(247,246,255,0.9);backdrop-filter:blur(12px);border-bottom:1px solid #E5E2F5">
+    <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;height:64px;gap:20px">
+      <a href="Menetap Homepage.dc.html" style="display:flex;align-items:center;gap:9px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:19px;letter-spacing:-0.02em;color:#0C0A1E">menetap<span style="color:#7229FF">.</span></a>
+      <nav style="display:flex;gap:24px;font-size:14px;font-weight:500">
+        <a href="Menetap Search Results.dc.html" style="color:#0C0A1E">Stays</a>
+        <a href="Menetap Rentals Landing.dc.html" style="color:#0C0A1E">Rentals</a>
+        <a href="Menetap Rewards Landing.dc.html" style="color:#7229FF">Rewards</a>
+      </nav>
+      <div style="display:flex;align-items:center;gap:16px">
+        <a href="Menetap Login.dc.html" style="font-size:14px;font-weight:600;color:#0C0A1E">Log in</a>
+        <a href="Menetap Sign Up.dc.html"><x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="auto,40px" variant="primary" size="sm">Join free</x-import></a>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section style="padding:64px 0 48px">
+    <div class="wrap" style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px">
+      <div style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:#7229FF;background:rgba(114,41,255,0.08);border:1px solid rgba(114,41,255,0.2);border-radius:24px;padding:6px 14px"><i data-lucide="gift" style="width:14px;height:14px"></i>Free to join, points never expire while active</div>
+      <h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:40px;line-height:1.1;letter-spacing:-0.02em;margin:0;max-width:640px">Earn points on every stay. Redeem them for your next one.</h1>
+      <p style="font-size:15px;line-height:1.7;color:rgba(12,10,30,0.65);max-width:520px;margin:0">Menetap Rewards is free to join. Every booking earns points toward stay credit, upgrades, and priority perks — no annual fee, no fine print.</p>
+      <div style="display:flex;gap:12px;margin-top:8px;flex-wrap:wrap;justify-content:center">
+        <a href="Menetap Sign Up.dc.html"><x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="160px,48px" variant="primary" size="lg">Join Rewards free</x-import></a>
+        <a href="Menetap Login.dc.html"><x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="160px,48px" variant="outline" size="lg">Already a member</x-import></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="wrap" style="padding:8px 24px 56px">
+    <h2 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:24px;letter-spacing:-0.01em;margin:0 0 24px;text-align:center">How it works</h2>
+    <div class="howgrid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px">
+      <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:22px;display:flex;flex-direction:column;gap:10px">
+        <div style="width:36px;height:36px;border-radius:8px;background:rgba(114,41,255,0.08);display:flex;align-items:center;justify-content:center"><i data-lucide="user-plus" style="width:18px;height:18px;color:#7229FF"></i></div>
+        <div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:15px">1. Join for free</div>
+        <div style="font-size:13px;line-height:1.6;color:rgba(12,10,30,0.6)">Create a Menetap account in under a minute — no fee, no minimum spend.</div>
+      </div>
+      <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:22px;display:flex;flex-direction:column;gap:10px">
+        <div style="width:36px;height:36px;border-radius:8px;background:rgba(114,41,255,0.08);display:flex;align-items:center;justify-content:center"><i data-lucide="bed" style="width:18px;height:18px;color:#7229FF"></i></div>
+        <div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:15px">2. Book & stay</div>
+        <div style="font-size:13px;line-height:1.6;color:rgba(12,10,30,0.6)">Earn points automatically on every completed stay — 1 point per Rp 10,000 spent.</div>
+      </div>
+      <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:22px;display:flex;flex-direction:column;gap:10px">
+        <div style="width:36px;height:36px;border-radius:8px;background:rgba(114,41,255,0.08);display:flex;align-items:center;justify-content:center"><i data-lucide="sparkles" style="width:18px;height:18px;color:#7229FF"></i></div>
+        <div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:15px">3. Redeem anytime</div>
+        <div style="font-size:13px;line-height:1.6;color:rgba(12,10,30,0.6)">Use points as stay credit, or save toward upgrades and late checkout.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TIERS -->
+  <section class="wrap" style="padding:8px 24px 56px">
+    <h2 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:24px;letter-spacing:-0.01em;margin:0 0 8px;text-align:center">Membership tiers</h2>
+    <p style="text-align:center;font-size:13px;color:rgba(12,10,30,0.55);margin:0 0 24px">Tiers are based on points earned in a rolling 12 months — no cost, just book and stay.</p>
+    <div class="tiergrid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px">
+      <sc-for list="{{ tiers }}" as="t" hint-placeholder-count="3">
+        <div style="background:#fff;border:{{ t.border }};border-radius:8px;padding:22px;display:flex;flex-direction:column;gap:12px">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:17px">{{ t.name }}</div>
+            <sc-if value="{{ t.highlight }}" hint-placeholder-val="{{ false }}"><span style="font-size:10px;font-weight:700;color:#7229FF;background:rgba(114,41,255,0.08);padding:3px 8px;border-radius:4px">Most popular</span></sc-if>
+          </div>
+          <div style="font-size:12px;color:rgba(12,10,30,0.5)">{{ t.threshold }}</div>
+          <ul style="margin:0;padding-left:18px;font-size:13px;line-height:1.7;color:rgba(12,10,30,0.7);display:flex;flex-direction:column;gap:4px">
+            <sc-for list="{{ t.perks }}" as="perk" hint-placeholder-count="3"><li>{{ perk }}</li></sc-for>
+          </ul>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <!-- PERKS GRID -->
+  <section class="wrap" style="padding:8px 24px 56px">
+    <h2 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:24px;letter-spacing:-0.01em;margin:0 0 24px;text-align:center">Every member gets</h2>
+    <div class="perkgrid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px">
+      <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:18px;display:flex;flex-direction:column;gap:8px;text-align:center;align-items:center">
+        <i data-lucide="wallet" style="width:20px;height:20px;color:#00CAEF"></i>
+        <div style="font-size:13px;font-weight:700">Points as cash</div>
+        <div style="font-size:11px;color:rgba(12,10,30,0.55)">1 point = Rp 19 in stay credit</div>
+      </div>
+      <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:18px;display:flex;flex-direction:column;gap:8px;text-align:center;align-items:center">
+        <i data-lucide="clock" style="width:20px;height:20px;color:#00CAEF"></i>
+        <div style="font-size:13px;font-weight:700">Points never expire</div>
+        <div style="font-size:11px;color:rgba(12,10,30,0.55)">As long as your account stays active</div>
+      </div>
+      <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:18px;display:flex;flex-direction:column;gap:8px;text-align:center;align-items:center">
+        <i data-lucide="badge-percent" style="width:20px;height:20px;color:#00CAEF"></i>
+        <div style="font-size:13px;font-weight:700">Member-only rates</div>
+        <div style="font-size:11px;color:rgba(12,10,30,0.55)">Extra discounts on select stays</div>
+      </div>
+      <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;padding:18px;display:flex;flex-direction:column;gap:8px;text-align:center;align-items:center">
+        <i data-lucide="shield-check" style="width:20px;height:20px;color:#00CAEF"></i>
+        <div style="font-size:13px;font-weight:700">No fees, ever</div>
+        <div style="font-size:11px;color:rgba(12,10,30,0.55)">Free to join and free to keep</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="wrap" style="padding:8px 24px 56px;width:100%;box-sizing:border-box">
+    <h2 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:22px;letter-spacing:-0.01em;margin:0 0 16px">Frequently asked</h2>
+    <div style="display:flex;flex-direction:column;gap:10px;width:100%;box-sizing:border-box">
+      <sc-for list="{{ faqItems }}" as="f" hint-placeholder-count="4">
+        <div style="width:100%;box-sizing:border-box;background:#fff;border:1px solid #E5E2F5;border-radius:8px;overflow:hidden;transition:box-shadow 250ms cubic-bezier(0.22,1,0.36,1)" style-hover="box-shadow:0 2px 8px rgba(114,41,255,0.06)">
+          <div onClick="{{ f.toggle }}" style="padding:16px 18px;display:flex;justify-content:space-between;align-items:center;gap:12px;cursor:pointer;font-size:14px;font-weight:700">
+            <span style="flex:1;min-width:0">{{ f.q }}</span>
+            <div style="width:24px;height:24px;border-radius:50%;background:rgba(114,41,255,0.08);display:flex;align-items:center;justify-content:center;flex:none"><i data-lucide="{{ f.icon }}" style="width:14px;height:14px;color:#7229FF"></i></div>
+          </div>
+          <sc-if value="{{ f.open }}" hint-placeholder-val="{{ false }}">
+            <div style="padding:0 18px 16px;font-size:13px;line-height:1.7;color:rgba(12,10,30,0.65)">{{ f.a }}</div>
+          </sc-if>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="wrap" style="padding:0 24px 64px">
+    <div style="background:linear-gradient(135deg,rgba(114,41,255,0.06),rgba(0,202,239,0.06));border:1px solid #E5E2F5;border-radius:8px;padding:32px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap">
+      <div>
+        <div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:18px;margin-bottom:6px">Start earning on your next stay</div>
+        <p style="font-size:13px;line-height:1.6;color:rgba(12,10,30,0.6);margin:0">Joining takes under a minute and costs nothing.</p>
+      </div>
+      <a href="Menetap Sign Up.dc.html"><x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="180px,44px" variant="primary" size="lg">Join Rewards free</x-import></a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer style="border-top:1px solid #E5E2F5;padding:24px 0;margin-top:auto;background:#fff">
+    <div class="wrap" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px">
+      <div style="font-size:12px;color:rgba(12,10,30,0.5)">© 2026 Menetap. All rights reserved.</div>
+      <div style="display:flex;align-items:center;gap:8px;font-size:11px;color:rgba(12,10,30,0.45);background:#F7F6FF;border:1px solid #E5E2F5;border-radius:24px;padding:5px 12px">
+        Managed by <a href="https://upscale.asia" target="_blank" style="font-weight:700;color:#7229FF">UPSCALE</a>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+
+const TIERS = [
+  { name: 'Silver', threshold: '0 – 3,000 points', highlight: false, border: '1px solid #E5E2F5', perks: ['1 point per Rp 10,000 spent', 'Member-only rates', 'Free cancellation on most stays'] },
+  { name: 'Gold', threshold: '3,000 – 8,000 points', highlight: true, border: '2px solid #7229FF', perks: ['1.5x points on every stay', 'Priority check-in', 'Free room upgrades when available'] },
+  { name: 'Platinum', threshold: '8,000+ points', highlight: false, border: '1px solid #E5E2F5', perks: ['2x points on every stay', 'Guaranteed late checkout', 'Dedicated support line'] }
+];
+const FAQ_BASE = [
+  { q: 'How do I earn points?', a: 'You earn 1 point per Rp 10,000 spent on any completed stay booked through Menetap. Points post to your account after checkout.' },
+  { q: 'Do points expire?', a: 'Points stay valid as long as your account has at least one booking every 18 months.' },
+  { q: 'How much is a point worth?', a: 'Each point is worth roughly Rp 19 in stay credit when redeemed at checkout — no blackout dates.' },
+  { q: 'Is there a fee to join?', a: 'No. Menetap Rewards is completely free to join and free to keep — there is no annual fee.' }
+];
+class Component extends DCLogic {
+  state = { faqOpen: {} };
+  componentDidMount() { if (window.lucide) window.lucide.createIcons(); }
+  componentDidUpdate() { if (window.lucide) window.lucide.createIcons(); }
+  renderVals() {
+    return {
+      tiers: TIERS,
+      faqItems: FAQ_BASE.map((f, i) => ({
+        q: f.q, a: f.a,
+        open: !!this.state.faqOpen[i],
+        icon: this.state.faqOpen[i] ? 'minus' : 'plus',
+        toggle: () => this.setState(s => ({ faqOpen: { ...s.faqOpen, [i]: !s.faqOpen[i] } }))
+      }))
+    };
+  }
+}
+
+</script>
+</body>
+</html>

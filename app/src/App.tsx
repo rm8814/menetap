@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import type { FormEvent } from "react";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "../convex/_generated/api";
 import type { GuestScreen, SearchState } from "./types";
@@ -8,19 +9,27 @@ import { useAuthActions, useConvexAuth } from "@convex-dev/auth/react";
 import {
   ArrowUp,
   Award,
+  BadgePercent,
+  Bed,
   Car,
   CalendarDays,
   CheckCircle2,
+  ChevronDown,
+  ChevronUp,
   Gift,
   Globe2,
   MapPin,
   Menu,
   RefreshCcw,
   Search,
+  Sparkles,
   ShieldCheck,
   Star,
   Truck,
   UserCheck,
+  UserPlus,
+  Wallet,
+  Clock,
   Users,
   Waves,
   Wifi,
@@ -77,7 +86,10 @@ export function App() {
     const propertyPathMatch = path.match(/\/stays\/property\/([^/]+)$/);
     const pathLanguage = path.startsWith("/id") ? "ID" : "EN";
     setLanguage(pathLanguage);
-    if (propertyPathMatch) {
+    if (path.endsWith("/help")) setScreen("help");
+    else if (path.endsWith("/rewards/dashboard")) setScreen("rewards");
+    else if (path.endsWith("/rewards")) setScreen("rewardsLanding");
+    else if (propertyPathMatch) {
       setSelectedProperty(decodeURIComponent(propertyPathMatch[1]));
       setScreen("hotel");
     } else if (path.endsWith("/destinations/all")) setScreen("destinations");
@@ -131,6 +143,14 @@ export function App() {
         }}
         onAuth={() => setAuthOpen(true)}
         onSearch={goToSearch}
+        onRewards={() => {
+          window.history.pushState(
+            {},
+            "",
+            `/${language.toLowerCase()}/rewards`,
+          );
+          setScreen("rewardsLanding");
+        }}
       />
       {screen === "home" && (
         <Home
@@ -277,6 +297,9 @@ export function App() {
       {screen === "confirmation" && (
         <Confirmation code={bookingCode} onHome={() => setScreen("home")} />
       )}
+      {screen === "rewardsLanding" && <RewardsLanding />}
+      {screen === "rewards" && <RewardsPage />}
+      {screen === "help" && <HelpCenter />}
     </div>
   );
 }
@@ -287,12 +310,14 @@ function Header({
   onHome,
   onAuth,
   onSearch,
+  onRewards,
 }: {
   language: "EN" | "ID";
   setLanguage: (language: "EN" | "ID") => void;
   onHome: () => void;
   onAuth: () => void;
   onSearch: () => void;
+  onRewards: () => void;
 }) {
   const { isAuthenticated } = useConvexAuth();
   const { signOut } = useAuthActions();
@@ -307,7 +332,7 @@ function Header({
         <nav className="dc-navlinks">
           <button onClick={onSearch}>Stays</button>
           <button onClick={onHome}>Experiences</button>
-          <button onClick={onHome}>Rewards</button>
+          <button onClick={onRewards}>Rewards</button>
         </nav>
         <div className="nav-actions dc-nav-actions">
           <div className="desktop-language-toggle">
@@ -346,7 +371,7 @@ function Header({
           </button>
           <button
             onClick={() => {
-              onHome();
+              onRewards();
               closeMenu();
             }}
           >
@@ -1784,19 +1809,144 @@ function RentalSearch() {
   const [delivery, setDelivery] = useState(false);
   const days = 3;
   const vehicles = [
-    { type: "scooter", name: "Honda Beat", specs: "2 seats · automatic · full tank", rate: 65000, image: "rental-scooter" },
-    { type: "scooter", name: "Yamaha NMAX", specs: "2 seats · automatic · storage box", rate: 95000, image: "rental-scooter premium" },
-    { type: "car", name: "Honda Brio", specs: "5 seats · automatic · AC", rate: 320000, image: "rental-car" },
-    { type: "car", name: "Toyota Avanza", specs: "7 seats · manual · AC", rate: 380000, image: "rental-car spacious" },
+    {
+      type: "scooter",
+      name: "Honda Beat",
+      specs: "2 seats · automatic · full tank",
+      rate: 65000,
+      image: "rental-scooter",
+    },
+    {
+      type: "scooter",
+      name: "Yamaha NMAX",
+      specs: "2 seats · automatic · storage box",
+      rate: 95000,
+      image: "rental-scooter premium",
+    },
+    {
+      type: "car",
+      name: "Honda Brio",
+      specs: "5 seats · automatic · AC",
+      rate: 320000,
+      image: "rental-car",
+    },
+    {
+      type: "car",
+      name: "Toyota Avanza",
+      specs: "7 seats · manual · AC",
+      rate: 380000,
+      image: "rental-car spacious",
+    },
   ].filter((vehicle) => type === "all" || vehicle.type === type);
   const extra = (driver ? 150000 : 0) + (delivery ? 50000 : 0);
-  return <main className="rental-search-page">
-    <div className="rentals-wrap rental-search-context"><strong>Yogyakarta</strong><span>12-Oct-2026 → 15-Oct-2026 · {days} days · 1 passenger</span></div>
-    <div className="rentals-wrap rental-results-layout">
-      <aside className="rental-filter-panel"><h3>Vehicle type</h3><label><input type="radio" checked={type === "all"} onChange={() => setType("all")} /> All vehicles</label><label><input type="radio" checked={type === "scooter"} onChange={() => setType("scooter")} /> Motorbike / scooter</label><label><input type="radio" checked={type === "car"} onChange={() => setType("car")} /> Car</label><h3>Extras</h3><label><input type="checkbox" checked={driver} onChange={(event) => setDriver(event.target.checked)} /> Driver included</label><label><input type="checkbox" checked={delivery} onChange={(event) => setDelivery(event.target.checked)} /> Delivery to hotel</label></aside>
-      <section className="rental-results"><div className="rental-results-heading"><div><p className="eyebrow">Exact pricing</p><h1>{vehicles.length} vehicles available</h1></div><span>All costs shown upfront</span></div>{vehicles.map((vehicle) => { const daily = vehicle.rate + extra; return <article className="rental-result-card" key={vehicle.name}><div className={`rental-result-image ${vehicle.image}`}><span>{vehicle.type === "car" ? <Car size={28} /> : <span className="rental-bike-mark">●</span>}</span></div><div className="rental-result-content"><div className="rental-result-top"><div><h2>{vehicle.name}</h2><p>{vehicle.specs}</p></div><strong>Rp {daily.toLocaleString("en-US")}<small>/day</small></strong></div><div className="rental-tags"><span>{vehicle.type === "car" ? "Insurance included" : "Helmet included"}</span>{driver && <span>Driver included</span>}{delivery && <span>Delivery included</span>}</div><div className="rental-result-bottom"><div className="rental-result-price"><span>Rental · {days} days</span><b>Rp {(daily * days).toLocaleString("en-US")}</b><small>Deposit: Rp 0</small></div><button>Select vehicle</button></div></div></article>; })}</section>
-    </div>
-  </main>;
+  return (
+    <main className="rental-search-page">
+      <div className="rentals-wrap rental-search-context">
+        <strong>Yogyakarta</strong>
+        <span>12-Oct-2026 → 15-Oct-2026 · {days} days · 1 passenger</span>
+      </div>
+      <div className="rentals-wrap rental-results-layout">
+        <aside className="rental-filter-panel">
+          <h3>Vehicle type</h3>
+          <label>
+            <input
+              type="radio"
+              checked={type === "all"}
+              onChange={() => setType("all")}
+            />{" "}
+            All vehicles
+          </label>
+          <label>
+            <input
+              type="radio"
+              checked={type === "scooter"}
+              onChange={() => setType("scooter")}
+            />{" "}
+            Motorbike / scooter
+          </label>
+          <label>
+            <input
+              type="radio"
+              checked={type === "car"}
+              onChange={() => setType("car")}
+            />{" "}
+            Car
+          </label>
+          <h3>Extras</h3>
+          <label>
+            <input
+              type="checkbox"
+              checked={driver}
+              onChange={(event) => setDriver(event.target.checked)}
+            />{" "}
+            Driver included
+          </label>
+          <label>
+            <input
+              type="checkbox"
+              checked={delivery}
+              onChange={(event) => setDelivery(event.target.checked)}
+            />{" "}
+            Delivery to hotel
+          </label>
+        </aside>
+        <section className="rental-results">
+          <div className="rental-results-heading">
+            <div>
+              <p className="eyebrow">Exact pricing</p>
+              <h1>{vehicles.length} vehicles available</h1>
+            </div>
+            <span>All costs shown upfront</span>
+          </div>
+          {vehicles.map((vehicle) => {
+            const daily = vehicle.rate + extra;
+            return (
+              <article className="rental-result-card" key={vehicle.name}>
+                <div className={`rental-result-image ${vehicle.image}`}>
+                  <span>
+                    {vehicle.type === "car" ? (
+                      <Car size={28} />
+                    ) : (
+                      <span className="rental-bike-mark">●</span>
+                    )}
+                  </span>
+                </div>
+                <div className="rental-result-content">
+                  <div className="rental-result-top">
+                    <div>
+                      <h2>{vehicle.name}</h2>
+                      <p>{vehicle.specs}</p>
+                    </div>
+                    <strong>
+                      Rp {daily.toLocaleString("en-US")}
+                      <small>/day</small>
+                    </strong>
+                  </div>
+                  <div className="rental-tags">
+                    <span>
+                      {vehicle.type === "car"
+                        ? "Insurance included"
+                        : "Helmet included"}
+                    </span>
+                    {driver && <span>Driver included</span>}
+                    {delivery && <span>Delivery included</span>}
+                  </div>
+                  <div className="rental-result-bottom">
+                    <div className="rental-result-price">
+                      <span>Rental · {days} days</span>
+                      <b>Rp {(daily * days).toLocaleString("en-US")}</b>
+                      <small>Deposit: Rp 0</small>
+                    </div>
+                    <button>Select vehicle</button>
+                  </div>
+                </div>
+              </article>
+            );
+          })}
+        </section>
+      </div>
+    </main>
+  );
 }
 
 function RentalsLanding({ onFind }: { onFind: () => void }) {
@@ -1809,34 +1959,784 @@ function RentalsLanding({ onFind }: { onFind: () => void }) {
   const [returnTime, setReturnTime] = useState("10:00");
   const [passengers, setPassengers] = useState(1);
   const [dateError, setDateError] = useState(false);
-  const updateReturn = (value: string) => { setReturnDate(value); setDateError(value < pickupDate); };
-  return <>
-    <main className="rentals-landing">
-      <section className="rentals-hero">
-        <div className="rentals-wrap rentals-hero-copy">
-          <div className="hero-badge"><Car size={14} /> Menetap-managed fleet — no third-party surprises</div>
-          <h1>Scooters and cars, ready when you land.</h1>
-          <p>Book a vehicle for your Indonesia trip — with or without a Menetap stay. Delivered to your hotel or the airport.</p>
+  const updateReturn = (value: string) => {
+    setReturnDate(value);
+    setDateError(value < pickupDate);
+  };
+  return (
+    <>
+      <main className="rentals-landing">
+        <section className="rentals-hero">
+          <div className="rentals-wrap rentals-hero-copy">
+            <div className="hero-badge">
+              <Car size={14} /> Menetap-managed fleet — no third-party surprises
+            </div>
+            <h1>Scooters and cars, ready when you land.</h1>
+            <p>
+              Book a vehicle for your Indonesia trip — with or without a Menetap
+              stay. Delivered to your hotel or the airport.
+            </p>
+          </div>
+          <div className="rentals-stats">
+            <div>
+              <strong>4.7★</strong>
+              <span>Average rental rating</span>
+            </div>
+            <div>
+              <strong>12,000+</strong>
+              <span>Rentals completed</span>
+            </div>
+            <div>
+              <strong>40+</strong>
+              <span>Pickup locations</span>
+            </div>
+          </div>
+          <div className="rentals-wrap rentals-search-card">
+            <label>
+              <span>Pickup location</span>
+              <input
+                value={pickup}
+                onChange={(event) => setPickup(event.target.value)}
+                placeholder="City, hotel, or airport"
+              />
+              <em>
+                <input
+                  type="checkbox"
+                  checked={differentDropoff}
+                  onChange={(event) =>
+                    setDifferentDropoff(event.target.checked)
+                  }
+                />{" "}
+                Different drop-off
+              </em>
+              {differentDropoff && (
+                <input
+                  className="dropoff-input"
+                  value={dropoff}
+                  onChange={(event) => setDropoff(event.target.value)}
+                  placeholder="Drop-off city or location"
+                />
+              )}
+            </label>
+            <label>
+              <span>Pickup date</span>
+              <input
+                type="date"
+                value={pickupDate}
+                onChange={(event) => setPickupDate(event.target.value)}
+              />
+            </label>
+            <label>
+              <span>Pickup time</span>
+              <input
+                type="time"
+                value={pickupTime}
+                onChange={(event) => setPickupTime(event.target.value)}
+              />
+            </label>
+            <label>
+              <span>Return date</span>
+              <input
+                type="date"
+                value={returnDate}
+                onChange={(event) => updateReturn(event.target.value)}
+              />
+              {dateError && <small>Return after pickup</small>}
+            </label>
+            <label>
+              <span>Return time</span>
+              <input
+                type="time"
+                value={returnTime}
+                onChange={(event) => setReturnTime(event.target.value)}
+              />
+            </label>
+            <label>
+              <span>Passengers</span>
+              <div className="rental-stepper">
+                <button
+                  onClick={() => setPassengers(Math.max(1, passengers - 1))}
+                >
+                  −
+                </button>
+                <b>{passengers}</b>
+                <button
+                  onClick={() => setPassengers(Math.min(7, passengers + 1))}
+                >
+                  +
+                </button>
+              </div>
+            </label>
+            <button className="rental-search-button" onClick={onFind}>
+              Find a vehicle
+            </button>
+          </div>
+          <div className="rentals-popular">
+            <span>Popular pickup spots:</span>
+            {[
+              "Yogyakarta Airport",
+              "Malioboro",
+              "Ngurah Rai Airport (Bali)",
+              "Ubud",
+            ].map((spot) => (
+              <button key={spot} onClick={() => setPickup(spot)}>
+                {spot}
+              </button>
+            ))}
+          </div>
+        </section>
+        <section className="rentals-wrap rentals-pricing">
+          <div>
+            <h2>Transparent pricing at pickup.</h2>
+            <p>
+              Insurance, delivery, and driver costs are shown upfront at
+              checkout — never added at the counter. The total you see when you
+              book is the total you pay.
+            </p>
+          </div>
+          <div className="rental-price-card">
+            <div>
+              <span>Scooter, 3 days</span>
+              <b>Rp 195,000</b>
+            </div>
+            <div>
+              <span>Insurance</span>
+              <b>Rp 120,000</b>
+            </div>
+            <div>
+              <span>Delivery to hotel</span>
+              <b>Rp 50,000</b>
+            </div>
+            <hr />
+            <div className="price-total">
+              <strong>Total at pickup</strong>
+              <b>Rp 365,000</b>
+            </div>
+          </div>
+        </section>
+        <section className="rentals-wrap rentals-types">
+          <h2>What you can rent</h2>
+          <div className="rental-type-grid">
+            <a href="/en/rentals/search?type=scooter">
+              <div className="rental-type-image scooter-image">Photo</div>
+              <div>
+                <h3>Scooter / automatic motorbike</h3>
+                <p>
+                  From Rp 65,000/day. Helmet included, delivery to your hotel
+                  available.
+                </p>
+              </div>
+            </a>
+            <a href="/en/rentals/search?type=car">
+              <div className="rental-type-image car-image">Photo</div>
+              <div>
+                <h3>Economy car</h3>
+                <p>
+                  From Rp 380,000/day. Self-drive or with a driver, insurance
+                  included.
+                </p>
+              </div>
+            </a>
+          </div>
+        </section>
+        <section className="rentals-wrap rental-benefits">
+          <span>
+            <ShieldCheck size={16} />
+            Insurance available on every rental
+          </span>
+          <span>
+            <Truck size={16} />
+            Delivery to hotel or airport
+          </span>
+          <span>
+            <UserCheck size={16} />
+            Driver option available
+          </span>
+        </section>
+        <section className="rentals-wrap rental-trip-banner">
+          <div>
+            <h3>Already have a Menetap stay booked?</h3>
+            <p>
+              Add a rental to your existing trip — we'll deliver it to your
+              hotel on arrival day.
+            </p>
+          </div>
+          <button>Add to my trip</button>
+        </section>
+      </main>
+      <Footer language="EN" setLanguage={() => undefined} />
+    </>
+  );
+}
+
+function RewardsLanding() {
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const faqs = [
+    [
+      "How do I earn points?",
+      "You earn 10 points per Rp 10,000 spent on any completed stay booked through Menetap. Points post to your account after checkout.",
+    ],
+    [
+      "Do points expire?",
+      "Points stay valid as long as your account has at least one booking every 18 months.",
+    ],
+    [
+      "How much is a point worth?",
+      "Each point is worth roughly Rp 19 in stay credit when redeemed at checkout — no blackout dates.",
+    ],
+    [
+      "Is there a fee to join?",
+      "No. Menetap Rewards is completely free to join and free to keep — there is no annual fee.",
+    ],
+  ];
+  const tiers = [
+    [
+      "Silver",
+      "0 – 3,000 points",
+      [
+        "10 points per Rp 10,000 spent",
+        "Member-only rates",
+        "Free cancellation on most stays",
+      ],
+    ],
+    [
+      "Gold",
+      "3,000 – 8,000 points",
+      [
+        "1.5x points on every stay",
+        "Priority check-in",
+        "Free room upgrades when available",
+      ],
+    ],
+    [
+      "Platinum",
+      "8,000+ points",
+      [
+        "2x points on every stay",
+        "Guaranteed late checkout",
+        "Dedicated support line",
+      ],
+    ],
+  ] as const;
+  return (
+    <>
+      <main className="rewards-landing-page">
+        <section className="rewards-landing-hero">
+          <div className="rewards-landing-wrap">
+            <div className="hero-badge">
+              <Gift size={14} /> Free to join, points never expire while active
+            </div>
+            <h1>Earn points on every stay. Redeem them for your next one.</h1>
+            <p>
+              Menetap Rewards is free to join. Every booking earns points toward
+              stay credit, upgrades, and priority perks — no annual fee, no fine
+              print.
+            </p>
+            <div className="rewards-landing-actions">
+              <button>Join Rewards free</button>
+              <button className="secondary">Already a member</button>
+            </div>
+          </div>
+        </section>
+        <section className="rewards-landing-wrap rewards-how">
+          <h2>How it works</h2>
+          <div className="rewards-how-grid">
+            {[
+              [
+                UserPlus,
+                "1. Join for free",
+                "Create a Menetap account in under a minute — no fee, no minimum spend.",
+              ],
+              [
+                Bed,
+                "2. Book & stay",
+                "Earn points automatically on every completed stay — 10 points per Rp 10,000 spent.",
+              ],
+              [
+                Sparkles,
+                "3. Redeem anytime",
+                "Use points as stay credit, or save toward upgrades and late checkout.",
+              ],
+            ].map(([Icon, title, text]) => (
+              <article key={String(title)}>
+                <div className="rewards-step-icon">
+                  <Icon size={18} />
+                </div>
+                <strong>{String(title)}</strong>
+                <p>{String(text)}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+        <section className="rewards-landing-wrap rewards-landing-section">
+          <h2>Membership tiers</h2>
+          <p className="section-intro">
+            Tiers are based on points earned in a rolling 12 months — no cost,
+            just book and stay.
+          </p>
+          <div className="rewards-landing-tier-grid">
+            {tiers.map(([name, threshold, perks]) => (
+              <article className={name === "Gold" ? "popular" : ""} key={name}>
+                <div>
+                  <strong>{name}</strong>
+                  {name === "Gold" && <b>Most popular</b>}
+                </div>
+                <small>{threshold}</small>
+                <ul>
+                  {perks.map((perk) => (
+                    <li key={perk}>{perk}</li>
+                  ))}
+                </ul>
+              </article>
+            ))}
+          </div>
+        </section>
+        <section className="rewards-landing-wrap rewards-landing-section">
+          <h2>Every member gets</h2>
+          <div className="rewards-perk-grid">
+            {[
+              [Wallet, "Points as cash", "1 point = Rp 19 in stay credit"],
+              [
+                Clock,
+                "Points never expire",
+                "As long as your account stays active",
+              ],
+              [
+                BadgePercent,
+                "Member-only rates",
+                "Extra discounts on select stays",
+              ],
+              [ShieldCheck, "No fees, ever", "Free to join and free to keep"],
+            ].map(([Icon, title, text]) => (
+              <article key={String(title)}>
+                <Icon size={20} />
+                <strong>{String(title)}</strong>
+                <small>{String(text)}</small>
+              </article>
+            ))}
+          </div>
+        </section>
+        <section className="rewards-landing-wrap rewards-faq">
+          <h2>Frequently asked</h2>
+          {faqs.map(([question, answer], index) => (
+            <article key={question}>
+              <button
+                onClick={() => setOpenFaq(openFaq === index ? null : index)}
+              >
+                <span>{question}</span>
+                <b>{openFaq === index ? "−" : "+"}</b>
+              </button>
+              {openFaq === index && <p>{answer}</p>}
+            </article>
+          ))}
+        </section>
+        <section className="rewards-landing-wrap rewards-landing-cta">
+          <div>
+            <h3>Start earning on your next stay</h3>
+            <p>Joining takes under a minute and costs nothing.</p>
+          </div>
+          <button>Join Rewards free</button>
+        </section>
+      </main>
+      <Footer language="EN" setLanguage={() => undefined} />
+    </>
+  );
+}
+
+function RewardsPage() {
+  const [points, setPoints] = useState(1963);
+  const [toast, setToast] = useState("");
+  const redeem = (cost: number, label: string) => {
+    if (points < cost) {
+      setToast("Not enough points for this reward");
+      return;
+    }
+    setPoints((value) => value - cost);
+    setToast(`Redeemed: ${label}`);
+    window.setTimeout(() => setToast(""), 2200);
+  };
+  const tiers = [
+    [
+      "Silver",
+      "0 – 3,000 pts/yr",
+      ["Earn 1x points per stay", "Member-only rates"],
+      true,
+    ],
+    [
+      "Gold",
+      "3,000 – 8,000 pts/yr",
+      [
+        "1.5x points per stay",
+        "Priority check-in",
+        "Free room upgrade when available",
+      ],
+      false,
+    ],
+    [
+      "Platinum",
+      "8,000+ pts/yr",
+      [
+        "2x points per stay",
+        "Guaranteed late checkout",
+        "Dedicated support line",
+      ],
+      false,
+    ],
+  ] as const;
+  return (
+    <>
+      <main className="rewards-page">
+        <div className="rewards-wrap">
+          <h1>Menetap Rewards</h1>
+          <div className="rewards-mobile-tabs">
+            <span>Trips</span>
+            <span>Favorites</span>
+            <strong>Rewards</strong>
+            <span>Payment</span>
+            <span>Settings</span>
+          </div>
+          <div className="rewards-layout">
+            <aside className="rewards-sidebar">
+              <a>▣ Trips</a>
+              <a>♡ Favorites</a>
+              <a className="active">
+                <Gift size={16} /> Rewards
+              </a>
+              <a>▣ Payment methods</a>
+              <a>⚙ Settings</a>
+              <hr />
+              <a className="muted">↪ Log out</a>
+            </aside>
+            <div className="rewards-content">
+              <section className="rewards-balance">
+                <div>
+                  <small>Silver member</small>
+                  <strong>{points.toLocaleString()} points</strong>
+                  <span>≈ Rp 19,630 in stay credit</span>
+                </div>
+                <button onClick={() => redeem(1000, "Rp 10,000 stay credit")}>
+                  Redeem points
+                </button>
+              </section>
+              <section>
+                <h2>Membership tiers</h2>
+                <div className="rewards-tier-grid">
+                  {tiers.map(([name, threshold, perks, current]) => (
+                    <article className={current ? "current" : ""} key={name}>
+                      <div>
+                        <strong>{name}</strong>
+                        {current && <b>Current</b>}
+                      </div>
+                      <small>{threshold}</small>
+                      <ul>
+                        {perks.map((perk) => (
+                          <li key={perk}>{perk}</li>
+                        ))}
+                      </ul>
+                    </article>
+                  ))}
+                </div>
+              </section>
+              <section className="rewards-progress">
+                <div>
+                  <strong>1,037 points to Gold</strong>
+                  <span>3,000 pts</span>
+                </div>
+                <div className="progress-track">
+                  <i />
+                </div>
+                <small>
+                  Gold members get priority check-in, free room upgrades when
+                  available, and 1.5x points on every stay.
+                </small>
+              </section>
+              <section>
+                <h2>Redeem your points</h2>
+                <div className="rewards-redeem-grid">
+                  {[
+                    [
+                      "Rp 10,000 stay credit",
+                      "Apply at checkout on any stay",
+                      1000,
+                    ],
+                    [
+                      "Rp 50,000 stay credit",
+                      "Apply at checkout on any stay",
+                      4500,
+                    ],
+                    [
+                      "Free breakfast add-on",
+                      "Redeemable on your next confirmed stay",
+                      1200,
+                    ],
+                  ].map(([title, subtitle, cost]) => (
+                    <article key={String(title)}>
+                      <div>
+                        <strong>{title}</strong>
+                        <small>{subtitle}</small>
+                      </div>
+                      <button
+                        onClick={() => redeem(Number(cost), String(title))}
+                      >
+                        {Number(cost).toLocaleString()} pts
+                      </button>
+                    </article>
+                  ))}
+                </div>
+              </section>
+              <section>
+                <h2>Points activity</h2>
+                <div className="rewards-activity">
+                  <div>
+                    <span>
+                      <strong>Kaliurang Heritage Villa</strong>
+                      <small>Booking MTP-7X9K2Q · Oct 12, 2026</small>
+                    </span>
+                    <b>+696</b>
+                  </div>
+                  <div>
+                    <span>
+                      <strong>Malioboro Skyline Suites</strong>
+                      <small>Booking MTP-2R6V9C · Jul 4, 2026</small>
+                    </span>
+                    <b>+220</b>
+                  </div>
+                  <div>
+                    <span>
+                      <strong>Redeemed: Rp 10,000 stay credit</strong>
+                      <small>May 20, 2026</small>
+                    </span>
+                    <b className="negative">−1,000</b>
+                  </div>
+                </div>
+              </section>
+            </div>
+          </div>
         </div>
-        <div className="rentals-stats"><div><strong>4.7★</strong><span>Average rental rating</span></div><div><strong>12,000+</strong><span>Rentals completed</span></div><div><strong>40+</strong><span>Pickup locations</span></div></div>
-        <div className="rentals-wrap rentals-search-card">
-          <label><span>Pickup location</span><input value={pickup} onChange={(event) => setPickup(event.target.value)} placeholder="City, hotel, or airport" /><em><input type="checkbox" checked={differentDropoff} onChange={(event) => setDifferentDropoff(event.target.checked)} /> Different drop-off</em>{differentDropoff && <input className="dropoff-input" value={dropoff} onChange={(event) => setDropoff(event.target.value)} placeholder="Drop-off city or location" />}</label>
-          <label><span>Pickup date</span><input type="date" value={pickupDate} onChange={(event) => setPickupDate(event.target.value)} /></label>
-          <label><span>Pickup time</span><input type="time" value={pickupTime} onChange={(event) => setPickupTime(event.target.value)} /></label>
-          <label><span>Return date</span><input type="date" value={returnDate} onChange={(event) => updateReturn(event.target.value)} />{dateError && <small>Return after pickup</small>}</label>
-          <label><span>Return time</span><input type="time" value={returnTime} onChange={(event) => setReturnTime(event.target.value)} /></label>
-          <label><span>Passengers</span><div className="rental-stepper"><button onClick={() => setPassengers(Math.max(1, passengers - 1))}>−</button><b>{passengers}</b><button onClick={() => setPassengers(Math.min(7, passengers + 1))}>+</button></div></label>
-          <button className="rental-search-button" onClick={onFind}>Find a vehicle</button>
+      </main>
+      {toast && (
+        <div className="rewards-toast">
+          <CheckCircle2 size={16} />
+          {toast}
         </div>
-        <div className="rentals-popular"><span>Popular pickup spots:</span>{["Yogyakarta Airport", "Malioboro", "Ngurah Rai Airport (Bali)", "Ubud"].map((spot) => <button key={spot} onClick={() => setPickup(spot)}>{spot}</button>)}</div>
-      </section>
-      <section className="rentals-wrap rentals-pricing"><div><h2>Transparent pricing at pickup.</h2><p>Insurance, delivery, and driver costs are shown upfront at checkout — never added at the counter. The total you see when you book is the total you pay.</p></div><div className="rental-price-card"><div><span>Scooter, 3 days</span><b>Rp 195,000</b></div><div><span>Insurance</span><b>Rp 120,000</b></div><div><span>Delivery to hotel</span><b>Rp 50,000</b></div><hr /><div className="price-total"><strong>Total at pickup</strong><b>Rp 365,000</b></div></div></section>
-      <section className="rentals-wrap rentals-types"><h2>What you can rent</h2><div className="rental-type-grid"><a href="/en/rentals/search?type=scooter"><div className="rental-type-image scooter-image">Photo</div><div><h3>Scooter / automatic motorbike</h3><p>From Rp 65,000/day. Helmet included, delivery to your hotel available.</p></div></a><a href="/en/rentals/search?type=car"><div className="rental-type-image car-image">Photo</div><div><h3>Economy car</h3><p>From Rp 380,000/day. Self-drive or with a driver, insurance included.</p></div></a></div></section>
-      <section className="rentals-wrap rental-benefits"><span><ShieldCheck size={16} />Insurance available on every rental</span><span><Truck size={16} />Delivery to hotel or airport</span><span><UserCheck size={16} />Driver option available</span></section>
-      <section className="rentals-wrap rental-trip-banner"><div><h3>Already have a Menetap stay booked?</h3><p>Add a rental to your existing trip — we'll deliver it to your hotel on arrival day.</p></div><button>Add to my trip</button></section>
-    </main>
-    <Footer language="EN" setLanguage={() => undefined} />
-  </>;
+      )}
+      <Footer language="EN" setLanguage={() => undefined} />
+    </>
+  );
+}
+
+function HelpCenter() {
+  const createSupportRequest = useMutation(api.support.create);
+  const [open, setOpen] = useState<number | null>(null);
+  const [topic, setTopic] = useState("All");
+  const [language, setLanguage] = useState<"EN" | "ID">("EN");
+  const [contactOpen, setContactOpen] = useState(true);
+  const [submitted, setSubmitted] = useState(false);
+  const [formError, setFormError] = useState("");
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    reference: "",
+    message: "",
+  });
+  useEffect(() => { setTopic("All"); setOpen(null); }, [language]);
+  const content =
+    language === "EN"
+      ? {
+          title: "Help center",
+          intro: "Common questions about bookings, payments, and your account.",
+          back: "← Back to Menetap",
+          contact: "Contact support",
+          still: "Still need help?",
+          response: "Our support team responds within a few hours.",
+          submit: "Send support request",
+          sent: "Your support request has been sent. We’ll get back to you within a few hours.",
+          name: "Full name",
+          email: "Email",
+          reference: "Booking reference (optional)",
+          message: "How can we help?",
+          required: "Please provide your name, email, and message.",
+          faqs: [
+            [
+              "How do I cancel or change a booking?",
+              "Go to My Trips, open the booking, and choose Cancel booking or Modify dates. Refund amount depends on the property's cancellation policy.",
+            ],
+            [
+              "When will I be charged?",
+              "Most bookings are charged in full at the time of booking. Some rate plans charge a deposit now and the balance closer to check-in — this is shown at checkout.",
+            ],
+            [
+              "How do Menetap Rewards points work?",
+              "You earn points on every completed stay. Points can be redeemed for stay credit at checkout once you have enough saved up.",
+            ],
+            [
+              "Is the price I see the final price?",
+              "Yes. Menetap shows the real price up front — no hidden fees appear at checkout.",
+            ],
+            [
+              "How do I contact my host?",
+              "Open your booking in My Trips and use Message host, or reach out from the property page before booking.",
+            ],
+            [
+              "I want to list my property — where do I start?",
+              "Head to menetap.com/partners and click List your property to start onboarding.",
+            ],
+          ],
+        }
+      : {
+          title: "Pusat bantuan",
+          intro:
+            "Pertanyaan umum tentang pemesanan, pembayaran, dan akun Anda.",
+          back: "← Kembali ke Menetap",
+          contact: "Hubungi dukungan",
+          still: "Masih butuh bantuan?",
+          response: "Tim dukungan kami akan merespons dalam beberapa jam.",
+          submit: "Kirim permintaan bantuan",
+          sent: "Permintaan bantuan Anda telah dikirim. Kami akan segera menghubungi Anda.",
+          name: "Nama lengkap",
+          email: "Email",
+          reference: "Referensi pemesanan (opsional)",
+          message: "Bagaimana kami dapat membantu?",
+          required: "Isi nama, email, dan pesan Anda.",
+          faqs: [
+            [
+              "Bagaimana cara membatalkan atau mengubah pemesanan?",
+              "Buka Perjalanan Saya, pilih pemesanan, lalu pilih Batalkan pemesanan atau Ubah tanggal.",
+            ],
+            [
+              "Kapan saya akan dikenakan biaya?",
+              "Sebagian besar pemesanan dibayar penuh saat pemesanan. Detail pembayaran ditampilkan saat checkout.",
+            ],
+            [
+              "Bagaimana cara kerja poin Menetap Rewards?",
+              "Anda mendapatkan poin dari setiap masa inap yang selesai dan dapat menukarkannya sebagai kredit menginap.",
+            ],
+            [
+              "Apakah harga yang terlihat adalah harga akhir?",
+              "Ya. Menetap menampilkan harga sebenarnya di awal tanpa biaya tersembunyi.",
+            ],
+            [
+              "Bagaimana cara menghubungi host?",
+              "Buka pemesanan di Perjalanan Saya dan gunakan fitur Pesan host.",
+            ],
+            [
+              "Saya ingin mendaftarkan properti. Mulai dari mana?",
+              "Kunjungi halaman partner Menetap untuk memulai proses onboarding.",
+            ],
+          ],
+        };
+  const categories = language === "EN" ? ["All", "Bookings", "Payments", "Rewards", "Account", "Partners"] : ["Semua", "Pemesanan", "Pembayaran", "Rewards", "Akun", "Partner"];
+  const categoryMap = language === "EN" ? ["Bookings", "Payments", "Rewards", "Payments", "Bookings", "Partners", "Account", "Bookings", "Payments", "Account"] : ["Pemesanan", "Pembayaran", "Rewards", "Pembayaran", "Pemesanan", "Partner", "Akun", "Pemesanan", "Pembayaran", "Akun"];
+  const additionalFaqs = language === "EN" ? [["How do I update my account details?", "Open Settings from your account menu, update your details, and save your changes."], ["What happens if a property cancels my booking?", "We’ll notify you promptly and help arrange a suitable alternative or explain the available refund options."], ["Are taxes and fees included in the displayed price?", "Any applicable taxes, service fees, and add-ons are shown in the price breakdown before you confirm."], ["How do I report a safety or stay issue?", "Contact support and include your booking reference so our team can prioritize the case."]] : [["Bagaimana cara memperbarui data akun?", "Buka Pengaturan dari menu akun, perbarui data, lalu simpan perubahan."], ["Apa yang terjadi jika properti membatalkan pemesanan saya?", "Kami akan segera memberi tahu Anda dan membantu menjelaskan pilihan pengembalian dana."], ["Apakah pajak dan biaya sudah termasuk?", "Pajak, biaya layanan, dan add-on yang berlaku ditampilkan sebelum Anda mengonfirmasi."], ["Bagaimana cara melaporkan masalah keamanan atau masa inap?", "Hubungi dukungan dan sertakan referensi pemesanan agar dapat kami prioritaskan."]];
+  const allFaqs = [...content.faqs, ...additionalFaqs];
+  const submitRequest = async (event: FormEvent) => {
+    event.preventDefault();
+    if (!form.name || !form.email || !form.message) {
+      setFormError(content.required);
+      return;
+    }
+    setFormError("");
+    try {
+      await createSupportRequest({ name: form.name, email: form.email, bookingReference: form.reference || undefined, message: form.message });
+      setSubmitted(true);
+    } catch {
+      setFormError(language === "EN" ? "We could not send your request. Please try again." : "Permintaan tidak dapat dikirim. Silakan coba lagi.");
+    }
+  };
+  return (
+    <>
+    <main className="help-page">
+        <div className="help-header">
+          <button onClick={() => { if (window.history.length > 1) window.history.back(); else window.location.assign("/en"); }}>{content.back}</button>
+        </div>
+        <section className="help-content">
+          <h1>{content.title}</h1>
+          <p>{content.intro}</p>
+          <div className="help-topic-tabs">{categories.map((category) => <button className={topic === (category === "Semua" ? "All" : category) ? "active" : ""} key={category} onClick={() => setTopic(category === "Semua" ? "All" : category)}>{category}</button>)}</div>
+          <div className="help-faq-list">
+            {allFaqs.map(([question, answer], index) => (topic === "All" || categoryMap[index] === topic) && (
+              <article className="help-faq" key={question}>
+                <button onClick={() => setOpen(open === index ? null : index)}>
+                  <span>{question}</span>
+                  <b>{open === index ? <ChevronUp size={14} /> : <ChevronDown size={14} />}</b>
+                </button>
+                {open === index && <div>{answer}</div>}
+              </article>
+            ))}
+          </div>
+          <div className="help-contact">
+            <div>
+              <strong>{content.still}</strong>
+              <span>{content.response}</span>
+            </div>
+            <button
+              onClick={() => {
+                setContactOpen(true);
+                setSubmitted(false);
+              }}
+            >
+              {content.contact}
+            </button>
+          </div>
+          {contactOpen && (
+            <div className="support-form-card">
+              <div className="support-form-heading">
+                <strong>{content.contact}</strong>
+                <button onClick={() => setContactOpen(false)}>×</button>
+              </div>
+              {submitted ? (
+                <p className="support-success">{content.sent}</p>
+              ) : (
+                <form onSubmit={submitRequest}>
+                  {formError && <p className="support-form-error">{formError}</p>}
+                  <label>
+                    {content.name}
+                    <input
+                      value={form.name}
+                      onChange={(event) =>
+                        setForm({ ...form, name: event.target.value })
+                      }
+                    />
+                  </label>
+                  <label>
+                    {content.email}
+                    <input
+                      type="email"
+                      value={form.email}
+                      onChange={(event) =>
+                        setForm({ ...form, email: event.target.value })
+                      }
+                    />
+                  </label>
+                  <label>
+                    {content.reference}
+                    <input
+                      value={form.reference}
+                      onChange={(event) =>
+                        setForm({ ...form, reference: event.target.value })
+                      }
+                    />
+                  </label>
+                  <label>
+                    {content.message}
+                    <textarea
+                      rows={4}
+                      value={form.message}
+                      onChange={(event) =>
+                        setForm({ ...form, message: event.target.value })
+                      }
+                    />
+                  </label>
+                  <button type="submit">{content.submit}</button>
+                </form>
+              )}
+            </div>
+          )}
+        </section>
+      </main>
+      <Footer language={language} setLanguage={setLanguage} />
+    </>
+  );
 }
 
 function Footer({
@@ -1913,7 +2813,14 @@ function FooterColumn({ title, links }: { title: string; links: string[] }) {
     <div className="footer-column">
       <strong>{title}</strong>
       {links.map((link) => (
-        <a href={`#${link.toLowerCase().replaceAll(" ", "-")}`} key={link}>
+        <a
+          href={
+            link === "Help center"
+              ? "/en/help"
+              : `#${link.toLowerCase().replaceAll(" ", "-")}`
+          }
+          key={link}
+        >
           {link}
         </a>
       ))}
@@ -2710,7 +3617,9 @@ function RoomSelection({
   const [breakfastRooms, setBreakfastRooms] = useState<Record<string, boolean>>(
     {},
   );
-  const [selectedReservationAddOns, setSelectedReservationAddOns] = useState<Record<string, boolean>>({});
+  const [selectedReservationAddOns, setSelectedReservationAddOns] = useState<
+    Record<string, boolean>
+  >({});
   const [editCheckIn, setEditCheckIn] = useState(search.checkIn);
   const [editCheckOut, setEditCheckOut] = useState(search.checkOut);
   const [editAdults, setEditAdults] = useState(search.adults);
@@ -2750,15 +3659,21 @@ function RoomSelection({
         86400000,
     ),
   );
-  const total = selectedRoomEntries.reduce(
-    (sum, room) =>
-      sum +
-      ((selectedPlans[room._id] === "nonref" ? 801000 : 890000) +
-        (breakfastRooms[room._id] ? 75000 * search.guests : 0)) *
-        nights *
-        (selectedRooms[room._id] ?? 0),
-    0,
-  ) + (reservationAddOns ?? []).reduce((sum, service) => sum + (selectedReservationAddOns[service._id] ? service.price : 0), 0);
+  const total =
+    selectedRoomEntries.reduce(
+      (sum, room) =>
+        sum +
+        ((selectedPlans[room._id] === "nonref" ? 801000 : 890000) +
+          (breakfastRooms[room._id] ? 75000 * search.guests : 0)) *
+          nights *
+          (selectedRooms[room._id] ?? 0),
+      0,
+    ) +
+    (reservationAddOns ?? []).reduce(
+      (sum, service) =>
+        sum + (selectedReservationAddOns[service._id] ? service.price : 0),
+      0,
+    );
   const selectedRoomCount = Object.values(selectedRooms).reduce(
     (sum, quantity) => sum + quantity,
     0,
@@ -2806,17 +3721,39 @@ function RoomSelection({
             <div className="date-editor-guests">
               <label>Adults</label>
               <div className="guest-stepper">
-                <button type="button" onClick={() => setEditAdults(Math.max(1, editAdults - 1))}>−</button>
+                <button
+                  type="button"
+                  onClick={() => setEditAdults(Math.max(1, editAdults - 1))}
+                >
+                  −
+                </button>
                 <strong>{editAdults}</strong>
-                <button type="button" onClick={() => setEditAdults(Math.min(10, editAdults + 1))}>+</button>
+                <button
+                  type="button"
+                  onClick={() => setEditAdults(Math.min(10, editAdults + 1))}
+                >
+                  +
+                </button>
               </div>
             </div>
             <div className="date-editor-guests">
               <label>Children</label>
               <div className="guest-stepper">
-                <button type="button" onClick={() => setEditChildren(Math.max(0, editChildren - 1))}>−</button>
+                <button
+                  type="button"
+                  onClick={() => setEditChildren(Math.max(0, editChildren - 1))}
+                >
+                  −
+                </button>
                 <strong>{editChildren}</strong>
-                <button type="button" onClick={() => setEditChildren(Math.min(10, editChildren + 1))}>+</button>
+                <button
+                  type="button"
+                  onClick={() =>
+                    setEditChildren(Math.min(10, editChildren + 1))
+                  }
+                >
+                  +
+                </button>
               </div>
             </div>
             <div className="date-editor-warning">
@@ -2899,7 +3836,10 @@ function RoomSelection({
                     <div className="rate-plan">
                       <div>
                         <strong className="rate-plan-title">Refundable</strong>
-                        <small>Free cancellation before {formatDisplayDate(search.checkIn)} at 2:00 PM</small>
+                        <small>
+                          Free cancellation before{" "}
+                          {formatDisplayDate(search.checkIn)} at 2:00 PM
+                        </small>
                       </div>
                       <div className="rate-plan-price">
                         <b>
@@ -2907,27 +3847,57 @@ function RoomSelection({
                           <small className="night-suffix">/night</small>
                         </b>
                       </div>
-                      <button className="choose-rate-button" onClick={() => {
-                          setSelectedPlans((current) => ({ ...current, [room._id]: "refundable" }));
-                          if (!(selectedRooms[room._id] ?? 0)) updateQuantity(room._id, 1);
-                        }}>Choose Rate Plan</button>
+                      <button
+                        className="choose-rate-button"
+                        onClick={() => {
+                          setSelectedPlans((current) => ({
+                            ...current,
+                            [room._id]: "refundable",
+                          }));
+                          if (!(selectedRooms[room._id] ?? 0))
+                            updateQuantity(room._id, 1);
+                        }}
+                      >
+                        Choose Rate Plan
+                      </button>
                     </div>
                     <div className="rate-plan secondary">
                       <div>
-                        <strong className="rate-plan-title">Non-refundable</strong>
+                        <strong className="rate-plan-title">
+                          Non-refundable
+                        </strong>
                         <small>
-                          cancellation is strict · <span className="rate-plan-discount">10% cheaper</span>
+                          cancellation is strict ·{" "}
+                          <span className="rate-plan-discount">
+                            10% cheaper
+                          </span>
                         </small>
                       </div>
                       <div className="rate-plan-price">
-                        <b>Rp 801,000<small className="night-suffix">/night</small></b>
+                        <b>
+                          Rp 801,000
+                          <small className="night-suffix">/night</small>
+                        </b>
                       </div>
-                      <button className="choose-rate-button" onClick={() => {
-                            if (window.confirm("Non-refundable bookings cannot be cancelled for a refund. Continue with this 10% cheaper rate?")) {
-                              setSelectedPlans((current) => ({ ...current, [room._id]: "nonref" }));
-                              if (!(selectedRooms[room._id] ?? 0)) updateQuantity(room._id, 1);
-                            }
-                          }}>Choose Rate Plan</button>
+                      <button
+                        className="choose-rate-button"
+                        onClick={() => {
+                          if (
+                            window.confirm(
+                              "Non-refundable bookings cannot be cancelled for a refund. Continue with this 10% cheaper rate?",
+                            )
+                          ) {
+                            setSelectedPlans((current) => ({
+                              ...current,
+                              [room._id]: "nonref",
+                            }));
+                            if (!(selectedRooms[room._id] ?? 0))
+                              updateQuantity(room._id, 1);
+                          }
+                        }}
+                      >
+                        Choose Rate Plan
+                      </button>
                     </div>
                   </div>
                 </article>
@@ -2944,7 +3914,12 @@ function RoomSelection({
           <div className="summary-label">Your selection</div>
           <div className="cart-stay-summary">
             <strong>Kaliurang Heritage Villa</strong>
-            <span>{formatDisplayDate(search.checkIn)} → {formatDisplayDate(search.checkOut)} ·<br />{nights} {nights === 1 ? "night" : "nights"} · {search.adults} adults + {search.children} children</span>
+            <span>
+              {formatDisplayDate(search.checkIn)} →{" "}
+              {formatDisplayDate(search.checkOut)} ·<br />
+              {nights} {nights === 1 ? "night" : "nights"} · {search.adults}{" "}
+              adults + {search.children} children
+            </span>
           </div>
           {selectedRoomCount ? (
             <>
@@ -2953,20 +3928,35 @@ function RoomSelection({
                   <div className="cart-room-row" key={room._id}>
                     <span>
                       {room.name}
-                      <small>{selectedPlans[room._id] === "nonref" ? "Non-refundable" : "Refundable"}</small>
+                      <small>
+                        {selectedPlans[room._id] === "nonref"
+                          ? "Non-refundable"
+                          : "Refundable"}
+                      </small>
                     </span>
                     <div className="room-quantity-control">
-                      <button onClick={() => updateQuantity(room._id, -1)}>−</button>
+                      <button onClick={() => updateQuantity(room._id, -1)}>
+                        −
+                      </button>
                       <b>{selectedRooms[room._id] ?? 0}</b>
-                      <button onClick={() => updateQuantity(room._id, 1)}>+</button>
+                      <button onClick={() => updateQuantity(room._id, 1)}>
+                        +
+                      </button>
                     </div>
                     <label className="cart-addon">
                       <input
                         type="checkbox"
                         checked={breakfastRooms[room._id] ?? false}
-                        onChange={(event) => setBreakfastRooms((current) => ({ ...current, [room._id]: event.target.checked }))}
+                        onChange={(event) =>
+                          setBreakfastRooms((current) => ({
+                            ...current,
+                            [room._id]: event.target.checked,
+                          }))
+                        }
                       />
-                      <span>Add breakfast <small>Rp 75,000/pax/night</small></span>
+                      <span>
+                        Add breakfast <small>Rp 75,000/pax/night</small>
+                      </span>
                     </label>
                   </div>
                 ))}
@@ -2978,10 +3968,22 @@ function RoomSelection({
                     <label className="cart-addon" key={service._id}>
                       <input
                         type="checkbox"
-                        checked={selectedReservationAddOns[service._id] ?? false}
-                        onChange={(event) => setSelectedReservationAddOns((current) => ({ ...current, [service._id]: event.target.checked }))}
+                        checked={
+                          selectedReservationAddOns[service._id] ?? false
+                        }
+                        onChange={(event) =>
+                          setSelectedReservationAddOns((current) => ({
+                            ...current,
+                            [service._id]: event.target.checked,
+                          }))
+                        }
                       />
-                      <span>{service.name}<small>Rp {service.price.toLocaleString("en-US")} one-time</small></span>
+                      <span>
+                        {service.name}
+                        <small>
+                          Rp {service.price.toLocaleString("en-US")} one-time
+                        </small>
+                      </span>
                     </label>
                   ))}
                 </div>
@@ -2989,13 +3991,48 @@ function RoomSelection({
               <div className="cart-price-breakdown">
                 {selectedRoomEntries.map((room) => (
                   <>
-                    <div key={`breakdown-${room._id}`}><span>{room.name} ×{selectedRooms[room._id] ?? 0}</span><b>Rp {(((selectedPlans[room._id] === "nonref" ? 801000 : 890000) * nights * (selectedRooms[room._id] ?? 0))).toLocaleString("en-US")}</b></div>
-                    {breakfastRooms[room._id] && <div key={`breakfast-breakdown-${room._id}`}><span>Breakfast ×{search.guests * (selectedRooms[room._id] ?? 0)}</span><b>Rp {(75000 * search.guests * nights * (selectedRooms[room._id] ?? 0)).toLocaleString("en-US")}</b></div>}
+                    <div key={`breakdown-${room._id}`}>
+                      <span>
+                        {room.name} ×{selectedRooms[room._id] ?? 0}
+                      </span>
+                      <b>
+                        Rp{" "}
+                        {(
+                          (selectedPlans[room._id] === "nonref"
+                            ? 801000
+                            : 890000) *
+                          nights *
+                          (selectedRooms[room._id] ?? 0)
+                        ).toLocaleString("en-US")}
+                      </b>
+                    </div>
+                    {breakfastRooms[room._id] && (
+                      <div key={`breakfast-breakdown-${room._id}`}>
+                        <span>
+                          Breakfast ×
+                          {search.guests * (selectedRooms[room._id] ?? 0)}
+                        </span>
+                        <b>
+                          Rp{" "}
+                          {(
+                            75000 *
+                            search.guests *
+                            nights *
+                            (selectedRooms[room._id] ?? 0)
+                          ).toLocaleString("en-US")}
+                        </b>
+                      </div>
+                    )}
                   </>
                 ))}
-                {reservationAddOns?.filter((service) => selectedReservationAddOns[service._id]).map((service) => (
-                  <div key={`addon-breakdown-${service._id}`}><span>{service.name}</span><b>Rp {service.price.toLocaleString("en-US")}</b></div>
-                ))}
+                {reservationAddOns
+                  ?.filter((service) => selectedReservationAddOns[service._id])
+                  .map((service) => (
+                    <div key={`addon-breakdown-${service._id}`}>
+                      <span>{service.name}</span>
+                      <b>Rp {service.price.toLocaleString("en-US")}</b>
+                    </div>
+                  ))}
               </div>
               <hr />
               <div className="summary-total">
@@ -3187,13 +4224,11 @@ function MapPreview({
   properties: Array<{ _id: string; name: string; lowestPrice?: number }>;
   onSelect: (id: string) => void;
 }) {
-  const points = properties
-    .slice(0, 30)
-    .map((property, index) => ({
-      property,
-      top: 18 + ((index * 29) % 64),
-      left: 18 + ((index * 43) % 68),
-    }));
+  const points = properties.slice(0, 30).map((property, index) => ({
+    property,
+    top: 18 + ((index * 29) % 64),
+    left: 18 + ((index * 43) % 68),
+  }));
   const clusters = points.reduce<
     Array<{ top: number; left: number; properties: typeof points }>
   >((groups, point) => {
