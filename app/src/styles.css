@@ -408,3 +408,7 @@ h3 { margin: 0 0 8px; font: 800 var(--type-card)/1.2 'Plus Jakarta Sans', sans-s
   .mobile-menu-panel button:hover { color: #7229ff; background: #f7f6ff; }
   .mobile-menu-panel .language-toggle { margin-top: 6px; }
 }
+@media (max-width: 760px) {
+  .dc-hero .hero-badge { display: none; }
+  .dc-hero h1 { font-size: clamp(38px, 10vw, 48px); }
+}
