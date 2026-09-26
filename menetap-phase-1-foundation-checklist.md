@@ -222,3 +222,5 @@ Phase 1 is complete when:
 - [x] Add a Sleman-specific destination image for the destination directory, with descriptive alternative text.
 
 - [x] Mark the destination landing pages and all-destinations directory as visually complete for the current prototype scope.
+
+- [x] Complete current mobile polish pass: hamburger navigation, in-menu language selector, non-sticky mobile search, back-to-top control, footer spacing, hero badge visibility, and responsive headline sizing.
