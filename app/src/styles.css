@@ -489,3 +489,5 @@ h3 { margin: 0 0 8px; font: 800 var(--type-card)/1.2 'Plus Jakarta Sans', sans-s
 .room-quantity-control button { width:26px; height:26px; padding:0; border:1px solid #e5e2f5; border-radius:50%; color:#7229ff; background:#fff; font-size:16px; line-height:1; }
 .room-quantity-control b { min-width:14px; text-align:center; font-size:12px; }
 .selection-line-items { display:flex; flex-direction:column; gap:8px; }
+.room-quantity-control { display:inline-flex; flex-wrap:nowrap; white-space:nowrap; vertical-align:middle; }
+.room-quantity-control b { display:inline-block; }
