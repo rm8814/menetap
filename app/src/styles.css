@@ -506,3 +506,102 @@ h3 { margin: 0 0 8px; font: 800 var(--type-card)/1.2 'Plus Jakarta Sans', sans-s
 .date-editor > small { color:rgba(12,10,30,.55); font-size:10px; line-height:1.5; }
 @media (min-width:761px) { .date-editor > label:not(.date-editor-guests) { display:grid; grid-template-columns:72px 1fr; align-items:center; gap:8px; }.date-editor > label:not(.date-editor-guests) input { margin-top:0; } }
 @media (max-width:760px) { .date-editor { width:calc(100vw - 68px); } }
+.date-editor { display:flex; flex-direction:column; gap:12px; width:280px; padding:16px; }
+.date-editor-fields { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.date-editor-fields label { padding:0; color:rgba(12,10,30,.5); font-size:10px; font-weight:700; text-transform:uppercase; }
+.date-editor-fields input { display:block; width:100%; box-sizing:border-box; margin-top:4px; padding:7px 8px; border:1px solid #e5e2f5; border-radius:6px; font:12px 'JetBrains Mono',monospace; }
+.date-editor-guests { display:flex; align-items:center; justify-content:space-between; padding:0; }
+.date-editor-guests label { padding:0; color:rgba(12,10,30,.5); font-size:10px; font-weight:700; text-transform:uppercase; }
+.guest-stepper { display:flex; align-items:center; gap:10px; }
+.guest-stepper button { display:grid; place-items:center; width:22px; height:22px; min-height:0; padding:0; border:1px solid #e5e2f5; border-radius:50%; color:#0c0a1e; background:#fff; font-size:13px; font-weight:700; }
+.guest-stepper strong { min-width:14px; text-align:center; font-size:13px; }
+.date-editor-warning { padding:8px; border-radius:6px; color:rgba(12,10,30,.7); background:rgba(192,57,43,.06); font-size:11px; line-height:1.5; }
+.date-editor-submit { width:100%; min-height:38px; padding:0 14px; border-radius:4px; color:#fff; background:#7229ff; font-size:12px; font-weight:700; }
+@media (max-width:760px) { .date-editor { width:calc(100vw - 68px); } }
+.change-search-link { color:rgba(12,10,30,.6); font-size:12px; font-weight:600; text-decoration:none; cursor:pointer; }
+.change-search-link:hover { color:#7229ff; text-decoration:underline; }
+.date-editor { box-sizing:border-box; padding:16px; }
+.date-editor-warning { color:#c0392b; background:rgba(192,57,43,.06); }
+.date-editor { width:320px; }
+.date-editor-fields { grid-template-columns:minmax(0,1fr) minmax(0,1fr); }
+@media (max-width:760px) { .date-editor { width:calc(100vw - 48px); } }
+.date-editor { width:300px; }
+@media (max-width:760px) { .date-editor { width:calc(100vw - 48px); } }
+.rate-plan-choice { display:flex; align-items:center; gap:7px; padding:0; color:#0c0a1e; font-size:13px; font-weight:700; }
+.rate-plan-choice input { width:15px; height:15px; margin:0; accent-color:#7229ff; }
+.rate-plan-choice strong { display:inline; }
+.rate-plan-choice + small { margin-left:22px; }
+.rate-plan-saving { color:#7229ff; font-weight:700; white-space:nowrap; }
+.rate-plan-discount { color:#00a9c7; font-weight:700; }
+.rate-plan-title { display:block; margin-bottom:6px; font-size:13px; }
+.choose-rate-button { margin-top:8px; min-height:34px; padding:0 12px; border:1px solid #7229ff; border-radius:4px; color:#7229ff; background:#fff; font-size:11px; font-weight:700; white-space:nowrap; }
+.choose-rate-button:hover { color:#fff; background:#7229ff; }
+.cart-room-list { display:grid; gap:12px; margin:12px 0 14px; }
+.cart-room-row { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:12px; padding-bottom:12px; border-bottom:1px solid #e5e2f5; }
+.cart-room-row > span { display:grid; gap:4px; min-width:0; font-size:12px; font-weight:700; }
+.cart-room-row > span small { color:rgba(12,10,30,.55); font-size:10px; font-weight:500; }
+.cart-room-row > span .cart-breakfast { color:#7229ff; }
+.cart-room-row .room-quantity-control { flex:0 0 auto; }
+.cart-addon { flex:1 0 100%; display:flex; align-items:flex-start; gap:7px; margin-top:-6px; color:#0c0a1e; font-size:11px; font-weight:700; }
+.cart-addon input { width:14px; height:14px; margin:0; accent-color:#7229ff; }
+.cart-addon span { display:grid; gap:2px; }
+.cart-addon small { color:rgba(12,10,30,.55); font-size:10px; font-weight:500; }
+.cart-reservation-addons { display:grid; gap:8px; padding:2px 0 4px; }
+.cart-addon-heading { color:rgba(12,10,30,.5); font-size:10px; font-weight:700; letter-spacing:.03em; text-transform:uppercase; }
+.room-selection-header { margin-top:24px; }
+.rate-plan { display:grid; grid-template-columns:minmax(0,1fr) auto auto; align-items:center; }
+.rate-plan > .choose-rate-button { margin-top:0; }
+.room-selection-header .instant-badge { margin-top:12px; }
+@media (max-width:760px) { .rate-plan { grid-template-columns:minmax(0,1fr) auto; }.rate-plan > .choose-rate-button { grid-column:1/-1; width:100%; } }
+.rentals-landing { min-height:100vh; background:#f7f6ff; }
+.rentals-wrap { width:min(1240px,calc(100% - 48px)); margin:0 auto; }
+.rentals-hero { padding:64px 0 40px; text-align:center; }
+.rentals-hero-copy { display:flex; flex-direction:column; align-items:center; gap:10px; }
+.rentals-hero-copy .hero-badge { margin:0; }
+.rentals-hero h1 { max-width:600px; margin:8px 0 0; font-size:40px; line-height:1.15; }
+.rentals-hero-copy > p { max-width:480px; margin:4px 0 0; color:rgba(12,10,30,.65); font-size:15px; line-height:1.7; }
+.rentals-stats { display:flex; justify-content:center; gap:40px; margin:28px auto 0; }
+.rentals-stats div { display:grid; gap:2px; }
+.rentals-stats strong { color:#7229ff; font:800 22px 'Plus Jakarta Sans',sans-serif; }
+.rentals-stats span { color:rgba(12,10,30,.55); font-size:11px; }
+.rentals-search-card { display:grid; grid-template-columns:1.25fr .9fr .75fr .9fr .75fr .7fr auto; align-items:stretch; margin-top:32px; padding:20px; border:1px solid #e5e2f5; border-radius:8px; background:#fff; box-shadow:0 2px 8px rgba(114,41,255,.06); text-align:left; }
+.rentals-search-card label { display:flex; flex-direction:column; gap:4px; min-width:0; padding:0 20px; border-right:1px solid #e5e2f5; }
+.rentals-search-card label:first-child { padding-left:0; }
+.rentals-search-card label > span { color:rgba(12,10,30,.5); font-size:11px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; }
+.rentals-search-card input { width:100%; padding:0; border:0; outline:0; background:transparent; color:#0c0a1e; font:600 14px 'JetBrains Mono',monospace; }
+.rentals-search-card em { display:flex; align-items:center; gap:6px; margin-top:2px; color:rgba(12,10,30,.5); font-size:11px; font-style:normal; font-weight:400; }
+.rentals-search-card em input { width:13px; accent-color:#7229ff; }
+.rentals-search-card .dropoff-input { padding-top:4px; border-top:1px dashed #e5e2f5; color:#7229ff; font-size:13px; }
+.rentals-search-card label small { color:#c0392b; font-size:10px; }
+.rental-stepper { display:flex; align-items:center; gap:8px; margin-top:4px; }
+.rental-stepper button { display:grid; place-items:center; width:20px; height:20px; padding:0; border:1px solid #e5e2f5; border-radius:50%; background:#fff; font-weight:700; }
+.rental-stepper b { min-width:12px; text-align:center; font-size:14px; }
+.rental-search-button { align-self:stretch; min-width:140px; margin-left:16px; padding:0 16px; border:0; border-radius:6px; color:#fff; background:#7229ff; font:700 14px 'JetBrains Mono',monospace; }
+.rentals-popular { display:flex; align-items:center; justify-content:center; flex-wrap:wrap; gap:10px; margin-top:20px; }
+.rentals-popular > span { color:#5e5a78; font-size:12px; line-height:1.4; }
+.rentals-popular button { padding:6px 14px; border:1px solid #e5e2f5; border-radius:24px; color:#0c0a1e; background:#fff; font:600 12px/1.4 'JetBrains Mono',monospace; white-space:nowrap; }
+.rentals-popular button:hover { border-color:#7229ff; color:#7229ff; }
+.rentals-pricing { display:grid; grid-template-columns:1fr 1fr; align-items:center; gap:48px; padding:8px 0 56px; }
+.rentals-pricing h2,.rentals-types h2 { margin:0 0 12px; font:800 24px 'Plus Jakarta Sans',sans-serif; letter-spacing:-.02em; }
+.rentals-pricing p { max-width:420px; margin:0; color:rgba(12,10,30,.65); font-size:14px; line-height:1.8; }
+.rental-price-card { display:flex; flex-direction:column; gap:10px; padding:22px; border:1px solid #e5e2f5; border-radius:8px; background:#fff; box-shadow:0 2px 8px rgba(114,41,255,.06); font-size:13px; }
+.rental-price-card div { display:flex; justify-content:space-between; gap:12px; }.rental-price-card span { color:rgba(12,10,30,.6); }.rental-price-card hr { width:100%; border:0; border-top:1px solid #e5e2f5; }.rental-price-card .price-total { font-size:15px; }.price-total b { font:800 15px 'Plus Jakarta Sans',sans-serif; }
+.rentals-types { padding:24px 0 56px; }.rental-type-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; }.rental-type-grid a { overflow:hidden; border:1px solid #e5e2f5; border-radius:8px; background:#fff; }.rental-type-image { display:grid; place-items:center; aspect-ratio:4/3; color:rgba(12,10,30,.35); font-size:13px; }.scooter-image { background:linear-gradient(135deg,#e5e2f5,#cfc8f0); }.car-image { background:linear-gradient(135deg,#dfe8ff,#c8d4f5); }.rental-type-grid a > div:last-child { padding:18px; }.rental-type-grid h3 { margin:0; font:700 17px 'Plus Jakarta Sans',sans-serif; }.rental-type-grid p { margin:6px 0 0; color:rgba(12,10,30,.6); font-size:13px; line-height:1.6; }
+.rental-benefits { display:flex; flex-wrap:wrap; gap:32px; padding:20px 0 56px; border-top:1px solid #e5e2f5; color:rgba(12,10,30,.6); font-size:13px; }.rental-benefits span { display:flex; align-items:center; gap:8px; }.rental-benefits span:first-child { color:#00a9c7; }
+.rental-trip-banner { display:flex; align-items:center; justify-content:space-between; gap:20px; flex-wrap:wrap; margin-bottom:64px; padding:28px; border:1px solid #e5e2f5; border-radius:8px; background:linear-gradient(135deg,rgba(114,41,255,.06),rgba(0,202,239,.06)); }.rental-trip-banner h3 { margin:0 0 4px; font:800 17px 'Plus Jakarta Sans',sans-serif; }.rental-trip-banner p { margin:0; color:rgba(12,10,30,.6); font-size:13px; }.rental-trip-banner button { min-height:44px; padding:0 20px; border:0; border-radius:4px; color:#fff; background:#7229ff; font-weight:700; }
+@media (max-width:760px) { .rentals-wrap { width:calc(100% - 32px); }.rentals-hero { padding-top:36px; }.rentals-hero h1 { font-size:34px; }.rentals-stats { gap:18px; }.rentals-stats strong { font-size:18px; }.rentals-stats span { font-size:9px; }.rentals-search-card,.rentals-pricing,.rental-type-grid { grid-template-columns:1fr; }.rentals-search-card { gap:16px; padding:16px; }.rentals-search-card label,.rentals-search-card label:first-child { padding:0 0 12px; border-right:0; border-bottom:1px solid #e5e2f5; }.rental-search-button { min-height:48px; margin:0; }.rentals-pricing { gap:24px; }.rental-benefits { gap:16px; font-size:11px; }.rental-trip-banner { padding:20px; }.rental-trip-banner button { width:100%; } }
+.scooter-image,.rental-scooter { background-image:linear-gradient(180deg,rgba(12,10,30,.02),rgba(12,10,30,.28)),url('https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=1000&q=80'); background-position:center; background-size:cover; color:transparent; }
+.car-image,.rental-car { background-image:linear-gradient(180deg,rgba(12,10,30,.02),rgba(12,10,30,.28)),url('https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=1000&q=80'); background-position:center; background-size:cover; color:transparent; }
+.rental-search-page { min-height:calc(100vh - 78px); padding:20px 0 64px; background:#f7f6ff; }
+.rental-search-context { display:flex; align-items:center; gap:14px; padding:14px 18px; border:1px solid #e5e2f5; border-radius:8px; background:#fff; font-size:13px; }.rental-search-context span { color:rgba(12,10,30,.55); }
+.rental-results-layout { display:grid; grid-template-columns:220px 1fr; gap:28px; padding-top:24px; }.rental-filter-panel { display:flex; flex-direction:column; gap:10px; align-self:start; padding:16px; border:1px solid #e5e2f5; border-radius:8px; background:#fff; }.rental-filter-panel h3 { margin:4px 0; font-size:13px; }.rental-filter-panel label { display:flex; align-items:center; gap:8px; font-size:12px; }.rental-filter-panel input { accent-color:#7229ff; }
+.rental-results { display:flex; flex-direction:column; gap:14px; }.rental-results-heading { display:flex; align-items:flex-end; justify-content:space-between; gap:12px; }.rental-results-heading h1 { margin:4px 0 0; font-size:28px; }.rental-results-heading .eyebrow { margin:0; }.rental-results-heading > span { color:rgba(12,10,30,.55); font-size:11px; }.rental-result-card { display:grid; grid-template-columns:220px 1fr; overflow:hidden; border:1px solid #e5e2f5; border-radius:8px; background:#fff; }.rental-result-image { min-height:168px; display:grid; place-items:center; color:rgba(255,255,255,.8); background-position:center; background-size:cover; }.rental-result-image > span { display:grid; place-items:center; width:56px; height:56px; border-radius:50%; background:rgba(12,10,30,.24); }.rental-result-content { display:flex; flex-direction:column; gap:12px; padding:18px; }.rental-result-top { display:flex; justify-content:space-between; gap:12px; }.rental-result-top h2 { margin:0; font:700 17px 'Plus Jakarta Sans',sans-serif; }.rental-result-top p { margin:4px 0 0; color:rgba(12,10,30,.55); font-size:12px; }.rental-result-top > strong { flex:none; font:800 17px 'Plus Jakarta Sans',sans-serif; text-align:right; }.rental-result-top > strong small { display:block; color:rgba(12,10,30,.5); font:500 10px 'JetBrains Mono',monospace; }.rental-tags { display:flex; flex-wrap:wrap; gap:6px; }.rental-tags span { padding:3px 8px; border-radius:4px; color:#7229ff; background:rgba(114,41,255,.08); font-size:10px; font-weight:600; }.rental-result-bottom { display:flex; align-items:flex-end; justify-content:space-between; gap:12px; margin-top:auto; }.rental-result-price { display:grid; gap:3px; color:rgba(12,10,30,.55); font-size:11px; }.rental-result-price b { color:#0c0a1e; font:700 13px 'Plus Jakarta Sans',sans-serif; }.rental-result-price small { color:rgba(12,10,30,.5); font-size:10px; }.rental-result-bottom button { min-height:36px; padding:0 14px; border:0; border-radius:4px; color:#fff; background:#7229ff; font-size:11px; font-weight:700; }
+@media (max-width:760px) { .rental-search-context { align-items:flex-start; flex-direction:column; gap:5px; }.rental-results-layout { grid-template-columns:1fr; }.rental-filter-panel { display:grid; grid-template-columns:1fr 1fr; gap:10px; }.rental-filter-panel h3 { grid-column:1/-1; }.rental-results-heading { align-items:flex-start; flex-direction:column; }.rental-result-card { grid-template-columns:1fr; }.rental-result-image { min-height:190px; }.rental-result-top > strong { font-size:15px; }.rental-result-bottom { align-items:stretch; flex-direction:column; }.rental-result-bottom button { width:100%; min-height:44px; } }
+.cart-stay-summary { display:grid; gap:5px; margin:10px 0 16px; padding-bottom:14px; border-bottom:1px solid #e5e2f5; }
+.cart-stay-summary strong { font-family:'Plus Jakarta Sans',sans-serif; font-size:18px; }
+.cart-stay-summary span { color:rgba(12,10,30,.58); font-size:10px; line-height:1.5; }
+.cart-change-link { color:#7229ff; font-size:10px; font-weight:700; text-decoration:none; }
+.cart-change-link:hover { text-decoration:underline; }
+.cart-price-breakdown { display:grid; gap:8px; }
+.cart-price-breakdown div { display:flex; justify-content:space-between; gap:12px; color:rgba(12,10,30,.62); font-size:11px; }
+.cart-price-breakdown b { color:#0c0a1e; font-weight:700; }

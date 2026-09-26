@@ -16,10 +16,10 @@ This checklist is the product-scope inventory. The `.dc.html` screens remain the
 - `[~]` Destination landing pages — localized React pages and all-destinations directory with unique content, properties, FAQs, internal links, and current visual scope complete; production SEO hardening and live browser QA remain.
 - `[~]` Search results — Convex property query, loading/empty states, type filter, name sorting, responsive cards, and booking navigation implemented; map/list behavior, real filters, images, and full DC parity remain.
 - `[~]` Hotel/property detail — visually complete for the current prototype scope with the DC-inspired gallery, amenities, reviews, policies, pricing, room cards, experiences, location, responsive layout, and mobile reserve CTA; approved media, live booking inputs, add-ons, and full production parity remain.
-- `[~]` Room selection — Convex room inventory query, availability states, room choice, navigation, DC-inspired stay summary, date editor, rate plans, selection summary, responsive layout, and checkout continuation implemented; live date updates, policies, exact price breakdown, and full production parity remain.
+- `[~]` Room selection — visually complete for the current prototype scope with Convex room inventory, availability states, room choice, navigation, DC-inspired stay summary, date editor, rate plans, room/add-on cart, reservation add-ons, responsive layout, and checkout continuation; live date updates, policies, exact pricing, and full production parity remain.
 - `[~]` Cancellation policy — DC reference exists; React production page and policy data integration remain.
 - `[ ]` Experiences directory and detail pages.
-- `[ ]` Rentals landing, search, detail, checkout, and confirmation workflows.
+- `[ ]` Rentals landing, search, detail, checkout, and confirmation workflows — deferred from project v1.
 - `[ ]` Supply catalog, product detail, checkout, and confirmation workflows.
 
 ### Account and booking

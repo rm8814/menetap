@@ -31,6 +31,24 @@ export const seedDemo = mutation({
       roomTypeId = room?._id;
     }
 
+    if (propertyId) {
+      const propertyRooms = await ctx.db.query('roomTypes').withIndex('by_property', (q) => q.eq('propertyId', propertyId!)).collect();
+      if (!propertyRooms.some((room) => room.name === 'Garden Suite')) {
+        const gardenSuiteId = await ctx.db.insert('roomTypes', {
+          propertyId, name: 'Garden Suite', description: 'A spacious suite with a quiet garden outlook.', maxGuests: 2, totalUnits: 2,
+          amenities: ['Wi-Fi', 'Air conditioning', 'Garden view', 'Pool access'], active: true, createdAt: now, updatedAt: now,
+        });
+        await ctx.db.insert('ratePlans', {
+          propertyId, roomTypeId: gardenSuiteId, name: 'Flexible rate', price: 890000, currency: 'IDR', includes: ['Room only'],
+          cancellationPolicy: 'Free cancellation up to 24 hours before check-in.', active: true, createdAt: now, updatedAt: now,
+        });
+        for (let offset = 0; offset < 30; offset += 1) {
+          const date = new Date(Date.now() + offset * 86400000).toISOString().slice(0, 10);
+          await ctx.db.insert('availability', { propertyId, roomTypeId: gardenSuiteId, date, totalUnits: 2, availableUnits: 2, rate: 890000, status: 'open', createdAt: now, updatedAt: now });
+        }
+      }
+    }
+
     const serviceSeeds = [
       ['Airport shuttle', 'airport_shuttle', 'Yogyakarta Transfer Co.', 180000, 'One-way airport transfer for up to four guests.'],
       ['Train station transfer', 'train_transfer', 'Jogja Transfer Co.', 90000, 'One-way transfer to or from Yogyakarta Station.'],

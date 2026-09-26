@@ -1,74 +1,3395 @@
-import { useEffect, useRef, useState } from 'react';
-import { useMutation, useQuery } from 'convex/react';
-import { api } from '../convex/_generated/api';
-import type { GuestScreen, SearchState } from './types';
-import { AuthPanel } from './auth';
-import { CityDestinationLanding } from './cityDestinations';
-import { useAuthActions, useConvexAuth } from '@convex-dev/auth/react';
-import { ArrowUp, Award, CalendarDays, CheckCircle2, Gift, Globe2, MapPin, Menu, RefreshCcw, Search, ShieldCheck, Star, Users, Waves, Wifi, Wind, X, Zap } from 'lucide-react';
+import { useEffect, useRef, useState } from "react";
+import { useMutation, useQuery } from "convex/react";
+import { api } from "../convex/_generated/api";
+import type { GuestScreen, SearchState } from "./types";
+import { AuthPanel } from "./auth";
+import { CityDestinationLanding } from "./cityDestinations";
+import { useAuthActions, useConvexAuth } from "@convex-dev/auth/react";
+import {
+  ArrowUp,
+  Award,
+  Car,
+  CalendarDays,
+  CheckCircle2,
+  Gift,
+  Globe2,
+  MapPin,
+  Menu,
+  RefreshCcw,
+  Search,
+  ShieldCheck,
+  Star,
+  Truck,
+  UserCheck,
+  Users,
+  Waves,
+  Wifi,
+  Wind,
+  X,
+  Zap,
+} from "lucide-react";
 
-const formatLocalDate = (value: Date) => { const year = value.getFullYear(); const month = String(value.getMonth() + 1).padStart(2, '0'); const day = String(value.getDate()).padStart(2, '0'); return `${year}-${month}-${day}`; };
+const formatLocalDate = (value: Date) => {
+  const year = value.getFullYear();
+  const month = String(value.getMonth() + 1).padStart(2, "0");
+  const day = String(value.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+};
+const formatDisplayDate = (value: string) =>
+  new Intl.DateTimeFormat("en-GB", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  })
+    .format(new Date(`${value}T00:00:00`))
+    .replace(/ /g, "-");
 const today = formatLocalDate(new Date());
-const nextDay = (date: string) => { const value = new Date(`${date}T00:00:00`); value.setDate(value.getDate() + 1); return formatLocalDate(value); };
-const initialSearch: SearchState = { destination: '', checkIn: today, checkOut: nextDay(today), guests: 2, adults: 2, children: 0 };
+const nextDay = (date: string) => {
+  const value = new Date(`${date}T00:00:00`);
+  value.setDate(value.getDate() + 1);
+  return formatLocalDate(value);
+};
+const initialSearch: SearchState = {
+  destination: "",
+  checkIn: today,
+  checkOut: nextDay(today),
+  guests: 2,
+  adults: 2,
+  children: 0,
+};
 
 export function App() {
-  const [screen, setScreen] = useState<GuestScreen>('home');
+  const [screen, setScreen] = useState<GuestScreen>("home");
   const [search, setSearch] = useState(initialSearch);
   const [selectedProperty, setSelectedProperty] = useState<string | null>(null);
   const [selectedRoom, setSelectedRoom] = useState<string | null>(null);
   const [bookingCode, setBookingCode] = useState<string | null>(null);
   const [authOpen, setAuthOpen] = useState(false);
-  const [language, setLanguage] = useState<'EN' | 'ID'>('EN');
-  useEffect(() => { const params = new URLSearchParams(window.location.search); const destination = params.get('destination'); const checkIn = params.get('checkIn'); const checkOut = params.get('checkOut'); const adults = Number(params.get('adults') ?? 2); const children = Number(params.get('children') ?? 0); const path = window.location.pathname; const propertyPathMatch = path.match(/\/stays\/property\/([^/]+)$/); const pathLanguage = path.startsWith('/id') ? 'ID' : 'EN'; setLanguage(pathLanguage); if (propertyPathMatch) { setSelectedProperty(decodeURIComponent(propertyPathMatch[1])); setScreen('hotel'); } else if (path.endsWith('/destinations/all')) setScreen('destinations'); else if (path.endsWith('/destinations/yogyakarta')) setScreen('destination'); else if (path.endsWith('/destinations/bantul')) setScreen('bantul'); else if (path.endsWith('/destinations/sleman')) setScreen('sleman'); else if (path.endsWith('/destinations/bandung')) setScreen('bandung'); else if (path.endsWith('/destinations/solo')) setScreen('solo'); else if (path.endsWith('/destinations/malang')) setScreen('malang'); else if (path.endsWith('/destinations/surabaya')) setScreen('surabaya'); else if (path.endsWith('/destinations/denpasar')) setScreen('denpasar'); else if (path.endsWith('/destinations/semarang')) setScreen('semarang'); else if (path.endsWith('/destinations/jakarta')) setScreen('jakarta'); else if (path === '/stays' || path.endsWith('/stays') || destination || checkIn || checkOut) { setSearch({ destination: destination ?? initialSearch.destination, checkIn: checkIn || initialSearch.checkIn, checkOut: checkOut || initialSearch.checkOut, adults, children, guests: adults + children }); setScreen('search'); } }, []);
-  if (authOpen) return <div className="app-shell"><AuthPanel onClose={() => setAuthOpen(false)} /></div>;
-  const goToSearch = () => { window.history.pushState({}, '', `/${language.toLowerCase()}/stays`); setScreen('search'); };
-  return <div className="app-shell"><Header language={language} setLanguage={setLanguage} onHome={() => { window.history.pushState({}, '', `/${language.toLowerCase()}`); setScreen('home'); }} onAuth={() => setAuthOpen(true)} onSearch={goToSearch} />
-    {screen === 'home' && <Home search={search} setSearch={setSearch} onSearch={goToSearch} onPropertySelect={(id) => { setSelectedProperty(id); window.history.pushState({}, '', '/' + language.toLowerCase() + '/stays/property/' + encodeURIComponent(id)); setScreen('hotel'); }} language={language} setLanguage={setLanguage} />}
-    {screen === 'search' && <SearchResults search={search} setSearch={setSearch} onBack={() => setScreen('home')} onSelect={(id) => { setSelectedProperty(id); window.history.pushState({}, '', '/' + language.toLowerCase() + '/stays/property/' + encodeURIComponent(id)); setScreen('hotel'); }} language={language} setLanguage={setLanguage} />}
-    {screen === 'destinations' && <AllDestinations language={language} setLanguage={setLanguage} />}
-    {screen === 'destination' && <DestinationLanding onExplore={goToSearch} language={language} setLanguage={setLanguage} />}
-    {screen === 'bantul' && <BantulLanding language={language} setLanguage={setLanguage} />}
-    {screen === 'sleman' && <SlemanLanding language={language} setLanguage={setLanguage} />}
-    {screen === 'bandung' && <BandungLanding language={language} setLanguage={setLanguage} />}
-    {screen === 'solo' && <SoloLanding language={language} setLanguage={setLanguage} />} {screen === 'malang' && <CityDestinationLanding slug="malang" language={language} setLanguage={setLanguage} Footer={Footer} />} {screen === 'surabaya' && <CityDestinationLanding slug="surabaya" language={language} setLanguage={setLanguage} Footer={Footer} />} {screen === 'denpasar' && <CityDestinationLanding slug="denpasar" language={language} setLanguage={setLanguage} Footer={Footer} />} {screen === 'semarang' && <CityDestinationLanding slug="semarang" language={language} setLanguage={setLanguage} Footer={Footer} /> } {screen === 'jakarta' && <CityDestinationLanding slug="jakarta" language={language} setLanguage={setLanguage} Footer={Footer} />}
-    {screen === 'hotel' && <HotelDetail propertyId={selectedProperty} onBack={() => { window.history.pushState({}, '', '/' + language.toLowerCase() + '/stays'); setScreen('search'); }} onRooms={() => setScreen('rooms')} />}
-    {screen === 'rooms' && <RoomSelection propertyId={selectedProperty} search={search} setSearch={setSearch} onBack={() => setScreen('hotel')} onContinue={(id) => { setSelectedRoom(id); setScreen('checkout'); }} />}
-    {screen === 'checkout' && <Checkout propertyId={selectedProperty} roomTypeId={selectedRoom} search={search} onBack={() => setScreen('rooms')} onComplete={(code) => { setBookingCode(code); setScreen('confirmation'); }} />}
-    {screen === 'confirmation' && <Confirmation code={bookingCode} onHome={() => setScreen('home')} />}
-  </div>;
+  const [language, setLanguage] = useState<"EN" | "ID">("EN");
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const destination = params.get("destination");
+    const checkIn = params.get("checkIn");
+    const checkOut = params.get("checkOut");
+    const adults = Number(params.get("adults") ?? 2);
+    const children = Number(params.get("children") ?? 0);
+    const path = window.location.pathname;
+    const propertyPathMatch = path.match(/\/stays\/property\/([^/]+)$/);
+    const pathLanguage = path.startsWith("/id") ? "ID" : "EN";
+    setLanguage(pathLanguage);
+    if (propertyPathMatch) {
+      setSelectedProperty(decodeURIComponent(propertyPathMatch[1]));
+      setScreen("hotel");
+    } else if (path.endsWith("/destinations/all")) setScreen("destinations");
+    else if (path.endsWith("/destinations/yogyakarta"))
+      setScreen("destination");
+    else if (path.endsWith("/destinations/bantul")) setScreen("bantul");
+    else if (path.endsWith("/destinations/sleman")) setScreen("sleman");
+    else if (path.endsWith("/destinations/bandung")) setScreen("bandung");
+    else if (path.endsWith("/destinations/solo")) setScreen("solo");
+    else if (path.endsWith("/destinations/malang")) setScreen("malang");
+    else if (path.endsWith("/destinations/surabaya")) setScreen("surabaya");
+    else if (path.endsWith("/destinations/denpasar")) setScreen("denpasar");
+    else if (path.endsWith("/destinations/semarang")) setScreen("semarang");
+    else if (path.endsWith("/destinations/jakarta")) setScreen("jakarta");
+    else if (
+      path === "/stays" ||
+      path.endsWith("/stays") ||
+      destination ||
+      checkIn ||
+      checkOut
+    ) {
+      setSearch({
+        destination: destination ?? initialSearch.destination,
+        checkIn: checkIn || initialSearch.checkIn,
+        checkOut: checkOut || initialSearch.checkOut,
+        adults,
+        children,
+        guests: adults + children,
+      });
+      setScreen("search");
+    }
+  }, []);
+  if (authOpen)
+    return (
+      <div className="app-shell">
+        <AuthPanel onClose={() => setAuthOpen(false)} />
+      </div>
+    );
+  const goToSearch = () => {
+    window.history.pushState({}, "", `/${language.toLowerCase()}/stays`);
+    setScreen("search");
+  };
+  return (
+    <div className="app-shell">
+      <Header
+        language={language}
+        setLanguage={setLanguage}
+        onHome={() => {
+          window.history.pushState({}, "", `/${language.toLowerCase()}`);
+          setScreen("home");
+        }}
+        onAuth={() => setAuthOpen(true)}
+        onSearch={goToSearch}
+      />
+      {screen === "home" && (
+        <Home
+          search={search}
+          setSearch={setSearch}
+          onSearch={goToSearch}
+          onPropertySelect={(id) => {
+            setSelectedProperty(id);
+            window.history.pushState(
+              {},
+              "",
+              "/" +
+                language.toLowerCase() +
+                "/stays/property/" +
+                encodeURIComponent(id),
+            );
+            setScreen("hotel");
+          }}
+          language={language}
+          setLanguage={setLanguage}
+        />
+      )}
+      {screen === "search" && (
+        <SearchResults
+          search={search}
+          setSearch={setSearch}
+          onBack={() => setScreen("home")}
+          onSelect={(id) => {
+            setSelectedProperty(id);
+            window.history.pushState(
+              {},
+              "",
+              "/" +
+                language.toLowerCase() +
+                "/stays/property/" +
+                encodeURIComponent(id),
+            );
+            setScreen("hotel");
+          }}
+          language={language}
+          setLanguage={setLanguage}
+        />
+      )}
+      {screen === "destinations" && (
+        <AllDestinations language={language} setLanguage={setLanguage} />
+      )}
+      {screen === "destination" && (
+        <DestinationLanding
+          onExplore={goToSearch}
+          language={language}
+          setLanguage={setLanguage}
+        />
+      )}
+      {screen === "bantul" && (
+        <BantulLanding language={language} setLanguage={setLanguage} />
+      )}
+      {screen === "sleman" && (
+        <SlemanLanding language={language} setLanguage={setLanguage} />
+      )}
+      {screen === "bandung" && (
+        <BandungLanding language={language} setLanguage={setLanguage} />
+      )}
+      {screen === "solo" && (
+        <SoloLanding language={language} setLanguage={setLanguage} />
+      )}{" "}
+      {screen === "malang" && (
+        <CityDestinationLanding
+          slug="malang"
+          language={language}
+          setLanguage={setLanguage}
+          Footer={Footer}
+        />
+      )}{" "}
+      {screen === "surabaya" && (
+        <CityDestinationLanding
+          slug="surabaya"
+          language={language}
+          setLanguage={setLanguage}
+          Footer={Footer}
+        />
+      )}{" "}
+      {screen === "denpasar" && (
+        <CityDestinationLanding
+          slug="denpasar"
+          language={language}
+          setLanguage={setLanguage}
+          Footer={Footer}
+        />
+      )}{" "}
+      {screen === "semarang" && (
+        <CityDestinationLanding
+          slug="semarang"
+          language={language}
+          setLanguage={setLanguage}
+          Footer={Footer}
+        />
+      )}{" "}
+      {screen === "jakarta" && (
+        <CityDestinationLanding
+          slug="jakarta"
+          language={language}
+          setLanguage={setLanguage}
+          Footer={Footer}
+        />
+      )}
+      {screen === "hotel" && (
+        <HotelDetail
+          propertyId={selectedProperty}
+          onBack={() => {
+            window.history.pushState(
+              {},
+              "",
+              "/" + language.toLowerCase() + "/stays",
+            );
+            setScreen("search");
+          }}
+          onRooms={() => setScreen("rooms")}
+        />
+      )}
+      {screen === "rooms" && (
+        <RoomSelection
+          propertyId={selectedProperty}
+          search={search}
+          setSearch={setSearch}
+          onBack={() => setScreen("hotel")}
+          onContinue={(id) => {
+            setSelectedRoom(id);
+            setScreen("checkout");
+          }}
+        />
+      )}
+      {screen === "checkout" && (
+        <Checkout
+          propertyId={selectedProperty}
+          roomTypeId={selectedRoom}
+          search={search}
+          onBack={() => setScreen("rooms")}
+          onComplete={(code) => {
+            setBookingCode(code);
+            setScreen("confirmation");
+          }}
+        />
+      )}
+      {screen === "confirmation" && (
+        <Confirmation code={bookingCode} onHome={() => setScreen("home")} />
+      )}
+    </div>
+  );
 }
 
-function Header({ language, setLanguage, onHome, onAuth, onSearch }: { language: 'EN' | 'ID'; setLanguage: (language: 'EN' | 'ID') => void; onHome: () => void; onAuth: () => void; onSearch: () => void }) { const { isAuthenticated } = useConvexAuth(); const { signOut } = useAuthActions(); const [menuOpen, setMenuOpen] = useState(false); const closeMenu = () => setMenuOpen(false); return <header className="nav dc-topbar"><div className="dc-topbar-inner"><button className="wordmark nav-button" onClick={onHome}>menetap<span>.</span></button><nav className="dc-navlinks"><button onClick={onSearch}>Stays</button><button onClick={onHome}>Rentals</button><button onClick={onHome}>Experiences</button><button onClick={onHome}>Rewards</button></nav><div className="nav-actions dc-nav-actions"><div className="desktop-language-toggle"><LanguageToggle language={language} setLanguage={setLanguage} /></div>{isAuthenticated ? <button onClick={() => void signOut()}>Log out</button> : <><button onClick={onAuth}>Log in</button><button className="outline-button" onClick={onAuth}>Sign up</button></>}<button type="button" className="mobile-menu-button" aria-label={menuOpen ? 'Close menu' : 'Open menu'} aria-expanded={menuOpen} onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? <X size={20} /> : <Menu size={20} />}</button></div></div>{menuOpen && <div className="mobile-menu-panel"><button onClick={() => { onSearch(); closeMenu(); }}>Stays</button><button onClick={() => { onHome(); closeMenu(); }}>Rentals</button><button onClick={() => { onHome(); closeMenu(); }}>Experiences</button><button onClick={() => { onHome(); closeMenu(); }}>Rewards</button><LanguageToggle language={language} setLanguage={setLanguage} /></div>}</header>; }function Home({ search, setSearch, onSearch, onPropertySelect, language, setLanguage }: { search: SearchState; setSearch: (value: SearchState) => void; onSearch: () => void; onPropertySelect: (id: string) => void; language: 'EN' | 'ID'; setLanguage: (language: 'EN' | 'ID') => void }) { const [selectedCity, setSelectedCity] = useState('Yogyakarta'); const [searchError, setSearchError] = useState(''); const [isSearchSticky, setIsSearchSticky] = useState(false); const [showBackToTop, setShowBackToTop] = useState(false); useEffect(() => { const handleScroll = () => { setIsSearchSticky(window.scrollY > 180); setShowBackToTop(window.scrollY > 420); }; handleScroll(); window.addEventListener('scroll', handleScroll, { passive: true }); return () => window.removeEventListener('scroll', handleScroll); }, []); const cities = ['Yogyakarta', 'Bandung', 'Semarang', 'Malang', 'Solo', 'Surabaya']; const runSearch = () => { if (!search.destination.trim()) return setSearchError('Choose a destination.'); if (!search.checkIn || !search.checkOut || search.checkOut <= search.checkIn) return setSearchError('Choose a valid check-in and check-out date.'); setSearchError(''); const params = new URLSearchParams({ destination: search.destination, checkIn: search.checkIn, checkOut: search.checkOut, adults: String(search.adults), children: String(search.children) }); window.history.replaceState({}, '', `/${language.toLowerCase()}/stays?${params}`); onSearch(); }; return <main><button type="button" className={`back-to-top ${showBackToTop ? 'is-visible' : ''}`} aria-label="Back to top" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}><ArrowUp size={18} /></button><section className="hero dc-hero"><div className="hero-badge"><Zap size={14} /> Priced by UPSCALE&apos;s revenue engine — no guesswork</div><h1>Find your stay anywhere in Indonesia. <em>See the real price.</em></h1><p className="hero-copy">No inflated rack rates, no fake discounts, no surprise fees at checkout. What you see is what you pay.</p><div className={`homepage-search-shell ${isSearchSticky ? "is-sticky" : ""}`}><SearchBar search={search} setSearch={setSearch} onSearch={runSearch} onPropertySelect={onPropertySelect} compact={isSearchSticky && window.innerWidth > 760} error={searchError} /></div><div className="hero-assurances"><span><RefreshCcw size={13} /> Free cancellation on most stays</span><span><ShieldCheck size={13} /> Secure payment</span><span><Gift size={13} /> Earn Menetap Rewards on this booking</span></div></section><section className="section destination-section"><div className="section-heading centered-heading"><h2>Popular across Indonesia right now</h2></div><div className="destination-pills">{cities.map((city) => <button key={city} className={`pill ${selectedCity === city ? 'selected' : ''}`} onClick={() => setSelectedCity(city)}>{city}</button>)}</div><div className="section-heading stays-heading"><h3>Stays in {selectedCity}</h3><span className="muted">See all →</span></div><div className="stay-grid compact-stay-grid"><PropertyCard name="Kaliurang Heritage Villa" type="villa" area={selectedCity} price="Rp 890,000" rating="4.8" amenities={["Free cancellation", "Breakfast incl."]} /><PropertyCard name="Prawirotaman Boutique" type="hotel" area={selectedCity} price="Rp 620,000" rating="4.6" amenities={["Free cancellation"]} /><PropertyCard name="Malioboro Skyline Suites" type="hotel" area={selectedCity} price="Rp 1,100,000" rating="4.9" amenities={["Free cancellation", "Breakfast incl."]} /></div></section><TrustStrip /><FeaturedSection /><PricingSection /><RecommendedSection /><PriceAlert /><PopularDestinations language={language} /><ExperienceSection /><Footer language={language} setLanguage={setLanguage} /></main>; }
+function Header({
+  language,
+  setLanguage,
+  onHome,
+  onAuth,
+  onSearch,
+}: {
+  language: "EN" | "ID";
+  setLanguage: (language: "EN" | "ID") => void;
+  onHome: () => void;
+  onAuth: () => void;
+  onSearch: () => void;
+}) {
+  const { isAuthenticated } = useConvexAuth();
+  const { signOut } = useAuthActions();
+  const [menuOpen, setMenuOpen] = useState(false);
+  const closeMenu = () => setMenuOpen(false);
+  return (
+    <header className="nav dc-topbar">
+      <div className="dc-topbar-inner">
+        <button className="wordmark nav-button" onClick={onHome}>
+          menetap<span>.</span>
+        </button>
+        <nav className="dc-navlinks">
+          <button onClick={onSearch}>Stays</button>
+          <button onClick={onHome}>Experiences</button>
+          <button onClick={onHome}>Rewards</button>
+        </nav>
+        <div className="nav-actions dc-nav-actions">
+          <div className="desktop-language-toggle">
+            <LanguageToggle language={language} setLanguage={setLanguage} />
+          </div>
+          {isAuthenticated ? (
+            <button onClick={() => void signOut()}>Log out</button>
+          ) : (
+            <>
+              <button onClick={onAuth}>Log in</button>
+              <button className="outline-button" onClick={onAuth}>
+                Sign up
+              </button>
+            </>
+          )}
+          <button
+            type="button"
+            className="mobile-menu-button"
+            aria-label={menuOpen ? "Close menu" : "Open menu"}
+            aria-expanded={menuOpen}
+            onClick={() => setMenuOpen(!menuOpen)}
+          >
+            {menuOpen ? <X size={20} /> : <Menu size={20} />}
+          </button>
+        </div>
+      </div>
+      {menuOpen && (
+        <div className="mobile-menu-panel">
+          <button
+            onClick={() => {
+              onSearch();
+              closeMenu();
+            }}
+          >
+            Stays
+          </button>
+          <button
+            onClick={() => {
+              onHome();
+              closeMenu();
+            }}
+          >
+            Experiences
+          </button>
+          <button
+            onClick={() => {
+              onHome();
+              closeMenu();
+            }}
+          >
+            Rewards
+          </button>
+          <LanguageToggle language={language} setLanguage={setLanguage} />
+        </div>
+      )}
+    </header>
+  );
+}
+function Home({
+  search,
+  setSearch,
+  onSearch,
+  onPropertySelect,
+  language,
+  setLanguage,
+}: {
+  search: SearchState;
+  setSearch: (value: SearchState) => void;
+  onSearch: () => void;
+  onPropertySelect: (id: string) => void;
+  language: "EN" | "ID";
+  setLanguage: (language: "EN" | "ID") => void;
+}) {
+  const [selectedCity, setSelectedCity] = useState("Yogyakarta");
+  const [searchError, setSearchError] = useState("");
+  const [isSearchSticky, setIsSearchSticky] = useState(false);
+  const [showBackToTop, setShowBackToTop] = useState(false);
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsSearchSticky(window.scrollY > 180);
+      setShowBackToTop(window.scrollY > 420);
+    };
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+  const cities = [
+    "Yogyakarta",
+    "Bandung",
+    "Semarang",
+    "Malang",
+    "Solo",
+    "Surabaya",
+  ];
+  const runSearch = () => {
+    if (!search.destination.trim())
+      return setSearchError("Choose a destination.");
+    if (
+      !search.checkIn ||
+      !search.checkOut ||
+      search.checkOut <= search.checkIn
+    )
+      return setSearchError("Choose a valid check-in and check-out date.");
+    setSearchError("");
+    const params = new URLSearchParams({
+      destination: search.destination,
+      checkIn: search.checkIn,
+      checkOut: search.checkOut,
+      adults: String(search.adults),
+      children: String(search.children),
+    });
+    window.history.replaceState(
+      {},
+      "",
+      `/${language.toLowerCase()}/stays?${params}`,
+    );
+    onSearch();
+  };
+  return (
+    <main>
+      <button
+        type="button"
+        className={`back-to-top ${showBackToTop ? "is-visible" : ""}`}
+        aria-label="Back to top"
+        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+      >
+        <ArrowUp size={18} />
+      </button>
+      <section className="hero dc-hero">
+        <div className="hero-badge">
+          <Zap size={14} /> Priced by UPSCALE&apos;s revenue engine — no
+          guesswork
+        </div>
+        <h1>
+          Find your stay anywhere in Indonesia. <em>See the real price.</em>
+        </h1>
+        <p className="hero-copy">
+          No inflated rack rates, no fake discounts, no surprise fees at
+          checkout. What you see is what you pay.
+        </p>
+        <div
+          className={`homepage-search-shell ${isSearchSticky ? "is-sticky" : ""}`}
+        >
+          <SearchBar
+            search={search}
+            setSearch={setSearch}
+            onSearch={runSearch}
+            onPropertySelect={onPropertySelect}
+            compact={isSearchSticky && window.innerWidth > 760}
+            error={searchError}
+          />
+        </div>
+        <div className="hero-assurances">
+          <span>
+            <RefreshCcw size={13} /> Free cancellation on most stays
+          </span>
+          <span>
+            <ShieldCheck size={13} /> Secure payment
+          </span>
+          <span>
+            <Gift size={13} /> Earn Menetap Rewards on this booking
+          </span>
+        </div>
+      </section>
+      <section className="section destination-section">
+        <div className="section-heading centered-heading">
+          <h2>Popular across Indonesia right now</h2>
+        </div>
+        <div className="destination-pills">
+          {cities.map((city) => (
+            <button
+              key={city}
+              className={`pill ${selectedCity === city ? "selected" : ""}`}
+              onClick={() => setSelectedCity(city)}
+            >
+              {city}
+            </button>
+          ))}
+        </div>
+        <div className="section-heading stays-heading">
+          <h3>Stays in {selectedCity}</h3>
+          <span className="muted">See all →</span>
+        </div>
+        <div className="stay-grid compact-stay-grid">
+          <PropertyCard
+            name="Kaliurang Heritage Villa"
+            type="villa"
+            area={selectedCity}
+            price="Rp 890,000"
+            rating="4.8"
+            amenities={["Free cancellation", "Breakfast incl."]}
+          />
+          <PropertyCard
+            name="Prawirotaman Boutique"
+            type="hotel"
+            area={selectedCity}
+            price="Rp 620,000"
+            rating="4.6"
+            amenities={["Free cancellation"]}
+          />
+          <PropertyCard
+            name="Malioboro Skyline Suites"
+            type="hotel"
+            area={selectedCity}
+            price="Rp 1,100,000"
+            rating="4.9"
+            amenities={["Free cancellation", "Breakfast incl."]}
+          />
+        </div>
+      </section>
+      <TrustStrip />
+      <FeaturedSection />
+      <PricingSection />
+      <RecommendedSection />
+      <PriceAlert />
+      <PopularDestinations language={language} />
+      <ExperienceSection />
+      <Footer language={language} setLanguage={setLanguage} />
+    </main>
+  );
+}
 
-function LanguageToggle({ language, setLanguage }: { language: 'EN' | 'ID'; setLanguage: (language: 'EN' | 'ID') => void }) { const switchLanguage = (nextLanguage: 'EN' | 'ID') => { const path = window.location.pathname; const localizedPath = path.replace(/^\/(en|id)(?=\/|$)/, `/${nextLanguage.toLowerCase()}`) || `/${nextLanguage.toLowerCase()}`; window.history.replaceState({}, '', `${localizedPath}${window.location.search}`); setLanguage(nextLanguage); }; return <div className="language-toggle"><button className={language === 'EN' ? 'active' : ''} onClick={() => switchLanguage('EN')}>EN</button><button className={language === 'ID' ? 'active' : ''} onClick={() => switchLanguage('ID')}>ID</button></div>; }
+function LanguageToggle({
+  language,
+  setLanguage,
+}: {
+  language: "EN" | "ID";
+  setLanguage: (language: "EN" | "ID") => void;
+}) {
+  const switchLanguage = (nextLanguage: "EN" | "ID") => {
+    const path = window.location.pathname;
+    const localizedPath =
+      path.replace(/^\/(en|id)(?=\/|$)/, `/${nextLanguage.toLowerCase()}`) ||
+      `/${nextLanguage.toLowerCase()}`;
+    window.history.replaceState(
+      {},
+      "",
+      `${localizedPath}${window.location.search}`,
+    );
+    setLanguage(nextLanguage);
+  };
+  return (
+    <div className="language-toggle">
+      <button
+        className={language === "EN" ? "active" : ""}
+        onClick={() => switchLanguage("EN")}
+      >
+        EN
+      </button>
+      <button
+        className={language === "ID" ? "active" : ""}
+        onClick={() => switchLanguage("ID")}
+      >
+        ID
+      </button>
+    </div>
+  );
+}
 
-function TrustStrip() { return <section className="trust-strip"><span><ShieldCheck size={16} /> Verified reviews only</span><span><CheckCircle2 size={16} /> Instant confirmation</span><span><RefreshCcw size={16} /> Flexible cancellation</span><span><Award size={16} /> Menetap Rewards on every stay</span></section>; }
-function DestinationLanding({ onExplore, language, setLanguage }: { onExplore: () => void; language: 'EN' | 'ID'; setLanguage: (language: 'EN' | 'ID') => void }) { const prefix = `/${language.toLowerCase()}`; return <><main className="destination-landing page"><p className="eyebrow">Explore Yogyakarta</p><h1>Find a stay in the city’s most distinctive neighborhoods.</h1><p className="destination-intro">Stay close to Malioboro’s city pulse, settle into Prawirotaman’s café streets, or choose a quieter base around Kotabaru and Mantrijeron.</p><div className="destination-actions"><button onClick={onExplore}>Explore Yogyakarta stays</button><a href="#destination-areas">Choose an area</a></div><section id="destination-areas" className="destination-area-section"><div className="section-heading"><div><p className="eyebrow">Stay by neighborhood</p><h2>Find your part of the city</h2></div></div><div className="destination-area-grid"><a className="destination-area-card" href={`${prefix}/stays?destination=Prawirotaman`}><strong>Prawirotaman</strong><p>Cafés, galleries, local restaurants, and an easygoing neighborhood rhythm.</p><span>Browse Prawirotaman stays →</span></a><a className="destination-area-card" href={`${prefix}/stays?destination=Malioboro`}><strong>Malioboro</strong><p>Central, lively, and close to the station, markets, and city landmarks.</p><span>Browse Malioboro stays →</span></a><a className="destination-area-card" href={`${prefix}/stays?destination=Kotabaru`}><strong>Kotabaru</strong><p>Leafy streets, heritage homes, and a calmer central-Yogyakarta base.</p><span>Browse Kotabaru stays →</span></a><a className="destination-area-card" href={`${prefix}/stays?destination=Mantrijeron`}><strong>Mantrijeron</strong><p>Creative spaces, traditional neighborhoods, and a slower southern-city feel.</p><span>Browse Mantrijeron stays →</span></a></div></section><section className="destination-properties"><div className="section-heading"><div><p className="eyebrow">A few places to start</p><h2>Properties guests can compare</h2></div><a href={`${prefix}/stays?destination=Yogyakarta`}>See all Yogyakarta stays →</a></div><div className="destination-property-grid"><article><div className="property-image">Boutique hotel</div><div><h3>Prawirotaman Boutique</h3><p>Prawirotaman · cafés nearby</p><a href={`${prefix}/stays?destination=Prawirotaman`}>View availability →</a></div></article><article><div className="property-image">City suites</div><div><h3>Malioboro Skyline Suites</h3><p>Malioboro · central location</p><a href={`${prefix}/stays?destination=Malioboro`}>View availability →</a></div></article><article><div className="property-image">Heritage stay</div><div><h3>Kotabaru Heritage House</h3><p>Kotabaru · quiet central base</p><a href={`${prefix}/stays?destination=Kotabaru`}>View availability →</a></div></article></div></section><section className="destination-faq"><p className="eyebrow">Yogyakarta travel questions</p><h2>Plan the practical details</h2><details><summary>Which neighborhood is best for a first visit?</summary><p>Malioboro is central and convenient; Prawirotaman is a better fit for cafés, restaurants, and a slower evening atmosphere.</p></details><details><summary>Where can I stay for a quieter city break?</summary><p>Kotabaru and Mantrijeron offer a calmer city base while keeping Yogyakarta’s main sights within reach.</p></details><details><summary>Can I search Yogyakarta stays by dates?</summary><p>Yes. Use the stays search to set your dates and guest count, then compare live availability and prices across the city.</p></details></section><nav className="destination-internal-links" aria-label="Yogyakarta travel links"><a href={`${prefix}/destinations/all`}>All destinations</a><a href={`${prefix}/stays?destination=Yogyakarta`}>All Yogyakarta stays</a><a href={`${prefix}/stays?destination=Prawirotaman`}>Prawirotaman hotels</a><a href={`${prefix}/stays?destination=Malioboro`}>Malioboro stays</a><a href={`${prefix}/stays?destination=Kotabaru`}>Kotabaru stays</a><a href={`${prefix}/stays?destination=Mantrijeron`}>Mantrijeron stays</a></nav></main><Footer language={language} setLanguage={setLanguage} /></>; }
-function PropertyCard({ name, type = 'hotel', area, city, price, rating, reviewCount, amenities = ['Free cancellation'], badge, scarcity, onSelect }: { name: string; type?: string; area: string; city?: string; price: string; rating: string; reviewCount?: string; amenities?: string[]; badge?: string; scarcity?: string; onSelect?: () => void }) { const content = <><div className="property-card-media"><div className="property-image">{type}</div>{badge && <span className="featured-badge">{badge}</span>}{scarcity && <span className="scarcity-badge">{scarcity}</span>}</div><div className="property-card-body"><div className="property-card-heading"><div><span className="eyebrow">{type}</span><h3>{name}</h3><p>{area}{city ? ` · ${city}` : ''}</p></div><span className="rating"><Star size={11} /> {rating}{reviewCount ? ` · ${reviewCount}` : ''}</span></div><div className="tags">{amenities.map((amenity) => <span className="amenity-pill" key={amenity}>{amenity}</span>)}</div><div className="property-card-footer"><strong>{price}<small>/night</small></strong>{onSelect && <span className="property-card-action">View rooms →</span>}</div></div></>; return <article className={`property-card ${onSelect ? 'is-clickable' : ''}`} onClick={onSelect} onKeyDown={(event) => { if (onSelect && (event.key === 'Enter' || event.key === ' ')) { event.preventDefault(); onSelect(); } }} role={onSelect ? 'button' : undefined} tabIndex={onSelect ? 0 : undefined}>{content}</article>; }
-function FeaturedSection() { const stays = [['Kaliurang Heritage Villa', 'villa', 'Sleman', 'Yogyakarta', 'Rp 890,000', '4.8', '214'], ['Prawirotaman Boutique', 'hotel', 'Mergangsan', 'Yogyakarta', 'Rp 620,000', '4.6', '132'], ['Malioboro Skyline Suites', 'hotel', 'Gedong Tengen', 'Yogyakarta', 'Rp 1,100,000', '4.9', '340']]; return <section className="section featured-section"><div className="section-heading"><h2>Featured in Yogyakarta</h2><span className="muted">See all stays →</span></div><div className="stay-grid">{stays.map(([name, type, area, city, price, rating, reviewCount], index) => <PropertyCard key={name} name={name} type={type} area={area} city={city} price={price} rating={rating} reviewCount={reviewCount} badge={index === 0 ? 'Featured Stay' : undefined} scarcity={index === 0 ? 'Only 3 rooms left' : 'Booked 8 times today'} amenities={index === 0 ? ['Free cancellation', 'Breakfast incl.'] : ['Free cancellation']} />)}</div></section>; }
-function PricingSection() { return <section className="pricing-section"><div><p className="eyebrow">Why Menetap</p><h2>The price you see is the price you pay.</h2><p className="muted">Every rate is checked against real market data. No hidden service fees—the total you see at search is your total at checkout.</p><a href="#pricing">Learn how pricing works →</a></div><div className="rate-card"><div className="rate-heading"><span>Rate breakdown</span><b>Live pricing</b></div><div className="rate-row"><span>Market average</span><strong>Rp 980,000</strong></div><div className="rate-row"><span>Menetap rate</span><strong className="violet">Rp 890,000</strong></div><div className="rate-total"><span>Total tonight</span><strong>Rp 890,000</strong></div><div className="rate-bar"><i /></div><small>9% below Yogyakarta market average today — no fees added later</small></div></section>; }
-function RecommendedSection() { const stays = [['Tugu Riverside Homestay', 'homestay', 'Yogyakarta', 'Rp 540,000', '4.6', 'Viewed 2 days ago'], ['Sosrowijayan Guesthouse', 'guesthouse', 'Yogyakarta', 'Rp 410,000', '4.5', 'Similar to your last stay'], ['Alun-Alun Kidul Residence', 'hotel', 'Yogyakarta', 'Rp 675,000', '4.7', 'Trending in Rewards']]; return <section className="section recommended-section"><div className="section-heading"><h2>Recommended for you</h2><span className="muted">Based on your recent searches</span></div><div className="stay-grid">{stays.map(([name, type, city, price, rating, context]) => <PropertyCard key={name} name={name} type={type} area={context} city={city} price={price} rating={rating} amenities={['Free cancellation']} />)}</div></section>; }
-function PriceAlert() { const [email, setEmail] = useState(''); const [submitted, setSubmitted] = useState(false); return <section className="price-alert"><div><h3>Get a nudge when hotel prices drop</h3><p>We&apos;ll email you the moment rates for your dates fall below today&apos;s price.</p></div><form onSubmit={(event) => { event.preventDefault(); if (email) setSubmitted(true); }}><input type="email" required value={email} onChange={(event) => setEmail(event.target.value)} placeholder="you@email.com" /><button type="submit">{submitted ? 'You&apos;re on the list' : 'Alert me'}</button></form></section>; }
-function PopularDestinations({ language }: { language: 'EN' | 'ID' }) { const prefix = '/' + language.toLowerCase(); return <section className="section popular-destinations"><div className="section-heading"><div><p className="eyebrow">Explore more</p><h2>Popular destinations</h2></div><a className="muted" href={`${prefix}/destinations/all`}>Go beyond the city →</a></div><div className="popular-destination-grid"><a href={prefix + '/destinations/yogyakarta'}><div className="destination-card-image"><img src="/images/destinations/yogyakarta.webp" alt="Yogyakarta heritage street with traditional Javanese architecture" width="1600" height="1200" loading="lazy" /></div><div><h3>Yogyakarta</h3><p>City stays, café streets, and heritage neighborhoods.</p><span>Explore destination →</span></div></a><a href={prefix + '/destinations/bantul'}><div className="destination-card-image"><img src="/images/destinations/bantul.webp" alt="Bantul pottery artisan working in a traditional Javanese craft studio" width="1600" height="1200" loading="lazy" /></div><div><h3>Bantul</h3><p>Craft villages, open landscapes, and slower southern stays.</p><span>Explore destination →</span></div></a><a href={prefix + '/destinations/bandung'}><div className="destination-card-image"><img src="/images/destinations/bandung.webp" alt="Gedung Sate landmark in Bandung" width="1600" height="1200" loading="lazy" /></div><div><h3>Bandung</h3><p>Cool mornings, creative corners, and neighborhood stays.</p><span>Explore destination →</span></div></a><a href={prefix + '/destinations/solo'}><div className="destination-card-image"><img src="/images/destinations/solo.webp" alt="Pura Mangkunegaran palace in Solo" width="1600" height="1200" loading="lazy" /></div><div><h3>Solo</h3><p>Royal heritage, batik, and an easy city rhythm.</p><span>Explore destination →</span></div></a></div></section>; }
-function ExperienceSection() { const experiences = [['Borobudur sunrise tour', 'Rp 350,000/person', 'sunrise'], ['Merapi jeep adventure', 'Rp 275,000/person', 'mountain'], ['Batik-making class', 'Rp 180,000/person', 'craft'], ['Ratu Boko sunset walk', 'Rp 150,000/person', 'sunset']]; return <section className="section"><div className="section-heading"><h2>Add local experiences</h2><span className="muted">See all →</span></div><div className="experience-grid">{experiences.map(([name, price, tone]) => <article className={`experience-card experience-card-${tone}`} key={name}><div className="experience-photo" role="img" aria-label={`${name} experience photo`}><span>Photo</span></div><div className="experience-card-content"><strong>{name}</strong><small>From {price}</small></div></article>)}</div></section>; }
-function BandungLanding({ language, setLanguage }: { language: 'EN' | 'ID'; setLanguage: (language: 'EN' | 'ID') => void }) { const prefix = '/' + language.toLowerCase(); return <><main className="destination-landing page"><p className="eyebrow">Explore Bandung</p><h1>Cool mornings, creative corners, and a city made for wandering.</h1><p className="destination-intro">Bandung brings together design, food, green escapes, and neighborhoods with their own distinct rhythm.</p><div className="destination-actions"><a href={`${prefix}/stays?destination=Bandung`}>Explore Bandung stays</a><a href="#bandung-areas">Choose an area</a></div><section id="bandung-areas" className="destination-area-section"><div className="section-heading"><div><p className="eyebrow">Stay by neighborhood</p><h2>Find your Bandung base</h2></div></div><div className="destination-area-grid"><a className="destination-area-card" href={`${prefix}/stays?destination=Dago`}><strong>Dago</strong><p>Hill air, creative cafés, galleries, and leafy city views.</p><span>Browse Dago stays →</span></a><a className="destination-area-card" href={`${prefix}/stays?destination=Braga`}><strong>Braga</strong><p>Heritage architecture, restaurants, and Bandung’s classic city energy.</p><span>Browse Braga stays →</span></a><a className="destination-area-card" href={`${prefix}/stays?destination=Setiabudi`}><strong>Setiabudi</strong><p>Cooler northern streets, family-friendly stays, and easy access to green escapes.</p><span>Browse Setiabudi stays →</span></a></div></section><section className="destination-properties"><div className="section-heading"><div><p className="eyebrow">Places to start</p><h2>Properties to compare</h2></div><a href={`${prefix}/stays?destination=Bandung`}>See all Bandung stays →</a></div><div className="destination-property-grid"><article><div className="property-image">Design hotel</div><div><h3>Braga House Hotel</h3><p>Braga · heritage city center</p><a href={`${prefix}/stays?destination=Braga`}>View availability →</a></div></article><article><div className="property-image">Hill stay</div><div><h3>Dago Hillside Stay</h3><p>Dago · cafés and cooler air</p><a href={`${prefix}/stays?destination=Dago`}>View availability →</a></div></article><article><div className="property-image">Garden hotel</div><div><h3>Setiabudi Garden Suites</h3><p>Setiabudi · northern Bandung</p><a href={`${prefix}/stays?destination=Setiabudi`}>View availability →</a></div></article></div></section><section className="destination-faq"><p className="eyebrow">Bandung travel questions</p><h2>Plan the practical details</h2><details><summary>Which Bandung area is best for a first visit?</summary><p>Braga is central and heritage-rich, while Dago is a good fit for cafés, views, and a cooler hill atmosphere.</p></details><details><summary>Where can I stay for a quieter Bandung trip?</summary><p>Setiabudi and the northern neighborhoods offer more space and easier access to green escapes.</p></details><details><summary>Can I compare Bandung stays by dates?</summary><p>Yes. Set your dates and guest count in the stays search to compare live availability and prices.</p></details></section><nav className="destination-internal-links" aria-label="Bandung travel links"><a href={`${prefix}/destinations/all`}>All destinations</a><a href={`${prefix}/stays?destination=Bandung`}>All Bandung stays</a><a href={`${prefix}/stays?destination=Dago`}>Dago stays</a><a href={`${prefix}/stays?destination=Braga`}>Braga hotels</a><a href={`${prefix}/stays?destination=Setiabudi`}>Setiabudi stays</a></nav></main><Footer language={language} setLanguage={setLanguage} /></>; }
-function SoloLanding({ language, setLanguage }: { language: 'EN' | 'ID'; setLanguage: (language: 'EN' | 'ID') => void }) { const prefix = '/' + language.toLowerCase(); return <><main className="destination-landing page"><p className="eyebrow">Explore Solo</p><h1>Royal heritage, riverside evenings, and an easy city rhythm.</h1><p className="destination-intro">Solo is compact, welcoming, and rich with culture—from palace neighborhoods and batik workshops to food streets made for lingering.</p><div className="destination-actions"><a href={`${prefix}/stays?destination=Solo`}>Explore Solo stays</a><a href="#solo-areas">Choose an area</a></div><section id="solo-areas" className="destination-area-section"><div className="section-heading"><div><p className="eyebrow">Stay by neighborhood</p><h2>Find your Solo base</h2></div></div><div className="destination-area-grid"><a className="destination-area-card" href={`${prefix}/stays?destination=Laweyan`}><strong>Laweyan</strong><p>Batik heritage, quiet lanes, and historic kampung character.</p><span>Browse Laweyan stays →</span></a><a className="destination-area-card" href={`${prefix}/stays?destination=Pasar Gede`}><strong>Pasar Gede</strong><p>Food stalls, market mornings, and the city’s everyday energy.</p><span>Browse Pasar Gede stays →</span></a><a className="destination-area-card" href={`${prefix}/stays?destination=Manahan`}><strong>Manahan</strong><p>Open green space, local cafés, and a relaxed central base.</p><span>Browse Manahan stays →</span></a></div></section><section className="destination-properties"><div className="section-heading"><div><p className="eyebrow">Places to start</p><h2>Properties to compare</h2></div><a href={`${prefix}/stays?destination=Solo`}>See all Solo stays →</a></div><div className="destination-property-grid"><article><div className="property-image">Batik house</div><div><h3>Laweyan Heritage House</h3><p>Laweyan · batik quarter</p><a href={`${prefix}/stays?destination=Laweyan`}>View availability →</a></div></article><article><div className="property-image">City hotel</div><div><h3>Pasar Gede City Hotel</h3><p>Pasar Gede · market nearby</p><a href={`${prefix}/stays?destination=Pasar%20Gede`}>View availability →</a></div></article><article><div className="property-image">Garden stay</div><div><h3>Manahan Garden Stay</h3><p>Manahan · quiet central base</p><a href={`${prefix}/stays?destination=Manahan`}>View availability →</a></div></article></div></section><section className="destination-faq"><p className="eyebrow">Solo travel questions</p><h2>Plan the practical details</h2><details><summary>What is Solo best known for?</summary><p>Solo is known for palace heritage, batik, traditional performance, and a food culture that rewards slow exploration.</p></details><details><summary>Which area is best for a first visit?</summary><p>Laweyan is ideal for heritage and batik; Pasar Gede is better for market energy and local food.</p></details><details><summary>Can I compare Solo stays by dates?</summary><p>Yes. Set your dates and guest count in the stays search to compare live availability and prices.</p></details></section><nav className="destination-internal-links" aria-label="Solo travel links"><a href={`${prefix}/destinations/all`}>All destinations</a><a href={`${prefix}/stays?destination=Solo`}>All Solo stays</a><a href={`${prefix}/stays?destination=Laweyan`}>Laweyan stays</a><a href={`${prefix}/stays?destination=Pasar%20Gede`}>Pasar Gede stays</a><a href={`${prefix}/stays?destination=Manahan`}>Manahan stays</a></nav></main><Footer language={language} setLanguage={setLanguage} /></>; }
-function SlemanLanding({ language, setLanguage }: { language: 'EN' | 'ID'; setLanguage: (language: 'EN' | 'ID') => void }) { const prefix = `/${language.toLowerCase()}`; return <><main className="destination-landing page"><p className="eyebrow">Explore Sleman</p><h1>Volcanic landscapes, art spaces, and a greener Yogyakarta base.</h1><p className="destination-intro">Sleman brings together Merapi views, cool northern air, creative campuses, and stays that feel close to nature without losing city access.</p><div className="destination-actions"><a href={`${prefix}/stays?destination=Sleman`}>Explore Sleman stays</a><a href="#sleman-areas">Choose an area</a></div><section id="sleman-areas" className="destination-area-section"><div className="section-heading"><div><p className="eyebrow">Stay by area</p><h2>Find your Sleman base</h2></div></div><div className="destination-area-grid"><a className="destination-area-card" href={`${prefix}/stays?destination=Kaliurang`}><strong>Kaliurang</strong><p>Cooler mountain air, Merapi views, and easy access to outdoor escapes.</p><span>Browse Kaliurang stays →</span></a><a className="destination-area-card" href={`${prefix}/stays?destination=Ngaglik`}><strong>Ngaglik</strong><p>Leafy residential streets, cafés, and a calm northern-city rhythm.</p><span>Browse Ngaglik stays →</span></a><a className="destination-area-card" href={`${prefix}/stays?destination=Depok`}><strong>Depok</strong><p>Universities, restaurants, and a practical base between the city and the hills.</p><span>Browse Depok stays →</span></a></div></section><section className="destination-properties"><div className="section-heading"><div><p className="eyebrow">Places to start</p><h2>Properties for a greener stay</h2></div><a href={`${prefix}/stays?destination=Sleman`}>See all Sleman stays →</a></div><div className="destination-property-grid"><article><div className="property-image">Mountain villa</div><div><h3>Kaliurang Merapi Villa</h3><p>Kaliurang · mountain air and views</p><a href={`${prefix}/stays?destination=Kaliurang`}>View availability →</a></div></article><article><div className="property-image">Garden stay</div><div><h3>Ngaglik Garden House</h3><p>Ngaglik · leafy northern base</p><a href={`${prefix}/stays?destination=Ngaglik`}>View availability →</a></div></article><article><div className="property-image">City apartment</div><div><h3>Depok Campus Suites</h3><p>Depok · cafés and everyday convenience</p><a href={`${prefix}/stays?destination=Depok`}>View availability →</a></div></article></div></section><section className="destination-faq"><p className="eyebrow">Sleman travel questions</p><h2>Plan the practical details</h2><details><summary>What is Sleman best known for?</summary><p>Sleman is known for Mount Merapi, cooler northern neighborhoods, university life, and easy access to Yogyakarta’s cultural sights.</p></details><details><summary>Which area is best for a nature-led stay?</summary><p>Kaliurang is the strongest fit for mountain air and outdoor access, while Ngaglik offers a quieter base closer to the city.</p></details><details><summary>Can I compare Sleman stays by dates?</summary><p>Yes. Set your dates and guest count in the stays search to compare live availability and prices.</p></details></section><nav className="destination-internal-links" aria-label="Sleman travel links"><a href={`${prefix}/destinations/all`}>All destinations</a><a href={`${prefix}/stays?destination=Sleman`}>All Sleman stays</a><a href={`${prefix}/stays?destination=Kaliurang`}>Kaliurang stays</a><a href={`${prefix}/stays?destination=Ngaglik`}>Ngaglik stays</a><a href={`${prefix}/stays?destination=Depok`}>Depok stays</a></nav></main><Footer language={language} setLanguage={setLanguage} /></>; }function AllDestinations({ language, setLanguage }: { language: 'EN' | 'ID'; setLanguage: (language: 'EN' | 'ID') => void }) { const prefix = '/' + language.toLowerCase(); const destinations = [['Yogyakarta', 'City stays, café streets, and heritage neighborhoods.', 'yogyakarta'], ['Bantul', 'Craft villages, open landscapes, and slower southern stays.', 'bantul'], ['Sleman', 'Merapi views, greener neighborhoods, and a cooler northern base.', 'sleman'], ['Bandung', 'Cool mornings, creative corners, and neighborhood stays.', 'bandung'], ['Solo', 'Royal heritage, batik, and an easy city rhythm.', 'solo'], ['Malang', 'Cooler days, creative cafés, and a gentle city pace.', 'malang'], ['Surabaya', 'Big-city energy, heritage quarters, and food worth travelling for.', 'surabaya'], ['Denpasar', 'Local Bali, market mornings, and a gateway to the island.', 'denpasar'], ['Semarang', 'Old-town character, hillside views, and a generous food scene.', 'semarang'], ['Jakarta', 'City energy, neighborhood character, and stays close to what matters.', 'jakarta']]; return <><main className="destination-landing page"><p className="eyebrow">Explore Indonesia</p><h1>Find your next destination.</h1><p className="destination-intro">Browse places with distinctive neighborhoods, local character, and stays worth comparing.</p><section className="destination-area-section"><div className="section-heading"><div><p className="eyebrow">Destination guide</p><h2>Start exploring</h2></div></div><div className="destination-area-grid destination-directory-grid">{destinations.map(([name, description, slug]) => <a className="destination-area-card destination-directory-card" href={`${prefix}/destinations/${slug}`} key={slug}>{slug === 'yogyakarta' ? <div className="destination-card-image"><img src="/images/destinations/yogyakarta.webp" alt="Yogyakarta heritage street with traditional Javanese architecture" width="1600" height="1200" loading="lazy" /></div> : slug === 'bandung' ? <div className="destination-card-image"><img src="/images/destinations/bandung.webp" alt="Gedung Sate landmark in Bandung" width="1600" height="1200" loading="lazy" /></div> : slug === 'solo' ? <div className="destination-card-image"><img src="/images/destinations/solo.webp" alt="Pura Mangkunegaran palace in Solo" width="1600" height="1200" loading="lazy" /></div> : slug === 'denpasar' ? <div className="destination-card-image"><img src="/images/destinations/denpasar.webp" alt="Balinese civic landmark in central Denpasar" width="1600" height="1200" loading="lazy" /></div> : slug === 'surabaya' ? <div className="destination-card-image"><img src="/images/destinations/surabaya.webp" alt="Tugu Pahlawan monument in Surabaya" width="1600" height="1200" loading="lazy" /></div> : slug === 'jakarta' ? <div className="destination-card-image"><img src="/images/destinations/jakarta.webp" alt="Jakarta skyline and Bundaran HI at golden hour" width="1600" height="1200" loading="lazy" /></div> : slug === 'semarang' ? <div className="destination-card-image"><img src="/images/destinations/semarang.webp" alt="Lawang Sewu colonial architecture in Semarang" width="1600" height="1200" loading="lazy" /></div> : slug === 'malang' ? <div className="destination-card-image"><img src="/images/destinations/malang.webp" alt="Colorful Jodipan village in Malang" width="1600" height="1200" loading="lazy" /></div> : slug === 'bantul' ? <div className="destination-card-image"><img src="/images/destinations/bantul.webp" alt="Bantul pottery artisan working in a traditional Javanese craft studio" width="1600" height="1200" loading="lazy" /></div> : slug === 'sleman' ? <div className="destination-card-image"><img src="/images/destinations/sleman.webp" alt="Mount Merapi and northern Yogyakarta landscape in Sleman" width="1600" height="1200" loading="lazy" /></div> : <div className="destination-card-image">{name}</div>}<strong>{name}</strong><p>{description}</p><span>Explore {name} →</span></a>)}</div></section><nav className="destination-internal-links" aria-label="All destinations links"><a href={`${prefix}/stays`}>Search all stays</a></nav></main><Footer language={language} setLanguage={setLanguage} /></>; }
-function Footer({ language, setLanguage }: { language: 'EN' | 'ID'; setLanguage: (language: 'EN' | 'ID') => void }) { return <footer className="dc-footer"><div className="dc-footer-grid"><div className="footer-brand"><span className="wordmark">menetap<span>.</span></span><p>Stays across Indonesia, priced fairly. Powered by UPSCALE&apos;s revenue engine.</p></div><FooterColumn title="For guests" links={['Search stays', 'Manage booking', 'Menetap Rewards', 'Cancellation policy', 'Help center']} /><FooterColumn title="For partners" links={['List your property', 'Partner dashboard', 'Commission & pricing', 'Services', 'Partner support']} /><FooterColumn title="Company" links={['About Menetap', 'Careers', 'Terms of service', 'Privacy policy']} /></div><div className="dc-footer-bottom"><span>© 2026 Menetap. All rights reserved.</span><div className="dc-footer-meta"><button className="language-chip" onClick={() => setLanguage(language === 'EN' ? 'ID' : 'EN')}><Globe2 size={12} /> {language}</button><span className="managed-chip">Managed by <a href="https://upscale.asia" target="_blank" rel="noreferrer">UPSCALE</a></span></div></div></footer>; }
-function FooterColumn({ title, links }: { title: string; links: string[] }) { return <div className="footer-column"><strong>{title}</strong>{links.map((link) => <a href={`#${link.toLowerCase().replaceAll(' ', '-')}`} key={link}>{link}</a>)}</div>; }
+function TrustStrip() {
+  return (
+    <section className="trust-strip">
+      <span>
+        <ShieldCheck size={16} /> Verified reviews only
+      </span>
+      <span>
+        <CheckCircle2 size={16} /> Instant confirmation
+      </span>
+      <span>
+        <RefreshCcw size={16} /> Flexible cancellation
+      </span>
+      <span>
+        <Award size={16} /> Menetap Rewards on every stay
+      </span>
+    </section>
+  );
+}
+function DestinationLanding({
+  onExplore,
+  language,
+  setLanguage,
+}: {
+  onExplore: () => void;
+  language: "EN" | "ID";
+  setLanguage: (language: "EN" | "ID") => void;
+}) {
+  const prefix = `/${language.toLowerCase()}`;
+  return (
+    <>
+      <main className="destination-landing page">
+        <p className="eyebrow">Explore Yogyakarta</p>
+        <h1>Find a stay in the city’s most distinctive neighborhoods.</h1>
+        <p className="destination-intro">
+          Stay close to Malioboro’s city pulse, settle into Prawirotaman’s café
+          streets, or choose a quieter base around Kotabaru and Mantrijeron.
+        </p>
+        <div className="destination-actions">
+          <button onClick={onExplore}>Explore Yogyakarta stays</button>
+          <a href="#destination-areas">Choose an area</a>
+        </div>
+        <section id="destination-areas" className="destination-area-section">
+          <div className="section-heading">
+            <div>
+              <p className="eyebrow">Stay by neighborhood</p>
+              <h2>Find your part of the city</h2>
+            </div>
+          </div>
+          <div className="destination-area-grid">
+            <a
+              className="destination-area-card"
+              href={`${prefix}/stays?destination=Prawirotaman`}
+            >
+              <strong>Prawirotaman</strong>
+              <p>
+                Cafés, galleries, local restaurants, and an easygoing
+                neighborhood rhythm.
+              </p>
+              <span>Browse Prawirotaman stays →</span>
+            </a>
+            <a
+              className="destination-area-card"
+              href={`${prefix}/stays?destination=Malioboro`}
+            >
+              <strong>Malioboro</strong>
+              <p>
+                Central, lively, and close to the station, markets, and city
+                landmarks.
+              </p>
+              <span>Browse Malioboro stays →</span>
+            </a>
+            <a
+              className="destination-area-card"
+              href={`${prefix}/stays?destination=Kotabaru`}
+            >
+              <strong>Kotabaru</strong>
+              <p>
+                Leafy streets, heritage homes, and a calmer central-Yogyakarta
+                base.
+              </p>
+              <span>Browse Kotabaru stays →</span>
+            </a>
+            <a
+              className="destination-area-card"
+              href={`${prefix}/stays?destination=Mantrijeron`}
+            >
+              <strong>Mantrijeron</strong>
+              <p>
+                Creative spaces, traditional neighborhoods, and a slower
+                southern-city feel.
+              </p>
+              <span>Browse Mantrijeron stays →</span>
+            </a>
+          </div>
+        </section>
+        <section className="destination-properties">
+          <div className="section-heading">
+            <div>
+              <p className="eyebrow">A few places to start</p>
+              <h2>Properties guests can compare</h2>
+            </div>
+            <a href={`${prefix}/stays?destination=Yogyakarta`}>
+              See all Yogyakarta stays →
+            </a>
+          </div>
+          <div className="destination-property-grid">
+            <article>
+              <div className="property-image">Boutique hotel</div>
+              <div>
+                <h3>Prawirotaman Boutique</h3>
+                <p>Prawirotaman · cafés nearby</p>
+                <a href={`${prefix}/stays?destination=Prawirotaman`}>
+                  View availability →
+                </a>
+              </div>
+            </article>
+            <article>
+              <div className="property-image">City suites</div>
+              <div>
+                <h3>Malioboro Skyline Suites</h3>
+                <p>Malioboro · central location</p>
+                <a href={`${prefix}/stays?destination=Malioboro`}>
+                  View availability →
+                </a>
+              </div>
+            </article>
+            <article>
+              <div className="property-image">Heritage stay</div>
+              <div>
+                <h3>Kotabaru Heritage House</h3>
+                <p>Kotabaru · quiet central base</p>
+                <a href={`${prefix}/stays?destination=Kotabaru`}>
+                  View availability →
+                </a>
+              </div>
+            </article>
+          </div>
+        </section>
+        <section className="destination-faq">
+          <p className="eyebrow">Yogyakarta travel questions</p>
+          <h2>Plan the practical details</h2>
+          <details>
+            <summary>Which neighborhood is best for a first visit?</summary>
+            <p>
+              Malioboro is central and convenient; Prawirotaman is a better fit
+              for cafés, restaurants, and a slower evening atmosphere.
+            </p>
+          </details>
+          <details>
+            <summary>Where can I stay for a quieter city break?</summary>
+            <p>
+              Kotabaru and Mantrijeron offer a calmer city base while keeping
+              Yogyakarta’s main sights within reach.
+            </p>
+          </details>
+          <details>
+            <summary>Can I search Yogyakarta stays by dates?</summary>
+            <p>
+              Yes. Use the stays search to set your dates and guest count, then
+              compare live availability and prices across the city.
+            </p>
+          </details>
+        </section>
+        <nav
+          className="destination-internal-links"
+          aria-label="Yogyakarta travel links"
+        >
+          <a href={`${prefix}/destinations/all`}>All destinations</a>
+          <a href={`${prefix}/stays?destination=Yogyakarta`}>
+            All Yogyakarta stays
+          </a>
+          <a href={`${prefix}/stays?destination=Prawirotaman`}>
+            Prawirotaman hotels
+          </a>
+          <a href={`${prefix}/stays?destination=Malioboro`}>Malioboro stays</a>
+          <a href={`${prefix}/stays?destination=Kotabaru`}>Kotabaru stays</a>
+          <a href={`${prefix}/stays?destination=Mantrijeron`}>
+            Mantrijeron stays
+          </a>
+        </nav>
+      </main>
+      <Footer language={language} setLanguage={setLanguage} />
+    </>
+  );
+}
+function PropertyCard({
+  name,
+  type = "hotel",
+  area,
+  city,
+  price,
+  rating,
+  reviewCount,
+  amenities = ["Free cancellation"],
+  badge,
+  scarcity,
+  onSelect,
+}: {
+  name: string;
+  type?: string;
+  area: string;
+  city?: string;
+  price: string;
+  rating: string;
+  reviewCount?: string;
+  amenities?: string[];
+  badge?: string;
+  scarcity?: string;
+  onSelect?: () => void;
+}) {
+  const content = (
+    <>
+      <div className="property-card-media">
+        <div className="property-image">{type}</div>
+        {badge && <span className="featured-badge">{badge}</span>}
+        {scarcity && <span className="scarcity-badge">{scarcity}</span>}
+      </div>
+      <div className="property-card-body">
+        <div className="property-card-heading">
+          <div>
+            <span className="eyebrow">{type}</span>
+            <h3>{name}</h3>
+            <p>
+              {area}
+              {city ? ` · ${city}` : ""}
+            </p>
+          </div>
+          <span className="rating">
+            <Star size={11} /> {rating}
+            {reviewCount ? ` · ${reviewCount}` : ""}
+          </span>
+        </div>
+        <div className="tags">
+          {amenities.map((amenity) => (
+            <span className="amenity-pill" key={amenity}>
+              {amenity}
+            </span>
+          ))}
+        </div>
+        <div className="property-card-footer">
+          <strong>
+            {price}
+            <small>/night</small>
+          </strong>
+          {onSelect && (
+            <span className="property-card-action">View rooms →</span>
+          )}
+        </div>
+      </div>
+    </>
+  );
+  return (
+    <article
+      className={`property-card ${onSelect ? "is-clickable" : ""}`}
+      onClick={onSelect}
+      onKeyDown={(event) => {
+        if (onSelect && (event.key === "Enter" || event.key === " ")) {
+          event.preventDefault();
+          onSelect();
+        }
+      }}
+      role={onSelect ? "button" : undefined}
+      tabIndex={onSelect ? 0 : undefined}
+    >
+      {content}
+    </article>
+  );
+}
+function FeaturedSection() {
+  const stays = [
+    [
+      "Kaliurang Heritage Villa",
+      "villa",
+      "Sleman",
+      "Yogyakarta",
+      "Rp 890,000",
+      "4.8",
+      "214",
+    ],
+    [
+      "Prawirotaman Boutique",
+      "hotel",
+      "Mergangsan",
+      "Yogyakarta",
+      "Rp 620,000",
+      "4.6",
+      "132",
+    ],
+    [
+      "Malioboro Skyline Suites",
+      "hotel",
+      "Gedong Tengen",
+      "Yogyakarta",
+      "Rp 1,100,000",
+      "4.9",
+      "340",
+    ],
+  ];
+  return (
+    <section className="section featured-section">
+      <div className="section-heading">
+        <h2>Featured in Yogyakarta</h2>
+        <span className="muted">See all stays →</span>
+      </div>
+      <div className="stay-grid">
+        {stays.map(
+          ([name, type, area, city, price, rating, reviewCount], index) => (
+            <PropertyCard
+              key={name}
+              name={name}
+              type={type}
+              area={area}
+              city={city}
+              price={price}
+              rating={rating}
+              reviewCount={reviewCount}
+              badge={index === 0 ? "Featured Stay" : undefined}
+              scarcity={
+                index === 0 ? "Only 3 rooms left" : "Booked 8 times today"
+              }
+              amenities={
+                index === 0
+                  ? ["Free cancellation", "Breakfast incl."]
+                  : ["Free cancellation"]
+              }
+            />
+          ),
+        )}
+      </div>
+    </section>
+  );
+}
+function PricingSection() {
+  return (
+    <section className="pricing-section">
+      <div>
+        <p className="eyebrow">Why Menetap</p>
+        <h2>The price you see is the price you pay.</h2>
+        <p className="muted">
+          Every rate is checked against real market data. No hidden service
+          fees—the total you see at search is your total at checkout.
+        </p>
+        <a href="#pricing">Learn how pricing works →</a>
+      </div>
+      <div className="rate-card">
+        <div className="rate-heading">
+          <span>Rate breakdown</span>
+          <b>Live pricing</b>
+        </div>
+        <div className="rate-row">
+          <span>Market average</span>
+          <strong>Rp 980,000</strong>
+        </div>
+        <div className="rate-row">
+          <span>Menetap rate</span>
+          <strong className="violet">Rp 890,000</strong>
+        </div>
+        <div className="rate-total">
+          <span>Total tonight</span>
+          <strong>Rp 890,000</strong>
+        </div>
+        <div className="rate-bar">
+          <i />
+        </div>
+        <small>
+          9% below Yogyakarta market average today — no fees added later
+        </small>
+      </div>
+    </section>
+  );
+}
+function RecommendedSection() {
+  const stays = [
+    [
+      "Tugu Riverside Homestay",
+      "homestay",
+      "Yogyakarta",
+      "Rp 540,000",
+      "4.6",
+      "Viewed 2 days ago",
+    ],
+    [
+      "Sosrowijayan Guesthouse",
+      "guesthouse",
+      "Yogyakarta",
+      "Rp 410,000",
+      "4.5",
+      "Similar to your last stay",
+    ],
+    [
+      "Alun-Alun Kidul Residence",
+      "hotel",
+      "Yogyakarta",
+      "Rp 675,000",
+      "4.7",
+      "Trending in Rewards",
+    ],
+  ];
+  return (
+    <section className="section recommended-section">
+      <div className="section-heading">
+        <h2>Recommended for you</h2>
+        <span className="muted">Based on your recent searches</span>
+      </div>
+      <div className="stay-grid">
+        {stays.map(([name, type, city, price, rating, context]) => (
+          <PropertyCard
+            key={name}
+            name={name}
+            type={type}
+            area={context}
+            city={city}
+            price={price}
+            rating={rating}
+            amenities={["Free cancellation"]}
+          />
+        ))}
+      </div>
+    </section>
+  );
+}
+function PriceAlert() {
+  const [email, setEmail] = useState("");
+  const [submitted, setSubmitted] = useState(false);
+  return (
+    <section className="price-alert">
+      <div>
+        <h3>Get a nudge when hotel prices drop</h3>
+        <p>
+          We&apos;ll email you the moment rates for your dates fall below
+          today&apos;s price.
+        </p>
+      </div>
+      <form
+        onSubmit={(event) => {
+          event.preventDefault();
+          if (email) setSubmitted(true);
+        }}
+      >
+        <input
+          type="email"
+          required
+          value={email}
+          onChange={(event) => setEmail(event.target.value)}
+          placeholder="you@email.com"
+        />
+        <button type="submit">
+          {submitted ? "You&apos;re on the list" : "Alert me"}
+        </button>
+      </form>
+    </section>
+  );
+}
+function PopularDestinations({ language }: { language: "EN" | "ID" }) {
+  const prefix = "/" + language.toLowerCase();
+  return (
+    <section className="section popular-destinations">
+      <div className="section-heading">
+        <div>
+          <p className="eyebrow">Explore more</p>
+          <h2>Popular destinations</h2>
+        </div>
+        <a className="muted" href={`${prefix}/destinations/all`}>
+          Go beyond the city →
+        </a>
+      </div>
+      <div className="popular-destination-grid">
+        <a href={prefix + "/destinations/yogyakarta"}>
+          <div className="destination-card-image">
+            <img
+              src="/images/destinations/yogyakarta.webp"
+              alt="Yogyakarta heritage street with traditional Javanese architecture"
+              width="1600"
+              height="1200"
+              loading="lazy"
+            />
+          </div>
+          <div>
+            <h3>Yogyakarta</h3>
+            <p>City stays, café streets, and heritage neighborhoods.</p>
+            <span>Explore destination →</span>
+          </div>
+        </a>
+        <a href={prefix + "/destinations/bantul"}>
+          <div className="destination-card-image">
+            <img
+              src="/images/destinations/bantul.webp"
+              alt="Bantul pottery artisan working in a traditional Javanese craft studio"
+              width="1600"
+              height="1200"
+              loading="lazy"
+            />
+          </div>
+          <div>
+            <h3>Bantul</h3>
+            <p>Craft villages, open landscapes, and slower southern stays.</p>
+            <span>Explore destination →</span>
+          </div>
+        </a>
+        <a href={prefix + "/destinations/bandung"}>
+          <div className="destination-card-image">
+            <img
+              src="/images/destinations/bandung.webp"
+              alt="Gedung Sate landmark in Bandung"
+              width="1600"
+              height="1200"
+              loading="lazy"
+            />
+          </div>
+          <div>
+            <h3>Bandung</h3>
+            <p>Cool mornings, creative corners, and neighborhood stays.</p>
+            <span>Explore destination →</span>
+          </div>
+        </a>
+        <a href={prefix + "/destinations/solo"}>
+          <div className="destination-card-image">
+            <img
+              src="/images/destinations/solo.webp"
+              alt="Pura Mangkunegaran palace in Solo"
+              width="1600"
+              height="1200"
+              loading="lazy"
+            />
+          </div>
+          <div>
+            <h3>Solo</h3>
+            <p>Royal heritage, batik, and an easy city rhythm.</p>
+            <span>Explore destination →</span>
+          </div>
+        </a>
+      </div>
+    </section>
+  );
+}
+function ExperienceSection() {
+  const experiences = [
+    ["Borobudur sunrise tour", "Rp 350,000/person", "sunrise"],
+    ["Merapi jeep adventure", "Rp 275,000/person", "mountain"],
+    ["Batik-making class", "Rp 180,000/person", "craft"],
+    ["Ratu Boko sunset walk", "Rp 150,000/person", "sunset"],
+  ];
+  return (
+    <section className="section">
+      <div className="section-heading">
+        <h2>Add local experiences</h2>
+        <span className="muted">See all →</span>
+      </div>
+      <div className="experience-grid">
+        {experiences.map(([name, price, tone]) => (
+          <article
+            className={`experience-card experience-card-${tone}`}
+            key={name}
+          >
+            <div
+              className="experience-photo"
+              role="img"
+              aria-label={`${name} experience photo`}
+            >
+              <span>Photo</span>
+            </div>
+            <div className="experience-card-content">
+              <strong>{name}</strong>
+              <small>From {price}</small>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+function BandungLanding({
+  language,
+  setLanguage,
+}: {
+  language: "EN" | "ID";
+  setLanguage: (language: "EN" | "ID") => void;
+}) {
+  const prefix = "/" + language.toLowerCase();
+  return (
+    <>
+      <main className="destination-landing page">
+        <p className="eyebrow">Explore Bandung</p>
+        <h1>Cool mornings, creative corners, and a city made for wandering.</h1>
+        <p className="destination-intro">
+          Bandung brings together design, food, green escapes, and neighborhoods
+          with their own distinct rhythm.
+        </p>
+        <div className="destination-actions">
+          <a href={`${prefix}/stays?destination=Bandung`}>
+            Explore Bandung stays
+          </a>
+          <a href="#bandung-areas">Choose an area</a>
+        </div>
+        <section id="bandung-areas" className="destination-area-section">
+          <div className="section-heading">
+            <div>
+              <p className="eyebrow">Stay by neighborhood</p>
+              <h2>Find your Bandung base</h2>
+            </div>
+          </div>
+          <div className="destination-area-grid">
+            <a
+              className="destination-area-card"
+              href={`${prefix}/stays?destination=Dago`}
+            >
+              <strong>Dago</strong>
+              <p>Hill air, creative cafés, galleries, and leafy city views.</p>
+              <span>Browse Dago stays →</span>
+            </a>
+            <a
+              className="destination-area-card"
+              href={`${prefix}/stays?destination=Braga`}
+            >
+              <strong>Braga</strong>
+              <p>
+                Heritage architecture, restaurants, and Bandung’s classic city
+                energy.
+              </p>
+              <span>Browse Braga stays →</span>
+            </a>
+            <a
+              className="destination-area-card"
+              href={`${prefix}/stays?destination=Setiabudi`}
+            >
+              <strong>Setiabudi</strong>
+              <p>
+                Cooler northern streets, family-friendly stays, and easy access
+                to green escapes.
+              </p>
+              <span>Browse Setiabudi stays →</span>
+            </a>
+          </div>
+        </section>
+        <section className="destination-properties">
+          <div className="section-heading">
+            <div>
+              <p className="eyebrow">Places to start</p>
+              <h2>Properties to compare</h2>
+            </div>
+            <a href={`${prefix}/stays?destination=Bandung`}>
+              See all Bandung stays →
+            </a>
+          </div>
+          <div className="destination-property-grid">
+            <article>
+              <div className="property-image">Design hotel</div>
+              <div>
+                <h3>Braga House Hotel</h3>
+                <p>Braga · heritage city center</p>
+                <a href={`${prefix}/stays?destination=Braga`}>
+                  View availability →
+                </a>
+              </div>
+            </article>
+            <article>
+              <div className="property-image">Hill stay</div>
+              <div>
+                <h3>Dago Hillside Stay</h3>
+                <p>Dago · cafés and cooler air</p>
+                <a href={`${prefix}/stays?destination=Dago`}>
+                  View availability →
+                </a>
+              </div>
+            </article>
+            <article>
+              <div className="property-image">Garden hotel</div>
+              <div>
+                <h3>Setiabudi Garden Suites</h3>
+                <p>Setiabudi · northern Bandung</p>
+                <a href={`${prefix}/stays?destination=Setiabudi`}>
+                  View availability →
+                </a>
+              </div>
+            </article>
+          </div>
+        </section>
+        <section className="destination-faq">
+          <p className="eyebrow">Bandung travel questions</p>
+          <h2>Plan the practical details</h2>
+          <details>
+            <summary>Which Bandung area is best for a first visit?</summary>
+            <p>
+              Braga is central and heritage-rich, while Dago is a good fit for
+              cafés, views, and a cooler hill atmosphere.
+            </p>
+          </details>
+          <details>
+            <summary>Where can I stay for a quieter Bandung trip?</summary>
+            <p>
+              Setiabudi and the northern neighborhoods offer more space and
+              easier access to green escapes.
+            </p>
+          </details>
+          <details>
+            <summary>Can I compare Bandung stays by dates?</summary>
+            <p>
+              Yes. Set your dates and guest count in the stays search to compare
+              live availability and prices.
+            </p>
+          </details>
+        </section>
+        <nav
+          className="destination-internal-links"
+          aria-label="Bandung travel links"
+        >
+          <a href={`${prefix}/destinations/all`}>All destinations</a>
+          <a href={`${prefix}/stays?destination=Bandung`}>All Bandung stays</a>
+          <a href={`${prefix}/stays?destination=Dago`}>Dago stays</a>
+          <a href={`${prefix}/stays?destination=Braga`}>Braga hotels</a>
+          <a href={`${prefix}/stays?destination=Setiabudi`}>Setiabudi stays</a>
+        </nav>
+      </main>
+      <Footer language={language} setLanguage={setLanguage} />
+    </>
+  );
+}
+function SoloLanding({
+  language,
+  setLanguage,
+}: {
+  language: "EN" | "ID";
+  setLanguage: (language: "EN" | "ID") => void;
+}) {
+  const prefix = "/" + language.toLowerCase();
+  return (
+    <>
+      <main className="destination-landing page">
+        <p className="eyebrow">Explore Solo</p>
+        <h1>Royal heritage, riverside evenings, and an easy city rhythm.</h1>
+        <p className="destination-intro">
+          Solo is compact, welcoming, and rich with culture—from palace
+          neighborhoods and batik workshops to food streets made for lingering.
+        </p>
+        <div className="destination-actions">
+          <a href={`${prefix}/stays?destination=Solo`}>Explore Solo stays</a>
+          <a href="#solo-areas">Choose an area</a>
+        </div>
+        <section id="solo-areas" className="destination-area-section">
+          <div className="section-heading">
+            <div>
+              <p className="eyebrow">Stay by neighborhood</p>
+              <h2>Find your Solo base</h2>
+            </div>
+          </div>
+          <div className="destination-area-grid">
+            <a
+              className="destination-area-card"
+              href={`${prefix}/stays?destination=Laweyan`}
+            >
+              <strong>Laweyan</strong>
+              <p>
+                Batik heritage, quiet lanes, and historic kampung character.
+              </p>
+              <span>Browse Laweyan stays →</span>
+            </a>
+            <a
+              className="destination-area-card"
+              href={`${prefix}/stays?destination=Pasar Gede`}
+            >
+              <strong>Pasar Gede</strong>
+              <p>
+                Food stalls, market mornings, and the city’s everyday energy.
+              </p>
+              <span>Browse Pasar Gede stays →</span>
+            </a>
+            <a
+              className="destination-area-card"
+              href={`${prefix}/stays?destination=Manahan`}
+            >
+              <strong>Manahan</strong>
+              <p>Open green space, local cafés, and a relaxed central base.</p>
+              <span>Browse Manahan stays →</span>
+            </a>
+          </div>
+        </section>
+        <section className="destination-properties">
+          <div className="section-heading">
+            <div>
+              <p className="eyebrow">Places to start</p>
+              <h2>Properties to compare</h2>
+            </div>
+            <a href={`${prefix}/stays?destination=Solo`}>
+              See all Solo stays →
+            </a>
+          </div>
+          <div className="destination-property-grid">
+            <article>
+              <div className="property-image">Batik house</div>
+              <div>
+                <h3>Laweyan Heritage House</h3>
+                <p>Laweyan · batik quarter</p>
+                <a href={`${prefix}/stays?destination=Laweyan`}>
+                  View availability →
+                </a>
+              </div>
+            </article>
+            <article>
+              <div className="property-image">City hotel</div>
+              <div>
+                <h3>Pasar Gede City Hotel</h3>
+                <p>Pasar Gede · market nearby</p>
+                <a href={`${prefix}/stays?destination=Pasar%20Gede`}>
+                  View availability →
+                </a>
+              </div>
+            </article>
+            <article>
+              <div className="property-image">Garden stay</div>
+              <div>
+                <h3>Manahan Garden Stay</h3>
+                <p>Manahan · quiet central base</p>
+                <a href={`${prefix}/stays?destination=Manahan`}>
+                  View availability →
+                </a>
+              </div>
+            </article>
+          </div>
+        </section>
+        <section className="destination-faq">
+          <p className="eyebrow">Solo travel questions</p>
+          <h2>Plan the practical details</h2>
+          <details>
+            <summary>What is Solo best known for?</summary>
+            <p>
+              Solo is known for palace heritage, batik, traditional performance,
+              and a food culture that rewards slow exploration.
+            </p>
+          </details>
+          <details>
+            <summary>Which area is best for a first visit?</summary>
+            <p>
+              Laweyan is ideal for heritage and batik; Pasar Gede is better for
+              market energy and local food.
+            </p>
+          </details>
+          <details>
+            <summary>Can I compare Solo stays by dates?</summary>
+            <p>
+              Yes. Set your dates and guest count in the stays search to compare
+              live availability and prices.
+            </p>
+          </details>
+        </section>
+        <nav
+          className="destination-internal-links"
+          aria-label="Solo travel links"
+        >
+          <a href={`${prefix}/destinations/all`}>All destinations</a>
+          <a href={`${prefix}/stays?destination=Solo`}>All Solo stays</a>
+          <a href={`${prefix}/stays?destination=Laweyan`}>Laweyan stays</a>
+          <a href={`${prefix}/stays?destination=Pasar%20Gede`}>
+            Pasar Gede stays
+          </a>
+          <a href={`${prefix}/stays?destination=Manahan`}>Manahan stays</a>
+        </nav>
+      </main>
+      <Footer language={language} setLanguage={setLanguage} />
+    </>
+  );
+}
+function SlemanLanding({
+  language,
+  setLanguage,
+}: {
+  language: "EN" | "ID";
+  setLanguage: (language: "EN" | "ID") => void;
+}) {
+  const prefix = `/${language.toLowerCase()}`;
+  return (
+    <>
+      <main className="destination-landing page">
+        <p className="eyebrow">Explore Sleman</p>
+        <h1>Volcanic landscapes, art spaces, and a greener Yogyakarta base.</h1>
+        <p className="destination-intro">
+          Sleman brings together Merapi views, cool northern air, creative
+          campuses, and stays that feel close to nature without losing city
+          access.
+        </p>
+        <div className="destination-actions">
+          <a href={`${prefix}/stays?destination=Sleman`}>
+            Explore Sleman stays
+          </a>
+          <a href="#sleman-areas">Choose an area</a>
+        </div>
+        <section id="sleman-areas" className="destination-area-section">
+          <div className="section-heading">
+            <div>
+              <p className="eyebrow">Stay by area</p>
+              <h2>Find your Sleman base</h2>
+            </div>
+          </div>
+          <div className="destination-area-grid">
+            <a
+              className="destination-area-card"
+              href={`${prefix}/stays?destination=Kaliurang`}
+            >
+              <strong>Kaliurang</strong>
+              <p>
+                Cooler mountain air, Merapi views, and easy access to outdoor
+                escapes.
+              </p>
+              <span>Browse Kaliurang stays →</span>
+            </a>
+            <a
+              className="destination-area-card"
+              href={`${prefix}/stays?destination=Ngaglik`}
+            >
+              <strong>Ngaglik</strong>
+              <p>
+                Leafy residential streets, cafés, and a calm northern-city
+                rhythm.
+              </p>
+              <span>Browse Ngaglik stays →</span>
+            </a>
+            <a
+              className="destination-area-card"
+              href={`${prefix}/stays?destination=Depok`}
+            >
+              <strong>Depok</strong>
+              <p>
+                Universities, restaurants, and a practical base between the city
+                and the hills.
+              </p>
+              <span>Browse Depok stays →</span>
+            </a>
+          </div>
+        </section>
+        <section className="destination-properties">
+          <div className="section-heading">
+            <div>
+              <p className="eyebrow">Places to start</p>
+              <h2>Properties for a greener stay</h2>
+            </div>
+            <a href={`${prefix}/stays?destination=Sleman`}>
+              See all Sleman stays →
+            </a>
+          </div>
+          <div className="destination-property-grid">
+            <article>
+              <div className="property-image">Mountain villa</div>
+              <div>
+                <h3>Kaliurang Merapi Villa</h3>
+                <p>Kaliurang · mountain air and views</p>
+                <a href={`${prefix}/stays?destination=Kaliurang`}>
+                  View availability →
+                </a>
+              </div>
+            </article>
+            <article>
+              <div className="property-image">Garden stay</div>
+              <div>
+                <h3>Ngaglik Garden House</h3>
+                <p>Ngaglik · leafy northern base</p>
+                <a href={`${prefix}/stays?destination=Ngaglik`}>
+                  View availability →
+                </a>
+              </div>
+            </article>
+            <article>
+              <div className="property-image">City apartment</div>
+              <div>
+                <h3>Depok Campus Suites</h3>
+                <p>Depok · cafés and everyday convenience</p>
+                <a href={`${prefix}/stays?destination=Depok`}>
+                  View availability →
+                </a>
+              </div>
+            </article>
+          </div>
+        </section>
+        <section className="destination-faq">
+          <p className="eyebrow">Sleman travel questions</p>
+          <h2>Plan the practical details</h2>
+          <details>
+            <summary>What is Sleman best known for?</summary>
+            <p>
+              Sleman is known for Mount Merapi, cooler northern neighborhoods,
+              university life, and easy access to Yogyakarta’s cultural sights.
+            </p>
+          </details>
+          <details>
+            <summary>Which area is best for a nature-led stay?</summary>
+            <p>
+              Kaliurang is the strongest fit for mountain air and outdoor
+              access, while Ngaglik offers a quieter base closer to the city.
+            </p>
+          </details>
+          <details>
+            <summary>Can I compare Sleman stays by dates?</summary>
+            <p>
+              Yes. Set your dates and guest count in the stays search to compare
+              live availability and prices.
+            </p>
+          </details>
+        </section>
+        <nav
+          className="destination-internal-links"
+          aria-label="Sleman travel links"
+        >
+          <a href={`${prefix}/destinations/all`}>All destinations</a>
+          <a href={`${prefix}/stays?destination=Sleman`}>All Sleman stays</a>
+          <a href={`${prefix}/stays?destination=Kaliurang`}>Kaliurang stays</a>
+          <a href={`${prefix}/stays?destination=Ngaglik`}>Ngaglik stays</a>
+          <a href={`${prefix}/stays?destination=Depok`}>Depok stays</a>
+        </nav>
+      </main>
+      <Footer language={language} setLanguage={setLanguage} />
+    </>
+  );
+}
+function AllDestinations({
+  language,
+  setLanguage,
+}: {
+  language: "EN" | "ID";
+  setLanguage: (language: "EN" | "ID") => void;
+}) {
+  const prefix = "/" + language.toLowerCase();
+  const destinations = [
+    [
+      "Yogyakarta",
+      "City stays, café streets, and heritage neighborhoods.",
+      "yogyakarta",
+    ],
+    [
+      "Bantul",
+      "Craft villages, open landscapes, and slower southern stays.",
+      "bantul",
+    ],
+    [
+      "Sleman",
+      "Merapi views, greener neighborhoods, and a cooler northern base.",
+      "sleman",
+    ],
+    [
+      "Bandung",
+      "Cool mornings, creative corners, and neighborhood stays.",
+      "bandung",
+    ],
+    ["Solo", "Royal heritage, batik, and an easy city rhythm.", "solo"],
+    [
+      "Malang",
+      "Cooler days, creative cafés, and a gentle city pace.",
+      "malang",
+    ],
+    [
+      "Surabaya",
+      "Big-city energy, heritage quarters, and food worth travelling for.",
+      "surabaya",
+    ],
+    [
+      "Denpasar",
+      "Local Bali, market mornings, and a gateway to the island.",
+      "denpasar",
+    ],
+    [
+      "Semarang",
+      "Old-town character, hillside views, and a generous food scene.",
+      "semarang",
+    ],
+    [
+      "Jakarta",
+      "City energy, neighborhood character, and stays close to what matters.",
+      "jakarta",
+    ],
+  ];
+  return (
+    <>
+      <main className="destination-landing page">
+        <p className="eyebrow">Explore Indonesia</p>
+        <h1>Find your next destination.</h1>
+        <p className="destination-intro">
+          Browse places with distinctive neighborhoods, local character, and
+          stays worth comparing.
+        </p>
+        <section className="destination-area-section">
+          <div className="section-heading">
+            <div>
+              <p className="eyebrow">Destination guide</p>
+              <h2>Start exploring</h2>
+            </div>
+          </div>
+          <div className="destination-area-grid destination-directory-grid">
+            {destinations.map(([name, description, slug]) => (
+              <a
+                className="destination-area-card destination-directory-card"
+                href={`${prefix}/destinations/${slug}`}
+                key={slug}
+              >
+                {slug === "yogyakarta" ? (
+                  <div className="destination-card-image">
+                    <img
+                      src="/images/destinations/yogyakarta.webp"
+                      alt="Yogyakarta heritage street with traditional Javanese architecture"
+                      width="1600"
+                      height="1200"
+                      loading="lazy"
+                    />
+                  </div>
+                ) : slug === "bandung" ? (
+                  <div className="destination-card-image">
+                    <img
+                      src="/images/destinations/bandung.webp"
+                      alt="Gedung Sate landmark in Bandung"
+                      width="1600"
+                      height="1200"
+                      loading="lazy"
+                    />
+                  </div>
+                ) : slug === "solo" ? (
+                  <div className="destination-card-image">
+                    <img
+                      src="/images/destinations/solo.webp"
+                      alt="Pura Mangkunegaran palace in Solo"
+                      width="1600"
+                      height="1200"
+                      loading="lazy"
+                    />
+                  </div>
+                ) : slug === "denpasar" ? (
+                  <div className="destination-card-image">
+                    <img
+                      src="/images/destinations/denpasar.webp"
+                      alt="Balinese civic landmark in central Denpasar"
+                      width="1600"
+                      height="1200"
+                      loading="lazy"
+                    />
+                  </div>
+                ) : slug === "surabaya" ? (
+                  <div className="destination-card-image">
+                    <img
+                      src="/images/destinations/surabaya.webp"
+                      alt="Tugu Pahlawan monument in Surabaya"
+                      width="1600"
+                      height="1200"
+                      loading="lazy"
+                    />
+                  </div>
+                ) : slug === "jakarta" ? (
+                  <div className="destination-card-image">
+                    <img
+                      src="/images/destinations/jakarta.webp"
+                      alt="Jakarta skyline and Bundaran HI at golden hour"
+                      width="1600"
+                      height="1200"
+                      loading="lazy"
+                    />
+                  </div>
+                ) : slug === "semarang" ? (
+                  <div className="destination-card-image">
+                    <img
+                      src="/images/destinations/semarang.webp"
+                      alt="Lawang Sewu colonial architecture in Semarang"
+                      width="1600"
+                      height="1200"
+                      loading="lazy"
+                    />
+                  </div>
+                ) : slug === "malang" ? (
+                  <div className="destination-card-image">
+                    <img
+                      src="/images/destinations/malang.webp"
+                      alt="Colorful Jodipan village in Malang"
+                      width="1600"
+                      height="1200"
+                      loading="lazy"
+                    />
+                  </div>
+                ) : slug === "bantul" ? (
+                  <div className="destination-card-image">
+                    <img
+                      src="/images/destinations/bantul.webp"
+                      alt="Bantul pottery artisan working in a traditional Javanese craft studio"
+                      width="1600"
+                      height="1200"
+                      loading="lazy"
+                    />
+                  </div>
+                ) : slug === "sleman" ? (
+                  <div className="destination-card-image">
+                    <img
+                      src="/images/destinations/sleman.webp"
+                      alt="Mount Merapi and northern Yogyakarta landscape in Sleman"
+                      width="1600"
+                      height="1200"
+                      loading="lazy"
+                    />
+                  </div>
+                ) : (
+                  <div className="destination-card-image">{name}</div>
+                )}
+                <strong>{name}</strong>
+                <p>{description}</p>
+                <span>Explore {name} →</span>
+              </a>
+            ))}
+          </div>
+        </section>
+        <nav
+          className="destination-internal-links"
+          aria-label="All destinations links"
+        >
+          <a href={`${prefix}/stays`}>Search all stays</a>
+        </nav>
+      </main>
+      <Footer language={language} setLanguage={setLanguage} />
+    </>
+  );
+}
+function RentalSearch() {
+  const [type, setType] = useState<"all" | "scooter" | "car">("all");
+  const [driver, setDriver] = useState(false);
+  const [delivery, setDelivery] = useState(false);
+  const days = 3;
+  const vehicles = [
+    { type: "scooter", name: "Honda Beat", specs: "2 seats · automatic · full tank", rate: 65000, image: "rental-scooter" },
+    { type: "scooter", name: "Yamaha NMAX", specs: "2 seats · automatic · storage box", rate: 95000, image: "rental-scooter premium" },
+    { type: "car", name: "Honda Brio", specs: "5 seats · automatic · AC", rate: 320000, image: "rental-car" },
+    { type: "car", name: "Toyota Avanza", specs: "7 seats · manual · AC", rate: 380000, image: "rental-car spacious" },
+  ].filter((vehicle) => type === "all" || vehicle.type === type);
+  const extra = (driver ? 150000 : 0) + (delivery ? 50000 : 0);
+  return <main className="rental-search-page">
+    <div className="rentals-wrap rental-search-context"><strong>Yogyakarta</strong><span>12-Oct-2026 → 15-Oct-2026 · {days} days · 1 passenger</span></div>
+    <div className="rentals-wrap rental-results-layout">
+      <aside className="rental-filter-panel"><h3>Vehicle type</h3><label><input type="radio" checked={type === "all"} onChange={() => setType("all")} /> All vehicles</label><label><input type="radio" checked={type === "scooter"} onChange={() => setType("scooter")} /> Motorbike / scooter</label><label><input type="radio" checked={type === "car"} onChange={() => setType("car")} /> Car</label><h3>Extras</h3><label><input type="checkbox" checked={driver} onChange={(event) => setDriver(event.target.checked)} /> Driver included</label><label><input type="checkbox" checked={delivery} onChange={(event) => setDelivery(event.target.checked)} /> Delivery to hotel</label></aside>
+      <section className="rental-results"><div className="rental-results-heading"><div><p className="eyebrow">Exact pricing</p><h1>{vehicles.length} vehicles available</h1></div><span>All costs shown upfront</span></div>{vehicles.map((vehicle) => { const daily = vehicle.rate + extra; return <article className="rental-result-card" key={vehicle.name}><div className={`rental-result-image ${vehicle.image}`}><span>{vehicle.type === "car" ? <Car size={28} /> : <span className="rental-bike-mark">●</span>}</span></div><div className="rental-result-content"><div className="rental-result-top"><div><h2>{vehicle.name}</h2><p>{vehicle.specs}</p></div><strong>Rp {daily.toLocaleString("en-US")}<small>/day</small></strong></div><div className="rental-tags"><span>{vehicle.type === "car" ? "Insurance included" : "Helmet included"}</span>{driver && <span>Driver included</span>}{delivery && <span>Delivery included</span>}</div><div className="rental-result-bottom"><div className="rental-result-price"><span>Rental · {days} days</span><b>Rp {(daily * days).toLocaleString("en-US")}</b><small>Deposit: Rp 0</small></div><button>Select vehicle</button></div></div></article>; })}</section>
+    </div>
+  </main>;
+}
 
-function SearchBar({ search, setSearch, onSearch, onPropertySelect, compact = false, error }: { search: SearchState; setSearch: (value: SearchState) => void; onSearch: () => void; onPropertySelect?: (id: string) => void; compact?: boolean; error?: string }) { const [guestsOpen, setGuestsOpen] = useState(false); const guestFieldRef = useRef<HTMLLabelElement>(null); const suggestions = useQuery(api.properties.searchSuggestions, { query: search.destination }); useEffect(() => { const handlePointerDown = (event: PointerEvent) => { if (guestsOpen && !guestFieldRef.current?.contains(event.target as Node)) setGuestsOpen(false); }; document.addEventListener('pointerdown', handlePointerDown); return () => document.removeEventListener('pointerdown', handlePointerDown); }, [guestsOpen]); const updateGuests = (adults: number, children: number) => setSearch({ ...search, adults, children, guests: adults + children }); const submitSearch = () => { const exactProperty = suggestions?.find((suggestion) => suggestion.kind === 'property' && suggestion.label.trim().toLowerCase() === search.destination.trim().toLowerCase()); if (exactProperty && onPropertySelect) onPropertySelect(exactProperty.id); else onSearch(); }; return <div className="search-widget-wrap"><div className="search-card dc-search-card"><label className="destination-field"><span>Destination</span><div><MapPin size={16} /><input aria-label="Destination" list="destination-options" value={search.destination} onChange={(e) => setSearch({ ...search, destination: e.target.value })} placeholder="Try hotel name, city, keyword…" /></div>{suggestions?.length ? <div className="destination-suggestions" role="listbox" aria-label="Destination suggestions">{suggestions.map((suggestion) => <button type="button" role="option" key={`${suggestion.kind}:${suggestion.label}`} onClick={() => { setSearch({ ...search, destination: suggestion.label }); if (suggestion.kind === 'property' && onPropertySelect) onPropertySelect(suggestion.id); }}>{suggestion.label}<small>{suggestion.kind === 'property' ? `Property · ${suggestion.detail}` : `Area · ${suggestion.detail}`}</small></button>)}</div> : null}</label><label><span>Check-in</span><div><CalendarDays size={16} /><input aria-label="Check-in date" type="date" min={today} value={search.checkIn || today} onClick={(e) => e.currentTarget.showPicker?.()} onKeyDown={(e) => e.preventDefault()} onChange={(e) => setSearch({ ...search, checkIn: e.target.value, checkOut: nextDay(e.target.value) })} /></div></label><label><span>Check-out</span><div><CalendarDays size={16} /><input aria-label="Check-out date" type="date" min={search.checkIn || today} value={search.checkOut} onClick={(e) => e.currentTarget.showPicker?.()} onKeyDown={(e) => e.preventDefault()} onChange={(e) => setSearch({ ...search, checkOut: e.target.value })} /></div></label><label ref={guestFieldRef} className="guest-field"><span>Guests</span><button type="button" className="guest-trigger" aria-expanded={guestsOpen} aria-haspopup="dialog" onClick={() => setGuestsOpen(!guestsOpen)}><Users size={16} /><span>{search.adults} adults{search.children ? `, ${search.children} children` : ''}</span></button>{guestsOpen && <div className="guest-popover" role="dialog" aria-label="Guest selector"><GuestCounter label="Adults" hint="Ages 13+" value={search.adults} min={1} onChange={(value) => updateGuests(value, search.children)} /><GuestCounter label="Children" hint="Ages 0–12" value={search.children} min={0} onChange={(value) => updateGuests(search.adults, value)} /></div>}</label><button type="button" className="search-submit" aria-label="Search stays" title="Search stays" onClick={submitSearch}>{compact ? <Search size={19} strokeWidth={2.5} /> : 'Search'}</button></div><datalist id="destination-options"><option value="Yogyakarta" /><option value="Greater Yogyakarta" /><option value="Bandung" /><option value="Semarang" /><option value="Malang" /><option value="Solo" /><option value="Surabaya" /></datalist>{error && <p className="search-error" role="alert">{error}</p>}</div>; }
-function GuestCounter({ label, hint, value, min, onChange }: { label: string; hint: string; value: number; min: number; onChange: (value: number) => void }) { return <div className="guest-counter"><div><strong>{label}</strong><small>{hint}</small></div><div className="counter-actions"><button type="button" aria-label={`Decrease ${label}`} disabled={value <= min} onClick={() => onChange(value - 1)}>−</button><strong>{value}</strong><button type="button" aria-label={`Increase ${label}`} onClick={() => onChange(value + 1)}>+</button></div></div>; }
+function RentalsLanding({ onFind }: { onFind: () => void }) {
+  const [pickup, setPickup] = useState("Yogyakarta");
+  const [dropoff, setDropoff] = useState("");
+  const [differentDropoff, setDifferentDropoff] = useState(false);
+  const [pickupDate, setPickupDate] = useState("2026-10-12");
+  const [returnDate, setReturnDate] = useState("2026-10-15");
+  const [pickupTime, setPickupTime] = useState("10:00");
+  const [returnTime, setReturnTime] = useState("10:00");
+  const [passengers, setPassengers] = useState(1);
+  const [dateError, setDateError] = useState(false);
+  const updateReturn = (value: string) => { setReturnDate(value); setDateError(value < pickupDate); };
+  return <>
+    <main className="rentals-landing">
+      <section className="rentals-hero">
+        <div className="rentals-wrap rentals-hero-copy">
+          <div className="hero-badge"><Car size={14} /> Menetap-managed fleet — no third-party surprises</div>
+          <h1>Scooters and cars, ready when you land.</h1>
+          <p>Book a vehicle for your Indonesia trip — with or without a Menetap stay. Delivered to your hotel or the airport.</p>
+        </div>
+        <div className="rentals-stats"><div><strong>4.7★</strong><span>Average rental rating</span></div><div><strong>12,000+</strong><span>Rentals completed</span></div><div><strong>40+</strong><span>Pickup locations</span></div></div>
+        <div className="rentals-wrap rentals-search-card">
+          <label><span>Pickup location</span><input value={pickup} onChange={(event) => setPickup(event.target.value)} placeholder="City, hotel, or airport" /><em><input type="checkbox" checked={differentDropoff} onChange={(event) => setDifferentDropoff(event.target.checked)} /> Different drop-off</em>{differentDropoff && <input className="dropoff-input" value={dropoff} onChange={(event) => setDropoff(event.target.value)} placeholder="Drop-off city or location" />}</label>
+          <label><span>Pickup date</span><input type="date" value={pickupDate} onChange={(event) => setPickupDate(event.target.value)} /></label>
+          <label><span>Pickup time</span><input type="time" value={pickupTime} onChange={(event) => setPickupTime(event.target.value)} /></label>
+          <label><span>Return date</span><input type="date" value={returnDate} onChange={(event) => updateReturn(event.target.value)} />{dateError && <small>Return after pickup</small>}</label>
+          <label><span>Return time</span><input type="time" value={returnTime} onChange={(event) => setReturnTime(event.target.value)} /></label>
+          <label><span>Passengers</span><div className="rental-stepper"><button onClick={() => setPassengers(Math.max(1, passengers - 1))}>−</button><b>{passengers}</b><button onClick={() => setPassengers(Math.min(7, passengers + 1))}>+</button></div></label>
+          <button className="rental-search-button" onClick={onFind}>Find a vehicle</button>
+        </div>
+        <div className="rentals-popular"><span>Popular pickup spots:</span>{["Yogyakarta Airport", "Malioboro", "Ngurah Rai Airport (Bali)", "Ubud"].map((spot) => <button key={spot} onClick={() => setPickup(spot)}>{spot}</button>)}</div>
+      </section>
+      <section className="rentals-wrap rentals-pricing"><div><h2>Transparent pricing at pickup.</h2><p>Insurance, delivery, and driver costs are shown upfront at checkout — never added at the counter. The total you see when you book is the total you pay.</p></div><div className="rental-price-card"><div><span>Scooter, 3 days</span><b>Rp 195,000</b></div><div><span>Insurance</span><b>Rp 120,000</b></div><div><span>Delivery to hotel</span><b>Rp 50,000</b></div><hr /><div className="price-total"><strong>Total at pickup</strong><b>Rp 365,000</b></div></div></section>
+      <section className="rentals-wrap rentals-types"><h2>What you can rent</h2><div className="rental-type-grid"><a href="/en/rentals/search?type=scooter"><div className="rental-type-image scooter-image">Photo</div><div><h3>Scooter / automatic motorbike</h3><p>From Rp 65,000/day. Helmet included, delivery to your hotel available.</p></div></a><a href="/en/rentals/search?type=car"><div className="rental-type-image car-image">Photo</div><div><h3>Economy car</h3><p>From Rp 380,000/day. Self-drive or with a driver, insurance included.</p></div></a></div></section>
+      <section className="rentals-wrap rental-benefits"><span><ShieldCheck size={16} />Insurance available on every rental</span><span><Truck size={16} />Delivery to hotel or airport</span><span><UserCheck size={16} />Driver option available</span></section>
+      <section className="rentals-wrap rental-trip-banner"><div><h3>Already have a Menetap stay booked?</h3><p>Add a rental to your existing trip — we'll deliver it to your hotel on arrival day.</p></div><button>Add to my trip</button></section>
+    </main>
+    <Footer language="EN" setLanguage={() => undefined} />
+  </>;
+}
 
-function SearchResults({ search, setSearch, onBack, onSelect, language, setLanguage }: { search: SearchState; setSearch: (value: SearchState) => void; onBack: () => void; onSelect: (id: string) => void; language: 'EN' | 'ID'; setLanguage: (language: 'EN' | 'ID') => void }) { const properties = useQuery(api.properties.listPublished, { area: search.destination, checkIn: search.checkIn, checkOut: search.checkOut, guests: search.guests }); const [selectedTypes, setSelectedTypes] = useState<string[]>([]); const [selectedPrice, setSelectedPrice] = useState(''); const [sort, setSort] = useState('recommended'); const [view, setView] = useState<'list' | 'map'>('list'); const types = properties ? Array.from(new Set(properties.map((property) => property.type))).sort() : []; const runSearch = () => { const params = new URLSearchParams({ destination: search.destination, checkIn: search.checkIn, checkOut: search.checkOut, adults: String(search.adults), children: String(search.children) }); window.history.replaceState({}, '', `${window.location.pathname}?${params}`); }; const toggleType = (type: string) => setSelectedTypes((current) => current.includes(type) ? current.filter((value) => value !== type) : [...current, type]); const clearFilters = () => { setSelectedTypes([]); setSelectedPrice(''); }; const togglePrice = (value: string) => setSelectedPrice((current) => current === value ? '' : value); const visibleProperties = properties?.filter((property) => { const typeMatches = !selectedTypes.length || selectedTypes.includes(property.type); const priceMatches = !selectedPrice || (selectedPrice === 'Under Rp 500,000' && (property.lowestPrice ?? Infinity) < 500000) || (selectedPrice === 'Rp 500,000–1,000,000' && (property.lowestPrice ?? 0) >= 500000 && (property.lowestPrice ?? Infinity) <= 1000000) || (selectedPrice === 'Over Rp 1,000,000' && (property.lowestPrice ?? 0) > 1000000); return typeMatches && priceMatches; }).sort((a, b) => sort === 'name' ? a.name.localeCompare(b.name) : 0); const filterGroup = (title: string, options: string[], selected: string[] = [], onToggle?: (value: string) => void) => <section className="filter-panel"><h3>{title}</h3>{options.map((option) => <label className="filter-option" key={option}><span><input type="checkbox" checked={selected.includes(option)} onChange={() => onToggle?.(option)} />{option}</span><small>{properties?.length ?? 0}</small></label>)}</section>; return <><main className="page search-results-page"><div className="mini-search-widget"><SearchBar search={search} setSearch={setSearch} onSearch={runSearch} onPropertySelect={onSelect} compact /></div><button className="back-button" onClick={onBack}>← Back</button><div className="page-heading"><div><p className="eyebrow">Search results</p><h2>Found {visibleProperties?.length ?? 0} stays in {search.destination || 'Indonesia'}</h2><p className="muted">{search.checkIn} → {search.checkOut} · {search.guests} guests · rates checked against live market data</p></div></div>{properties === undefined ? <LoadingState label="Finding available stays…" /> : properties.length ? <><div className="results-toolbar"><button type="button" className="mobile-filter-button" onClick={() => document.querySelector('.search-filter-sidebar')?.classList.toggle('is-open')}>☷ Filters</button><div className="results-view-toggle"><button type="button" className={view === 'list' ? 'active' : ''} onClick={() => setView('list')}>List</button><button type="button" className={view === 'map' ? 'active' : ''} onClick={() => setView('map')}>Map</button></div><label>Sort by<select value={sort} onChange={(event) => setSort(event.target.value)}><option value="recommended">Best value</option><option value="name">Name A–Z</option></select></label></div><div className="search-results-layout"><aside className="search-filter-sidebar"><div className="filter-sidebar-header"><strong>Filters</strong><button type="button" onClick={clearFilters}>Clear all</button></div>{filterGroup('Price per night', ['Under Rp 500,000', 'Rp 500,000–1,000,000', 'Over Rp 1,000,000'], selectedPrice ? [selectedPrice] : [], togglePrice)}{filterGroup('Guest rating', ['4.5+ Excellent', '4.0+ Very good', '3.5+ Good'])}{filterGroup('Booking policy', ['Free cancellation', 'Instant confirmation', 'Breakfast included'])}{filterGroup('Property type', types.length ? types : ['hotel', 'villa', 'guesthouse', 'homestay'], selectedTypes, toggleType)}{filterGroup('Facilities', ['Free WiFi', 'Swimming pool', 'Free parking', 'Air conditioning', 'Kitchen'])}</aside>{view === 'map' ? <MapPreview properties={visibleProperties ?? []} onSelect={onSelect} /> : <div className="property-grid">{visibleProperties?.length ? visibleProperties.map((property) => <PropertyCard key={property._id} name={property.name} type={property.type} area={property.area} city={property.city} price={property.lowestPrice ? 'From Rp ' + property.lowestPrice.toLocaleString('en-US') : 'Price on request'} rating="4.8" reviewCount="Verified reviews" amenities={["Free cancellation"]} onSelect={() => onSelect(property._id)} />) : <EmptyState title="No stays match these filters" text="Try clearing a filter or choosing another property type." />}</div>}</div></> : <EmptyState title="No available stays found" text="Try different dates, fewer guests, or another destination." />}</main><Footer language={language} setLanguage={setLanguage} /></>; }
+function Footer({
+  language,
+  setLanguage,
+}: {
+  language: "EN" | "ID";
+  setLanguage: (language: "EN" | "ID") => void;
+}) {
+  return (
+    <footer className="dc-footer">
+      <div className="dc-footer-grid">
+        <div className="footer-brand">
+          <span className="wordmark">
+            menetap<span>.</span>
+          </span>
+          <p>
+            Stays across Indonesia, priced fairly. Powered by UPSCALE&apos;s
+            revenue engine.
+          </p>
+        </div>
+        <FooterColumn
+          title="For guests"
+          links={[
+            "Search stays",
+            "Manage booking",
+            "Menetap Rewards",
+            "Cancellation policy",
+            "Help center",
+          ]}
+        />
+        <FooterColumn
+          title="For partners"
+          links={[
+            "List your property",
+            "Partner dashboard",
+            "Commission & pricing",
+            "Services",
+            "Partner support",
+          ]}
+        />
+        <FooterColumn
+          title="Company"
+          links={[
+            "About Menetap",
+            "Careers",
+            "Terms of service",
+            "Privacy policy",
+          ]}
+        />
+      </div>
+      <div className="dc-footer-bottom">
+        <span>© 2026 Menetap. All rights reserved.</span>
+        <div className="dc-footer-meta">
+          <button
+            className="language-chip"
+            onClick={() => setLanguage(language === "EN" ? "ID" : "EN")}
+          >
+            <Globe2 size={12} /> {language}
+          </button>
+          <span className="managed-chip">
+            Managed by{" "}
+            <a href="https://upscale.asia" target="_blank" rel="noreferrer">
+              UPSCALE
+            </a>
+          </span>
+        </div>
+      </div>
+    </footer>
+  );
+}
+function FooterColumn({ title, links }: { title: string; links: string[] }) {
+  return (
+    <div className="footer-column">
+      <strong>{title}</strong>
+      {links.map((link) => (
+        <a href={`#${link.toLowerCase().replaceAll(" ", "-")}`} key={link}>
+          {link}
+        </a>
+      ))}
+    </div>
+  );
+}
 
-function HotelDetail({ propertyId, onBack, onRooms }: { propertyId: string | null; onBack: () => void; onRooms: () => void }) { const property = useQuery(api.properties.get, propertyId ? { id: propertyId as never } : 'skip'); const rooms = useQuery(api.rooms.listForProperty, propertyId ? { propertyId: propertyId as never, guests: 2 } : 'skip'); const [saved, setSaved] = useState(false); if (!property) return <main className="page"><button className="back-button" onClick={onBack}>← Back</button><EmptyState title="Select a property" text="Choose a stay from search results to view its details." /></main>; const amenities = ['Free WiFi', 'Private pool', 'Free parking', 'Breakfast included', 'Air conditioning', 'Kitchen access']; return <><main className="property-detail-page page"><button className="back-button" onClick={onBack}>← Search results</button><section className="property-detail-heading"><div><div className="property-title-row"><h1>{property.name}</h1><span className="featured-badge">Featured stay</span></div><div className="property-meta-row"><span className="rating"><Star size={12} /> 4.8 · 214 verified reviews</span><span className="muted"><MapPin size={13} /> {property.area}, {property.city}</span></div></div><div className="property-detail-actions"><button className={saved ? 'is-saved' : ''} onClick={() => setSaved(!saved)}>♡ {saved ? 'Saved' : 'Save'}</button><button>↗ Share</button></div></section><section className="property-gallery"><div className="gallery-main">{property.type} photo</div><div className="gallery-grid"><div>Photo</div><div>Photo</div><div>Photo</div><div className="gallery-more">Photo<span>+18 photos</span></div></div></section><div className="property-detail-layout"><div className="property-detail-content"><section className="detail-trust-row"><span><RefreshCcw size={15} /> Free cancellation</span><span><CheckCircle2 size={15} /> Instant confirmation</span><span><ShieldCheck size={15} /> Verified reviews only</span></section><section className="detail-section"><h2>About this stay</h2><p>{property.description || 'A carefully selected stay with practical amenities, thoughtful hosting, and a comfortable base for exploring the area.'}</p><a href="#amenities">Show more ↓</a></section><section id="amenities" className="detail-section"><h2>What this place offers</h2><div className="amenities-grid">{amenities.map((amenity) => <span key={amenity}>✓ {amenity}</span>)}</div><a href="#amenities">Show all 22 amenities →</a></section><section className="pricing-transparency detail-section"><div className="section-heading"><div><p className="eyebrow">Transparent pricing</p><h2>The price you see is the price you pay</h2></div><span className="live-pricing">Live pricing</span></div><div className="price-lines"><span>Market average</span><strong>Rp 1,050,000</strong><span>Menetap rate</span><strong className="violet-text">Rp 890,000</strong><hr /><b>Total for 3 nights</b><b>Rp 2,670,000</b></div><small>No fees added later.</small></section><section id="rooms-section" className="detail-section"><div className="section-heading"><div><p className="eyebrow">Live availability</p><h2>Choose your room</h2></div><a href="#rooms-section">View dates</a></div>{rooms === undefined ? <LoadingState label="Checking room availability…" /> : rooms?.length ? <div className="detail-room-list">{rooms.slice(0, 3).map((room) => <article className="detail-room-card" key={room._id}><div className="room-thumb">Photo</div><div><h3>{room.name}</h3><p>{room.maxGuests} guests · {room.amenities.join(' · ')}</p><span>Free cancellation</span></div><div><strong>Rp 890,000</strong><small>/night</small><button onClick={onRooms}>Choose room</button></div></article>)}</div> : <EmptyState title="No rooms available" text="Try different dates to see available rooms." />}</section><section className="detail-section"><h2>Add local experiences</h2><div className="experience-mini-grid"><div><strong>Borobudur sunrise tour</strong><small>From Rp 350,000/person</small></div><div><strong>Merapi jeep adventure</strong><small>From Rp 275,000/person</small></div></div></section><section className="detail-section"><div className="section-heading"><h2>Reviews</h2><span className="rating"><Star size={12} /> 4.8 (214)</span></div><div className="review-grid"><blockquote><div className="review-stars" aria-label="5 out of 5 stars">★★★★★</div>“Exactly as priced — no surprise fees at checkout.”<cite>Rina · verified stay</cite></blockquote><blockquote><div className="review-stars" aria-label="4 out of 5 stars">★★★★☆</div>“Breakfast was a highlight, and cancellation was smooth.”<cite>Dimas · verified stay</cite></blockquote></div><a href="#reviews">Read all 214 reviews →</a></section><section className="detail-section"><h2>House rules</h2><div className="rules-grid"><span>Check-in <b>2:00 PM – 10:00 PM</b></span><span>Check-out <b>Before 12:00 PM</b></span><span>No smoking</span><span>No parties or events</span></div></section><section className="detail-section"><h2>Location</h2><div className="detail-map">Map view<span>{property.name}</span></div><p className="muted">{property.address}, {property.city} · close to local attractions and transport.</p></section></div><aside className="detail-booking-card"><strong>Rp 890,000 <small>/night</small></strong><span className="muted">Garden Suite · 2 guests</span><div className="booking-dates"><span>Check-in<br /><b>Choose date</b></span><span>Check-out<br /><b>Choose date</b></span><span>Guests<br /><b>2 adults</b></span></div><div className="booking-total"><span>3 nights</span><b>Rp 2,670,000</b></div><button onClick={onRooms}>Reserve now</button><small>You won't be charged yet</small></aside></div></main><div className="mobile-detail-cta"><div><strong>Rp 890,000</strong><small>/night</small></div><button onClick={onRooms}>Reserve now</button></div></>; }function RoomSelection({ propertyId, search, setSearch, onBack, onContinue }: { propertyId: string | null; search: SearchState; setSearch: (value: SearchState) => void; onBack: () => void; onContinue: (id: string) => void }) { const rooms = useQuery(api.rooms.listForProperty, propertyId ? { propertyId: propertyId as never, checkIn: search.checkIn, checkOut: search.checkOut, guests: search.guests } : 'skip'); const [selectedRooms, setSelectedRooms] = useState<Record<string, number>>({}); const [selectedPlans, setSelectedPlans] = useState<Record<string, 'refundable' | 'nonref'>>({}); const [breakfastRooms, setBreakfastRooms] = useState<Record<string, boolean>>({}); const [editCheckIn, setEditCheckIn] = useState(search.checkIn); const [editCheckOut, setEditCheckOut] = useState(search.checkOut); const [editGuests, setEditGuests] = useState(search.guests); const [datesOpen, setDatesOpen] = useState(false); const selectedRoomEntries = rooms?.filter((room) => (selectedRooms[room._id] ?? 0) > 0) ?? []; const selectedRoom = selectedRoomEntries[0]; const updateQuantity = (roomId: string, delta: number) => setSelectedRooms((current) => { const next = Math.max(0, Math.min(6, (current[roomId] ?? 0) + delta)); const updated = { ...current }; if (next) updated[roomId] = next; else delete updated[roomId]; return updated; }); const nights = Math.max(1, Math.round((new Date(search.checkOut).getTime() - new Date(search.checkIn).getTime()) / 86400000)); const total = selectedRoomEntries.reduce((sum, room) => sum + ((selectedPlans[room._id] === 'nonref' ? 783000 : 890000) + (breakfastRooms[room._id] ? 75000 * search.guests : 0)) * nights * (selectedRooms[room._id] ?? 0), 0); const selectedRoomCount = Object.values(selectedRooms).reduce((sum, quantity) => sum + quantity, 0); return <main className="room-selection-page page"><button className="back-button" onClick={onBack}>← Property details</button><section className="room-selection-header"><div><h1>Choose your room</h1><p>Kaliurang Heritage Villa · {search.checkIn} – {search.checkOut} ({nights} {nights === 1 ? 'night' : 'nights'}) · {search.guests} guests</p><span className="instant-badge">Instant confirmation</span></div><button className="change-search-button" onClick={() => setDatesOpen(!datesOpen)}>Change dates or guests</button>{datesOpen && <div className="date-editor"><label>Check-in<input type="date" value={editCheckIn} onChange={(event) => setEditCheckIn(event.target.value)} /></label><label>Check-out<input type="date" value={editCheckOut} onChange={(event) => setEditCheckOut(event.target.value)} /></label><label className="date-editor-guests">Guests<input type="number" min="1" max="10" value={editGuests} onChange={(event) => setEditGuests(Number(event.target.value))} /></label><button onClick={() => { if (editCheckOut <= editCheckIn) return; setSearch({ ...search, checkIn: editCheckIn, checkOut: editCheckOut, guests: Math.max(1, editGuests), adults: Math.max(1, editGuests), children: 0 }); setSelectedRooms({}); setBreakfastRooms({}); setDatesOpen(false); }}>Update search</button><small>Changing dates re-checks availability and may update room prices.</small></div>}</section><div className="room-selection-layout"><div className="room-results">{rooms === undefined ? <LoadingState label="Checking room availability…" /> : rooms.length ? rooms.map((room, index) => { const selected = (selectedRooms[room._id] ?? 0) > 0; return <article className={`room-option-card ${selected ? 'is-selected' : ''}`} key={room._id}><div className="room-option-gallery"><div className={`room-option-photo room-photo-${index % 3} main-room-photo`}>Main room photo</div><div className={`room-option-photo room-photo-${(index + 1) % 3}`}>Photo</div><div className={`room-option-photo room-photo-${(index + 2) % 3}`}>Photo</div><div className={`room-option-photo room-photo-${index % 3}`}>Photo</div></div><div className="room-option-content"><h2>{room.name}</h2><p className="room-specs">28m² · Garden view · 1 double bed · max {room.maxGuests} guests</p><div className="room-amenities">{[{ label: 'Free WiFi', Icon: Wifi }, { label: 'AC', Icon: Wind }, { label: 'Pool access', Icon: Waves }].map(({ label, Icon }) => <span key={label}><Icon size={13} /> {label}</span>)}</div><div className="rate-plan"><div><strong>Refundable</strong><small>Free cancellation before check-in</small><span>Free cancellation</span><label className="breakfast-addon"><input type="checkbox" checked={breakfastRooms[room._id] ?? false} onChange={(event) => setBreakfastRooms((current) => ({ ...current, [room._id]: event.target.checked }))} /> Breakfast · Rp 75,000/person/night</label></div><div className="rate-plan-price"><b>Rp 890,000<small className="night-suffix">/night</small></b><small>Rp {((890000 * nights * (selectedRooms[room._id] ?? 0)).toLocaleString('en-US'))} total</small><div className="room-quantity-control"><button onClick={() => updateQuantity(room._id, -1)}>−</button><b>{selectedRooms[room._id] ?? 0}</b><button onClick={() => updateQuantity(room._id, 1)}>+</button></div></div></div><div className="rate-plan secondary"><div><strong>Non-refundable · Room only</strong><small>No refund if cancelled · save 12%</small></div><div className="rate-plan-price"><b>Rp 783,000<small className="night-suffix">/night</small></b><small>Rp {((783000 * nights * (selectedRooms[room._id] ?? 0)).toLocaleString('en-US'))} total</small><button onClick={() => { setSelectedPlans((current) => ({ ...current, [room._id]: 'nonref' })); updateQuantity(room._id, 1); }}>Add room</button></div></div></div></article> }) : <EmptyState title="No rooms available for these dates" text="Try different dates or fewer guests to see available rooms." />}</div><aside className="room-selection-summary"><div className="summary-label">Your selection</div>{selectedRoomCount ? <><div className="selected-room-line"><span>{selectedRoomCount}× selected rooms</span><b>Rp {total.toLocaleString('en-US')}</b></div><small>{nights} {nights === 1 ? 'night' : 'nights'} · {search.guests} guests</small><hr /><div className="summary-total"><span>Total</span><b>Rp {total.toLocaleString('en-US')}</b></div><button onClick={() => onContinue(selectedRoom._id)}>Continue to checkout</button></> : <p>Pick a room and rate plan to continue. You can mix room types if you need extra space.</p>}</aside></div></main>; }function Checkout({ propertyId, roomTypeId, search, onBack, onComplete }: { propertyId: string | null; roomTypeId: string | null; search: SearchState; onBack: () => void; onComplete: (code: string) => void }) { const createBooking = useMutation(api.bookings.create); const [name, setName] = useState(''); const [email, setEmail] = useState(''); const [error, setError] = useState(''); const submit = async () => { if (!propertyId || !roomTypeId || !name || !email) { setError('Please provide your name and email.'); return; } try { const result = await createBooking({ propertyId: propertyId as never, roomTypeId: roomTypeId as never, checkIn: search.checkIn || new Date().toISOString().slice(0, 10), checkOut: search.checkOut || new Date(Date.now() + 86400000).toISOString().slice(0, 10), guestCount: search.guests, guestName: name, guestEmail: email, paymentMethod: 'pay_at_hotel' }); onComplete(result.reference); } catch (err) { setError(err instanceof Error ? err.message : 'Unable to create booking.'); } }; return <main className="page narrow"><button className="back-button" onClick={onBack}>← Room selection</button><p className="eyebrow">Checkout</p><h2>Complete your booking</h2><div className="checkout-grid"><div className="form-card"><label>Full name<input value={name} onChange={(e) => setName(e.target.value)} placeholder="Your name" /></label><label>Email<input value={email} onChange={(e) => setEmail(e.target.value)} type="email" placeholder="you@example.com" /></label><label>Phone number<input placeholder="+62" /></label><label className="check-row"><input type="checkbox" /> Add breakfast and airport transfer options after booking</label>{error && <p className="error-text">{error}</p>}<button onClick={submit}>Confirm booking</button></div><aside className="summary-card"><span className="eyebrow">Your stay</span><h3>Greater Yogyakarta</h3><p className="muted">{search.checkIn || 'Your check-in'} → {search.checkOut || 'Your check-out'}</p><div className="summary-line"><span>Room × 1 night</span><strong>Rp 850.000</strong></div><div className="summary-line total"><span>Total at hotel</span><strong>Rp 850.000</strong></div><small>Pay at hotel. No payment gateway required for this MVP.</small></aside></div></main>; }
+function SearchBar({
+  search,
+  setSearch,
+  onSearch,
+  onPropertySelect,
+  compact = false,
+  error,
+}: {
+  search: SearchState;
+  setSearch: (value: SearchState) => void;
+  onSearch: () => void;
+  onPropertySelect?: (id: string) => void;
+  compact?: boolean;
+  error?: string;
+}) {
+  const [guestsOpen, setGuestsOpen] = useState(false);
+  const guestFieldRef = useRef<HTMLLabelElement>(null);
+  const suggestions = useQuery(api.properties.searchSuggestions, {
+    query: search.destination,
+  });
+  useEffect(() => {
+    const handlePointerDown = (event: PointerEvent) => {
+      if (guestsOpen && !guestFieldRef.current?.contains(event.target as Node))
+        setGuestsOpen(false);
+    };
+    document.addEventListener("pointerdown", handlePointerDown);
+    return () => document.removeEventListener("pointerdown", handlePointerDown);
+  }, [guestsOpen]);
+  const updateGuests = (adults: number, children: number) =>
+    setSearch({ ...search, adults, children, guests: adults + children });
+  const submitSearch = () => {
+    const exactProperty = suggestions?.find(
+      (suggestion) =>
+        suggestion.kind === "property" &&
+        suggestion.label.trim().toLowerCase() ===
+          search.destination.trim().toLowerCase(),
+    );
+    if (exactProperty && onPropertySelect) onPropertySelect(exactProperty.id);
+    else onSearch();
+  };
+  return (
+    <div className="search-widget-wrap">
+      <div className="search-card dc-search-card">
+        <label className="destination-field">
+          <span>Destination</span>
+          <div>
+            <MapPin size={16} />
+            <input
+              aria-label="Destination"
+              list="destination-options"
+              value={search.destination}
+              onChange={(e) =>
+                setSearch({ ...search, destination: e.target.value })
+              }
+              placeholder="Try hotel name, city, keyword…"
+            />
+          </div>
+          {suggestions?.length ? (
+            <div
+              className="destination-suggestions"
+              role="listbox"
+              aria-label="Destination suggestions"
+            >
+              {suggestions.map((suggestion) => (
+                <button
+                  type="button"
+                  role="option"
+                  key={`${suggestion.kind}:${suggestion.label}`}
+                  onClick={() => {
+                    setSearch({ ...search, destination: suggestion.label });
+                    if (suggestion.kind === "property" && onPropertySelect)
+                      onPropertySelect(suggestion.id);
+                  }}
+                >
+                  {suggestion.label}
+                  <small>
+                    {suggestion.kind === "property"
+                      ? `Property · ${suggestion.detail}`
+                      : `Area · ${suggestion.detail}`}
+                  </small>
+                </button>
+              ))}
+            </div>
+          ) : null}
+        </label>
+        <label>
+          <span>Check-in</span>
+          <div>
+            <CalendarDays size={16} />
+            <input
+              aria-label="Check-in date"
+              type="date"
+              min={today}
+              value={search.checkIn || today}
+              onClick={(e) => e.currentTarget.showPicker?.()}
+              onKeyDown={(e) => e.preventDefault()}
+              onChange={(e) =>
+                setSearch({
+                  ...search,
+                  checkIn: e.target.value,
+                  checkOut: nextDay(e.target.value),
+                })
+              }
+            />
+          </div>
+        </label>
+        <label>
+          <span>Check-out</span>
+          <div>
+            <CalendarDays size={16} />
+            <input
+              aria-label="Check-out date"
+              type="date"
+              min={search.checkIn || today}
+              value={search.checkOut}
+              onClick={(e) => e.currentTarget.showPicker?.()}
+              onKeyDown={(e) => e.preventDefault()}
+              onChange={(e) =>
+                setSearch({ ...search, checkOut: e.target.value })
+              }
+            />
+          </div>
+        </label>
+        <label ref={guestFieldRef} className="guest-field">
+          <span>Guests</span>
+          <button
+            type="button"
+            className="guest-trigger"
+            aria-expanded={guestsOpen}
+            aria-haspopup="dialog"
+            onClick={() => setGuestsOpen(!guestsOpen)}
+          >
+            <Users size={16} />
+            <span>
+              {search.adults} adults
+              {search.children ? `, ${search.children} children` : ""}
+            </span>
+          </button>
+          {guestsOpen && (
+            <div
+              className="guest-popover"
+              role="dialog"
+              aria-label="Guest selector"
+            >
+              <GuestCounter
+                label="Adults"
+                hint="Ages 13+"
+                value={search.adults}
+                min={1}
+                onChange={(value) => updateGuests(value, search.children)}
+              />
+              <GuestCounter
+                label="Children"
+                hint="Ages 0–12"
+                value={search.children}
+                min={0}
+                onChange={(value) => updateGuests(search.adults, value)}
+              />
+            </div>
+          )}
+        </label>
+        <button
+          type="button"
+          className="search-submit"
+          aria-label="Search stays"
+          title="Search stays"
+          onClick={submitSearch}
+        >
+          {compact ? <Search size={19} strokeWidth={2.5} /> : "Search"}
+        </button>
+      </div>
+      <datalist id="destination-options">
+        <option value="Yogyakarta" />
+        <option value="Greater Yogyakarta" />
+        <option value="Bandung" />
+        <option value="Semarang" />
+        <option value="Malang" />
+        <option value="Solo" />
+        <option value="Surabaya" />
+      </datalist>
+      {error && (
+        <p className="search-error" role="alert">
+          {error}
+        </p>
+      )}
+    </div>
+  );
+}
+function GuestCounter({
+  label,
+  hint,
+  value,
+  min,
+  onChange,
+}: {
+  label: string;
+  hint: string;
+  value: number;
+  min: number;
+  onChange: (value: number) => void;
+}) {
+  return (
+    <div className="guest-counter">
+      <div>
+        <strong>{label}</strong>
+        <small>{hint}</small>
+      </div>
+      <div className="counter-actions">
+        <button
+          type="button"
+          aria-label={`Decrease ${label}`}
+          disabled={value <= min}
+          onClick={() => onChange(value - 1)}
+        >
+          −
+        </button>
+        <strong>{value}</strong>
+        <button
+          type="button"
+          aria-label={`Increase ${label}`}
+          onClick={() => onChange(value + 1)}
+        >
+          +
+        </button>
+      </div>
+    </div>
+  );
+}
 
-function Confirmation({ code, onHome }: { code: string | null; onHome: () => void }) { const booking = useQuery(api.bookings.getByReference, code ? { reference: code } : 'skip'); return <main className="page narrow centered"><div className="success-icon">✓</div><p className="eyebrow">Booking confirmed</p><h2>Your stay is ready.</h2><p className="muted">We have saved your reservation. Your confirmation code is <strong>{code}</strong>.</p><div className="confirmation-card"><span>{booking ? `${booking.checkIn} → ${booking.checkOut}` : 'Greater Yogyakarta'}</span><strong>{booking?.paymentMethod === 'pay_at_hotel' ? 'Pay at hotel' : 'Manual bank transfer'}</strong><small>Menetap support will be here if you need anything.</small></div><button onClick={onHome}>Explore more stays</button></main>; }
-function InfoCard({ title, text }: { title: string; text: string }) { return <article className="info-card"><h3>{title}</h3><p>{text}</p></article>; }
-function LoadingState({ label }: { label: string }) { return <div className="loading-state" role="status"><span className="loading-spinner" />{label}</div>; }
-function EmptyState({ title, text }: { title: string; text: string }) { return <div className="empty-state"><div className="state-mark">—</div><h3>{title}</h3><p>{text}</p></div>; }
-function MapPreview({ properties, onSelect }: { properties: Array<{ _id: string; name: string; lowestPrice?: number }>; onSelect: (id: string) => void }) { const points = properties.slice(0, 30).map((property, index) => ({ property, top: 18 + ((index * 29) % 64), left: 18 + ((index * 43) % 68) })); const clusters = points.reduce<Array<{ top: number; left: number; properties: typeof points }>>((groups, point) => { const group = groups.find((candidate) => Math.abs(candidate.top - point.top) < 9 && Math.abs(candidate.left - point.left) < 9); if (group) group.properties.push(point); else groups.push({ top: point.top, left: point.left, properties: [point] }); return groups; }, []); return <div className="search-map-preview" aria-label="Map view of search results"><span className="map-label">Map view · {properties.length} stays</span>{clusters.map((cluster) => cluster.properties.length > 1 ? <button type="button" className="map-cluster" style={{ top: `${cluster.top}%`, left: `${cluster.left}%` }} key={cluster.properties.map((point) => point.property._id).join('-')} aria-label={`Show ${cluster.properties.length} stays in this area`} onClick={() => onSelect(cluster.properties[0].property._id)}>{cluster.properties.length}</button> : <button type="button" className="map-price-marker" style={{ top: `${cluster.top}%`, left: `${cluster.left}%` }} key={cluster.properties[0].property._id} title={cluster.properties[0].property.name} aria-label={`Open ${cluster.properties[0].property.name}`} onClick={() => onSelect(cluster.properties[0].property._id)}>{cluster.properties[0].property.lowestPrice ? `Rp ${(cluster.properties[0].property.lowestPrice / 1000).toFixed(0)}k` : 'Price'}</button>)}</div>; }
+function SearchResults({
+  search,
+  setSearch,
+  onBack,
+  onSelect,
+  language,
+  setLanguage,
+}: {
+  search: SearchState;
+  setSearch: (value: SearchState) => void;
+  onBack: () => void;
+  onSelect: (id: string) => void;
+  language: "EN" | "ID";
+  setLanguage: (language: "EN" | "ID") => void;
+}) {
+  const properties = useQuery(api.properties.listPublished, {
+    area: search.destination,
+    checkIn: search.checkIn,
+    checkOut: search.checkOut,
+    guests: search.guests,
+  });
+  const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
+  const [selectedPrice, setSelectedPrice] = useState("");
+  const [sort, setSort] = useState("recommended");
+  const [view, setView] = useState<"list" | "map">("list");
+  const types = properties
+    ? Array.from(new Set(properties.map((property) => property.type))).sort()
+    : [];
+  const runSearch = () => {
+    const params = new URLSearchParams({
+      destination: search.destination,
+      checkIn: search.checkIn,
+      checkOut: search.checkOut,
+      adults: String(search.adults),
+      children: String(search.children),
+    });
+    window.history.replaceState(
+      {},
+      "",
+      `${window.location.pathname}?${params}`,
+    );
+  };
+  const toggleType = (type: string) =>
+    setSelectedTypes((current) =>
+      current.includes(type)
+        ? current.filter((value) => value !== type)
+        : [...current, type],
+    );
+  const clearFilters = () => {
+    setSelectedTypes([]);
+    setSelectedPrice("");
+  };
+  const togglePrice = (value: string) =>
+    setSelectedPrice((current) => (current === value ? "" : value));
+  const visibleProperties = properties
+    ?.filter((property) => {
+      const typeMatches =
+        !selectedTypes.length || selectedTypes.includes(property.type);
+      const priceMatches =
+        !selectedPrice ||
+        (selectedPrice === "Under Rp 500,000" &&
+          (property.lowestPrice ?? Infinity) < 500000) ||
+        (selectedPrice === "Rp 500,000–1,000,000" &&
+          (property.lowestPrice ?? 0) >= 500000 &&
+          (property.lowestPrice ?? Infinity) <= 1000000) ||
+        (selectedPrice === "Over Rp 1,000,000" &&
+          (property.lowestPrice ?? 0) > 1000000);
+      return typeMatches && priceMatches;
+    })
+    .sort((a, b) => (sort === "name" ? a.name.localeCompare(b.name) : 0));
+  const filterGroup = (
+    title: string,
+    options: string[],
+    selected: string[] = [],
+    onToggle?: (value: string) => void,
+  ) => (
+    <section className="filter-panel">
+      <h3>{title}</h3>
+      {options.map((option) => (
+        <label className="filter-option" key={option}>
+          <span>
+            <input
+              type="checkbox"
+              checked={selected.includes(option)}
+              onChange={() => onToggle?.(option)}
+            />
+            {option}
+          </span>
+          <small>{properties?.length ?? 0}</small>
+        </label>
+      ))}
+    </section>
+  );
+  return (
+    <>
+      <main className="page search-results-page">
+        <div className="mini-search-widget">
+          <SearchBar
+            search={search}
+            setSearch={setSearch}
+            onSearch={runSearch}
+            onPropertySelect={onSelect}
+            compact
+          />
+        </div>
+        <button className="back-button" onClick={onBack}>
+          ← Back
+        </button>
+        <div className="page-heading">
+          <div>
+            <p className="eyebrow">Search results</p>
+            <h2>
+              Found {visibleProperties?.length ?? 0} stays in{" "}
+              {search.destination || "Indonesia"}
+            </h2>
+            <p className="muted">
+              {search.checkIn} → {search.checkOut} · {search.guests} guests ·
+              rates checked against live market data
+            </p>
+          </div>
+        </div>
+        {properties === undefined ? (
+          <LoadingState label="Finding available stays…" />
+        ) : properties.length ? (
+          <>
+            <div className="results-toolbar">
+              <button
+                type="button"
+                className="mobile-filter-button"
+                onClick={() =>
+                  document
+                    .querySelector(".search-filter-sidebar")
+                    ?.classList.toggle("is-open")
+                }
+              >
+                ☷ Filters
+              </button>
+              <div className="results-view-toggle">
+                <button
+                  type="button"
+                  className={view === "list" ? "active" : ""}
+                  onClick={() => setView("list")}
+                >
+                  List
+                </button>
+                <button
+                  type="button"
+                  className={view === "map" ? "active" : ""}
+                  onClick={() => setView("map")}
+                >
+                  Map
+                </button>
+              </div>
+              <label>
+                Sort by
+                <select
+                  value={sort}
+                  onChange={(event) => setSort(event.target.value)}
+                >
+                  <option value="recommended">Best value</option>
+                  <option value="name">Name A–Z</option>
+                </select>
+              </label>
+            </div>
+            <div className="search-results-layout">
+              <aside className="search-filter-sidebar">
+                <div className="filter-sidebar-header">
+                  <strong>Filters</strong>
+                  <button type="button" onClick={clearFilters}>
+                    Clear all
+                  </button>
+                </div>
+                {filterGroup(
+                  "Price per night",
+                  [
+                    "Under Rp 500,000",
+                    "Rp 500,000–1,000,000",
+                    "Over Rp 1,000,000",
+                  ],
+                  selectedPrice ? [selectedPrice] : [],
+                  togglePrice,
+                )}
+                {filterGroup("Guest rating", [
+                  "4.5+ Excellent",
+                  "4.0+ Very good",
+                  "3.5+ Good",
+                ])}
+                {filterGroup("Booking policy", [
+                  "Free cancellation",
+                  "Instant confirmation",
+                  "Breakfast included",
+                ])}
+                {filterGroup(
+                  "Property type",
+                  types.length
+                    ? types
+                    : ["hotel", "villa", "guesthouse", "homestay"],
+                  selectedTypes,
+                  toggleType,
+                )}
+                {filterGroup("Facilities", [
+                  "Free WiFi",
+                  "Swimming pool",
+                  "Free parking",
+                  "Air conditioning",
+                  "Kitchen",
+                ])}
+              </aside>
+              {view === "map" ? (
+                <MapPreview
+                  properties={visibleProperties ?? []}
+                  onSelect={onSelect}
+                />
+              ) : (
+                <div className="property-grid">
+                  {visibleProperties?.length ? (
+                    visibleProperties.map((property) => (
+                      <PropertyCard
+                        key={property._id}
+                        name={property.name}
+                        type={property.type}
+                        area={property.area}
+                        city={property.city}
+                        price={
+                          property.lowestPrice
+                            ? "From Rp " +
+                              property.lowestPrice.toLocaleString("en-US")
+                            : "Price on request"
+                        }
+                        rating="4.8"
+                        reviewCount="Verified reviews"
+                        amenities={["Free cancellation"]}
+                        onSelect={() => onSelect(property._id)}
+                      />
+                    ))
+                  ) : (
+                    <EmptyState
+                      title="No stays match these filters"
+                      text="Try clearing a filter or choosing another property type."
+                    />
+                  )}
+                </div>
+              )}
+            </div>
+          </>
+        ) : (
+          <EmptyState
+            title="No available stays found"
+            text="Try different dates, fewer guests, or another destination."
+          />
+        )}
+      </main>
+      <Footer language={language} setLanguage={setLanguage} />
+    </>
+  );
+}
 
-function BantulLanding({ language, setLanguage }: { language: 'EN' | 'ID'; setLanguage: (language: 'EN' | 'ID') => void }) { const prefix = `/${language.toLowerCase()}`; return <><main className="destination-landing page"><p className="eyebrow">Explore Bantul</p><h1>Slow days, craft traditions, and southern Yogyakarta.</h1><p className="destination-intro">Bantul brings together village landscapes, creative workshops, food traditions, and an easygoing base within reach of Yogyakarta city.</p><div className="destination-actions"><a href={`${prefix}/stays?destination=Bantul`}>Explore Bantul stays</a><a href="#bantul-areas">Choose an area</a></div><section id="bantul-areas" className="destination-area-section"><div className="section-heading"><div><p className="eyebrow">Stay by area</p><h2>Find your Bantul base</h2></div></div><div className="destination-area-grid"><a className="destination-area-card" href={`${prefix}/stays?destination=Kasihan`}><strong>Kasihan</strong><p>Creative villages, pottery studios, and a relaxed edge-of-city pace.</p><span>Browse Kasihan stays →</span></a><a className="destination-area-card" href={`${prefix}/stays?destination=Imogiri`}><strong>Imogiri</strong><p>Hills, royal heritage, and a quieter route into southern Bantul.</p><span>Browse Imogiri stays →</span></a><a className="destination-area-card" href={`${prefix}/stays?destination=Parangtritis`}><strong>Parangtritis</strong><p>Coastal air, wide horizons, and stays near the southern beach.</p><span>Browse Parangtritis stays →</span></a></div></section><section className="destination-properties"><div className="section-heading"><div><p className="eyebrow">Places to start</p><h2>Properties for a slower stay</h2></div><a href={`${prefix}/stays?destination=Bantul`}>See all Bantul stays →</a></div><div className="destination-property-grid"><article><div className="property-image">Villa</div><div><h3>Kasihan Garden Villa</h3><p>Kasihan · creative district nearby</p><a href={`${prefix}/stays?destination=Kasihan`}>View availability →</a></div></article><article><div className="property-image">Homestay</div><div><h3>Imogiri Hillside Homestay</h3><p>Imogiri · quiet southern hills</p><a href={`${prefix}/stays?destination=Imogiri`}>View availability →</a></div></article><article><div className="property-image">Beach stay</div><div><h3>Parangtritis Dune Retreat</h3><p>Parangtritis · coastal escape</p><a href={`${prefix}/stays?destination=Parangtritis`}>View availability →</a></div></article></div></section><section className="destination-faq"><p className="eyebrow">Bantul travel questions</p><h2>Plan the practical details</h2><details><summary>Is Bantul close to Yogyakarta city?</summary><p>Many Bantul areas are within an easy drive of the city, while southern areas such as Imogiri and Parangtritis feel more rural and destination-led.</p></details><details><summary>What is Bantul best for?</summary><p>Bantul suits guests looking for craft villages, local food, open landscapes, and a slower stay outside the city center.</p></details><details><summary>Can I compare Bantul stays by dates?</summary><p>Yes. Set your dates and guest count in the stays search to compare live availability and prices.</p></details></section><nav className="destination-internal-links" aria-label="Bantul travel links"><a href={`${prefix}/destinations/all`}>All destinations</a><a href={`${prefix}/stays?destination=Bantul`}>All Bantul stays</a><a href={`${prefix}/stays?destination=Kasihan`}>Kasihan stays</a><a href={`${prefix}/stays?destination=Imogiri`}>Imogiri stays</a><a href={`${prefix}/stays?destination=Parangtritis`}>Parangtritis stays</a></nav></main><Footer language={language} setLanguage={setLanguage} /></>; }
+function HotelDetail({
+  propertyId,
+  onBack,
+  onRooms,
+}: {
+  propertyId: string | null;
+  onBack: () => void;
+  onRooms: () => void;
+}) {
+  const property = useQuery(
+    api.properties.get,
+    propertyId ? { id: propertyId as never } : "skip",
+  );
+  const rooms = useQuery(
+    api.rooms.listForProperty,
+    propertyId ? { propertyId: propertyId as never, guests: 2 } : "skip",
+  );
+  const [saved, setSaved] = useState(false);
+  if (!property)
+    return (
+      <main className="page">
+        <button className="back-button" onClick={onBack}>
+          ← Back
+        </button>
+        <EmptyState
+          title="Select a property"
+          text="Choose a stay from search results to view its details."
+        />
+      </main>
+    );
+  const amenities = [
+    "Free WiFi",
+    "Private pool",
+    "Free parking",
+    "Breakfast included",
+    "Air conditioning",
+    "Kitchen access",
+  ];
+  return (
+    <>
+      <main className="property-detail-page page">
+        <button className="back-button" onClick={onBack}>
+          ← Search results
+        </button>
+        <section className="property-detail-heading">
+          <div>
+            <div className="property-title-row">
+              <h1>{property.name}</h1>
+              <span className="featured-badge">Featured stay</span>
+            </div>
+            <div className="property-meta-row">
+              <span className="rating">
+                <Star size={12} /> 4.8 · 214 verified reviews
+              </span>
+              <span className="muted">
+                <MapPin size={13} /> {property.area}, {property.city}
+              </span>
+            </div>
+          </div>
+          <div className="property-detail-actions">
+            <button
+              className={saved ? "is-saved" : ""}
+              onClick={() => setSaved(!saved)}
+            >
+              ♡ {saved ? "Saved" : "Save"}
+            </button>
+            <button>↗ Share</button>
+          </div>
+        </section>
+        <section className="property-gallery">
+          <div className="gallery-main">{property.type} photo</div>
+          <div className="gallery-grid">
+            <div>Photo</div>
+            <div>Photo</div>
+            <div>Photo</div>
+            <div className="gallery-more">
+              Photo<span>+18 photos</span>
+            </div>
+          </div>
+        </section>
+        <div className="property-detail-layout">
+          <div className="property-detail-content">
+            <section className="detail-trust-row">
+              <span>
+                <RefreshCcw size={15} /> Free cancellation
+              </span>
+              <span>
+                <CheckCircle2 size={15} /> Instant confirmation
+              </span>
+              <span>
+                <ShieldCheck size={15} /> Verified reviews only
+              </span>
+            </section>
+            <section className="detail-section">
+              <h2>About this stay</h2>
+              <p>
+                {property.description ||
+                  "A carefully selected stay with practical amenities, thoughtful hosting, and a comfortable base for exploring the area."}
+              </p>
+              <a href="#amenities">Show more ↓</a>
+            </section>
+            <section id="amenities" className="detail-section">
+              <h2>What this place offers</h2>
+              <div className="amenities-grid">
+                {amenities.map((amenity) => (
+                  <span key={amenity}>✓ {amenity}</span>
+                ))}
+              </div>
+              <a href="#amenities">Show all 22 amenities →</a>
+            </section>
+            <section className="pricing-transparency detail-section">
+              <div className="section-heading">
+                <div>
+                  <p className="eyebrow">Transparent pricing</p>
+                  <h2>The price you see is the price you pay</h2>
+                </div>
+                <span className="live-pricing">Live pricing</span>
+              </div>
+              <div className="price-lines">
+                <span>Market average</span>
+                <strong>Rp 1,050,000</strong>
+                <span>Menetap rate</span>
+                <strong className="violet-text">Rp 890,000</strong>
+                <hr />
+                <b>Total for 3 nights</b>
+                <b>Rp 2,670,000</b>
+              </div>
+              <small>No fees added later.</small>
+            </section>
+            <section id="rooms-section" className="detail-section">
+              <div className="section-heading">
+                <div>
+                  <p className="eyebrow">Live availability</p>
+                  <h2>Choose your room</h2>
+                </div>
+                <a href="#rooms-section">View dates</a>
+              </div>
+              {rooms === undefined ? (
+                <LoadingState label="Checking room availability…" />
+              ) : rooms?.length ? (
+                <div className="detail-room-list">
+                  {rooms.slice(0, 3).map((room) => (
+                    <article className="detail-room-card" key={room._id}>
+                      <div className="room-thumb">Photo</div>
+                      <div>
+                        <h3>{room.name}</h3>
+                        <p>
+                          {room.maxGuests} guests · {room.amenities.join(" · ")}
+                        </p>
+                        <span>Free cancellation</span>
+                      </div>
+                      <div>
+                        <strong>Rp 890,000</strong>
+                        <small>/night</small>
+                        <button onClick={onRooms}>Choose room</button>
+                      </div>
+                    </article>
+                  ))}
+                </div>
+              ) : (
+                <EmptyState
+                  title="No rooms available"
+                  text="Try different dates to see available rooms."
+                />
+              )}
+            </section>
+            <section className="detail-section">
+              <h2>Add local experiences</h2>
+              <div className="experience-mini-grid">
+                <div>
+                  <strong>Borobudur sunrise tour</strong>
+                  <small>From Rp 350,000/person</small>
+                </div>
+                <div>
+                  <strong>Merapi jeep adventure</strong>
+                  <small>From Rp 275,000/person</small>
+                </div>
+              </div>
+            </section>
+            <section className="detail-section">
+              <div className="section-heading">
+                <h2>Reviews</h2>
+                <span className="rating">
+                  <Star size={12} /> 4.8 (214)
+                </span>
+              </div>
+              <div className="review-grid">
+                <blockquote>
+                  <div className="review-stars" aria-label="5 out of 5 stars">
+                    ★★★★★
+                  </div>
+                  “Exactly as priced — no surprise fees at checkout.”
+                  <cite>Rina · verified stay</cite>
+                </blockquote>
+                <blockquote>
+                  <div className="review-stars" aria-label="4 out of 5 stars">
+                    ★★★★☆
+                  </div>
+                  “Breakfast was a highlight, and cancellation was smooth.”
+                  <cite>Dimas · verified stay</cite>
+                </blockquote>
+              </div>
+              <a href="#reviews">Read all 214 reviews →</a>
+            </section>
+            <section className="detail-section">
+              <h2>House rules</h2>
+              <div className="rules-grid">
+                <span>
+                  Check-in <b>2:00 PM – 10:00 PM</b>
+                </span>
+                <span>
+                  Check-out <b>Before 12:00 PM</b>
+                </span>
+                <span>No smoking</span>
+                <span>No parties or events</span>
+              </div>
+            </section>
+            <section className="detail-section">
+              <h2>Location</h2>
+              <div className="detail-map">
+                Map view<span>{property.name}</span>
+              </div>
+              <p className="muted">
+                {property.address}, {property.city} · close to local attractions
+                and transport.
+              </p>
+            </section>
+          </div>
+          <aside className="detail-booking-card">
+            <strong>
+              Rp 890,000 <small>/night</small>
+            </strong>
+            <span className="muted">Garden Suite · 2 guests</span>
+            <div className="booking-dates">
+              <span>
+                Check-in
+                <br />
+                <b>Choose date</b>
+              </span>
+              <span>
+                Check-out
+                <br />
+                <b>Choose date</b>
+              </span>
+              <span>
+                Guests
+                <br />
+                <b>2 adults</b>
+              </span>
+            </div>
+            <div className="booking-total">
+              <span>3 nights</span>
+              <b>Rp 2,670,000</b>
+            </div>
+            <button onClick={onRooms}>Reserve now</button>
+            <small>You won't be charged yet</small>
+          </aside>
+        </div>
+      </main>
+      <div className="mobile-detail-cta">
+        <div>
+          <strong>Rp 890,000</strong>
+          <small>/night</small>
+        </div>
+        <button onClick={onRooms}>Reserve now</button>
+      </div>
+    </>
+  );
+}
+function RoomSelection({
+  propertyId,
+  search,
+  setSearch,
+  onBack,
+  onContinue,
+}: {
+  propertyId: string | null;
+  search: SearchState;
+  setSearch: (value: SearchState) => void;
+  onBack: () => void;
+  onContinue: (id: string) => void;
+}) {
+  const rooms = useQuery(
+    api.rooms.listForProperty,
+    propertyId
+      ? {
+          propertyId: propertyId as never,
+          checkIn: search.checkIn,
+          checkOut: search.checkOut,
+          guests: search.guests,
+        }
+      : "skip",
+  );
+  const reservationAddOns = useQuery(api.services.listActive);
+  const [selectedRooms, setSelectedRooms] = useState<Record<string, number>>(
+    {},
+  );
+  const [selectedPlans, setSelectedPlans] = useState<
+    Record<string, "refundable" | "nonref">
+  >({});
+  const [breakfastRooms, setBreakfastRooms] = useState<Record<string, boolean>>(
+    {},
+  );
+  const [selectedReservationAddOns, setSelectedReservationAddOns] = useState<Record<string, boolean>>({});
+  const [editCheckIn, setEditCheckIn] = useState(search.checkIn);
+  const [editCheckOut, setEditCheckOut] = useState(search.checkOut);
+  const [editAdults, setEditAdults] = useState(search.adults);
+  const [editChildren, setEditChildren] = useState(search.children);
+  const [datesOpen, setDatesOpen] = useState(false);
+  const dateEditorRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (!datesOpen) return;
+    const handleOutsidePointer = (event: PointerEvent) => {
+      const target = event.target as HTMLElement;
+      if (
+        !dateEditorRef.current?.contains(target) &&
+        !target.closest(".change-search-link")
+      )
+        setDatesOpen(false);
+    };
+    document.addEventListener("pointerdown", handleOutsidePointer);
+    return () =>
+      document.removeEventListener("pointerdown", handleOutsidePointer);
+  }, [datesOpen]);
+  const selectedRoomEntries =
+    rooms?.filter((room) => (selectedRooms[room._id] ?? 0) > 0) ?? [];
+  const selectedRoom = selectedRoomEntries[0];
+  const updateQuantity = (roomId: string, delta: number) =>
+    setSelectedRooms((current) => {
+      const next = Math.max(0, Math.min(6, (current[roomId] ?? 0) + delta));
+      const updated = { ...current };
+      if (next) updated[roomId] = next;
+      else delete updated[roomId];
+      return updated;
+    });
+  const nights = Math.max(
+    1,
+    Math.round(
+      (new Date(search.checkOut).getTime() -
+        new Date(search.checkIn).getTime()) /
+        86400000,
+    ),
+  );
+  const total = selectedRoomEntries.reduce(
+    (sum, room) =>
+      sum +
+      ((selectedPlans[room._id] === "nonref" ? 801000 : 890000) +
+        (breakfastRooms[room._id] ? 75000 * search.guests : 0)) *
+        nights *
+        (selectedRooms[room._id] ?? 0),
+    0,
+  ) + (reservationAddOns ?? []).reduce((sum, service) => sum + (selectedReservationAddOns[service._id] ? service.price : 0), 0);
+  const selectedRoomCount = Object.values(selectedRooms).reduce(
+    (sum, quantity) => sum + quantity,
+    0,
+  );
+  return (
+    <main className="room-selection-page page">
+      <button className="back-button" onClick={onBack}>
+        ← Property details
+      </button>
+      <section className="room-selection-header">
+        <div>
+          <h1>Choose your room</h1>
+          <span className="instant-badge">Instant confirmation</span>
+        </div>
+        <a
+          className="change-search-link"
+          href="#edit-dates"
+          onClick={(event) => {
+            event.preventDefault();
+            setDatesOpen(!datesOpen);
+          }}
+        >
+          Change dates or guests
+        </a>
+        {datesOpen && (
+          <div ref={dateEditorRef} className="date-editor">
+            <div className="date-editor-fields">
+              <label>
+                Check-in
+                <input
+                  type="date"
+                  value={editCheckIn}
+                  onChange={(event) => setEditCheckIn(event.target.value)}
+                />
+              </label>
+              <label>
+                Check-out
+                <input
+                  type="date"
+                  value={editCheckOut}
+                  onChange={(event) => setEditCheckOut(event.target.value)}
+                />
+              </label>
+            </div>
+            <div className="date-editor-guests">
+              <label>Adults</label>
+              <div className="guest-stepper">
+                <button type="button" onClick={() => setEditAdults(Math.max(1, editAdults - 1))}>−</button>
+                <strong>{editAdults}</strong>
+                <button type="button" onClick={() => setEditAdults(Math.min(10, editAdults + 1))}>+</button>
+              </div>
+            </div>
+            <div className="date-editor-guests">
+              <label>Children</label>
+              <div className="guest-stepper">
+                <button type="button" onClick={() => setEditChildren(Math.max(0, editChildren - 1))}>−</button>
+                <strong>{editChildren}</strong>
+                <button type="button" onClick={() => setEditChildren(Math.min(10, editChildren + 1))}>+</button>
+              </div>
+            </div>
+            <div className="date-editor-warning">
+              Changing dates will re-check availability and may update room
+              prices.
+            </div>
+            <button
+              className="date-editor-submit"
+              onClick={() => {
+                if (editCheckOut <= editCheckIn) return;
+                setSearch({
+                  ...search,
+                  checkIn: editCheckIn,
+                  checkOut: editCheckOut,
+                  guests: editAdults + editChildren,
+                  adults: editAdults,
+                  children: editChildren,
+                });
+                setSelectedRooms({});
+                setBreakfastRooms({});
+                setDatesOpen(false);
+              }}
+            >
+              Update search
+            </button>
+          </div>
+        )}
+      </section>
+      <div className="room-selection-layout">
+        <div className="room-results">
+          {rooms === undefined ? (
+            <LoadingState label="Checking room availability…" />
+          ) : rooms.length ? (
+            rooms.map((room, index) => {
+              const selected = (selectedRooms[room._id] ?? 0) > 0;
+              return (
+                <article
+                  className={`room-option-card ${selected ? "is-selected" : ""}`}
+                  key={room._id}
+                >
+                  <div className="room-option-gallery">
+                    <div
+                      className={`room-option-photo room-photo-${index % 3} main-room-photo`}
+                    >
+                      Main room photo
+                    </div>
+                    <div
+                      className={`room-option-photo room-photo-${(index + 1) % 3}`}
+                    >
+                      Photo
+                    </div>
+                    <div
+                      className={`room-option-photo room-photo-${(index + 2) % 3}`}
+                    >
+                      Photo
+                    </div>
+                    <div
+                      className={`room-option-photo room-photo-${index % 3}`}
+                    >
+                      Photo
+                    </div>
+                  </div>
+                  <div className="room-option-content">
+                    <h2>{room.name}</h2>
+                    <p className="room-specs">
+                      28m² · Garden view · 1 double bed · max {room.maxGuests}{" "}
+                      guests
+                    </p>
+                    <div className="room-amenities">
+                      {[
+                        { label: "Free WiFi", Icon: Wifi },
+                        { label: "AC", Icon: Wind },
+                        { label: "Pool access", Icon: Waves },
+                      ].map(({ label, Icon }) => (
+                        <span key={label}>
+                          <Icon size={13} /> {label}
+                        </span>
+                      ))}
+                    </div>
+                    <div className="rate-plan">
+                      <div>
+                        <strong className="rate-plan-title">Refundable</strong>
+                        <small>Free cancellation before {formatDisplayDate(search.checkIn)} at 2:00 PM</small>
+                      </div>
+                      <div className="rate-plan-price">
+                        <b>
+                          Rp 890,000
+                          <small className="night-suffix">/night</small>
+                        </b>
+                      </div>
+                      <button className="choose-rate-button" onClick={() => {
+                          setSelectedPlans((current) => ({ ...current, [room._id]: "refundable" }));
+                          if (!(selectedRooms[room._id] ?? 0)) updateQuantity(room._id, 1);
+                        }}>Choose Rate Plan</button>
+                    </div>
+                    <div className="rate-plan secondary">
+                      <div>
+                        <strong className="rate-plan-title">Non-refundable</strong>
+                        <small>
+                          cancellation is strict · <span className="rate-plan-discount">10% cheaper</span>
+                        </small>
+                      </div>
+                      <div className="rate-plan-price">
+                        <b>Rp 801,000<small className="night-suffix">/night</small></b>
+                      </div>
+                      <button className="choose-rate-button" onClick={() => {
+                            if (window.confirm("Non-refundable bookings cannot be cancelled for a refund. Continue with this 10% cheaper rate?")) {
+                              setSelectedPlans((current) => ({ ...current, [room._id]: "nonref" }));
+                              if (!(selectedRooms[room._id] ?? 0)) updateQuantity(room._id, 1);
+                            }
+                          }}>Choose Rate Plan</button>
+                    </div>
+                  </div>
+                </article>
+              );
+            })
+          ) : (
+            <EmptyState
+              title="No rooms available for these dates"
+              text="Try different dates or fewer guests to see available rooms."
+            />
+          )}
+        </div>
+        <aside className="room-selection-summary">
+          <div className="summary-label">Your selection</div>
+          <div className="cart-stay-summary">
+            <strong>Kaliurang Heritage Villa</strong>
+            <span>{formatDisplayDate(search.checkIn)} → {formatDisplayDate(search.checkOut)} ·<br />{nights} {nights === 1 ? "night" : "nights"} · {search.adults} adults + {search.children} children</span>
+          </div>
+          {selectedRoomCount ? (
+            <>
+              <div className="cart-room-list">
+                {selectedRoomEntries.map((room) => (
+                  <div className="cart-room-row" key={room._id}>
+                    <span>
+                      {room.name}
+                      <small>{selectedPlans[room._id] === "nonref" ? "Non-refundable" : "Refundable"}</small>
+                    </span>
+                    <div className="room-quantity-control">
+                      <button onClick={() => updateQuantity(room._id, -1)}>−</button>
+                      <b>{selectedRooms[room._id] ?? 0}</b>
+                      <button onClick={() => updateQuantity(room._id, 1)}>+</button>
+                    </div>
+                    <label className="cart-addon">
+                      <input
+                        type="checkbox"
+                        checked={breakfastRooms[room._id] ?? false}
+                        onChange={(event) => setBreakfastRooms((current) => ({ ...current, [room._id]: event.target.checked }))}
+                      />
+                      <span>Add breakfast <small>Rp 75,000/pax/night</small></span>
+                    </label>
+                  </div>
+                ))}
+              </div>
+              {reservationAddOns?.length ? (
+                <div className="cart-reservation-addons">
+                  <div className="cart-addon-heading">Reservation add-ons</div>
+                  {reservationAddOns.map((service) => (
+                    <label className="cart-addon" key={service._id}>
+                      <input
+                        type="checkbox"
+                        checked={selectedReservationAddOns[service._id] ?? false}
+                        onChange={(event) => setSelectedReservationAddOns((current) => ({ ...current, [service._id]: event.target.checked }))}
+                      />
+                      <span>{service.name}<small>Rp {service.price.toLocaleString("en-US")} one-time</small></span>
+                    </label>
+                  ))}
+                </div>
+              ) : null}
+              <div className="cart-price-breakdown">
+                {selectedRoomEntries.map((room) => (
+                  <>
+                    <div key={`breakdown-${room._id}`}><span>{room.name} ×{selectedRooms[room._id] ?? 0}</span><b>Rp {(((selectedPlans[room._id] === "nonref" ? 801000 : 890000) * nights * (selectedRooms[room._id] ?? 0))).toLocaleString("en-US")}</b></div>
+                    {breakfastRooms[room._id] && <div key={`breakfast-breakdown-${room._id}`}><span>Breakfast ×{search.guests * (selectedRooms[room._id] ?? 0)}</span><b>Rp {(75000 * search.guests * nights * (selectedRooms[room._id] ?? 0)).toLocaleString("en-US")}</b></div>}
+                  </>
+                ))}
+                {reservationAddOns?.filter((service) => selectedReservationAddOns[service._id]).map((service) => (
+                  <div key={`addon-breakdown-${service._id}`}><span>{service.name}</span><b>Rp {service.price.toLocaleString("en-US")}</b></div>
+                ))}
+              </div>
+              <hr />
+              <div className="summary-total">
+                <span>Total</span>
+                <b>Rp {total.toLocaleString("en-US")}</b>
+              </div>
+              <button onClick={() => onContinue(selectedRoom._id)}>
+                Continue to checkout
+              </button>
+            </>
+          ) : (
+            <p>
+              Pick a room and rate plan to continue. You can mix room types if
+              you need extra space.
+            </p>
+          )}
+        </aside>
+      </div>
+    </main>
+  );
+}
+function Checkout({
+  propertyId,
+  roomTypeId,
+  search,
+  onBack,
+  onComplete,
+}: {
+  propertyId: string | null;
+  roomTypeId: string | null;
+  search: SearchState;
+  onBack: () => void;
+  onComplete: (code: string) => void;
+}) {
+  const createBooking = useMutation(api.bookings.create);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [error, setError] = useState("");
+  const submit = async () => {
+    if (!propertyId || !roomTypeId || !name || !email) {
+      setError("Please provide your name and email.");
+      return;
+    }
+    try {
+      const result = await createBooking({
+        propertyId: propertyId as never,
+        roomTypeId: roomTypeId as never,
+        checkIn: search.checkIn || new Date().toISOString().slice(0, 10),
+        checkOut:
+          search.checkOut ||
+          new Date(Date.now() + 86400000).toISOString().slice(0, 10),
+        guestCount: search.guests,
+        guestName: name,
+        guestEmail: email,
+        paymentMethod: "pay_at_hotel",
+      });
+      onComplete(result.reference);
+    } catch (err) {
+      setError(
+        err instanceof Error ? err.message : "Unable to create booking.",
+      );
+    }
+  };
+  return (
+    <main className="page narrow">
+      <button className="back-button" onClick={onBack}>
+        ← Room selection
+      </button>
+      <p className="eyebrow">Checkout</p>
+      <h2>Complete your booking</h2>
+      <div className="checkout-grid">
+        <div className="form-card">
+          <label>
+            Full name
+            <input
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Your name"
+            />
+          </label>
+          <label>
+            Email
+            <input
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              type="email"
+              placeholder="you@example.com"
+            />
+          </label>
+          <label>
+            Phone number
+            <input placeholder="+62" />
+          </label>
+          <label className="check-row">
+            <input type="checkbox" /> Add breakfast and airport transfer options
+            after booking
+          </label>
+          {error && <p className="error-text">{error}</p>}
+          <button onClick={submit}>Confirm booking</button>
+        </div>
+        <aside className="summary-card">
+          <span className="eyebrow">Your stay</span>
+          <h3>Greater Yogyakarta</h3>
+          <p className="muted">
+            {search.checkIn || "Your check-in"} →{" "}
+            {search.checkOut || "Your check-out"}
+          </p>
+          <div className="summary-line">
+            <span>Room × 1 night</span>
+            <strong>Rp 850.000</strong>
+          </div>
+          <div className="summary-line total">
+            <span>Total at hotel</span>
+            <strong>Rp 850.000</strong>
+          </div>
+          <small>Pay at hotel. No payment gateway required for this MVP.</small>
+        </aside>
+      </div>
+    </main>
+  );
+}
+
+function Confirmation({
+  code,
+  onHome,
+}: {
+  code: string | null;
+  onHome: () => void;
+}) {
+  const booking = useQuery(
+    api.bookings.getByReference,
+    code ? { reference: code } : "skip",
+  );
+  return (
+    <main className="page narrow centered">
+      <div className="success-icon">✓</div>
+      <p className="eyebrow">Booking confirmed</p>
+      <h2>Your stay is ready.</h2>
+      <p className="muted">
+        We have saved your reservation. Your confirmation code is{" "}
+        <strong>{code}</strong>.
+      </p>
+      <div className="confirmation-card">
+        <span>
+          {booking
+            ? `${booking.checkIn} → ${booking.checkOut}`
+            : "Greater Yogyakarta"}
+        </span>
+        <strong>
+          {booking?.paymentMethod === "pay_at_hotel"
+            ? "Pay at hotel"
+            : "Manual bank transfer"}
+        </strong>
+        <small>Menetap support will be here if you need anything.</small>
+      </div>
+      <button onClick={onHome}>Explore more stays</button>
+    </main>
+  );
+}
+function InfoCard({ title, text }: { title: string; text: string }) {
+  return (
+    <article className="info-card">
+      <h3>{title}</h3>
+      <p>{text}</p>
+    </article>
+  );
+}
+function LoadingState({ label }: { label: string }) {
+  return (
+    <div className="loading-state" role="status">
+      <span className="loading-spinner" />
+      {label}
+    </div>
+  );
+}
+function EmptyState({ title, text }: { title: string; text: string }) {
+  return (
+    <div className="empty-state">
+      <div className="state-mark">—</div>
+      <h3>{title}</h3>
+      <p>{text}</p>
+    </div>
+  );
+}
+function MapPreview({
+  properties,
+  onSelect,
+}: {
+  properties: Array<{ _id: string; name: string; lowestPrice?: number }>;
+  onSelect: (id: string) => void;
+}) {
+  const points = properties
+    .slice(0, 30)
+    .map((property, index) => ({
+      property,
+      top: 18 + ((index * 29) % 64),
+      left: 18 + ((index * 43) % 68),
+    }));
+  const clusters = points.reduce<
+    Array<{ top: number; left: number; properties: typeof points }>
+  >((groups, point) => {
+    const group = groups.find(
+      (candidate) =>
+        Math.abs(candidate.top - point.top) < 9 &&
+        Math.abs(candidate.left - point.left) < 9,
+    );
+    if (group) group.properties.push(point);
+    else groups.push({ top: point.top, left: point.left, properties: [point] });
+    return groups;
+  }, []);
+  return (
+    <div className="search-map-preview" aria-label="Map view of search results">
+      <span className="map-label">Map view · {properties.length} stays</span>
+      {clusters.map((cluster) =>
+        cluster.properties.length > 1 ? (
+          <button
+            type="button"
+            className="map-cluster"
+            style={{ top: `${cluster.top}%`, left: `${cluster.left}%` }}
+            key={cluster.properties
+              .map((point) => point.property._id)
+              .join("-")}
+            aria-label={`Show ${cluster.properties.length} stays in this area`}
+            onClick={() => onSelect(cluster.properties[0].property._id)}
+          >
+            {cluster.properties.length}
+          </button>
+        ) : (
+          <button
+            type="button"
+            className="map-price-marker"
+            style={{ top: `${cluster.top}%`, left: `${cluster.left}%` }}
+            key={cluster.properties[0].property._id}
+            title={cluster.properties[0].property.name}
+            aria-label={`Open ${cluster.properties[0].property.name}`}
+            onClick={() => onSelect(cluster.properties[0].property._id)}
+          >
+            {cluster.properties[0].property.lowestPrice
+              ? `Rp ${(cluster.properties[0].property.lowestPrice / 1000).toFixed(0)}k`
+              : "Price"}
+          </button>
+        ),
+      )}
+    </div>
+  );
+}
+
+function BantulLanding({
+  language,
+  setLanguage,
+}: {
+  language: "EN" | "ID";
+  setLanguage: (language: "EN" | "ID") => void;
+}) {
+  const prefix = `/${language.toLowerCase()}`;
+  return (
+    <>
+      <main className="destination-landing page">
+        <p className="eyebrow">Explore Bantul</p>
+        <h1>Slow days, craft traditions, and southern Yogyakarta.</h1>
+        <p className="destination-intro">
+          Bantul brings together village landscapes, creative workshops, food
+          traditions, and an easygoing base within reach of Yogyakarta city.
+        </p>
+        <div className="destination-actions">
+          <a href={`${prefix}/stays?destination=Bantul`}>
+            Explore Bantul stays
+          </a>
+          <a href="#bantul-areas">Choose an area</a>
+        </div>
+        <section id="bantul-areas" className="destination-area-section">
+          <div className="section-heading">
+            <div>
+              <p className="eyebrow">Stay by area</p>
+              <h2>Find your Bantul base</h2>
+            </div>
+          </div>
+          <div className="destination-area-grid">
+            <a
+              className="destination-area-card"
+              href={`${prefix}/stays?destination=Kasihan`}
+            >
+              <strong>Kasihan</strong>
+              <p>
+                Creative villages, pottery studios, and a relaxed edge-of-city
+                pace.
+              </p>
+              <span>Browse Kasihan stays →</span>
+            </a>
+            <a
+              className="destination-area-card"
+              href={`${prefix}/stays?destination=Imogiri`}
+            >
+              <strong>Imogiri</strong>
+              <p>
+                Hills, royal heritage, and a quieter route into southern Bantul.
+              </p>
+              <span>Browse Imogiri stays →</span>
+            </a>
+            <a
+              className="destination-area-card"
+              href={`${prefix}/stays?destination=Parangtritis`}
+            >
+              <strong>Parangtritis</strong>
+              <p>
+                Coastal air, wide horizons, and stays near the southern beach.
+              </p>
+              <span>Browse Parangtritis stays →</span>
+            </a>
+          </div>
+        </section>
+        <section className="destination-properties">
+          <div className="section-heading">
+            <div>
+              <p className="eyebrow">Places to start</p>
+              <h2>Properties for a slower stay</h2>
+            </div>
+            <a href={`${prefix}/stays?destination=Bantul`}>
+              See all Bantul stays →
+            </a>
+          </div>
+          <div className="destination-property-grid">
+            <article>
+              <div className="property-image">Villa</div>
+              <div>
+                <h3>Kasihan Garden Villa</h3>
+                <p>Kasihan · creative district nearby</p>
+                <a href={`${prefix}/stays?destination=Kasihan`}>
+                  View availability →
+                </a>
+              </div>
+            </article>
+            <article>
+              <div className="property-image">Homestay</div>
+              <div>
+                <h3>Imogiri Hillside Homestay</h3>
+                <p>Imogiri · quiet southern hills</p>
+                <a href={`${prefix}/stays?destination=Imogiri`}>
+                  View availability →
+                </a>
+              </div>
+            </article>
+            <article>
+              <div className="property-image">Beach stay</div>
+              <div>
+                <h3>Parangtritis Dune Retreat</h3>
+                <p>Parangtritis · coastal escape</p>
+                <a href={`${prefix}/stays?destination=Parangtritis`}>
+                  View availability →
+                </a>
+              </div>
+            </article>
+          </div>
+        </section>
+        <section className="destination-faq">
+          <p className="eyebrow">Bantul travel questions</p>
+          <h2>Plan the practical details</h2>
+          <details>
+            <summary>Is Bantul close to Yogyakarta city?</summary>
+            <p>
+              Many Bantul areas are within an easy drive of the city, while
+              southern areas such as Imogiri and Parangtritis feel more rural
+              and destination-led.
+            </p>
+          </details>
+          <details>
+            <summary>What is Bantul best for?</summary>
+            <p>
+              Bantul suits guests looking for craft villages, local food, open
+              landscapes, and a slower stay outside the city center.
+            </p>
+          </details>
+          <details>
+            <summary>Can I compare Bantul stays by dates?</summary>
+            <p>
+              Yes. Set your dates and guest count in the stays search to compare
+              live availability and prices.
+            </p>
+          </details>
+        </section>
+        <nav
+          className="destination-internal-links"
+          aria-label="Bantul travel links"
+        >
+          <a href={`${prefix}/destinations/all`}>All destinations</a>
+          <a href={`${prefix}/stays?destination=Bantul`}>All Bantul stays</a>
+          <a href={`${prefix}/stays?destination=Kasihan`}>Kasihan stays</a>
+          <a href={`${prefix}/stays?destination=Imogiri`}>Imogiri stays</a>
+          <a href={`${prefix}/stays?destination=Parangtritis`}>
+            Parangtritis stays
+          </a>
+        </nav>
+      </main>
+      <Footer language={language} setLanguage={setLanguage} />
+    </>
+  );
+}
