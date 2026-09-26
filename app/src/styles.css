@@ -491,3 +491,4 @@ h3 { margin: 0 0 8px; font: 800 var(--type-card)/1.2 'Plus Jakarta Sans', sans-s
 .selection-line-items { display:flex; flex-direction:column; gap:8px; }
 .room-quantity-control { display:inline-flex; flex-wrap:nowrap; white-space:nowrap; vertical-align:middle; }
 .room-quantity-control b { display:inline-block; }
+.rate-plan-price b .night-suffix { display:inline; margin:0 0 0 3px; color:rgba(12,10,30,.5); font:400 10px 'JetBrains Mono',monospace; }
