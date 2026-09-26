@@ -399,3 +399,12 @@ h3 { margin: 0 0 8px; font: 800 var(--type-card)/1.2 'Plus Jakarta Sans', sans-s
   .dc-footer-meta { align-items: flex-start; flex-wrap: wrap; gap: 12px; }
   .dc-footer .managed-chip { line-height: 1.5; }
 }
+.mobile-menu-button, .mobile-menu-panel { display: none; }
+@media (max-width: 760px) {
+  .desktop-language-toggle { display: none; }
+  .mobile-menu-button { display: grid; place-items: center; width: 40px; height: 40px; min-height: 0; padding: 0 !important; border: 1px solid #e5e2f5; border-radius: 4px; color: #0c0a1e; background: #fff; }
+  .mobile-menu-panel { position: absolute; top: calc(100% + 8px); right: 18px; display: grid; gap: 4px; width: min(220px, calc(100vw - 36px)); padding: 10px; border: 1px solid #e5e2f5; border-radius: 8px; background: #fff; box-shadow: 0 12px 30px rgba(65,42,145,.14); }
+  .mobile-menu-panel button { min-height: 42px; padding: 0 12px; border-radius: 4px; text-align: left; }
+  .mobile-menu-panel button:hover { color: #7229ff; background: #f7f6ff; }
+  .mobile-menu-panel .language-toggle { margin-top: 6px; }
+}
