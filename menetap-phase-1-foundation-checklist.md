@@ -226,3 +226,5 @@ Phase 1 is complete when:
 - [x] Complete current mobile polish pass: hamburger navigation, in-menu language selector, non-sticky mobile search, back-to-top control, footer spacing, hero badge visibility, and responsive headline sizing.
 
 - [x] Implement the DC-inspired hotel/property detail page structure with gallery, trust badges, amenities, pricing transparency, rooms, experiences, reviews, house rules, location, responsive layout, and mobile reserve CTA.
+
+- [x] Mark the hotel/property detail page as visually complete for the current prototype scope.
