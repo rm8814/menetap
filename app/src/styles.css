@@ -474,3 +474,11 @@ h3 { margin: 0 0 8px; font: 800 var(--type-card)/1.2 'Plus Jakarta Sans', sans-s
 .room-option-gallery .room-option-photo { min-height:0; border-radius:0; }
 .room-option-gallery .main-room-photo { grid-row:1 / span 2; }
 @media (max-width:760px) { .room-option-gallery { min-height:220px; } }
+.room-option-card { display:block; }
+.room-option-gallery { grid-template-columns:repeat(4, minmax(0, 1fr)); grid-template-rows:auto; min-height:0; }
+.room-option-gallery .main-room-photo { grid-row:auto; }
+.room-option-gallery .room-option-photo { aspect-ratio:4 / 3; min-height:0; }
+@media (max-width:760px) {
+  .room-option-gallery { min-height:0; }
+  .room-option-gallery .room-option-photo { aspect-ratio:4 / 3; }
+}
