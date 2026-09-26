@@ -217,3 +217,6 @@ Phase 1 is complete when:
 - [x] Add a Malang-specific destination image for the destination directory, with descriptive alternative text.
 
 - [x] Add a Bantul-specific destination image for the destination directory, with descriptive alternative text.
+
+- [x] Add localized Sleman destination landing page with unique areas, property highlights, FAQs, and internal links.
+- [x] Add a Sleman-specific destination image for the destination directory, with descriptive alternative text.
