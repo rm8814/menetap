@@ -412,3 +412,11 @@ h3 { margin: 0 0 8px; font: 800 var(--type-card)/1.2 'Plus Jakarta Sans', sans-s
   .dc-hero .hero-badge { display: none; }
   .dc-hero h1 { font-size: clamp(38px, 10vw, 48px); }
 }
+@media (max-width: 760px) {
+  .dc-hero { padding-top: 36px; }
+  .dc-hero h1 { font-size: var(--type-display); }
+  .mobile-menu-panel > button:not(.language-toggle button) { min-height: 42px; padding: 0 12px; border-radius: 4px; text-align: left; }
+  .mobile-menu-panel > .language-toggle { display: flex; align-items: center; gap: 2px; height: 32px; width: max-content; margin-top: 6px; padding: 3px; border: 1px solid #e5e2f5; border-radius: 24px; background: rgba(114,41,255,.06); }
+  .mobile-menu-panel > .language-toggle button { min-height: 0; height: 24px; padding: 0 10px; border-radius: 20px; color: rgba(12,10,30,.5); background: transparent; font: 700 13px/24px 'JetBrains Mono', monospace; }
+  .mobile-menu-panel > .language-toggle button.active { color: #fff; background: #7229ff; }
+}
