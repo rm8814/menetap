@@ -12,8 +12,8 @@ This checklist is the product-scope inventory. The `.dc.html` screens remain the
 
 ### Marketing and discovery
 
-- `[~]` Homepage — React structure, responsive layout, search widget, trust content, stays, pricing explanation, experiences, and footer implemented; final visual parity and live browser QA remain.
-- `[ ]` Destination landing pages — SEO-ready pages for Indonesian cities and regions with unique content, properties, FAQs, and internal links.
+- `[~]` Homepage — React structure, responsive layout, mobile navigation, search widget, back-to-top control, trust content, stays, pricing explanation, experiences, and footer implemented; final visual parity and live browser QA remain.
+- `[~]` Destination landing pages — localized React pages and all-destinations directory with unique content, properties, FAQs, internal links, and current visual scope complete; production SEO hardening and live browser QA remain.
 - `[~]` Search results — Convex property query, loading/empty states, type filter, name sorting, responsive cards, and booking navigation implemented; map/list behavior, real filters, images, and full DC parity remain.
 - `[~]` Hotel/property detail — Convex property data and room-navigation first pass implemented; gallery, amenities, reviews, policies, approved media, add-ons, and full parity remain.
 - `[~]` Room selection — Convex room inventory query, availability states, room choice, and navigation implemented; rate plans, calendar, policies, price breakdown, and full parity remain.
