@@ -482,3 +482,5 @@ h3 { margin: 0 0 8px; font: 800 var(--type-card)/1.2 'Plus Jakarta Sans', sans-s
   .room-option-gallery { min-height:0; }
   .room-option-gallery .room-option-photo { aspect-ratio:4 / 3; }
 }
+.room-amenities { gap: 6px; }
+.room-amenities span { display:inline-flex; align-items:center; padding:4px 7px; border-radius:4px; color:#7229ff; background:rgba(114,41,255,.08); font-size:11px; line-height:1.2; }
