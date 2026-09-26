@@ -495,3 +495,5 @@ h3 { margin: 0 0 8px; font: 800 var(--type-card)/1.2 'Plus Jakarta Sans', sans-s
 .room-quantity-control { align-items:center; justify-content:center; }
 .room-quantity-control button { min-height:0; }
 .rate-plan-price { display:flex; flex-direction:column; align-items:center; justify-content:center; }
+.breakfast-addon { display:flex; align-items:center; gap:6px; margin-top:8px; padding:5px 7px; border-radius:4px; color:#0a8aa3; background:rgba(0,202,239,.08); font-size:10px; font-weight:600; }
+.breakfast-addon input { width:14px; height:14px; margin:0; accent-color:#7229ff; }
