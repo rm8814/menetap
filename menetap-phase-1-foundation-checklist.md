@@ -228,3 +228,5 @@ Phase 1 is complete when:
 - [x] Implement the DC-inspired hotel/property detail page structure with gallery, trust badges, amenities, pricing transparency, rooms, experiences, reviews, house rules, location, responsive layout, and mobile reserve CTA.
 
 - [x] Mark the hotel/property detail page as visually complete for the current prototype scope.
+
+- [x] Implement the DC-inspired room selection structure with stay summary, date editor, room cards, rate plans, selection summary, responsive layout, and checkout continuation.
