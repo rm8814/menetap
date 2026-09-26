@@ -1,0 +1,14 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /en/checkout
+Disallow: /en/my-trips
+Disallow: /en/settings
+Disallow: /en/partner-
+Disallow: /en/supply/
+Disallow: /id/checkout
+Disallow: /id/my-trips
+Disallow: /id/settings
+Disallow: /*?*
+
+Sitemap: https://menetap.com/sitemap.xml

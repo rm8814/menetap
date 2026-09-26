@@ -30,8 +30,11 @@ Owner: Hostinger/domain administrator. Verification: browser HTTPS check and a h
 
 - Use Convex Auth session handling; do not store session tokens in local storage.
 - Production cookies must be Secure, HttpOnly where applicable, and use an intentional SameSite policy.
+- Convex Auth owns the session exchange; production verification must confirm Secure/HttpOnly/SameSite behavior in browser storage and that no auth token is logged or exposed to analytics.
 - All state-changing Convex mutations must validate the authenticated identity and authorization server-side.
 - HTTP actions that accept browser requests must validate origin and use an explicit CSRF strategy before accepting state-changing requests.
+- `app/convex/csrf.ts` provides the origin guard for future custom HTTP actions. Any non-GET/HEAD/OPTIONS action must call `assertSameOrigin(request, productionAllowedOrigins())` before parsing or mutating data.
+- The current app has no custom browser-facing state-changing HTTP action; guest bookings and support submission use Convex mutations. Keep those mutations authenticated/authorized server-side and do not introduce cookie-backed REST mutations without the guard.
 - Do not treat a hidden UI control or client-side role as authorization.
 
 Owner: application and Convex maintainers. Verification: anonymous rejection test, role allow/deny tests, and authenticated mutation tests.

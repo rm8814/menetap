@@ -17,7 +17,10 @@ This checklist is the product-scope inventory. The `.dc.html` screens remain the
 - `[~]` Search results — Convex property query, loading/empty states, type filter, name sorting, responsive cards, and booking navigation implemented; map/list behavior, real filters, images, and full DC parity remain.
 - `[~]` Hotel/property detail — visually complete for the current prototype scope with the DC-inspired gallery, amenities, reviews, policies, pricing, room cards, experiences, location, responsive layout, and mobile reserve CTA; approved media, live booking inputs, add-ons, and full production parity remain.
 - `[~]` Room selection — visually complete for the current prototype scope with Convex room inventory, availability states, room choice, navigation, DC-inspired stay summary, date editor, rate plans, room/add-on cart, reservation add-ons, responsive layout, and checkout continuation; live date updates, policies, exact pricing, and full production parity remain.
-- `[~]` Cancellation policy — DC reference exists; React production page and policy data integration remain.
+- `[x]` About — DC-inspired routed company page implemented.
+- `[x]` Careers — DC-inspired routed careers page implemented with no-open-roles state and contact CTA.
+- `[x]` Cancellation policy — DC-inspired routed policy page implemented with policy comparison table and booking guidance.
+- `[x]` Privacy Policy and Terms of Service — DC-inspired routed legal pages implemented with responsive typography and footer links.
 - `[ ]` Experiences directory and detail pages.
 - `[ ]` Rentals landing, search, detail, checkout, and confirmation workflows — deferred from project v1.
 - `[ ]` Supply catalog, product detail, checkout, and confirmation workflows.

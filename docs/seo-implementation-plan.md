@@ -1,6 +1,6 @@
 # Menetap site-wide SEO implementation plan
 
-Status: planning document. Items in this document are not implemented unless marked `[x]` in the project checklist.
+Status: foundation implementation started. Baseline metadata, hreflang, Organization JSON-LD, robots rules, and a public sitemap are implemented. Route-aware metadata, SSR/prerendering, dynamic property URLs, and full schema validation remain open.
 
 Owner: Claude, acting as Menetap SEO specialist, copy specialist, and code reviewer.
 
@@ -142,7 +142,7 @@ Document and configure:
 - [ ] Canonicals and `hreflang`.
 - [ ] Correct 404 handling.
 - [ ] Index/noindex rules for screens and query variants.
-- [ ] Sitemap and robots.txt.
+- [x] Sitemap and robots.txt.
 - [ ] Staging blocked from indexing.
 
 ### Phase B — public content and schema

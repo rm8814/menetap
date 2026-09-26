@@ -164,6 +164,8 @@ Menetap serves three connected user groups:
 
 ## Phase 2 — Guest booking MVP
 
+Detailed execution checklist: `menetap-phase-2-guest-booking-checklist.md`.
+
 **Goal:** Enable a guest to discover a property and complete a reliable room booking.
 
 ### Guest experience tasks

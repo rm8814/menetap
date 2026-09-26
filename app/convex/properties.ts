@@ -5,9 +5,13 @@ export const listPublished = query({
   args: { area: v.optional(v.string()), checkIn: v.optional(v.string()), checkOut: v.optional(v.string()), guests: v.optional(v.number()) },
   handler: async (ctx, args) => {
     const normalizedAreas: Record<string, string> = { Yogyakarta: 'Greater Yogyakarta', 'Greater Yogyakarta': 'Greater Yogyakarta' };
-    const area = args.area ? normalizedAreas[args.area] ?? args.area : undefined;
-    const properties = area ? await ctx.db.query('properties').withIndex('by_area', (q) => q.eq('area', area)).collect() : await ctx.db.query('properties').withIndex('by_status', (q) => q.eq('status', 'published')).collect();
-    const published = properties.filter((property) => property.status === 'published');
+    const term = args.area?.trim().toLowerCase();
+    const properties = await ctx.db.query('properties').withIndex('by_status', (q) => q.eq('status', 'published')).collect();
+    const published = properties.filter((property) => {
+      if (!term) return true;
+      const normalized = normalizedAreas[args.area!.trim()]?.toLowerCase();
+      return property.area.toLowerCase() === normalized || [property.name, property.area, property.city].some((value) => value.toLowerCase().includes(term));
+    });
     if (!args.checkIn || !args.checkOut) return Promise.all(published.map(async (property) => {
       const rates = await ctx.db.query('ratePlans').withIndex('by_property', (q) => q.eq('propertyId', property._id)).collect();
       const activeRates = rates.filter((rate) => rate.active).map((rate) => rate.price);

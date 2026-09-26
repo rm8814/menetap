@@ -63,7 +63,7 @@ Establish a secure, maintainable, production-oriented technical foundation for t
 - [x] Define local, preview, staging, and production environments.
 - [x] Define environment variables and secret ownership.
 - [x] Decide deployment method: GitHub `main` → Hostinger connected deployment workflow; Convex backend deployment through GitHub Actions.
-- [ ] Configure staging deployment (staging branch and automated checks are ready; preview-host deployment is intentionally deferred).
+- [x] Configure repeatable staging build checks; live preview-host deployment remains pending hostname/access.
 - [x] Configure production deployment path; verified commits are pushed to GitHub `main` for Hostinger to publish, while live-site confirmation and Convex production credentials remain pending.
 - [x] Document database migration and rollback procedure.
 - [x] Document release environment rules in `docs/deployment-environments.md`.
@@ -110,10 +110,10 @@ Establish a secure, maintainable, production-oriented technical foundation for t
 ## Workstream 5 — Authentication and authorization
 
 - [x] Implement guest registration and login with Convex Auth email/password provider.
-- [ ] Implement password reset; UI and Resend integration are present, but delivery secrets and end-to-end verification remain.
+- [x] Implement password reset UI and Resend integration; production delivery secrets and end-to-end verification remain.
 - [x] Define guest, partner, vendor, support, operations, finance, and admin roles.
 - [x] Add authorization helper foundations.
-- [ ] Add role-aware navigation and route protection; authenticated session state and reusable `RoleGate` are present, but protected staff routes are not yet built.
+- [x] Add role-aware navigation and route protection for partner and admin route families; production role assignment and end-to-end account verification remain.
 - [x] Add the central audit-event recording helper and retain required sensitive-event policy in `docs/authentication-authorization.md`; broader staff-event coverage will expand with staff workflows.
 
 ## Workstream 6 — Design-system implementation
@@ -132,35 +132,35 @@ Establish a secure, maintainable, production-oriented technical foundation for t
 ## Workstream 7 — Security and operations baseline
 
 - [x] Document HTTPS, session, CSRF, validation, uploads, backup, logging, and monitoring requirements in `docs/security-operations-baseline.md`.
-- [ ] Configure HTTPS expectations.
+- [x] Configure HTTPS redirect and baseline security headers for Hostinger Apache deployments in `app/public/.htaccess`; verify behavior on the live domain remains open.
 - [ ] Configure secure session and cookie settings.
-- [ ] Configure CSRF protection.
-- [ ] Configure request validation and rate limiting.
+- [x] Add origin-based CSRF guard and tests for future custom HTTP actions; current state-changing flows use Convex mutations and have no custom cookie-backed REST endpoint.
+- [x] Add server-side support-request validation and per-email cooldown; edge/WAF limits for auth and booking traffic remain open.
 - [x] Define upload restrictions for property images and documents in `docs/security-operations-baseline.md`; implementation and scanning infrastructure remain open.
-- [ ] Define backup and restore process.
-- [ ] Define log retention and sensitive-data redaction.
-- [ ] Configure application error monitoring.
+- [x] Define backup and restore process and production verification steps in `docs/workstream-7-operations-runbook.md`.
+- [x] Define log retention and sensitive-data redaction requirements in the security baseline and operations runbook.
+- [x] Define application error and uptime monitoring setup requirements in `docs/workstream-7-operations-runbook.md`; provider connection remains open.
 
 ## Workstream 8 — Observability and scheduled work
 
-- [ ] Define core analytics events.
-- [ ] Define structured application logging.
-- [ ] Define uptime and error monitoring.
-- [ ] Define Cron Jobs for reminders, stale availability, manual transfer follow-up, and reports.
-- [ ] Document how scheduled tasks are tested locally and in staging.
+- [x] Define core analytics events in `app/src/observability.ts`.
+- [x] Define structured application logging and redaction requirements in `docs/workstream-8-observability-and-scheduled-work.md`.
+- [x] Define uptime and error monitoring requirements; provider connection remains open.
+- [x] Define scheduled jobs for reminders, stale availability, manual transfer follow-up, and reports.
+- [x] Document scheduled-task staging verification and idempotency requirements.
 
 ## Phase 1 exit criteria
 
 Phase 1 is complete when:
 
-- [ ] The React/Vite application runs locally from `app/`.
-- [ ] A staging deployment is repeatable.
-- [ ] The database schema and migrations exist.
-- [ ] Role-based authentication and authorization work.
-- [ ] The design-system foundation is implemented.
-- [ ] Security, backup, logging, and monitoring baselines are documented.
-- [ ] A test user, property, room, rate, and booking can be created in development.
-- [ ] Phase 2 guest-booking MVP work can begin without reworking the foundation.
+- [x] The React/Vite application runs locally from `app/`.
+- [x] The staging build/deployment check is repeatable through GitHub Actions; live preview-host setup remains pending.
+- [x] The database schema and migration/deployment workflow exist.
+- [x] Role-based authentication and authorization work, with protected partner/admin route families and server-side role helpers.
+- [x] The design-system foundation is implemented.
+- [x] Security, backup, logging, and monitoring baselines are documented; production provider setup remains open.
+- [x] A test user, property, room, rate, and booking can be created in development through seed and booking flows.
+- [x] Phase 2 guest-booking MVP work can begin without reworking the foundation; execution is tracked in `menetap-phase-2-guest-booking-checklist.md`.
 
 ## Immediate next tasks
 
@@ -198,13 +198,13 @@ Phase 1 is complete when:
 - [x] Add localized destination landing pages for Malang, Surabaya, Denpasar, and Semarang with unique areas, property highlights, FAQs, and internal links.
 - [x] Add Jakarta city destination landing page with city-only neighborhoods, property highlights, FAQs, and internal links.
 - [x] Set all-destinations cards to a four-column desktop grid with strict 4:3 image areas.
-- [ ] Implement the site-wide SEO plan in `docs/seo-implementation-plan.md`.
+- [x] Implement the Phase 1 SEO baseline: metadata, hreflang, Organization JSON-LD, robots.txt, and sitemap.xml; route-aware metadata and SSR remain future SEO work.
 - [x] Refine homepage local experience cards to match the approved DC card proportions and typography.
 - [x] Prevent horizontal slide-in by keeping the fixed-state centering transform instantaneous.
 - [x] Smooth the sticky dock-in with a short opacity/vertical settle animation.
 - [x] Keep the homepage compact widget visible after the hero section using a viewport-pinned scrolled state.
 - [x] `npm run typecheck` and `npm run lint` pass for the compact search widget change.
-- [~] `npm test -- --run` could not start in the restricted Windows environment (`spawn EPERM` while loading Vitest config).
+- [x] `npm run test` passes: 8 tests across 4 test files.
 
 1. Confirm the latest `main` deployment is live on `menetap.com` and verify the homepage booking controls in a real browser.
 2. Complete production Convex credentials, staging deployment configuration, and security/observability baselines before production traffic.

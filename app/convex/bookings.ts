@@ -1,10 +1,17 @@
 import { mutation, query } from './_generated/server';
 import { v } from 'convex/values';
 import { recordAudit } from './audit';
+import { childNightlyCharge } from './childPolicy';
 
 export const create = mutation({
-  args: { propertyId: v.id('properties'), roomTypeId: v.id('roomTypes'), checkIn: v.string(), checkOut: v.string(), guestCount: v.number(), guestName: v.string(), guestEmail: v.string(), paymentMethod: v.union(v.literal('pay_at_hotel'), v.literal('manual_bank_transfer')) },
+  args: { propertyId: v.id('properties'), roomTypeId: v.id('roomTypes'), checkIn: v.string(), checkOut: v.string(), guestCount: v.number(), childAges: v.optional(v.array(v.number())), guestName: v.string(), guestEmail: v.string(), paymentMethod: v.union(v.literal('pay_at_hotel'), v.literal('manual_bank_transfer')) },
   handler: async (ctx, args) => {
+    const guestName = args.guestName.trim();
+    const guestEmail = args.guestEmail.trim().toLowerCase();
+    if (guestName.length < 2 || guestName.length > 120) throw new Error('Please enter a valid guest name.');
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(guestEmail) || guestEmail.length > 200) throw new Error('Please enter a valid guest email.');
+    if (!Number.isInteger(args.guestCount) || args.guestCount < 1 || args.guestCount > 20) throw new Error('Guest count must be between 1 and 20.');
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(args.checkIn) || !/^\d{4}-\d{2}-\d{2}$/.test(args.checkOut)) throw new Error('Dates must use YYYY-MM-DD format.');
     if (args.checkOut <= args.checkIn) throw new Error('Check-out must be after check-in.');
     const nights = await ctx.db.query('availability').withIndex('by_room_date', (q) => q.eq('roomTypeId', args.roomTypeId).gte('date', args.checkIn).lt('date', args.checkOut)).collect();
     if (nights.length === 0 || nights.some((night) => night.status !== 'open' || night.availableUnits < 1)) throw new Error('This room is not available for the selected dates.');
@@ -13,8 +20,12 @@ export const create = mutation({
     if (!property || !room || room.propertyId !== args.propertyId) throw new Error('Property or room not found.');
     const now = Date.now();
     const reference = `MNP-${now.toString().slice(-8)}`;
-    const totalAmount = nights.reduce((sum, night) => sum + night.rate, 0);
-    const bookingId = await ctx.db.insert('bookings', { reference, propertyId: args.propertyId, roomTypeId: args.roomTypeId, checkIn: args.checkIn, checkOut: args.checkOut, guestCount: args.guestCount, guestName: args.guestName, guestEmail: args.guestEmail, totalAmount, currency: 'IDR', status: 'confirmed', paymentMethod: args.paymentMethod, paymentStatus: 'unpaid', createdAt: now, updatedAt: now });
+    const childAges = args.childAges ?? [];
+    const childCharge = childNightlyCharge(room.childPolicy, childAges);
+    const totalAmount = nights.reduce((sum, night) => sum + night.rate + childCharge, 0);
+    if (args.guestCount > room.maxGuests) throw new Error('This room cannot accommodate the selected number of guests.');
+    await ctx.db.patch(args.roomTypeId, { updatedAt: now });
+    const bookingId = await ctx.db.insert('bookings', { reference, propertyId: args.propertyId, roomTypeId: args.roomTypeId, checkIn: args.checkIn, checkOut: args.checkOut, guestCount: args.guestCount, childAges, childPolicySnapshot: room.childPolicy, guestName, guestEmail, totalAmount, currency: 'IDR', status: 'confirmed', paymentMethod: args.paymentMethod, paymentStatus: 'unpaid', createdAt: now, updatedAt: now });
     await ctx.db.insert('payments', { bookingId, method: args.paymentMethod, amount: totalAmount, currency: 'IDR', status: 'unpaid', createdAt: now, updatedAt: now });
     for (const night of nights) await ctx.db.patch(night._id, { availableUnits: night.availableUnits - 1, updatedAt: now });
     await recordAudit(ctx, { action: 'booking.created', entityType: 'booking', entityId: bookingId, metadata: { reference } });
