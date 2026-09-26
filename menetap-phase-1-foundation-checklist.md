@@ -209,3 +209,5 @@ Phase 1 is complete when:
 1. Confirm the latest `main` deployment is live on `menetap.com` and verify the homepage booking controls in a real browser.
 2. Complete production Convex credentials, staging deployment configuration, and security/observability baselines before production traffic.
 3. Add deeper validation and authorization tests for booking, role, and sensitive operational flows.
+
+- [x] Add a Jakarta-specific destination image for the destination directory, with descriptive alternative text.
