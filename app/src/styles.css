@@ -430,3 +430,6 @@ h3 { margin: 0 0 8px; font: 800 var(--type-card)/1.2 'Plus Jakarta Sans', sans-s
   .dc-hero { padding-top: 28px; }
   .dc-hero h1 { margin-top: 12px; font-size: 30px; }
 }
+@media (max-width: 760px) {
+  .dc-hero h1 { font-size: 33px; }
+}
