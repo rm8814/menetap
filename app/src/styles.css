@@ -484,3 +484,4 @@ h3 { margin: 0 0 8px; font: 800 var(--type-card)/1.2 'Plus Jakarta Sans', sans-s
 }
 .room-amenities { gap: 6px; }
 .room-amenities span { display:inline-flex; align-items:center; padding:4px 7px; border-radius:4px; color:#7229ff; background:rgba(114,41,255,.08); font-size:11px; line-height:1.2; }
+.room-amenities span { gap: 5px; }
