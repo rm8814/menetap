@@ -211,3 +211,5 @@ Phase 1 is complete when:
 3. Add deeper validation and authorization tests for booking, role, and sensitive operational flows.
 
 - [x] Add a Jakarta-specific destination image for the destination directory, with descriptive alternative text.
+
+- [x] Add a Semarang-specific destination image for the destination directory, with descriptive alternative text.
