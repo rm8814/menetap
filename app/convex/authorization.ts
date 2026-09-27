@@ -6,6 +6,9 @@ export function canManageProperties(role: UserRole) { return role === 'partner' 
 export function canManageBookings(role: UserRole) { return role === 'partner' || role === 'support' || role === 'operations' || role === 'admin'; }
 export function canManagePayments(role: UserRole) { return role === 'finance' || role === 'admin'; }
 export function canManageUsers(role: UserRole) { return role === 'admin'; }
+export function canAccessPartnerResource(role: UserRole, actorId: string, ownerId: string) {
+  return role === 'admin' || role === 'operations' || (role === 'partner' && actorId === ownerId);
+}
 
 export async function getCurrentUser(ctx: QueryCtx | MutationCtx) {
   const userId = await auth.getUserId(ctx);

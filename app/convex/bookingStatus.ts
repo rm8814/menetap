@@ -24,6 +24,8 @@ export const update = mutation({
     const now = Date.now();
     await ctx.db.patch(args.bookingId, { status: args.status, updatedAt: now });
     await ctx.db.insert('bookingStatusHistory', { bookingId: args.bookingId, fromStatus: booking.status, toStatus: args.status, reason: args.reason?.trim().slice(0, 500), changedByUserId: await auth.getUserId(ctx) ?? undefined, createdAt: now, updatedAt: now });
+    const property = await ctx.db.get(booking.propertyId); const owner = property?.ownerUserId ? await ctx.db.get(property.ownerUserId) : null;
+    if (owner?.email && args.status !== booking.status) await ctx.db.insert('bookingNotifications', { bookingId: booking._id, type: 'cancellation_update', recipientEmail: owner.email, status: 'queued', createdAt: now, updatedAt: now });
     return { status: args.status };
   },
 });

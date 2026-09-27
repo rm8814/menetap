@@ -1,0 +1,34 @@
+import { mutation, query } from './_generated/server';
+import { v } from 'convex/values';
+import { requireRole } from './authorization';
+
+function validateRules(price: number, min?: number, max?: number, window?: number, advance?: number) { if (!Number.isFinite(price) || price < 0 || [min, max, window, advance].some((value) => value !== undefined && (!Number.isInteger(value) || value < 0)) || (min !== undefined && max !== undefined && min > max)) throw new Error('Rate and restriction values are invalid.'); }
+
+async function ownedPlan(ctx: any, ratePlanId: any) {
+  const user = await requireRole(ctx, ['partner', 'operations', 'admin']);
+  const plan = await ctx.db.get(ratePlanId);
+  if (!plan) throw new Error('Rate plan not found.');
+  const property = await ctx.db.get(plan.propertyId);
+  if (user.role === 'partner' && property?.ownerUserId !== user._id) throw new Error('Not authorized for this rate plan.');
+  return { user, plan };
+}
+
+export const listForPartner = query({
+  args: { propertyId: v.id('properties') },
+  handler: async (ctx, args) => { const user = await requireRole(ctx, ['partner', 'operations', 'admin']); const property = await ctx.db.get(args.propertyId); if (!property || (user.role === 'partner' && property.ownerUserId !== user._id)) throw new Error('Not authorized for this property.'); return ctx.db.query('ratePlans').withIndex('by_property', (q) => q.eq('propertyId', args.propertyId)).collect(); },
+});
+
+export const create = mutation({
+  args: { propertyId: v.id('properties'), roomTypeId: v.id('roomTypes'), name: v.string(), price: v.number(), currency: v.string(), includes: v.array(v.string()), includedFees: v.optional(v.string()), cancellationPolicy: v.string(), policyType: v.union(v.literal('refundable'), v.literal('non_refundable')), minimumStay: v.optional(v.number()), maximumStay: v.optional(v.number()), bookingWindowDays: v.optional(v.number()), advancePurchaseDays: v.optional(v.number()) },
+  handler: async (ctx, args) => { const user = await requireRole(ctx, ['partner', 'operations', 'admin']); const property = await ctx.db.get(args.propertyId); const room = await ctx.db.get(args.roomTypeId); if (!property || !room || room.propertyId !== args.propertyId || (user.role === 'partner' && property.ownerUserId !== user._id)) throw new Error('Not authorized for this property or room.'); validateRules(args.price, args.minimumStay, args.maximumStay, args.bookingWindowDays, args.advancePurchaseDays); if (args.name.trim().length < 2 || args.cancellationPolicy.trim().length < 2 || (args.policyType === 'non_refundable' && !/non[- ]?refundable|no refund/i.test(args.cancellationPolicy))) throw new Error('Complete valid rate plan details and describe the non-refundable policy clearly.'); const now = Date.now(); return ctx.db.insert('ratePlans', { propertyId: args.propertyId, roomTypeId: args.roomTypeId, name: args.name.trim(), price: args.price, currency: args.currency.trim() || 'IDR', includes: args.includes, includedFees: args.includedFees?.trim(), cancellationPolicy: args.cancellationPolicy.trim(), policyType: args.policyType, minimumStay: args.minimumStay, maximumStay: args.maximumStay, bookingWindowDays: args.bookingWindowDays, advancePurchaseDays: args.advancePurchaseDays, active: true, createdAt: now, updatedAt: now }); },
+});
+
+export const update = mutation({
+  args: { ratePlanId: v.id('ratePlans'), name: v.string(), price: v.number(), currency: v.string(), includes: v.array(v.string()), includedFees: v.optional(v.string()), cancellationPolicy: v.string(), policyType: v.union(v.literal('refundable'), v.literal('non_refundable')), minimumStay: v.optional(v.number()), maximumStay: v.optional(v.number()), bookingWindowDays: v.optional(v.number()), advancePurchaseDays: v.optional(v.number()) },
+  handler: async (ctx, args) => { const { plan } = await ownedPlan(ctx, args.ratePlanId); validateRules(args.price, args.minimumStay, args.maximumStay, args.bookingWindowDays, args.advancePurchaseDays); if (args.name.trim().length < 2 || args.cancellationPolicy.trim().length < 2 || (args.policyType === 'non_refundable' && !/non[- ]?refundable|no refund/i.test(args.cancellationPolicy))) throw new Error('Complete valid rate plan details and describe the non-refundable policy clearly.'); await ctx.db.patch(plan._id, { name: args.name.trim(), price: args.price, currency: args.currency.trim() || 'IDR', includes: args.includes, includedFees: args.includedFees?.trim(), cancellationPolicy: args.cancellationPolicy.trim(), policyType: args.policyType, minimumStay: args.minimumStay, maximumStay: args.maximumStay, bookingWindowDays: args.bookingWindowDays, advancePurchaseDays: args.advancePurchaseDays, updatedAt: Date.now() }); return { updated: true }; },
+});
+
+export const archive = mutation({ args: { ratePlanId: v.id('ratePlans') }, handler: async (ctx, args) => { const { plan } = await ownedPlan(ctx, args.ratePlanId); await ctx.db.patch(plan._id, { active: false, updatedAt: Date.now() }); return { archived: true }; } });
+export const restore = mutation({ args: { ratePlanId: v.id('ratePlans') }, handler: async (ctx, args) => { const { plan } = await ownedPlan(ctx, args.ratePlanId); await ctx.db.patch(plan._id, { active: true, updatedAt: Date.now() }); return { restored: true }; } });
+
+export const bulkOverride = mutation({ args: { ratePlanId: v.id('ratePlans'), from: v.string(), to: v.string(), price: v.number(), confirm: v.boolean() }, handler: async (ctx, args) => { const { user, plan } = await ownedPlan(ctx, args.ratePlanId); if (!args.confirm) throw new Error('Confirm the date-range rate preview before applying.'); validateRules(args.price); if (!/^\d{4}-\d{2}-\d{2}$/.test(args.from) || !/^\d{4}-\d{2}-\d{2}$/.test(args.to) || args.from >= args.to) throw new Error('Invalid effective date range.'); const start = new Date(`${args.from}T00:00:00Z`); const end = new Date(`${args.to}T00:00:00Z`); const now = Date.now(); let updated = 0; for (const cursor = new Date(start); cursor < end; cursor.setUTCDate(cursor.getUTCDate() + 1)) { const date = cursor.toISOString().slice(0, 10); const old = await ctx.db.query('rateOverrides').withIndex('by_room_date', (q) => q.eq('roomTypeId', plan.roomTypeId).eq('date', date)).filter((q) => q.eq(q.field('ratePlanId'), plan._id)).first(); const data = { propertyId: plan.propertyId, roomTypeId: plan.roomTypeId, ratePlanId: plan._id, date, price: args.price, active: true, updatedAt: now }; if (old) await ctx.db.patch(old._id, data); else await ctx.db.insert('rateOverrides', { ...data, createdAt: now }); updated++; } await ctx.db.insert('auditLogs', { actorUserId: user._id, action: 'rate_plan.bulk_override', entityType: 'ratePlan', entityId: String(plan._id), metadata: { from: args.from, to: args.to, price: args.price, days: updated }, createdAt: now, updatedAt: now }); return { updated, preview: { from: args.from, to: args.to, price: args.price } }; } });

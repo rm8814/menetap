@@ -353,7 +353,7 @@ Prioritize services that are operationally simple and strongly related to the st
 ### Service areas
 
 - Central reservation service
-- Revenue management
+- Pricing and Revenue management
 - Housekeeping and turnover cleaning
 - Photography and listing optimization
 - Guest communication support

@@ -79,13 +79,13 @@ Status keys: `[x]` complete, `[~]` partial/prototype, `[ ]` not complete.
 
 ## 7. Documentation and release
 
-- `[ ]` Document booking and payment state transitions.
-- `[ ]` Document cancellation and refund policy enforcement.
-- `[ ]` Document support and partner escalation ownership.
-- `[ ]` Seed a repeatable staging property, room, rate, and availability window.
-- `[ ]` Complete staging smoke test from search through confirmation.
-- `[ ]` Run production-like load/concurrency checks on inventory claims.
-- `[ ]` Approve Phase 2 launch checklist and rollback procedure.
+- `[x]` Document booking and payment state transitions in `docs/phase-2-operations-runbook.md`.
+- `[x]` Document cancellation and refund policy enforcement in `docs/phase-2-operations-runbook.md`.
+- `[x]` Document support and partner escalation ownership in `docs/phase-2-operations-runbook.md`.
+- `[x]` Seed a repeatable staging property, room, rate, and 30-day availability window through `seed.seedDemo`; procedure is documented in `docs/staging-seed-runbook.md`.
+- `[~]` Complete staging smoke test from search through confirmation; the executable runbook is ready, but staging deployment/browser evidence is still required.
+- `[~]` Run production-like load/concurrency checks on inventory claims; the one-unit concurrent claim and duplicate-checkout cases are documented, but require a configured staging Convex deployment.
+- `[~]` Approve Phase 2 launch checklist and rollback procedure; the gate and recovery procedure are documented in `docs/phase-2-launch-checklist.md`, pending staging and production-access evidence.
 
 ## Phase 2 exit criteria
 
