@@ -14,7 +14,7 @@ The primary public domain is intended to be `menetap.com`.
 
 ## Current repository state
 
-This folder currently contains a high-fidelity design/prototype export rather than a conventional production application.
+This repository now contains a React/Vite frontend and Convex backend, alongside the original high-fidelity design/prototype exports.
 
 Important files and folders include:
 
@@ -23,9 +23,15 @@ Important files and folders include:
 - `ios-frame.jsx` — reusable iOS-style device frame component.
 - `_ds/` — Aninda Wida design-system export and tokens.
 - `menetap-lean-business-plan-canvas.html` — business canvas.
+- `app/` — React/Vite application and Convex functions.
+- `docs/` — deployment, operations, QA, and release runbooks.
 - `menetap-development-milestones.md` — phased development roadmap.
+- `menetap-phase-2-guest-booking-checklist.md` — Phase 2 guest booking checklist and exit criteria.
+- `menetap-phase-3-partner-mvp-checklist.md` — Phase 3 partner MVP checklist and exit criteria.
 
-There is currently no `package.json`, backend, database, application build system, or Git repository in this folder. Do not assume that the prototype files are already a deployable production application.
+The application build and database workflow lives under `app/`: use its `package.json`, Convex schema/functions, generated API bindings, and Vite checks. The prototype files are references and are not the production source of truth.
+
+Current delivery status: Phase 2 remains staging/launch-QA gated. Phase 3 partner foundations are implemented, including partner access, onboarding, property/room/rate/inventory management, reservation operations, support, announcements, dashboard metrics, payouts, and audit foundations. Partner mobile/accessibility/staging QA and several UI/editor migrations remain before launch approval.
 
 ## Product principles
 
@@ -205,6 +211,8 @@ For any production-oriented change:
 - Avoid logging passwords, payment details, access tokens, or unnecessary personal data.
 - Add or update documentation when behavior, setup, or deployment changes.
 - Run the most relevant available checks before reporting completion.
+- For application changes, run from `app/`: `npm run typecheck`, `npm test`, and, when build-related, `npm run build`.
+- Convex schema/function changes require `npx convex codegen`; never hand-edit generated API files.
 
 ## Security and data handling
 
@@ -223,6 +231,7 @@ Before deploying to `menetap.com`:
 - Confirm DNS, HTTPS, email delivery, payment webhooks, storage, backups, and monitoring.
 - Run production smoke tests for guest booking, partner reservation access, payment status, confirmation email, cancellation, and support workflows.
 - Confirm rollback and incident-response procedures.
+- Treat Convex staging smoke tests, partner tenant-isolation tests, notification delivery, and browser QA as release gates; do not mark them complete from local unit tests alone.
 - Do not deploy unverified hotel inventory, rates, vendor services, or legal documents.
 
 ## Change discipline

@@ -8,6 +8,8 @@ Act as Menetap’s:
 - Copy specialist
 - Code reviewer
 
+The current implementation source of truth is `app/` (React/Vite + Convex), not the older DC prototype exports. Phase 3 partner foundations are now documented in `menetap-phase-3-partner-mvp-checklist.md`; use that checklist and `docs/phase-3-partner-qa.md` when reviewing partner work.
+
 Treat `AGENTS.md` as the primary project and product guide. Preserve its technical, visual, accessibility, security, and deployment requirements.
 
 ## SEO responsibilities
@@ -21,6 +23,8 @@ Treat `AGENTS.md` as the primary project and product guide. Preserve its technic
 - Do not claim rankings, availability, reviews, prices, or amenities unless supported by current application data.
 - Keep booking and property information indexable only when it is public, accurate, and safe to expose.
 - Consider Core Web Vitals, image weight, font loading, crawlability, mobile layout, and JavaScript rendering in every SEO review.
+- For the upcoming SEO work, audit the public guest routes first. Do not index partner, admin, support, payout, checkout, or other private operational screens; preserve the existing canonical/noindex behavior for search variants.
+- Use live property, room, rate, availability, and policy data as the source of truth for public metadata. Never generate SEO copy from demo-only partner or booking values.
 
 ## Copy responsibilities
 
@@ -57,6 +61,12 @@ Treat `AGENTS.md` as the primary project and product guide. Preserve its technic
 3. Check behavior at desktop and mobile sizes when the change affects UI.
 4. Run the most relevant typecheck, tests, lint, and production build checks available.
 5. Report actionable findings with evidence, followed by verified strengths and remaining risks.
+
+## Current verification baseline
+
+- Run `npm run typecheck` and `npm test` from `app/` for every code review; the current baseline is 6 test files and 15 passing tests.
+- Run `npm run build` for release-affecting changes.
+- Treat staging, browser, email delivery, accessibility, and tenant-isolation execution as separate evidence requirements.
 
 ## Menetap content and SEO principles
 
