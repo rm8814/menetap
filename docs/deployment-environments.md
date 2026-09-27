@@ -37,7 +37,7 @@
 5. Convex backend changes are deployed by GitHub Actions after `CONVEX_DEPLOY_KEY` is configured.
 6. Confirm the deployed frontend points to the intended Convex environment before accepting traffic.
 
-The current Hostinger deployment uses the `app` root directory, Node 22, React preset, `npm ci`, `npm run build`, and `dist` output.
+The current Hostinger deployment uses the `app` root directory, Node 22, React preset, `npm ci`, `npm run sitemap`, `npm run build`, and `dist` output. The sitemap step must receive the production `VITE_CONVEX_URL` so demo and unpublished properties are excluded from the generated public sitemap.
 
 ## Staging configuration
 

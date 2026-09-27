@@ -180,6 +180,8 @@ export function App() {
         guests: adults + children,
       });
       setScreen("search");
+    } else if (path !== "/" && path !== "/en" && path !== "/en/" && path !== "/id" && path !== "/id/") {
+      setScreen("notFound" as GuestScreen);
     }
   }, []);
   useEffect(() => {
@@ -272,7 +274,16 @@ export function App() {
         description: "Browse hospitality supplies available to order on Menetap.",
       },
     };
-    const entry = meta[screen];
+    const indonesianMeta: Partial<Record<GuestScreen, { title: string; description: string }>> = {
+      home: { title: "Menetap — Menginap lebih baik", description: "Cari hotel, vila, dan akomodasi di Indonesia dengan harga transparan tanpa biaya tersembunyi." },
+      search: { title: "Cari penginapan | Menetap", description: "Bandingkan hotel, vila, dan akomodasi di Indonesia berdasarkan tanggal, tamu, dan harga." },
+      destinations: { title: "Semua destinasi | Menetap", description: "Jelajahi destinasi Menetap di Indonesia, termasuk Yogyakarta, Bandung, Solo, dan lainnya." },
+      help: { title: "Pusat bantuan | Menetap", description: "Temukan jawaban tentang pemesanan, pembayaran, pembatalan, dan penggunaan Menetap." },
+      privacy: { title: "Kebijakan privasi | Menetap", description: "Cara Menetap mengumpulkan, menggunakan, dan melindungi informasi tamu." },
+      terms: { title: "Ketentuan layanan | Menetap", description: "Ketentuan yang berlaku saat menggunakan Menetap untuk mencari dan memesan akomodasi." },
+      cancellation: { title: "Kebijakan pembatalan | Menetap", description: "Pahami batas waktu pembatalan, waktu pengembalian dana, dan jenis kebijakan di Menetap." },
+    };
+    const entry = language === "ID" ? (indonesianMeta[screen] ?? meta[screen]) : meta[screen];
     if (!entry) return;
     document.title = entry.title;
     const setMeta = (attrName: "name" | "property", attrValue: string, content: string) => {
@@ -369,6 +380,14 @@ export function App() {
           language={language}
           setLanguage={setLanguage}
         />
+      )}
+      {screen === "notFound" && (
+        <main className="section" style={{ minHeight: "60vh" }}>
+          <p className="eyebrow">404</p>
+          <h1>We couldn’t find that page.</h1>
+          <p className="muted">The link may be outdated or the page may have moved.</p>
+          <a className="primary-button" href={`/${language.toLowerCase()}`}>Back to Menetap</a>
+        </main>
       )}
       {screen === "search" && (
         <SearchResults
