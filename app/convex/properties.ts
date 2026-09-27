@@ -3,7 +3,7 @@ import { v } from 'convex/values';
 import { requireRole } from './authorization';
 
 export const listPublished = query({
-  args: { area: v.optional(v.string()), checkIn: v.optional(v.string()), checkOut: v.optional(v.string()), guests: v.optional(v.number()) },
+  args: { area: v.optional(v.string()), checkIn: v.optional(v.string()), checkOut: v.optional(v.string()), guests: v.optional(v.number()), childAges: v.optional(v.array(v.number())) },
   handler: async (ctx, args) => {
     const normalizedAreas: Record<string, string> = { Yogyakarta: 'Greater Yogyakarta', 'Greater Yogyakarta': 'Greater Yogyakarta' };
     const term = args.area?.trim().toLowerCase();
@@ -79,7 +79,7 @@ export const submitForReview = mutation({
     const user = await requireRole(ctx, ['partner', 'operations', 'admin']);
     const property = await ctx.db.get(args.propertyId);
     if (!property || (user.role === 'partner' && property.ownerUserId !== user._id)) throw new Error('Not authorized for this property.');
-    if (property.status !== 'draft' && property.status !== 'rejected') throw new Error('Only draft properties can be submitted.');
+    if (property.status !== 'draft') throw new Error('Only draft properties can be submitted.');
     const now = Date.now();
     await ctx.db.patch(property._id, { status: 'verification', updatedAt: now });
     await ctx.db.insert('auditLogs', { actorUserId: user._id, action: 'property.submitted_for_review', entityType: 'property', entityId: String(property._id), createdAt: now, updatedAt: now });

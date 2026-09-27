@@ -1,6 +1,6 @@
 # Menetap site-wide SEO implementation plan
 
-Status: foundation implementation started. Baseline metadata, hreflang, Organization JSON-LD, robots rules, and a public sitemap are implemented. Route-aware metadata, SSR/prerendering, dynamic property URLs, and full schema validation remain open.
+Status: public SEO foundation and demo-data safeguards implemented. Production deployment wiring, stable property URLs, localization, rendering strategy, and launch validation remain open.
 
 Owner: Claude, acting as Menetap SEO specialist, copy specialist, and code reviewer.
 
@@ -138,7 +138,7 @@ Document and configure:
 
 ### Phase A — foundation
 
-- [ ] Route-aware metadata.
+- [x] Route-aware metadata.
 - [x] Canonicals and `hreflang`; search-result states use a clean language-aware stays canonical and `noindex,follow`.
 - [ ] Correct 404 handling.
 - [x] Index/noindex rules for search query variants; search screens are `noindex,follow` while public marketing routes remain indexable.
@@ -148,24 +148,24 @@ Document and configure:
 ### Phase B — public content and schema
 
 - [ ] SSR or static pre-rendering for public pages.
-- [ ] Organization, WebSite, BreadcrumbList, and ItemList schema.
-- [ ] Validated lodging schema for approved properties.
+- [x] Organization, WebSite, BreadcrumbList, and ItemList schema.
+- [x] Validated lodging schema for approved properties.
 - [ ] Visible FAQ schema where eligible.
 - [ ] Unique metadata and content briefs for every destination.
 
 ### Phase C — property discovery
 
-- [ ] Property indexing eligibility and stable slugs.
-- [ ] Property canonical routes and metadata.
+- [x] Property indexing eligibility.
+- [ ] Stable property slugs and property canonical routes.
 - [ ] Image alt text, dimensions, and optimized formats.
 - [ ] Property-to-destination and neighborhood links.
-- [ ] Private/unpublished data excluded from public payloads.
+- [x] Private/unpublished and demo-only data excluded from production SEO surfaces.
 
 ### Phase D — performance and measurement
 
 - [ ] Core Web Vitals improvements.
 - [ ] Search Console and analytics documentation.
-- [ ] Automated SEO smoke checks.
+- [x] Automated SEO smoke checks for sitemap logic.
 - [ ] Full crawl before launch.
 - [ ] Monthly SEO review ownership and reporting.
 

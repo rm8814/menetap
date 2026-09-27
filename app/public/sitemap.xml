@@ -1,9 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://menetap.com/en</loc></url>
-  <url><loc>https://menetap.com/id</loc></url>
-  <url><loc>https://menetap.com/en/stays</loc></url>
-  <url><loc>https://menetap.com/en/destinations/all</loc></url>
-  <url><loc>https://menetap.com/id/destinations/all</loc></url>
-  <url><loc>https://menetap.com/en/help</loc></url>
+  <url><loc>https://menetap.com/en</loc><changefreq>daily</changefreq></url>
+  <url><loc>https://menetap.com/id</loc><changefreq>daily</changefreq></url>
+  <url><loc>https://menetap.com/en/destinations/all</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://menetap.com/id/destinations/all</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://menetap.com/en/help</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://menetap.com/en/destinations/yogyakarta</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://menetap.com/en/destinations/bantul</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://menetap.com/en/destinations/sleman</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://menetap.com/en/destinations/bandung</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://menetap.com/en/destinations/solo</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://menetap.com/en/destinations/malang</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://menetap.com/en/destinations/surabaya</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://menetap.com/en/destinations/denpasar</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://menetap.com/en/destinations/semarang</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://menetap.com/en/destinations/jakarta</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://menetap.com/id/destinations/yogyakarta</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://menetap.com/id/destinations/bantul</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://menetap.com/id/destinations/sleman</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://menetap.com/id/destinations/bandung</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://menetap.com/id/destinations/solo</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://menetap.com/id/destinations/malang</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://menetap.com/id/destinations/surabaya</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://menetap.com/id/destinations/denpasar</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://menetap.com/id/destinations/semarang</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://menetap.com/id/destinations/jakarta</loc><changefreq>weekly</changefreq></url>
 </urlset>

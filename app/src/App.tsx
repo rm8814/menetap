@@ -8,6 +8,7 @@ import type { GuestScreen, SearchState } from "./types";
 import { AuthPanel } from "./auth";
 import { ProtectedScreen } from "./ProtectedScreen";
 import { CityDestinationLanding } from "./cityDestinations";
+import { isProductionEnv } from "./seoEnv";
 import { useAuthActions, useConvexAuth } from "@convex-dev/auth/react";
 import {
   ArrowUp,
@@ -194,6 +195,99 @@ export function App() {
     robots.content = isSearchRoute ? "noindex,follow" : "index,follow";
     return () => { if (isSearchRoute) robots!.content = "index,follow"; };
   }, [screen, language, search]);
+  useEffect(() => {
+    // Screens with their own dynamic title/description (property, destination) manage
+    // document.title themselves; this covers static public guest screens only.
+    const meta: Partial<Record<GuestScreen, { title: string; description: string }>> = {
+      home: {
+        title: "Menetap — Stay better",
+        description: "Search hotels, villas, and stays across Indonesia with transparent pricing and no hidden fees.",
+      },
+      search: {
+        title: "Search stays | Menetap",
+        description: "Compare available hotels, villas, and stays in Indonesia by date, guests, and price.",
+      },
+      destinations: {
+        title: "All destinations | Menetap",
+        description: "Explore Menetap destinations across Indonesia, including Yogyakarta, Bandung, Solo, and more.",
+      },
+      destination: {
+        title: "Stays in Yogyakarta | Menetap",
+        description: "Explore areas, properties, and travel tips for staying in Yogyakarta.",
+      },
+      bantul: {
+        title: "Stays in Bantul | Menetap",
+        description: "Explore areas, properties, and travel tips for staying in Bantul.",
+      },
+      sleman: {
+        title: "Stays in Sleman | Menetap",
+        description: "Explore areas, properties, and travel tips for staying in Sleman.",
+      },
+      bandung: {
+        title: "Stays in Bandung | Menetap",
+        description: "Explore areas, properties, and travel tips for staying in Bandung.",
+      },
+      solo: {
+        title: "Stays in Solo | Menetap",
+        description: "Explore areas, properties, and travel tips for staying in Solo.",
+      },
+      help: {
+        title: "Help center | Menetap",
+        description: "Find answers about bookings, payments, cancellations, and using Menetap.",
+      },
+      privacy: {
+        title: "Privacy policy | Menetap",
+        description: "How Menetap collects, uses, and protects guest information.",
+      },
+      terms: {
+        title: "Terms of service | Menetap",
+        description: "The terms that govern using Menetap to search and book stays.",
+      },
+      about: {
+        title: "About Menetap",
+        description: "Learn about Menetap and its mission to make booking stays in Indonesia simple and transparent.",
+      },
+      careers: {
+        title: "Careers | Menetap",
+        description: "Open roles at Menetap.",
+      },
+      cancellation: {
+        title: "Cancellation policy | Menetap",
+        description: "Understand cancellation windows, refund timing, and policy types on Menetap.",
+      },
+      rewardsLanding: {
+        title: "Menetap Rewards",
+        description: "Earn and redeem Menetap Rewards on eligible stays.",
+      },
+      experiences: {
+        title: "Experiences | Menetap",
+        description: "Browse local experiences and activities to add to your stay.",
+      },
+      supplyLanding: {
+        title: "Hospitality supplies | Menetap",
+        description: "Order linen, housekeeping, and guest amenity supplies for your property.",
+      },
+      supplyCatalog: {
+        title: "Supply catalog | Menetap",
+        description: "Browse hospitality supplies available to order on Menetap.",
+      },
+    };
+    const entry = meta[screen];
+    if (!entry) return;
+    document.title = entry.title;
+    const setMeta = (attrName: "name" | "property", attrValue: string, content: string) => {
+      let el = document.querySelector<HTMLMetaElement>(`meta[${attrName}="${attrValue}"]`);
+      if (!el) {
+        el = document.createElement("meta");
+        el.setAttribute(attrName, attrValue);
+        document.head.appendChild(el);
+      }
+      el.setAttribute("content", content);
+    };
+    setMeta("name", "description", entry.description);
+    setMeta("property", "og:title", entry.title);
+    setMeta("property", "og:description", entry.description);
+  }, [screen]);
   if (authOpen)
     return (
       <div className="app-shell">
@@ -548,6 +642,9 @@ function Home({
     "Solo",
     "Surabaya",
   ];
+  const cityProperties = useQuery(api.properties.listPublished, {
+    area: selectedCity,
+  });
   const runSearch = () => {
     if (!search.destination.trim())
       return setSearchError("Choose a destination.");
@@ -639,36 +736,41 @@ function Home({
           <span className="muted">See all →</span>
         </div>
         <div className="stay-grid compact-stay-grid">
-          <PropertyCard
-            name="Kaliurang Heritage Villa"
-            type="villa"
-            area={selectedCity}
-            price="Rp 890,000"
-            rating="4.8"
-            amenities={["Free cancellation", "Breakfast incl."]}
-          />
-          <PropertyCard
-            name="Prawirotaman Boutique"
-            type="hotel"
-            area={selectedCity}
-            price="Rp 620,000"
-            rating="4.6"
-            amenities={["Free cancellation"]}
-          />
-          <PropertyCard
-            name="Malioboro Skyline Suites"
-            type="hotel"
-            area={selectedCity}
-            price="Rp 1,100,000"
-            rating="4.9"
-            amenities={["Free cancellation", "Breakfast incl."]}
-          />
+          {cityProperties === undefined ? (
+            <LoadingState label={`Finding stays in ${selectedCity}…`} />
+          ) : cityProperties.length ? (
+            cityProperties.slice(0, 3).map((property) => (
+              <PropertyCard
+                key={property._id}
+                name={property.name}
+                type={property.type}
+                area={property.area}
+                city={property.city}
+                price={
+                  property.lowestPrice
+                    ? "Rp " + property.lowestPrice.toLocaleString("en-US")
+                    : "Price on request"
+                }
+                amenities={
+                  property.amenities?.length
+                    ? property.amenities.slice(0, 2)
+                    : []
+                }
+                onSelect={() => onPropertySelect(property._id)}
+              />
+            ))
+          ) : (
+            <EmptyState
+              title={`No published stays in ${selectedCity} yet`}
+              text="Check back soon, or search another city."
+            />
+          )}
         </div>
       </section>
       <TrustStrip />
-      <FeaturedSection />
+      <FeaturedSection onSelect={onPropertySelect} />
       <PricingSection />
-      <RecommendedSection />
+      <RecommendedSection onSelect={onPropertySelect} />
       <PriceAlert />
       <PopularDestinations language={language} />
       <ExperienceSection />
@@ -718,7 +820,7 @@ function TrustStrip() {
   return (
     <section className="trust-strip">
       <span>
-        <ShieldCheck size={16} /> Verified reviews only
+        <ShieldCheck size={16} /> Secure payment
       </span>
       <span>
         <CheckCircle2 size={16} /> Instant confirmation
@@ -917,7 +1019,7 @@ function PropertyCard({
   area: string;
   city?: string;
   price: string;
-  rating: string;
+  rating?: string;
   reviewCount?: string;
   amenities?: string[];
   badge?: string;
@@ -941,10 +1043,12 @@ function PropertyCard({
               {city ? ` · ${city}` : ""}
             </p>
           </div>
-          <span className="rating">
-            <Star size={11} /> {rating}
-            {reviewCount ? ` · ${reviewCount}` : ""}
-          </span>
+          {rating && (
+            <span className="rating">
+              <Star size={11} /> {rating}
+              {reviewCount ? ` · ${reviewCount}` : ""}
+            </span>
+          )}
         </div>
         <div className="tags">
           {amenities.map((amenity) => (
@@ -982,36 +1086,11 @@ function PropertyCard({
     </article>
   );
 }
-function FeaturedSection() {
-  const stays = [
-    [
-      "Kaliurang Heritage Villa",
-      "villa",
-      "Sleman",
-      "Yogyakarta",
-      "Rp 890,000",
-      "4.8",
-      "214",
-    ],
-    [
-      "Prawirotaman Boutique",
-      "hotel",
-      "Mergangsan",
-      "Yogyakarta",
-      "Rp 620,000",
-      "4.6",
-      "132",
-    ],
-    [
-      "Malioboro Skyline Suites",
-      "hotel",
-      "Gedong Tengen",
-      "Yogyakarta",
-      "Rp 1,100,000",
-      "4.9",
-      "340",
-    ],
-  ];
+function FeaturedSection({ onSelect }: { onSelect: (id: string) => void }) {
+  const properties = useQuery(api.properties.listPublished, {
+    area: "Yogyakarta",
+  });
+  if (properties !== undefined && !properties.length) return null;
   return (
     <section className="section featured-section">
       <div className="section-heading">
@@ -1019,28 +1098,29 @@ function FeaturedSection() {
         <span className="muted">See all stays →</span>
       </div>
       <div className="stay-grid">
-        {stays.map(
-          ([name, type, area, city, price, rating, reviewCount], index) => (
+        {properties === undefined ? (
+          <LoadingState label="Finding featured stays…" />
+        ) : (
+          properties.slice(0, 3).map((property) => (
             <PropertyCard
-              key={name}
-              name={name}
-              type={type}
-              area={area}
-              city={city}
-              price={price}
-              rating={rating}
-              reviewCount={reviewCount}
-              badge={index === 0 ? "Featured Stay" : undefined}
-              scarcity={
-                index === 0 ? "Only 3 rooms left" : "Booked 8 times today"
+              key={property._id}
+              name={property.name}
+              type={property.type}
+              area={property.area}
+              city={property.city}
+              price={
+                property.lowestPrice
+                  ? "Rp " + property.lowestPrice.toLocaleString("en-US")
+                  : "Price on request"
               }
               amenities={
-                index === 0
-                  ? ["Free cancellation", "Breakfast incl."]
-                  : ["Free cancellation"]
+                property.amenities?.length
+                  ? property.amenities.slice(0, 2)
+                  : []
               }
+              onSelect={() => onSelect(property._id)}
             />
-          ),
+          ))
         )}
       </div>
     </section>
@@ -1085,52 +1165,43 @@ function PricingSection() {
     </section>
   );
 }
-function RecommendedSection() {
-  const stays = [
-    [
-      "Tugu Riverside Homestay",
-      "homestay",
-      "Yogyakarta",
-      "Rp 540,000",
-      "4.6",
-      "Viewed 2 days ago",
-    ],
-    [
-      "Sosrowijayan Guesthouse",
-      "guesthouse",
-      "Yogyakarta",
-      "Rp 410,000",
-      "4.5",
-      "Similar to your last stay",
-    ],
-    [
-      "Alun-Alun Kidul Residence",
-      "hotel",
-      "Yogyakarta",
-      "Rp 675,000",
-      "4.7",
-      "Trending in Rewards",
-    ],
-  ];
+function RecommendedSection({ onSelect }: { onSelect: (id: string) => void }) {
+  const properties = useQuery(api.properties.listPublished, {});
+  const otherProperties = properties?.filter(
+    (property) => property.area !== "Greater Yogyakarta",
+  );
+  if (otherProperties !== undefined && !otherProperties.length) return null;
   return (
     <section className="section recommended-section">
       <div className="section-heading">
-        <h2>Recommended for you</h2>
-        <span className="muted">Based on your recent searches</span>
+        <h2>More stays to explore</h2>
+        <span className="muted">Across Menetap destinations</span>
       </div>
       <div className="stay-grid">
-        {stays.map(([name, type, city, price, rating, context]) => (
-          <PropertyCard
-            key={name}
-            name={name}
-            type={type}
-            area={context}
-            city={city}
-            price={price}
-            rating={rating}
-            amenities={["Free cancellation"]}
-          />
-        ))}
+        {otherProperties === undefined ? (
+          <LoadingState label="Finding more stays…" />
+        ) : (
+          otherProperties.slice(0, 3).map((property) => (
+            <PropertyCard
+              key={property._id}
+              name={property.name}
+              type={property.type}
+              area={property.area}
+              city={property.city}
+              price={
+                property.lowestPrice
+                  ? "Rp " + property.lowestPrice.toLocaleString("en-US")
+                  : "Price on request"
+              }
+              amenities={
+                property.amenities?.length
+                  ? property.amenities.slice(0, 2)
+                  : []
+              }
+              onSelect={() => onSelect(property._id)}
+            />
+          ))
+        )}
       </div>
     </section>
   );
@@ -1781,9 +1852,35 @@ function AllDestinations({
       "jakarta",
     ],
   ];
+  const breadcrumbData = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://menetap.com/en" },
+      { "@type": "ListItem", position: 2, name: "All destinations" },
+    ],
+  };
+  const itemListData = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    itemListElement: destinations.map(([name, , slug], index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name,
+      url: `https://menetap.com${prefix}/destinations/${slug}`,
+    })),
+  };
   return (
     <>
       <main className="destination-landing page">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbData) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListData) }}
+        />
         <p className="eyebrow">Explore Indonesia</p>
         <h1>Find your next destination.</h1>
         <p className="destination-intro">
@@ -3463,9 +3560,11 @@ function SearchResults({
                               property.lowestPrice.toLocaleString("en-US")
                             : "Price on request"
                         }
-                        rating="4.8"
-                        reviewCount="Verified reviews"
-                        amenities={["Free cancellation"]}
+                        amenities={
+                          property.amenities?.length
+                            ? property.amenities.slice(0, 3)
+                            : []
+                        }
                         onSelect={() => onSelect(property._id)}
                       />
                     ))
@@ -3508,7 +3607,41 @@ function HotelDetail({
     api.rooms.listForProperty,
     propertyId ? { propertyId: propertyId as never, guests: 2 } : "skip",
   );
+  const photos = useQuery(
+    api.properties.listPhotos,
+    propertyId ? { propertyId: propertyId as never } : "skip",
+  );
   const [saved, setSaved] = useState(false);
+  const suppressSeo = isProductionEnv() && Boolean(property?.isDemo);
+  useEffect(() => {
+    if (!property) return;
+    const title = `${property.name}, ${property.area} | Menetap`;
+    const description = (
+      property.description ||
+      `${property.name} in ${property.area}, ${property.city}. See real photos, amenities, and transparent pricing on Menetap.`
+    ).slice(0, 160);
+    document.title = title;
+    const setMeta = (selector: string, attr: string, value: string) => {
+      let el = document.querySelector<HTMLMetaElement>(selector);
+      if (!el) {
+        el = document.createElement("meta");
+        const [, attrName, attrValue] = selector.match(/\[(\w+)="(.+)"\]/) ?? [];
+        if (attrName && attrValue) el.setAttribute(attrName, attrValue);
+        document.head.appendChild(el);
+      }
+      el.setAttribute(attr, value);
+    };
+    // Demo properties still get a helpful tab title for local/staging QA, but never
+    // real og:description or a robots override that would make them indexable in production.
+    if (suppressSeo) {
+      setMeta('meta[name="robots"]', "content", "noindex,follow");
+      return;
+    }
+    setMeta('meta[name="description"]', "content", description);
+    setMeta('meta[property="og:title"]', "content", title);
+    setMeta('meta[property="og:description"]', "content", description);
+    setMeta('meta[name="robots"]', "content", "index,follow");
+  }, [property, suppressSeo]);
   if (!property)
     return (
       <main className="page">
@@ -3521,14 +3654,43 @@ function HotelDetail({
         />
       </main>
     );
-  const amenities = [
-    "Free WiFi",
-    "Private pool",
-    "Free parking",
-    "Breakfast included",
-    "Air conditioning",
-    "Kitchen access",
-  ];
+  const amenities = property.amenities ?? [];
+  const approvedPhotos = (photos ?? []).filter(
+    (photo) => photo.moderationStatus === "approved",
+  );
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "LodgingBusiness",
+    name: property.name,
+    description: property.description || undefined,
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: property.address,
+      addressLocality: property.city,
+      addressRegion: property.area,
+      addressCountry: property.country,
+    },
+    amenityFeature: amenities.map((amenity) => ({
+      "@type": "LocationFeatureSpecification",
+      name: amenity,
+    })),
+    image: approvedPhotos.map((photo) => photo.url).filter(Boolean),
+  };
+  const breadcrumbData = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://menetap.com/en" },
+      { "@type": "ListItem", position: 2, name: "Stays", item: "https://menetap.com/en/stays" },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: `${property.city} stays`,
+        item: `https://menetap.com/en/stays?destination=${encodeURIComponent(property.city)}`,
+      },
+      { "@type": "ListItem", position: 4, name: property.name },
+    ],
+  };
   return (
     <>
       <main className="property-detail-page page">
@@ -3539,12 +3701,8 @@ function HotelDetail({
           <div>
             <div className="property-title-row">
               <h1>{property.name}</h1>
-              <span className="featured-badge">Featured stay</span>
             </div>
             <div className="property-meta-row">
-              <span className="rating">
-                <Star size={12} /> 4.8 · 214 verified reviews
-              </span>
               <span className="muted">
                 <MapPin size={13} /> {property.area}, {property.city}
               </span>
@@ -3560,16 +3718,40 @@ function HotelDetail({
             <button>↗ Share</button>
           </div>
         </section>
+        {!suppressSeo && (
+          <>
+            <script
+              type="application/ld+json"
+              dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+            />
+            <script
+              type="application/ld+json"
+              dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbData) }}
+            />
+          </>
+        )}
         <section className="property-gallery">
-          <div className="gallery-main">{property.type} photo</div>
-          <div className="gallery-grid">
-            <div>Photo</div>
-            <div>Photo</div>
-            <div>Photo</div>
-            <div className="gallery-more">
-              Photo<span>+18 photos</span>
+          {approvedPhotos.length ? (
+            <>
+              <div className="gallery-main">
+                <img src={approvedPhotos[0].url} alt={approvedPhotos[0].altText} />
+              </div>
+              <div className="gallery-grid">
+                {approvedPhotos.slice(1, 4).map((photo) => (
+                  <img key={photo._id} src={photo.url} alt={photo.altText} />
+                ))}
+                {approvedPhotos.length > 4 && (
+                  <div className="gallery-more">
+                    <span>+{approvedPhotos.length - 4} photos</span>
+                  </div>
+                )}
+              </div>
+            </>
+          ) : (
+            <div className="gallery-main gallery-empty">
+              Photos coming soon
             </div>
-          </div>
+          )}
         </section>
         <div className="property-detail-layout">
           <div className="property-detail-content">
@@ -3581,7 +3763,7 @@ function HotelDetail({
                 <CheckCircle2 size={15} /> Instant confirmation
               </span>
               <span>
-                <ShieldCheck size={15} /> Verified reviews only
+                <ShieldCheck size={15} /> Secure payment
               </span>
             </section>
             <section className="detail-section">
@@ -3594,12 +3776,15 @@ function HotelDetail({
             </section>
             <section id="amenities" className="detail-section">
               <h2>What this place offers</h2>
-              <div className="amenities-grid">
-                {amenities.map((amenity) => (
-                  <span key={amenity}>✓ {amenity}</span>
-                ))}
-              </div>
-              <a href="#amenities">Show all 22 amenities →</a>
+              {amenities.length ? (
+                <div className="amenities-grid">
+                  {amenities.map((amenity) => (
+                    <span key={amenity}>✓ {amenity}</span>
+                  ))}
+                </div>
+              ) : (
+                <p className="muted">Amenity details for this stay are being confirmed.</p>
+              )}
             </section>
             <section className="pricing-transparency detail-section">
               <div className="section-heading">
@@ -3673,27 +3858,10 @@ function HotelDetail({
             <section className="detail-section">
               <div className="section-heading">
                 <h2>Reviews</h2>
-                <span className="rating">
-                  <Star size={12} /> 4.8 (214)
-                </span>
               </div>
-              <div className="review-grid">
-                <blockquote>
-                  <div className="review-stars" aria-label="5 out of 5 stars">
-                    ★★★★★
-                  </div>
-                  “Exactly as priced — no surprise fees at checkout.”
-                  <cite>Rina · verified stay</cite>
-                </blockquote>
-                <blockquote>
-                  <div className="review-stars" aria-label="4 out of 5 stars">
-                    ★★★★☆
-                  </div>
-                  “Breakfast was a highlight, and cancellation was smooth.”
-                  <cite>Dimas · verified stay</cite>
-                </blockquote>
-              </div>
-              <a href="#reviews">Read all 214 reviews →</a>
+              <p className="muted">
+                Guest reviews for this stay aren't available yet.
+              </p>
             </section>
             <section className="detail-section">
               <h2>House rules</h2>
