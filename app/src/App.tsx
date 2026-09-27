@@ -1144,22 +1144,22 @@ function PricingSection() {
           <b>Live pricing</b>
         </div>
         <div className="rate-row">
-          <span>Market average</span>
-          <strong>Rp 980,000</strong>
+          <span>Market comparison</span>
+          <strong>Shown at search</strong>
         </div>
         <div className="rate-row">
-          <span>Menetap rate</span>
-          <strong className="violet">Rp 890,000</strong>
+          <span>Your stay rate</span>
+          <strong className="violet">Based on your stay</strong>
         </div>
         <div className="rate-total">
-          <span>Total tonight</span>
-          <strong>Rp 890,000</strong>
+          <span>Total before checkout</span>
+          <strong>Shown before checkout</strong>
         </div>
         <div className="rate-bar">
           <i />
         </div>
         <small>
-          9% below Yogyakarta market average today — no fees added later
+          Compare live room rates and see the full total before you book — no hidden fees.
         </small>
       </div>
     </section>
@@ -3513,11 +3513,10 @@ function SearchResults({
                   selectedPrice ? [selectedPrice] : [],
                   togglePrice,
                 )}
-                {filterGroup("Guest rating", [
-                  "4.5+ Excellent",
-                  "4.0+ Very good",
-                  "3.5+ Good",
-                ])}
+                <section className="filter-panel" aria-labelledby="guest-rating-filter">
+                  <h3 id="guest-rating-filter">Guest rating</h3>
+                  <p className="muted">Ratings will appear when verified guest reviews are available.</p>
+                </section>
                 {filterGroup("Booking policy", [
                   "Free cancellation",
                   "Instant confirmation",
