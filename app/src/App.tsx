@@ -9,6 +9,10 @@ import { AuthPanel } from "./auth";
 import { ProtectedScreen } from "./ProtectedScreen";
 import { CityDestinationLanding } from "./cityDestinations";
 import { isProductionEnv } from "./seoEnv";
+import { ExperiencesV2 } from "./ExperiencesV2";
+import { ExperiencesLanding } from "./ExperiencesLanding";
+import { RentalsV2 } from "./RentalsV2";
+import { Button } from "./components/Button";
 import { useAuthActions, useConvexAuth } from "@convex-dev/auth/react";
 import {
   ArrowUp,
@@ -110,6 +114,8 @@ export function App() {
     else if (path.endsWith("/during-stay")) setScreen("duringStay");
     else if (path.endsWith("/experiences/" ) || path.endsWith("/experiences")) setScreen("experiences");
     else if (path.endsWith("/experiences/detail")) setScreen("experienceDetail");
+    else if (path.endsWith("/rentals")) setScreen("rentalsLanding" as GuestScreen);
+    else if (path.endsWith("/rentals/search")) setScreen("rentalSearch" as GuestScreen);
     else if (path.endsWith("/supply/checkout")) setScreen("supplyCheckout");
     else if (path.endsWith("/supply/confirmation")) setScreen("supplyConfirmation");
     else if (path.endsWith("/supply/catalog")) setScreen("supplyCatalog");
@@ -517,7 +523,9 @@ export function App() {
       {screen === "settings" && <GuestSettings />}
       {screen === "bookingIssue" && <BookingIssue />}
       {screen === "duringStay" && <DuringStay />}
-      {screen === "experiences" && <Experiences />}
+      {screen === "experiences" && <><ExperiencesLanding /><Footer language={language} setLanguage={setLanguage} /></>}
+      {screen === "rentalsLanding" && <><RentalsV2 /><Footer language={language} setLanguage={setLanguage} /></>}
+      {screen === "rentalSearch" && <RentalSearch />}
       {screen === "experienceDetail" && <ExperienceDetail />}
       {screen === "supplyLanding" && <SupplyLanding />}
       {screen === "supplyCatalog" && <SupplyCatalog />}
@@ -565,7 +573,8 @@ function Header({
         </button>
         <nav className="dc-navlinks">
           <button onClick={onSearch}>Stays</button>
-          <button onClick={() => window.location.assign(`/${language.toLowerCase()}/experiences`)}>Experiences</button>
+          <button onClick={() => window.location.assign(`/${language.toLowerCase()}/rentals`)}>Rentals <span className="nav-beta">BETA</span></button>
+          <button onClick={() => window.location.assign(`/${language.toLowerCase()}/experiences`)}>Experiences <span className="nav-beta">BETA</span></button>
           <button onClick={onRewards}>Rewards</button>
         </nav>
         <div className="nav-actions dc-nav-actions">
@@ -605,15 +614,23 @@ function Header({
           </button>
           <button
             onClick={() => {
-              onRewards();
+              window.location.assign(`/${language.toLowerCase()}/rentals`);
               closeMenu();
             }}
           >
-            Experiences
+            Rentals <span className="nav-beta">BETA</span>
           </button>
           <button
             onClick={() => {
-              onHome();
+              window.location.assign(`/${language.toLowerCase()}/experiences`);
+              closeMenu();
+            }}
+          >
+            Experiences <span className="nav-beta">BETA</span>
+          </button>
+          <button
+            onClick={() => {
+              onRewards();
               closeMenu();
             }}
           >
@@ -1250,9 +1267,9 @@ function PriceAlert() {
           onChange={(event) => setEmail(event.target.value)}
           placeholder="you@email.com"
         />
-        <button type="submit">
+        <Button type="submit">
           {submitted ? "You&apos;re on the list" : "Alert me"}
-        </button>
+        </Button>
       </form>
     </section>
   );
@@ -2464,15 +2481,15 @@ function RewardsLanding() {
             <div className="hero-badge">
               <Gift size={14} /> Free to join, points never expire while active
             </div>
-            <h1>Earn points on every stay. Redeem them for your next one.</h1>
+            <h1>Earn points on every stay. Redeem for your next one.</h1>
             <p>
               Menetap Rewards is free to join. Every booking earns points toward
               stay credit, upgrades, and priority perks — no annual fee, no fine
               print.
             </p>
             <div className="rewards-landing-actions">
-              <button>Join Rewards free</button>
-              <button className="secondary">Already a member</button>
+              <Button>Join Rewards free</Button>
+              <Button variant="outline">Already a member</Button>
             </div>
           </div>
         </section>
@@ -2568,12 +2585,12 @@ function RewardsLanding() {
             </article>
           ))}
         </section>
-        <section className="rewards-landing-wrap rewards-landing-cta">
+        <section className="site-cta rewards-landing-wrap rewards-landing-cta">
           <div>
             <h3>Start earning on your next stay</h3>
             <p>Joining takes under a minute and costs nothing.</p>
           </div>
-          <button>Join Rewards free</button>
+          <Button>Join Rewards free</Button>
         </section>
       </main>
       <Footer language="EN" setLanguage={() => undefined} />

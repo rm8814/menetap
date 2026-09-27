@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/fonts.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/colors.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/typography.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/spacing.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/shadows.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/motion.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/styles.css">
+<script src="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/_ds_bundle.js"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+body{margin:0;background:#F7F6FF;font-family:'JetBrains Mono',monospace;color:#0C0A1E}
+a{color:#7229FF;text-decoration:none}
+a:hover{color:#5a1fd1;text-decoration:underline}
+.wrap{max-width:1160px;margin:0 auto;padding:0 24px}
+@media (max-width:900px){.fleetgrid{grid-template-columns:1fr 1fr !important}.trustgrid{grid-template-columns:1fr 1fr !important}}
+@media (max-width:560px){.fleetgrid{grid-template-columns:1fr !important}.trustgrid{grid-template-columns:1fr !important}}
+</style>
+</helmet>
+
+<div style="min-height:100vh;display:flex;flex-direction:column">
+  <header style="position:sticky;top:0;z-index:50;background:rgba(247,246,255,0.9);backdrop-filter:blur(12px);border-bottom:1px solid #E5E2F5">
+    <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;height:72px">
+      <a href="Menetap Homepage.dc.html" style="display:flex;align-items:center;gap:9px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:20px;letter-spacing:-0.02em;color:#0C0A1E">
+        <span>menetap<span style="color:#7229FF">.</span></span> <span style="display:flex;align-items:center;gap:4px;font-size:11px;font-weight:700;color:#00CAEF;background:rgba(0,202,239,0.1);border-radius:24px;padding:3px 9px;margin-left:2px"><i data-lucide="map-pin" style="width:11px;height:11px"></i>rentals</span>
+      </a>
+      <nav style="display:flex;gap:24px;font-size:14px;font-weight:500">
+        <a href="Menetap Homepage.dc.html" style="color:#0C0A1E">Stays</a>
+        <a href="Menetap Rentals Search.dc.html" style="color:#7229FF;font-weight:700">Rentals</a>
+        <a href="Menetap Experiences Landing.dc.html" style="color:#0C0A1E">Experiences</a>
+      </nav>
+      <a href="Menetap Login.dc.html" style="font-size:14px;font-weight:600;color:#0C0A1E">Log in</a>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section style="padding:64px 0 48px">
+    <div class="wrap" style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px">
+      <div style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:#7229FF;background:rgba(114,41,255,0.08);border:1px solid rgba(114,41,255,0.2);border-radius:24px;padding:6px 14px"><i data-lucide="car" style="width:14px;height:14px"></i>Menetap-managed fleet</div>
+      <h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:40px;line-height:1.1;letter-spacing:-0.02em;margin:0;max-width:640px">Your ride is waiting the moment you land.</h1>
+      <p style="font-size:15px;line-height:1.7;color:rgba(12,10,30,0.65);max-width:520px;margin:0">Scooters and cars delivered to your hotel or the airport, with transparent pricing — no deposit surprises at pickup.</p>
+      <div style="display:flex;gap:24px;margin-top:8px">
+        <div style="text-align:center"><div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:20px;color:#7229FF">4.7★</div><div style="font-size:11px;color:rgba(12,10,30,0.55)">Average rating</div></div>
+        <div style="text-align:center"><div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:20px;color:#7229FF">12,000+</div><div style="font-size:11px;color:rgba(12,10,30,0.55)">Rentals completed</div></div>
+        <div style="text-align:center"><div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:20px;color:#7229FF">40+</div><div style="font-size:11px;color:rgba(12,10,30,0.55)">Pickup spots</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPACT SEARCH BAR -->
+  <section class="wrap" style="padding:32px 24px 0">
+    <div style="background:#fff;border:1px solid #E5E2F5;border-radius:8px;box-shadow:0 2px 8px rgba(114,41,255,0.06);padding:16px 20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+      <div style="display:flex;flex-direction:column;gap:2px;flex:1;min-width:160px">
+        <label style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:rgba(12,10,30,0.5)">Pickup</label>
+        <input value="{{ pickupLocation }}" onInput="{{ onPickupLocation }}" placeholder="City, hotel, airport" style="border:none;outline:none;font-size:14px;font-weight:600;font-family:'JetBrains Mono',monospace;background:transparent;color:#0C0A1E" />
+      </div>
+      <div style="width:1px;height:32px;background:#E5E2F5"></div>
+      <div style="display:flex;flex-direction:column;gap:2px;min-width:130px">
+        <label style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:rgba(12,10,30,0.5)">Pickup date</label>
+        <input type="date" value="{{ pickupDate }}" onInput="{{ onPickupDate }}" style="border:none;outline:none;font-size:13px;font-weight:600;font-family:'JetBrains Mono',monospace;background:transparent;color:#0C0A1E" />
+      </div>
+      <div style="width:1px;height:32px;background:#E5E2F5"></div>
+      <div style="display:flex;flex-direction:column;gap:2px;min-width:130px">
+        <label style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:rgba(12,10,30,0.5)">Return date</label>
+        <input type="date" value="{{ returnDate }}" onInput="{{ onReturnDate }}" style="border:none;outline:none;font-size:13px;font-weight:600;font-family:'JetBrains Mono',monospace;background:transparent;color:#0C0A1E" />
+      </div>
+      <a href="Menetap Rentals Search.dc.html"><x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="140px,44px" variant="primary" size="md">Search</x-import></a>
+    </div>
+  </section>
+
+  <!-- AVAILABLE VEHICLES -->
+  <section class="wrap" style="padding:56px 24px 0">
+    <h2 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:24px;letter-spacing:-0.01em;margin:0 0 8px;text-align:center">Available now in Yogyakarta</h2>
+    <p style="text-align:center;font-size:13px;color:rgba(12,10,30,0.55);margin:0 0 24px">Real-time availability for your selected dates</p>
+
+    <div style="margin-bottom:14px;display:flex;align-items:center;justify-content:space-between"><div style="display:flex;align-items:center;gap:8px"><i data-lucide="bike" style="width:16px;height:16px;color:#7229FF"></i><div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:15px">Motorbikes</div></div><a href="Menetap Rentals Search.dc.html" onClick="{{ selectMotorbikeType }}" style="font-size:12px;font-weight:600;color:#7229FF">See all motorbikes →</a></div>
+    <div class="fleetgrid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:32px">
+      <sc-for list="{{ motorbikes }}" as="v" hint-placeholder-count="3">
+        <a href="Menetap Rentals Search.dc.html" onClick="{{ v.select }}" style="display:block;text-decoration:none;color:inherit;background:#fff;border:1px solid #E5E2F5;border-radius:8px;overflow:hidden;transition:all 250ms cubic-bezier(0.22,1,0.36,1)" style-hover="box-shadow:0 2px 8px rgba(114,41,255,0.06);transform:translateY(-1px)">
+          <div style="aspect-ratio:4/3;background:{{ v.grad }};display:flex;align-items:center;justify-content:center"><i data-lucide="{{ v.icon }}" style="width:26px;height:26px;color:#7229FF"></i></div>
+          <div style="padding:14px">
+            <div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px"><div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:14px">{{ v.name }}</div><span style="font-size:10px;font-weight:700;color:#00CAEF;background:rgba(0,202,239,0.1);border-radius:4px;padding:2px 6px;flex:none">{{ v.available }} left</span></div>
+            <p style="font-size:12px;color:rgba(12,10,30,0.6);line-height:1.5;margin:6px 0 0">{{ v.desc }}</p>
+            <div style="font-size:13px;font-weight:700;color:#7229FF;margin-top:8px">{{ v.price }}</div>
+          </div>
+        </a>
+      </sc-for>
+    </div>
+
+    <div style="margin-bottom:14px;display:flex;align-items:center;justify-content:space-between"><div style="display:flex;align-items:center;gap:8px"><i data-lucide="car" style="width:16px;height:16px;color:#7229FF"></i><div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:15px">Cars</div></div><a href="Menetap Rentals Search.dc.html" onClick="{{ selectCarType }}" style="font-size:12px;font-weight:600;color:#7229FF">See all cars →</a></div>
+    <div class="fleetgrid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px">
+      <sc-for list="{{ cars }}" as="v" hint-placeholder-count="3">
+        <a href="Menetap Rentals Search.dc.html" onClick="{{ v.select }}" style="display:block;text-decoration:none;color:inherit;background:#fff;border:1px solid #E5E2F5;border-radius:8px;overflow:hidden;transition:all 250ms cubic-bezier(0.22,1,0.36,1)" style-hover="box-shadow:0 2px 8px rgba(114,41,255,0.06);transform:translateY(-1px)">
+          <div style="aspect-ratio:4/3;background:{{ v.grad }};display:flex;align-items:center;justify-content:center"><i data-lucide="{{ v.icon }}" style="width:26px;height:26px;color:#7229FF"></i></div>
+          <div style="padding:14px">
+            <div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px"><div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:14px">{{ v.name }}</div><span style="font-size:10px;font-weight:700;color:#00CAEF;background:rgba(0,202,239,0.1);border-radius:4px;padding:2px 6px;flex:none">{{ v.available }} left</span></div>
+            <p style="font-size:12px;color:rgba(12,10,30,0.6);line-height:1.5;margin:6px 0 0">{{ v.desc }}</p>
+            <div style="font-size:13px;font-weight:700;color:#7229FF;margin-top:8px">{{ v.price }}</div>
+          </div>
+        </a>
+      </sc-for>
+    </div>
+  </section>
+
+  <!-- TRUST STRIP -->
+  <section class="wrap" style="padding:56px 24px 0">
+    <div class="trustgrid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px">
+      <div style="display:flex;flex-direction:column;gap:8px;align-items:center;text-align:center;padding:16px"><i data-lucide="shield-check" style="width:20px;height:20px;color:#00CAEF"></i><div style="font-size:12px;font-weight:700">Insurance included</div></div>
+      <div style="display:flex;flex-direction:column;gap:8px;align-items:center;text-align:center;padding:16px"><i data-lucide="truck" style="width:20px;height:20px;color:#00CAEF"></i><div style="font-size:12px;font-weight:700">Free delivery</div></div>
+      <div style="display:flex;flex-direction:column;gap:8px;align-items:center;text-align:center;padding:16px"><i data-lucide="receipt" style="width:20px;height:20px;color:#00CAEF"></i><div style="font-size:12px;font-weight:700">No hidden fees</div></div>
+      <div style="display:flex;flex-direction:column;gap:8px;align-items:center;text-align:center;padding:16px"><i data-lucide="user-check" style="width:20px;height:20px;color:#00CAEF"></i><div style="font-size:12px;font-weight:700">Driver optional</div></div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="wrap" style="padding:56px 24px 64px">
+    <div style="background:linear-gradient(135deg,rgba(114,41,255,0.06),rgba(0,202,239,0.06));border:1px solid #E5E2F5;border-radius:8px;padding:28px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap">
+      <div style="max-width:420px">
+        <div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:17px;margin-bottom:4px">Already have a Menetap stay booked?</div>
+        <p style="font-size:13px;color:rgba(12,10,30,0.6);margin:0">Add a rental to your existing trip — delivered to your hotel on arrival day.</p>
+      </div>
+      <a href="Menetap My Trips.dc.html"><x-import component-from-global-scope="AnindaWidaDesignSystem_d6f5df.Button" hint-size="200px,44px" variant="primary" size="md">Add to my trip</x-import></a>
+    </div>
+  </section>
+
+  <footer style="border-top:1px solid #E5E2F5;padding:24px 0;margin-top:auto;background:#fff">
+    <div class="wrap" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px">
+      <div style="font-size:12px;color:rgba(12,10,30,0.5)">© 2026 Menetap. All rights reserved.</div>
+      <div style="display:flex;align-items:center;gap:8px;font-size:11px;color:rgba(12,10,30,0.45);background:#F7F6FF;border:1px solid #E5E2F5;border-radius:24px;padding:5px 12px">Managed by <a href="https://upscale.asia" target="_blank" style="font-weight:700;color:#7229FF">UPSCALE</a></div>
+    </div>
+  </footer>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+
+const MOTORBIKES = [
+  { name: 'Honda Beat', desc: 'Automatic, 110cc. Helmet included.', price: 'Rp 65,000/day', available: 8, icon: 'bike', grad: 'linear-gradient(135deg,#e5e2f5,#cfc8f0)', type: 'scooter' },
+  { name: 'Yamaha NMAX', desc: 'Automatic, 155cc. Great for longer rides.', price: 'Rp 95,000/day', available: 4, icon: 'bike', grad: 'linear-gradient(135deg,#e5e2f5,#cfc8f0)', type: 'scooter' },
+  { name: 'Honda Scoopy', desc: 'Automatic, 110cc. Two helmets included.', price: 'Rp 70,000/day', available: 6, icon: 'bike', grad: 'linear-gradient(135deg,#e5e2f5,#cfc8f0)', type: 'scooter' }
+];
+const CARS = [
+  { name: 'Toyota Avanza', desc: 'Self-drive, 7-seat MPV, insurance included.', price: 'Rp 380,000/day', available: 3, icon: 'car', grad: 'linear-gradient(135deg,#dfe8ff,#c8d4f5)', type: 'car' },
+  { name: 'Toyota Innova', desc: 'With driver, 7-seat, ideal for full-day trips.', price: 'Rp 550,000/day', available: 2, icon: 'user', grad: 'linear-gradient(135deg,#d9f4fb,#bfeaf5)', type: 'car-driver' },
+  { name: 'Toyota Agya', desc: 'Self-drive, 5-seat city car, fuel-efficient.', price: 'Rp 320,000/day', available: 5, icon: 'car', grad: 'linear-gradient(135deg,#dfe8ff,#c8d4f5)', type: 'car' }
+];
+class Component extends DCLogic {
+  state = { pickupLocation: 'Yogyakarta', pickupDate: '2026-10-12', returnDate: '2026-10-15' };
+  componentDidMount() { if (window.lucide) window.lucide.createIcons(); }
+  componentDidUpdate() { if (window.lucide) window.lucide.createIcons(); }
+  renderVals() {
+    const s = this.state;
+    return {
+      pickupLocation: s.pickupLocation, onPickupLocation: (e) => this.setState({ pickupLocation: e.target.value }),
+      pickupDate: s.pickupDate, onPickupDate: (e) => this.setState({ pickupDate: e.target.value }),
+      returnDate: s.returnDate, onReturnDate: (e) => this.setState({ returnDate: e.target.value }),
+      motorbikes: MOTORBIKES.map(v => ({ ...v, select: () => { if (typeof localStorage !== 'undefined') localStorage.setItem('menetapRentalTypeFilter', v.type); } })),
+      cars: CARS.map(v => ({ ...v, select: () => { if (typeof localStorage !== 'undefined') localStorage.setItem('menetapRentalTypeFilter', v.type); } })),
+      selectMotorbikeType: () => { if (typeof localStorage !== 'undefined') localStorage.setItem('menetapRentalTypeFilter', 'scooter'); },
+      selectCarType: () => { if (typeof localStorage !== 'undefined') localStorage.setItem('menetapRentalTypeFilter', 'car'); }
+    };
+  }
+}
+
+</script>
+</body>
+</html>

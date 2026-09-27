@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/fonts.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/colors.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/typography.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/spacing.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/shadows.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/tokens/motion.css">
+<link rel="stylesheet" href="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/styles.css">
+<script src="_ds/aninda-wida-design-system-d6f5dfe1-8e49-40cd-9ecc-4d581038e63b/_ds_bundle.js"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+body{margin:0;background:#F7F6FF;font-family:'JetBrains Mono',monospace;color:#0C0A1E}
+a{color:#7229FF;text-decoration:none}
+a:hover{color:#5a1fd1;text-decoration:underline}
+.wrap{max-width:1160px;margin:0 auto;padding:0 24px}
+.resgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media (max-width:900px){.resgrid{grid-template-columns:1fr 1fr !important}}
+@media (max-width:560px){.resgrid{grid-template-columns:1fr !important}}
+</style>
+</helmet>
+
+<div style="min-height:100vh;display:flex;flex-direction:column">
+  <header style="position:sticky;top:0;z-index:50;background:rgba(247,246,255,0.9);backdrop-filter:blur(12px);border-bottom:1px solid #E5E2F5">
+    <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;height:64px;gap:20px">
+      <a href="Menetap Homepage.dc.html" style="display:flex;align-items:center;gap:9px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:19px;letter-spacing:-0.02em;color:#0C0A1E">menetap<span style="color:#7229FF">.</span></a>
+      <nav style="display:flex;gap:24px;font-size:14px;font-weight:500">
+        <a href="Menetap Search Results.dc.html" style="color:#0C0A1E">Stays</a>
+        <a href="Menetap Rentals Landing.dc.html" style="color:#0C0A1E">Rentals</a>
+        <a href="Menetap Experiences Landing.dc.html" style="color:#7229FF">Experiences</a>
+        <a href="Menetap Rewards Landing.dc.html" style="color:#0C0A1E">Rewards</a>
+      </nav>
+      <a href="Menetap Login.dc.html" style="font-size:14px;font-weight:600;color:#0C0A1E">Log in</a>
+    </div>
+  </header>
+
+  <!-- FILTER BAR -->
+  <section class="wrap" style="padding:24px 24px 8px">
+    <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+      <div style="display:flex;align-items:center;gap:8px;background:#fff;border:1px solid #E5E2F5;border-radius:24px;padding:8px 14px;font-size:13px">
+        <i data-lucide="map-pin" style="width:14px;height:14px;color:#7229FF"></i>
+        <input value="{{ city }}" onInput="{{ onCity }}" placeholder="Any city" style="border:none;outline:none;font-size:13px;font-family:'JetBrains Mono',monospace;background:transparent;color:#0C0A1E;width:110px" />
+      </div>
+      <sc-for list="{{ categories }}" as="c" hint-placeholder-count="5">
+        <div onClick="{{ c.toggle }}" style="font-size:12px;font-weight:600;border-radius:24px;padding:8px 14px;cursor:pointer;{{ c.style }}">{{ c.name }}</div>
+      </sc-for>
+    </div>
+  </section>
+
+  <!-- RESULTS -->
+  <section class="wrap" style="padding:16px 24px 56px">
+    <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:16px">
+      <div style="font-size:13px;color:rgba(12,10,30,0.6)">{{ resultCount }} experiences found</div>
+    </div>
+    <div class="resgrid">
+      <sc-for list="{{ results }}" as="e" hint-placeholder-count="6">
+        <a href="#" style="display:block;text-decoration:none;color:inherit;background:#fff;border:1px solid #E5E2F5;border-radius:8px;overflow:hidden;transition:all 250ms cubic-bezier(0.22,1,0.36,1)" style-hover="box-shadow:0 2px 8px rgba(114,41,255,0.06);transform:translateY(-1px)">
+          <div style="aspect-ratio:4/3;background:linear-gradient(135deg,rgba(114,41,255,0.14),rgba(0,202,239,0.14));display:flex;align-items:center;justify-content:center"><i data-lucide="{{ e.icon }}" style="width:26px;height:26px;color:#7229FF"></i></div>
+          <div style="padding:14px;display:flex;flex-direction:column;gap:6px">
+            <div style="font-size:11px;font-weight:600;color:#00CAEF;text-transform:uppercase;letter-spacing:0.03em">{{ e.city }} · {{ e.category }}</div>
+            <div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:14px;line-height:1.3">{{ e.title }}</div>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-top:4px">
+              <div style="display:flex;align-items:center;gap:4px;font-size:12px;color:rgba(12,10,30,0.6)"><i data-lucide="star" style="width:12px;height:12px;color:#00CAEF"></i>{{ e.rating }}</div>
+              <div style="font-size:13px;font-weight:700">{{ e.price }}</div>
+            </div>
+          </div>
+        </a>
+      </sc-for>
+    </div>
+    <sc-if value="{{ noResults }}" hint-placeholder-val="{{ false }}">
+      <div style="text-align:center;padding:48px 0;color:rgba(12,10,30,0.5);font-size:13px">No experiences match your filters. Try clearing a category.</div>
+    </sc-if>
+  </section>
+
+  <footer style="border-top:1px solid #E5E2F5;padding:24px 0;margin-top:auto;background:#fff">
+    <div class="wrap" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px">
+      <div style="font-size:12px;color:rgba(12,10,30,0.5)">© 2026 Menetap. All rights reserved.</div>
+      <div style="display:flex;align-items:center;gap:8px;font-size:11px;color:rgba(12,10,30,0.45);background:#F7F6FF;border:1px solid #E5E2F5;border-radius:24px;padding:5px 12px">Managed by <a href="https://upscale.asia" target="_blank" style="font-weight:700;color:#7229FF">UPSCALE</a></div>
+    </div>
+  </footer>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+
+const CATEGORY_LIST = ['Tours & sightseeing', 'Food & drink', 'Outdoor & adventure', 'Culture & workshops', 'Water activities'];
+const EXPERIENCES = [
+  { city: 'Ubud', category: 'Outdoor & adventure', title: 'Sunrise trek up Mount Batur with local guide', icon: 'mountain', rating: '4.9', price: 'Rp 350K' },
+  { city: 'Yogyakarta', category: 'Culture & workshops', title: 'Batik-making workshop with a master artisan', icon: 'palette', rating: '4.8', price: 'Rp 220K' },
+  { city: 'Bali', category: 'Food & drink', title: 'Balinese cooking class & market tour', icon: 'utensils', rating: '4.9', price: 'Rp 280K' },
+  { city: 'Labuan Bajo', category: 'Water activities', title: 'Komodo Island snorkeling day trip', icon: 'waves', rating: '4.7', price: 'Rp 650K' },
+  { city: 'Yogyakarta', category: 'Tours & sightseeing', title: 'Borobudur sunrise tour with historian guide', icon: 'map', rating: '4.9', price: 'Rp 300K' },
+  { city: 'Bandung', category: 'Outdoor & adventure', title: 'Tea plantation hike & waterfall trek', icon: 'mountain', rating: '4.6', price: 'Rp 180K' },
+  { city: 'Ubud', category: 'Culture & workshops', title: 'Traditional silver jewelry-making class', icon: 'palette', rating: '4.7', price: 'Rp 240K' },
+  { city: 'Lombok', category: 'Water activities', title: 'Gili Islands snorkeling & island hopping', icon: 'waves', rating: '4.8', price: 'Rp 420K' },
+  { city: 'Bali', category: 'Tours & sightseeing', title: 'Ubud temples & rice terraces day tour', icon: 'map', rating: '4.8', price: 'Rp 260K' }
+];
+class Component extends DCLogic {
+  state = { city: '', activeCategories: [] };
+  componentDidMount() { if (window.lucide) window.lucide.createIcons(); }
+  componentDidUpdate() { if (window.lucide) window.lucide.createIcons(); }
+  renderVals() {
+    const s = this.state;
+    const filtered = EXPERIENCES.filter(e =>
+      (!s.city || e.city.toLowerCase().includes(s.city.toLowerCase())) &&
+      (s.activeCategories.length === 0 || s.activeCategories.includes(e.category))
+    );
+    return {
+      city: s.city, onCity: (e) => this.setState({ city: e.target.value }),
+      categories: CATEGORY_LIST.map(name => {
+        const active = s.activeCategories.includes(name);
+        return {
+          name, style: active ? 'background:#7229FF;color:#fff' : 'background:#fff;color:#0C0A1E;border:1px solid #E5E2F5',
+          toggle: () => this.setState(st => ({ activeCategories: active ? st.activeCategories.filter(c => c !== name) : [...st.activeCategories, name] }))
+        };
+      }),
+      results: filtered,
+      resultCount: filtered.length,
+      noResults: filtered.length === 0
+    };
+  }
+}
+
+</script>
+</body>
+</html>
