@@ -2,6 +2,8 @@ import { useEffect } from 'react';
 import type { ComponentType } from 'react';
 import { useQuery } from 'convex/react';
 import { api } from '../convex/_generated/api';
+import { applySeo, propertyPath } from './seo';
+import { isProductionEnv } from './seoEnv';
 
 type CityDestination = {
   city: string;
@@ -32,12 +34,14 @@ export function CityDestinationLanding({
 }) {
   const data = cities[slug];
   const properties = useQuery(api.properties.listPublished, data ? { area: data.city } : 'skip');
+  const visibleProperties = properties?.filter((property) => !isProductionEnv() || !property.isDemo) ?? [];
 
   useEffect(() => {
     if (!data) return;
     const title = `Stays in ${data.city} | Menetap`;
     const description = data.intro.slice(0, 160);
     document.title = title;
+    applySeo({ title, description, language });
     const setMeta = (attrName: 'name' | 'property', attrValue: string, content: string) => {
       let el = document.querySelector<HTMLMetaElement>(`meta[${attrName}="${attrValue}"]`);
       if (!el) { el = document.createElement('meta'); el.setAttribute(attrName, attrValue); document.head.appendChild(el); }
@@ -46,7 +50,7 @@ export function CityDestinationLanding({
     setMeta('name', 'description', description);
     setMeta('property', 'og:title', title);
     setMeta('property', 'og:description', description);
-  }, [data]);
+  }, [data, language]);
 
   if (!data) return null;
   const prefix = `/${language.toLowerCase()}`;
@@ -60,11 +64,14 @@ export function CityDestinationLanding({
       { '@type': 'ListItem', position: 3, name: data.city },
     ],
   };
-  const itemListData = properties?.length
+  // Demo/seed inventory is usable in QA but must never be advertised to search
+  // engines as real accommodation inventory.
+  const seoProperties = properties?.filter((property) => !property.isDemo) ?? [];
+  const itemListData = isProductionEnv() && seoProperties.length
     ? {
         '@context': 'https://schema.org',
         '@type': 'ItemList',
-        itemListElement: properties.map((property, index) => ({
+        itemListElement: seoProperties.map((property, index) => ({
           '@type': 'ListItem',
           position: index + 1,
           name: property.name,
@@ -114,15 +121,15 @@ export function CityDestinationLanding({
           </div>
           {properties === undefined ? (
             <p className="muted">Finding stays in {data.city}…</p>
-          ) : properties.length ? (
+          ) : visibleProperties.length ? (
             <div className="destination-property-grid">
-              {properties.slice(0, 3).map((property) => (
+              {visibleProperties.slice(0, 3).map((property) => (
                 <article key={property._id}>
                   <div className="property-image">{property.type}</div>
                   <div>
                     <h3>{property.name}</h3>
                     <p>{property.area}</p>
-                    <a href={`${prefix}/stays/property/${property._id}`}>View availability →</a>
+                    <a href={`${prefix}${propertyPath(property._id, property.name)}`}>View availability →</a>
                   </div>
                 </article>
               ))}
@@ -151,6 +158,11 @@ export function CityDestinationLanding({
           {data.areas.map(([name]) => (
             <a href={`${prefix}/stays?destination=${encodeURIComponent(name)}`} key={name}>{name} stays</a>
           ))}
+        </nav>
+        <nav className="destination-related-links" aria-label="Related Menetap links">
+          <a href={`${prefix}/experiences`}>Experiences</a>
+          <a href={`${prefix}/rentals`}>Rentals</a>
+          <a href={`${prefix}/destinations/all`}>Nearby destinations</a>
         </nav>
       </main>
       <Footer language={language} setLanguage={setLanguage} />

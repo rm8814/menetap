@@ -9,6 +9,8 @@ import { AuthPanel } from "./auth";
 import { ProtectedScreen } from "./ProtectedScreen";
 import { CityDestinationLanding } from "./cityDestinations";
 import { isProductionEnv } from "./seoEnv";
+import { applyGlobalStructuredData, applySeo, propertyPath } from "./seo";
+import { track } from "./analytics";
 import { ExperiencesV2 } from "./ExperiencesV2";
 import { ExperiencesLanding } from "./ExperiencesLanding";
 import { RentalsV2 } from "./RentalsV2";
@@ -27,6 +29,7 @@ import {
   Gift,
   Globe2,
   MapPin,
+  MapPinOff,
   Menu,
   RefreshCcw,
   Search,
@@ -48,6 +51,9 @@ import {
   Phone,
   MessageCircle,
   ShoppingCart,
+  Package,
+  Receipt,
+  Compass,
 } from "lucide-react";
 
 const formatLocalDate = (value: Date) => {
@@ -97,10 +103,11 @@ export function App() {
     const children = Number(params.get("children") ?? 0);
     const childAges = (params.get("childAges") ?? "").split(",").filter(Boolean).map(Number).filter((age) => age >= 0 && age <= 17).slice(0, children);
     const path = window.location.pathname;
-    const propertyPathMatch = path.match(/\/stays\/property\/([^/]+)$/);
+    const propertyPathMatch = path.match(/\/stays\/property\/([^/]+)(?:\/[^/]+)?$/);
     const pathLanguage = path.startsWith("/id") ? "ID" : "EN";
     setLanguage(pathLanguage);
-    if (path.endsWith("/about")) setScreen("about");
+    if (path.endsWith("/404-notfound")) setScreen("notFound" as GuestScreen);
+    else if (path.endsWith("/about")) setScreen("about");
     else if (path.endsWith("/careers")) setScreen("careers");
     else if (path.endsWith("/cancellation")) setScreen("cancellation");
     else if (path.endsWith("/privacy")) setScreen("privacy");
@@ -191,18 +198,9 @@ export function App() {
     }
   }, []);
   useEffect(() => {
-    const isSearchRoute = screen === "search";
-    const languagePrefix = language === "ID" ? "/id" : "/en";
-    const canonicalPath = isSearchRoute ? `${languagePrefix}/stays` : window.location.pathname;
-    const canonicalUrl = `https://menetap.com${canonicalPath}`;
-    let canonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
-    if (!canonical) { canonical = document.createElement("link"); canonical.rel = "canonical"; document.head.appendChild(canonical); }
-    canonical.href = canonicalUrl;
-    let robots = document.querySelector<HTMLMetaElement>('meta[name="robots"]');
-    if (!robots) { robots = document.createElement("meta"); robots.name = "robots"; document.head.appendChild(robots); }
-    robots.content = isSearchRoute ? "noindex,follow" : "index,follow";
-    return () => { if (isSearchRoute) robots!.content = "index,follow"; };
-  }, [screen, language, search]);
+    applyGlobalStructuredData();
+    if (screen === "home") track('landing_page_view', { page_type: 'home', language });
+  }, [screen, language]);
   useEffect(() => {
     // Screens with their own dynamic title/description (property, destination) manage
     // document.title themselves; this covers static public guest screens only.
@@ -292,6 +290,7 @@ export function App() {
     const entry = language === "ID" ? (indonesianMeta[screen] ?? meta[screen]) : meta[screen];
     if (!entry) return;
     document.title = entry.title;
+    applySeo({ title: entry.title, description: entry.description, language });
     const setMeta = (attrName: "name" | "property", attrValue: string, content: string) => {
       let el = document.querySelector<HTMLMetaElement>(`meta[${attrName}="${attrValue}"]`);
       if (!el) {
@@ -307,17 +306,18 @@ export function App() {
   }, [screen]);
   if (authOpen)
     return (
-      <div className="app-shell">
+      <div className={screen === "notFound" ? "app-shell not-found-shell" : "app-shell"}>
         <AuthPanel onClose={() => setAuthOpen(false)} />
       </div>
     );
   const goToSearch = () => {
+    track('search_start', { source: screen === 'home' ? 'homepage' : 'navigation', language });
     window.history.pushState({}, "", `/${language.toLowerCase()}/stays`);
     setScreen("search");
   };
   return (
-    <div className="app-shell">
-      {!screen.startsWith("partner") && !screen.startsWith("admin") && <Header
+    <div className={screen === "notFound" ? "app-shell not-found-shell" : "app-shell"}>
+      {!screen.startsWith("partner") && !screen.startsWith("admin") && screen !== "notFound" && <Header
         language={language}
         setLanguage={setLanguage}
         onHome={() => {
@@ -372,14 +372,14 @@ export function App() {
           setSearch={setSearch}
           onSearch={goToSearch}
           onPropertySelect={(id) => {
+            track('property_view', { source: 'homepage', property_type: 'accommodation' });
             setSelectedProperty(id);
             window.history.pushState(
               {},
               "",
               "/" +
                 language.toLowerCase() +
-                "/stays/property/" +
-                encodeURIComponent(id),
+                propertyPath(id, "stay"),
             );
             setScreen("hotel");
           }}
@@ -388,12 +388,13 @@ export function App() {
         />
       )}
       {screen === "notFound" && (
-        <main className="section" style={{ minHeight: "60vh" }}>
-          <p className="eyebrow">404</p>
-          <h1>We couldn’t find that page.</h1>
-          <p className="muted">The link may be outdated or the page may have moved.</p>
-          <a className="primary-button" href={`/${language.toLowerCase()}`}>Back to Menetap</a>
-        </main>
+        <>
+          <header className="not-found-dc-header"><div className="not-found-dc-wrap"><a className="wordmark not-found-wordmark" href={`/${language.toLowerCase()}`} aria-label="Menetap home">menetap<span>.</span></a><a className="not-found-login" href={`/${language.toLowerCase()}/login`}>Log in</a></div></header>
+          <main className="not-found-dc not-found-dc-shared">
+            <div className="not-found-card"><div className="not-found-illustration"><svg viewBox="0 0 520 63" aria-hidden="true"><path d="M10 45 Q 140 -10, 260 40 T 510 20" className="not-found-route-base"/><path d="M10 45 Q 140 -10, 260 40 T 510 20" className="not-found-route-dash"/></svg><div className="not-found-ticket"><MapPinOff size={26}/></div></div><h1 className="not-found-number" style={{ fontFamily: "'Plus Jakarta Sans', Arial, sans-serif", fontSize: 160, fontWeight: 800, lineHeight: 1 }}>404</h1><h2 style={{ fontFamily: "'Plus Jakarta Sans', Arial, sans-serif", fontSize: 26, fontWeight: 800, lineHeight: 1.25 }}>Looks like this trip got cancelled.</h2><p style={{ fontFamily: "'JetBrains Mono', 'Courier New', monospace", fontSize: 14, fontWeight: 400, lineHeight: 1.7 }}>The page you were headed to isn't on the map<br/>anymore. Maybe try one of these instead?</p><div className="not-found-actions"><Button href={`/${language.toLowerCase()}`} variant="primary">Go home</Button><Button href={`/${language.toLowerCase()}/stays`} variant="secondary">Search stays</Button></div><div className="not-found-jump"><span>Or jump to:</span><a href={`/${language.toLowerCase()}/rentals`}><Car size={12}/> Rentals</a><a href={`/${language.toLowerCase()}/experiences`}><Compass size={12}/> Experiences</a><a href={`/${language.toLowerCase()}/rewards`}><Gift size={12}/> Rewards</a><a href={`/${language.toLowerCase()}/destinations/all`}><MapPin size={12}/> All destinations</a></div></div>
+          </main>
+          <footer className="not-found-dc-footer"><div className="not-found-dc-wrap"><span>© 2026 Menetap. All rights reserved.</span><span className="not-found-managed">Managed by <a href="https://upscale.asia" target="_blank" rel="noreferrer">UPSCALE</a></span></div></footer>
+        </>
       )}
       {screen === "search" && (
         <SearchResults
@@ -401,14 +402,14 @@ export function App() {
           setSearch={setSearch}
           onBack={() => setScreen("home")}
           onSelect={(id) => {
+            track('property_view', { source: 'search', property_type: 'accommodation' });
             setSelectedProperty(id);
             window.history.pushState(
               {},
               "",
               "/" +
                 language.toLowerCase() +
-                "/stays/property/" +
-                encodeURIComponent(id),
+                propertyPath(id, "stay"),
             );
             setScreen("hotel");
           }}
@@ -3769,11 +3770,11 @@ function HotelDetail({
           {approvedPhotos.length ? (
             <>
               <div className="gallery-main">
-                <img src={approvedPhotos[0].url} alt={approvedPhotos[0].altText} />
+                <img src={approvedPhotos[0].url} alt={approvedPhotos[0].altText || `${property.name} accommodation`} width="1200" height="800" loading="eager" decoding="async" />
               </div>
               <div className="gallery-grid">
                 {approvedPhotos.slice(1, 4).map((photo) => (
-                  <img key={photo._id} src={photo.url} alt={photo.altText} />
+                  <img key={photo._id} src={photo.url} alt={photo.altText || `${property.name} accommodation photo`} width="1200" height="800" loading="lazy" decoding="async" />
                 ))}
                 {approvedPhotos.length > 4 && (
                   <div className="gallery-more">
@@ -4587,8 +4588,8 @@ const accountNav = (label: string, path: string, active = false) => (
 const experienceData=[{id:"sunrise-borobudur",name:"Sunrise at Borobudur",location:"Magelang · Central Java",category:"Culture",price:"From Rp 650,000 / person",rating:"4.9",duration:"4 hours",intro:"Watch the first light move across one of Java’s most extraordinary landscapes with a local guide.",image:"sunrise"},{id:"merapi-village",name:"Merapi village & kitchen",location:"Sleman · Yogyakarta",category:"Food & culture",price:"From Rp 420,000 / person",rating:"4.8",duration:"5 hours",intro:"Meet a village host, walk the foothills, and cook a generous Javanese lunch together.",image:"merapi"},{id:"batik-workshop",name:"Batik with a local maker",location:"Yogyakarta · Prawirotaman",category:"Creative",price:"From Rp 280,000 / person",rating:"4.9",duration:"3 hours",intro:"Learn the quiet rhythm of hand-drawn batik in a small family workshop.",image:"batik"},{id:"bantul-river",name:"Bantul river morning",location:"Bantul · Yogyakarta",category:"Nature",price:"From Rp 360,000 / person",rating:"4.7",duration:"4 hours",intro:"A slow morning by the river with cycling paths, local breakfast, and open countryside.",image:"river"}];
 const supplyProducts=[{id:"towels",name:"Premium bath towels",unit:"Pack of 6",price:480000,category:"Linen",color:"linen"},{id:"sheets",name:"Hotel bed sheet set",unit:"Queen · set of 2",price:620000,category:"Linen",color:"sheets"},{id:"cleaner",name:"Multi-surface cleaner, 5L",unit:"Carton of 4",price:220000,category:"Housekeeping",color:"cleaner"},{id:"disinfectant",name:"Toilet disinfectant, 1L",unit:"Carton of 12",price:280000,category:"Housekeeping",color:"disinfectant"},{id:"amenity",name:"Guest amenity kit",unit:"Box of 50",price:350000,category:"Guest amenities",color:"amenity"},{id:"slippers",name:"Hotel slippers",unit:"Pack of 20 pairs",price:190000,category:"Guest amenities",color:"slippers"}];
 function supplyCart(){try{return JSON.parse(localStorage.getItem("menetapSupplyCart")||"{}")}catch{return {}}}
-function SupplyHeader({count}:{count?:number}){return <header className="supply-header"><div><a href="/en/supply" className="supply-brand">menetap<span>.</span><small>supply</small></a></div><a href="/en/supply/catalog" className="supply-cart"><ShoppingCart size={16}/> {count||0} items</a></header>}
-function SupplyLanding(){return <div className="supply-page"><SupplyHeader/><main><section className="supply-hero"><span className="supply-pill">▣ supply</span><h1>Restock your property without chasing five vendors.</h1><p>Hotel-grade essentials, delivered to your property. One catalogue, clear pricing, fewer errands.</p><a className="supply-primary" href="/en/supply/catalog">Browse catalog</a></section><section className="supply-stats">{[["120+","Products in catalog"],["48h","Typical delivery"],["One","Consolidated invoice"]].map(x=><div key={x[0]}><strong>{x[0]}</strong><span>{x[1]}</span></div>)}</section><section className="supply-section"><h2>Shop by category</h2><div className="supply-category-grid">{[["Linen","Sheets, towels, and guest-ready basics","sheets"],["Housekeeping","Reliable supplies for every turnover","cleaner"],["Guest amenities","Small details guests remember","amenity"]].map(x=><a href={`/en/supply/catalog?category=${x[0]}`} key={x[0]}><div className={`supply-category-image ${x[2]}`}/><b>{x[0]}</b><p>{x[1]}</p><span>Browse →</span></a>)}</div></section></main><footer className="supply-footer">© 2026 Menetap Supply · Managed by UPSCALE</footer></div>}
+function SupplyHeader({count}:{count?:number}){return <header className="supply-header"><a href="/en/supply" className="supply-brand">menetap<span>.</span><small><Package size={11}/> supply</small></a><nav className="supply-nav"><a href="/en/partner-dashboard">Partner dashboard</a><a href="/en/supply/catalog">Browse catalog</a></nav><a href="/en/partner-login" className="supply-login">Log in</a>{count !== undefined && <a href="/en/supply/catalog" className="supply-cart"><ShoppingCart size={16}/> {count} items</a>}</header>}
+function SupplyLanding(){const categories=[["Bathroom amenities","Shampoo, soap, and guest-ready basics","amenity","Guest amenities"],["Linens & towels","Sheets, towels, and reliable room essentials","sheets","Linen"],["Cleaning supplies","Reliable supplies for every turnover","cleaner","Housekeeping"],["Slippers & robes","Comfort details guests remember","slippers","Guest amenities"],["Stationery & collateral","Menus, cards, and in-room information","stationery","Guest amenities"]];return <div className="supply-page"><SupplyHeader/><main><section className="supply-hero"><span className="supply-pill"><Package size={14}/> Menetap-fulfilled — one supplier, one invoice</span><h1>Restock your property without chasing five vendors.</h1><p>Bathroom amenities, linens, cleaning supplies, and guest collateral — ordered from your partner dashboard, delivered to your property.</p><a className="supply-primary" href="/en/supply/catalog">Browse catalog</a></section><section className="supply-stats">{[["120+","Products in catalog"],["2–4 days","Delivery across Indonesia"],["1","Consolidated invoice"]].map(x=><div key={x[0]}><strong>{x[0]}</strong><span>{x[1]}</span></div>)}</section><section className="supply-section"><h2>Shop by category</h2><div className="supply-category-grid">{categories.map(([name,description,color,category])=><a href={`/en/supply/catalog?category=${encodeURIComponent(category)}`} key={name}><div className={`supply-category-image ${color}`} aria-label={`${name} category`} /><b>{name}</b><p>{description}</p><span>Browse →</span></a>)}</div></section><section className="supply-benefits"><div><Truck size={16}/>Delivered direct to your property</div><div><Receipt size={16}/>Billed with your monthly Menetap statement</div><div><RefreshCcw size={16}/>Reorder in one click from order history</div></section></main><footer className="supply-footer"><span>© 2026 Menetap. All rights reserved.</span><span>Managed by <a href="https://upscale.asia" target="_blank" rel="noreferrer">UPSCALE</a></span></footer></div>}
 function SupplyCatalog(){const [cart,setCart]=useState<Record<string,number>>(supplyCart());const [category,setCategory]=useState(new URLSearchParams(window.location.search).get("category")||"All");const add=(id:string)=>{const next={...cart,[id]:(cart[id]||0)+1};setCart(next);localStorage.setItem("menetapSupplyCart",JSON.stringify(next))};const dec=(id:string)=>{const next={...cart,[id]:Math.max(0,(cart[id]||0)-1)};setCart(next);localStorage.setItem("menetapSupplyCart",JSON.stringify(next))};const list=supplyProducts.filter(p=>category==="All"||p.category===category);const count=Object.values(cart).reduce((a,b)=>a+b,0);const total=supplyProducts.reduce((a,p)=>a+p.price*(cart[p.id]||0),0);return <div className="supply-page"><SupplyHeader count={count}/><main className="supply-catalog-wrap"><p className="eyebrow">Supply catalog</p><h1>Everything your property needs.</h1><div className="supply-catalog-layout"><aside className="supply-categories">{["All","Linen","Housekeeping","Guest amenities"].map(x=><button className={category===x?"active":""} onClick={()=>setCategory(x)} key={x}>{x}</button>)}</aside><section><p className="catalog-count">{list.length} products in {category}</p><div className="supply-products">{list.map(p=><article className="supply-product" key={p.id}><div className={`supply-product-image ${p.color}`}/><h2>{p.name}</h2><p>{p.unit}</p><strong>Rp {p.price.toLocaleString("en-US")}</strong><div className="quantity-control"><button onClick={()=>dec(p.id)}>−</button><span>{cart[p.id]||0}</span><button onClick={()=>add(p.id)}>＋</button></div></article>)}</div></section><aside className="supply-cart-panel"><h2>Your cart</h2>{Object.entries(cart).filter(([,q])=>q>0).map(([id,q])=>{const p=supplyProducts.find(x=>x.id===id)!;return <div className="supply-cart-line" key={id}><span>{p.name} ×{q}</span><b>Rp {(p.price*q).toLocaleString("en-US")}</b></div>})}<div className="supply-cart-total"><span>Subtotal</span><b>Rp {total.toLocaleString("en-US")}</b></div>{count?<a className="supply-primary" href="/en/supply/checkout">Checkout</a>:<p>Your cart is empty — add items from the catalog.</p>}</aside></div></main></div>}
 function SupplyCheckout(){const cart=supplyCart();const lines=Object.entries(cart).filter(([,q])=>q>0).map(([id,q])=>({p:supplyProducts.find(x=>x.id===id)!,q}));const subtotal=lines.reduce((a,x)=>a+x.p.price*x.q,0);const [done,setDone]=useState(false);if(done){localStorage.setItem("menetapSupplyOrderTotal",String(subtotal));window.location.assign("/en/supply/confirmation");return null}return <div className="supply-page"><SupplyHeader count={lines.reduce((a,x)=>a+x.q,0)}/><main className="supply-checkout-wrap"><a className="back-button" href="/en/supply/catalog">← Back to catalog</a><p className="eyebrow">Secure checkout</p><h1>Delivery details</h1><div className="supply-checkout-grid"><section><div className="supply-form-card"><h2>Deliver to</h2><label>Property name<input defaultValue="Kaliurang Heritage Villa"/></label><label>Delivery address<textarea defaultValue="Jl. Kaliurang Km 18, Sleman, Yogyakarta"/></label><div className="form-row"><label>Contact name<input defaultValue="Anin Wida"/></label><label>Phone<input defaultValue="+62 812 3456 7890"/></label></div></div><div className="supply-form-card"><h2>Billing</h2><label>Invoice email<input defaultValue="hello@kaliurangvilla.com"/></label><label>Notes<textarea placeholder="Delivery instructions or PO number"/></label></div></section><aside className="supply-order-summary"><h2>Your order</h2>{lines.map(x=><div className="supply-cart-line" key={x.p.id}><span>{x.p.name} ×{x.q}</span><b>Rp {(x.p.price*x.q).toLocaleString("en-US")}</b></div>)}<div className="supply-cart-total"><span>Subtotal</span><b>Rp {subtotal.toLocaleString("en-US")}</b></div><small>Delivery fee will be confirmed based on location before dispatch.</small><button className="supply-primary" onClick={()=>setDone(true)}>Place order</button></aside></div></main></div>}
 function SupplyConfirmation(){const total=Number(localStorage.getItem("menetapSupplyOrderTotal")||0);return <div className="supply-page"><SupplyHeader/><main className="supply-confirmation"><div className="supply-success-icon">✓</div><p className="eyebrow">Supply order</p><h1>Order placed</h1><p>Your order for Kaliurang Heritage Villa has been received. We’ll confirm delivery timing with you shortly.</p><div className="supply-order-reference">Order SUP-20260926 · Rp {total.toLocaleString("en-US")}</div><a className="supply-primary" href="/en/supply/catalog">Order more</a><a href="/en/partner-dashboard">Back to partner dashboard</a></main></div>}

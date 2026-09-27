@@ -5,11 +5,18 @@
 export const STATIC_ROUTES = [
   { path: "/en", changefreq: "daily" },
   { path: "/id", changefreq: "daily" },
-  { path: "/en/stays", changefreq: "daily", noindex: true },
-  { path: "/id/stays", changefreq: "daily", noindex: true },
   { path: "/en/destinations/all", changefreq: "weekly" },
   { path: "/id/destinations/all", changefreq: "weekly" },
   { path: "/en/help", changefreq: "monthly" },
+  { path: "/en/about", changefreq: "monthly" },
+  { path: "/en/careers", changefreq: "monthly" },
+  { path: "/en/cancellation", changefreq: "monthly" },
+  { path: "/en/privacy", changefreq: "yearly" },
+  { path: "/en/terms", changefreq: "yearly" },
+  { path: "/en/experiences", changefreq: "weekly" },
+  { path: "/en/rentals", changefreq: "weekly" },
+  { path: "/en/rewards", changefreq: "monthly" },
+  { path: "/en/partners", changefreq: "monthly" },
 ];
 
 export const DESTINATION_SLUGS = [
@@ -42,7 +49,8 @@ export function buildSitemapUrls(properties) {
     }
   }
   for (const property of properties.filter(isSeoEligibleProperty)) {
-    urls.push({ loc: `https://menetap.com/en/stays/property/${property._id}`, changefreq: "daily" });
+    const slug = (property.name ?? "stay").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 80) || "stay";
+    urls.push({ loc: `https://menetap.com/en/stays/property/${encodeURIComponent(property._id)}/${slug}`, changefreq: "daily" });
   }
   return urls;
 }

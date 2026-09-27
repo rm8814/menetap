@@ -21,7 +21,7 @@ describe('buildSitemapUrls', () => {
   it('includes only the real property, not the demo one', () => {
     const urls = buildSitemapUrls([published, demoPublished, draft]);
     const locs = urls.map((url) => url.loc);
-    expect(locs).toContain('https://menetap.com/en/stays/property/p1');
+    expect(locs).toContain('https://menetap.com/en/stays/property/p1/stay');
     expect(locs).not.toContain('https://menetap.com/en/stays/property/p2');
     expect(locs).not.toContain('https://menetap.com/en/stays/property/p3');
   });
