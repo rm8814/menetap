@@ -31,6 +31,17 @@ export const listPublished = query({
 
 export const get = query({ args: { id: v.id('properties') }, handler: async (ctx, args) => ctx.db.get(args.id) });
 
+export const listForAdmin = query({
+  args: { status: v.optional(v.union(v.literal('draft'), v.literal('verification'), v.literal('approved'), v.literal('published'), v.literal('suspended'))) },
+  handler: async (ctx, args) => {
+    await requireRole(ctx, ['operations', 'admin']);
+    const properties = args.status
+      ? await ctx.db.query('properties').withIndex('by_status', (q) => q.eq('status', args.status!)).collect()
+      : await ctx.db.query('properties').collect();
+    return properties.map(({ name, area, city, status, ownerUserId, createdAt, _id }) => ({ _id, name, area, city, status, ownerUserId, createdAt }));
+  },
+});
+
 export const listMine = query({
   args: {},
   handler: async (ctx) => {

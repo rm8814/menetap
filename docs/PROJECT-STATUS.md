@@ -1,7 +1,7 @@
 # Menetap project status
 
 Snapshot: 2026-09-28, after POC-A, POC-B, POC-C-Rewards, admin-quickwins,
-admin-payments, and notification-sender review (Claude).
+admin-payments, notification-sender, and admin-property-approval review (Claude).
 
 ## Backend
 
@@ -11,11 +11,14 @@ related operational data. `partnerAdmin.setAccountStatus` is server-authorized f
 admin/operations roles, restricts targets to partner accounts, validates a reason,
 updates status, and writes an audit log.
 
-Admin-facing query/mutation functions for **properties/users/team/finance-aggregate**
-listing are still mostly missing — full list in `docs/checklist-poc-b.md`'s "Backend
-gaps flagged" section, not yet scoped into a checklist. **Disputes, support, and
-moderation are now real** (`refunds.listPending`/`review`, `support.listForStaff`,
-`properties.listPendingModeration`/`updatePhotoModeration`).
+Admin-facing query/mutation functions for **users/team/finance-aggregate** listing
+are still mostly missing — full list in `docs/checklist-poc-b.md`'s "Backend gaps
+flagged" section, not yet scoped into a checklist. **Disputes, support, moderation,
+and property review/approval/publishing are now real** (`refunds.listPending`/
+`review`, `support.listForStaff`, `properties.listPendingModeration`/
+`updatePhotoModeration`, `properties.listForAdmin`/`review`/`setPublished` — the last
+three close the "hotels can list their property" loop: partner submission through
+staff approval through publish, all live end-to-end).
 
 **Payment collection and commission pipeline is now real**, closing the critical gap
 this section previously flagged: `payments.ts` (guest transfer submission, admin
@@ -50,11 +53,13 @@ points, and rewards routes are implemented in `app/src/App.tsx` and related
 components. Guest checkout is Convex-backed for the booking mutation.
 
 Admin console: `AdminPartnerDetail`, `AdminLogin`, disputes/support/moderation
-(`AdminQuickOpsPage`), and the new payment verification screen (`AdminPaymentsPage`,
-`/admin/payments`) are genuinely real. Properties/users/team/finance-aggregate/
-reports/risk/announcements/settings/system screens still show an honest "not yet
-available" state (`AdminUnavailable`) pending the backend work in
-`docs/checklist-poc-b.md`'s gap list. The six `Legacy*` dead-code partner components
+(`AdminQuickOpsPage`), the payment verification screen (`AdminPaymentsPage`,
+`/admin/payments`), and `AdminProperties`/`AdminPropertyDetail` (Overview tab only —
+Bookings/Payouts tabs on the detail screen remain deliberately out of scope) are
+genuinely real. Users/team/finance-aggregate/reports/risk/announcements/settings/
+system screens still show an honest "not yet available" state (`AdminUnavailable`)
+pending the backend work in `docs/checklist-poc-b.md`'s gap list. The six `Legacy*`
+dead-code partner components
 were deleted. ~15 now-unreferenced mock admin component definitions (their original
 fake data) remain in `App.tsx` as dead code — flagged for a follow-up cleanup pass,
 tracked in `docs/checklist-poc-b.md`'s review notes.
@@ -90,9 +95,9 @@ an existing chunk-size warning for the main JavaScript bundle.
   reached from the verification environment).
 - The account payment-methods screen is a local card mock inconsistent with the
   approved two-method booking model, and now reachable from the account nav.
-- Admin properties/users/team/finance-aggregate/reports/risk/announcements/settings/
-  system screens are honest but not functional — backend functions don't exist yet;
-  full list in `docs/checklist-poc-b.md`.
+- Admin users/team/finance-aggregate/reports/risk/announcements/settings/system
+  screens are honest but not functional — backend functions don't exist yet; full
+  list in `docs/checklist-poc-b.md`.
 - Bank transfer instructions are an explicit placeholder
   (`'PENDING — REAL BANK DETAILS NEEDED'`) — real Menetap bank account details are a
   business input still needed before manual-transfer bookings can go live.
