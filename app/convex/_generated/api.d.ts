@@ -45,8 +45,12 @@ import type * as rooms from "../rooms.js";
 import type * as savedStays from "../savedStays.js";
 import type * as seed from "../seed.js";
 import type * as services from "../services.js";
+import type * as supplierProducts from "../supplierProducts.js";
+import type * as supplyOrders from "../supplyOrders.js";
+import type * as supplyPayments from "../supplyPayments.js";
 import type * as support from "../support.js";
 import type * as users from "../users.js";
+import type * as vendorProfiles from "../vendorProfiles.js";
 
 import type {
   ApiFromModules,
@@ -92,8 +96,12 @@ declare const fullApi: ApiFromModules<{
   savedStays: typeof savedStays;
   seed: typeof seed;
   services: typeof services;
+  supplierProducts: typeof supplierProducts;
+  supplyOrders: typeof supplyOrders;
+  supplyPayments: typeof supplyPayments;
   support: typeof support;
   users: typeof users;
+  vendorProfiles: typeof vendorProfiles;
 }>;
 
 /**

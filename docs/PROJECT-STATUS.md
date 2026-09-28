@@ -1,7 +1,8 @@
 # Menetap project status
 
 Snapshot: 2026-09-28, after POC-A, POC-B, POC-C-Rewards, admin-quickwins,
-admin-payments, notification-sender, and admin-property-approval review (Claude).
+admin-payments, notification-sender, admin-property-approval, and POC-C-Supplier
+review (Claude).
 
 ## Backend
 
@@ -45,6 +46,18 @@ transactional mutation as the booking insert, so there's no client-trusted-disco
 path and no window where points can be spent without a booking existing (fixed and
 re-verified 2026-09-28, see `docs/checklist-poc-c-rewards.md`'s review notes).
 
+**Supplier marketplace backend is real** (POC-C pillar #2, closing the second of four
+approved pillars): `vendorProfiles`, `supplierProducts` (vendor-owned, admin-curated
+via a moderation queue mirroring `properties.listPendingModeration`),
+`supplyOrders`/`supplyOrderItems` (server-recomputed totals, never client-trusted),
+`supplyTransfers` (manual-transfer payment, parallel to `payments.ts`'s pattern, not
+sharing its table). Vendor identity is structurally excluded from every partner-facing
+query (`supplierProducts.listActive`, `supplyOrders.listForProperty`) — verified by
+direct read, not just tested. Vendor accounts are admin-elevated from an existing
+self-registered account (`role: 'guest'`/`'partner'` → `'vendor'`), matching the
+partner-approval pattern — not a from-scratch admin-created credential, which doesn't
+work with Convex Auth. See `docs/checklist-poc-c-supplier.md`'s review notes.
+
 ## Frontend real/mock inventory
 
 Guest search, property detail, room selection, checkout, confirmation, account
@@ -85,9 +98,9 @@ Rewards redemption's discount-trust issue is resolved — see Backend section ab
 ## Verification baseline
 
 From `app/`, verified independently by Claude on 2026-09-28: `npm run typecheck`
-passed; `npm test` passed with 10 test files and 33 tests (includes Rewards,
-finance-math, and notification-template tests); `npm run build` passed. Vite emitted
-an existing chunk-size warning for the main JavaScript bundle.
+passed; `npm test` passed with 12 test files and 37 tests (includes Rewards,
+finance-math, notification-template, and supplier-marketplace tests); `npm run build`
+passed. Vite emitted an existing chunk-size warning for the main JavaScript bundle.
 
 ## Known gaps
 
@@ -112,3 +125,11 @@ an existing chunk-size warning for the main JavaScript bundle.
 - Two trivial test-coverage gaps in `notificationTemplates.test.ts` (one vacuous
   assertion, one untested fallback path) — see `docs/checklist-notification-sender.md`
   review notes. Not functional defects.
+- No in-app navigation to the three new supplier marketplace screens
+  (`/en/supply/orders`, `/en/vendor/products`, `/admin/supplier`) — routes work, but
+  nothing links to them from `PartnerDashboard`'s sidebar or `AdminFrame`'s nav yet.
+- `supplyOrders.create`'s server-side total recomputation is correct but duplicated
+  rather than calling the newly-exported `calculateSupplyTotal` — the test covering
+  it verifies the exported sibling function, not `create`'s actual inline logic.
+- `supplierMarketplace.test.ts`'s moderation-reset test is still vacuous (asserts a
+  literal ternary, not `supplierProducts.update`'s real behavior).

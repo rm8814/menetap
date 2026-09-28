@@ -42,7 +42,6 @@ Supported `{city}` values: `yogyakarta`, `bantul`, `sleman`, `bandung`, `solo`, 
 - `/en/rentals` — Indexable
 - `/en/rewards` — Indexable
 - `/en/partners` — Indexable
-- `/en/supply` — Public partner/vendor landing page; review before indexing
 
 ### Accommodation pages
 
@@ -59,8 +58,6 @@ Supported `{city}` values: `yogyakarta`, `bantul`, `sleman`, `bandung`, `solo`, 
 - `/en/experiences?category={category}` — Experience filter
 - `/en/experiences/detail?id={experience}` — Experience detail prototype
 - `/en/rentals/search?type={vehicle}` — Rental search
-- `/en/supply/catalog` — Supply catalog
-- `/en/supply/catalog?category={category}` — Supply filter
 - `/en/rewards/dashboard` — Rewards account dashboard
 
 ## Guest transactional and account routes — protected/noindex
@@ -83,6 +80,11 @@ Supported `{city}` values: `yogyakarta`, `bantul`, `sleman`, `bandung`, `solo`, 
 Indonesian equivalents use the `/id` prefix where implemented.
 
 ## Partner routes — protected/noindex unless explicitly marked public
+
+- `/en/supply` — Partner supplier marketplace landing
+- `/en/supply/catalog` — Protected supplier catalog
+- `/en/supply/catalog?category={category}` — Protected supplier filter
+- `/en/supply/orders` — Protected supplier order history
 
 - `/en/partners` — Public partner landing page
 - `/en/partner-login`

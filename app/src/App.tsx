@@ -15,6 +15,7 @@ import { ExperiencesV2 } from "./ExperiencesV2";
 import { ExperiencesLanding } from "./ExperiencesLanding";
 import { RentalsV2 } from "./RentalsV2";
 import { Button } from "./components/Button";
+import { SupplierCatalog, SupplierCheckout, SupplierConfirmation, SupplierOrders, VendorProducts, SupplierAdmin } from "./SupplierMarketplace";
 import { useAuthActions, useConvexAuth } from "@convex-dev/auth/react";
 import {
   ArrowUp,
@@ -131,6 +132,8 @@ export function App() {
     else if (path.endsWith("/supply/confirmation")) setScreen("supplyConfirmation");
     else if (path.endsWith("/supply/catalog")) setScreen("supplyCatalog");
     else if (path.endsWith("/supply")) setScreen("supplyLanding");
+    else if (path.endsWith("/supply/orders")) setScreen("supplyOrders" as GuestScreen);
+    else if (path.endsWith("/vendor/products")) setScreen("vendorProducts" as GuestScreen);
     else if (path.endsWith("/guest-details")) setScreen("guestDetails");
     else if (path === "/partners" || path.endsWith("/partners")) setScreen("partnerLanding");
     else if (path.endsWith("/partner-onboarding")) setScreen("partnerOnboarding");
@@ -148,6 +151,7 @@ export function App() {
     else if (path === "/admin" || path.endsWith("/admin/")) setScreen("adminConsole");
     else if (path.endsWith("/admin/properties")) setScreen("adminProperties");
     else if (path.endsWith("/admin/property-detail")) setScreen("adminPropertyDetail");
+    else if (path.endsWith("/admin/supplier")) setScreen("adminSupplier" as GuestScreen);
     else if (path.endsWith("/admin/partner-detail")) setScreen("adminPartnerDetail");
     else if (path.endsWith("/admin/guest-detail")) setScreen("adminGuestDetail");
     else if (path.endsWith("/admin/users")) setScreen("adminUsers");
@@ -534,10 +538,13 @@ export function App() {
       {screen === "rentalsLanding" && <><RentalsV2 /><Footer language={language} setLanguage={setLanguage} /></>}
       {screen === "rentalSearch" && <RentalSearch />}
       {screen === "experienceDetail" && <ExperienceDetail />}
-      {screen === "supplyLanding" && <SupplyLanding />}
-      {screen === "supplyCatalog" && <SupplyCatalog />}
-      {screen === "supplyCheckout" && <SupplyCheckout />}
-      {screen === "supplyConfirmation" && <SupplyConfirmation />}
+      {screen === "supplyLanding" && <ProtectedScreen allowedRoles={["partner", "operations", "admin"]}><SupplyLanding /></ProtectedScreen>}
+      {screen === "supplyCatalog" && <ProtectedScreen allowedRoles={["partner", "operations", "admin"]}><SupplierCatalog /></ProtectedScreen>}
+      {screen === "supplyCheckout" && <ProtectedScreen allowedRoles={["partner", "operations", "admin"]}><SupplierCheckout /></ProtectedScreen>}
+      {screen === "supplyConfirmation" && <ProtectedScreen allowedRoles={["partner", "operations", "admin"]}><SupplierConfirmation /></ProtectedScreen>}
+      {screen === ("supplyOrders" as GuestScreen) && <ProtectedScreen allowedRoles={["partner", "operations", "admin"]}><SupplierOrders /></ProtectedScreen>}
+      {screen === ("vendorProducts" as GuestScreen) && <ProtectedScreen allowedRoles={["vendor"]}><VendorProducts /></ProtectedScreen>}
+      {screen === ("adminSupplier" as GuestScreen) && <ProtectedScreen allowedRoles={["operations", "admin", "finance"]}><SupplierAdmin /></ProtectedScreen>}
       {screen === "confirmation" && (
         <Confirmation code={bookingCode} onHome={() => setScreen("home")} />
       )}
