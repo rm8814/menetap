@@ -4,31 +4,36 @@ Snapshot: 2026-09-28, after POC-A, POC-B, POC-C-Rewards, admin-quickwins,
 admin-payments, notification-sender, admin-property-approval, and POC-C-Supplier
 review (Claude).
 
-## CORRECTION (2026-09-28): `npm run typecheck` has been a no-op all session
+## RESOLVED (2026-09-28): `npm run typecheck` was a no-op all session — now fixed
 
-Found while investigating an unrelated footer-link question: the root
-`tsconfig.json` has `"files": []` with only project references, and
-`npm run typecheck` (`tsc --noEmit`, no project flag) checks an empty file set as a
-result — confirmed with `--listFiles`, zero files processed. **Every "typecheck
-clean, verified independently" claim in every review note across this entire session
-(POC-A/B/C, admin-payments, notification-sender, property-approval, supplier
-marketplace) was checking nothing.** `npm test`/`npm run build` are unaffected —
-they're separate, real commands.
+Found while investigating an unrelated footer-link question, and now fixed and
+independently re-verified (`docs/checklist-typecheck-integrity.md`): the root
+`tsconfig.json` had `"files": []` with only project references, so
+`npm run typecheck` (`tsc --noEmit`, no project flag) checked an empty file set —
+confirmed at the time with `--listFiles`, zero files processed. **Every "typecheck
+clean, verified independently" claim in every review note before this fix (POC-A/B/C,
+admin-payments, notification-sender, property-approval, supplier marketplace) was
+checking nothing.** `npm test`/`npm run build` were unaffected throughout — separate,
+real commands.
 
-This hid a real regression: the `checklist-poc-b.md` "delete six `Legacy*`" work
-accidentally deleted six adjacent real components too — `PartnerProperties`,
+This had hidden a real regression: `checklist-poc-b.md`'s "delete six `Legacy*`" work
+had accidentally deleted six adjacent real components too — `PartnerProperties`,
 `PartnerInventory`, `PartnerBookings`, `PartnerLogin`, `PartnerServices`,
-`PartnerRoomDetail` are referenced in JSX (routing intact) but undefined. Three are
-linked from `PartnerDashboard`'s own sidebar — **a real partner crashes today
-clicking their own nav.** `App.tsx` also has `// @ts-nocheck` (pre-existing, not
-introduced this session) which independently exempted it from checking even once the
-script is fixed. Fix in progress: `docs/checklist-typecheck-integrity.md`.
+`PartnerRoomDetail` were referenced in JSX (routing intact) but undefined, and three
+were linked from `PartnerDashboard`'s own sidebar — a real partner crashing on their
+own nav. `App.tsx`'s pre-existing `// @ts-nocheck` independently exempted it from
+checking even with the script fixed.
 
-Going forward, once that checklist closes, "typecheck clean" will mean something
-again. Until then, treat every prior "typecheck verified" note in this document and
-in closed checklists' review notes as unverified for `App.tsx` specifically — `npm
-test` results were real throughout (separate command, unaffected), only typecheck
-coverage was the gap.
+**Now fixed and verified independently, not just self-reported:** `package.json`'s
+`typecheck` script points at `tsconfig.app.json` (confirmed with `--listFiles`, 284
+files including `App.tsx` genuinely checked). All six components restored (plus
+`PropertyField`, a dependency correctly caught along the way) from git history,
+cross-checked against current Convex signatures. `@ts-nocheck` removed. All 10 real
+type errors this surfaced are genuinely fixed — including `liveNightlyRates`, now a
+properly-typed field on `rooms.ts`'s actual query return type rather than a fragile
+narrow. `npm run typecheck` (clean), `npm run build` (exit 0, real Vite output), and
+`npm test` (37/37) were all re-run independently by Claude and matched. "Typecheck
+clean" means something again from this point forward.
 
 ## Backend
 

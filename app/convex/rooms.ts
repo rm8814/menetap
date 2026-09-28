@@ -4,7 +4,7 @@ import { validateChildAges } from './childPolicy';
 
 export const listForProperty = query({ args: { propertyId: v.id('properties'), checkIn: v.optional(v.string()), checkOut: v.optional(v.string()), guests: v.optional(v.number()), childAges: v.optional(v.array(v.number())) }, handler: async (ctx, args) => {
   const rooms = await ctx.db.query('roomTypes').withIndex('by_property', (q) => q.eq('propertyId', args.propertyId)).filter((q) => q.eq(q.field('active'), true)).collect();
-  if (!args.checkIn || !args.checkOut) return Promise.all(rooms.map(async (room) => ({ ...room, ratePlans: (await ctx.db.query('ratePlans').withIndex('by_room_type', (q) => q.eq('roomTypeId', room._id)).collect()).filter((plan) => plan.active) })));
+  if (!args.checkIn || !args.checkOut) return Promise.all(rooms.map(async (room) => ({ ...room, ratePlans: (await ctx.db.query('ratePlans').withIndex('by_room_type', (q) => q.eq('roomTypeId', room._id)).collect()).filter((plan) => plan.active), liveNightlyRates: [] as { date: string; rate: number }[] })));
   const available = [];
   for (const room of rooms.filter((item) => item.maxGuests >= (args.guests ?? 1))) {
     try { validateChildAges(room.childPolicy, args.childAges ?? []); } catch { continue; }
