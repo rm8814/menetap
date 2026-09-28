@@ -335,14 +335,6 @@ export function App() {
         }}
           onAuth={() => { setAuthMode("signIn"); setAuthOpen(true); }}
         onSearch={goToSearch}
-        onRewards={() => {
-          window.history.pushState(
-            {},
-            "",
-            `/${language.toLowerCase()}/rewards`,
-          );
-          setScreen("rewardsLanding");
-        }}
       />}
       {screen === "partnerLanding" && <PartnerLanding />}
       {screen === "partnerOnboarding" && <PartnerOnboarding />}
@@ -566,14 +558,12 @@ function Header({
   onHome,
   onAuth,
   onSearch,
-  onRewards,
 }: {
   language: "EN" | "ID";
   setLanguage: (language: "EN" | "ID") => void;
   onHome: () => void;
   onAuth: () => void;
   onSearch: () => void;
-  onRewards: () => void;
 }) {
   const { isAuthenticated } = useConvexAuth();
   const { signOut } = useAuthActions();
@@ -589,7 +579,6 @@ function Header({
           <button onClick={onSearch}>Stays</button>
           <button onClick={() => window.location.assign(`/${language.toLowerCase()}/rentals`)}>Rentals <span className="nav-beta">BETA</span></button>
           <button onClick={() => window.location.assign(`/${language.toLowerCase()}/experiences`)}>Experiences <span className="nav-beta">BETA</span></button>
-          <button onClick={onRewards}>Rewards</button>
         </nav>
         <div className="nav-actions dc-nav-actions">
           <div className="desktop-language-toggle">
@@ -641,14 +630,6 @@ function Header({
             }}
           >
             Experiences <span className="nav-beta">BETA</span>
-          </button>
-          <button
-            onClick={() => {
-              onRewards();
-              closeMenu();
-            }}
-          >
-            Rewards
           </button>
           <LanguageToggle language={language} setLanguage={setLanguage} />
         </div>
@@ -3122,6 +3103,8 @@ function FooterColumn({ title, links }: { title: string; links: string[] }) {
           href={
             link === "Help center"
               ? "/en/help"
+              : link === "Menetap Rewards"
+                ? "/en/rewards"
               : link === "About Menetap"
                 ? "/en/about"
                 : link === "Careers"
