@@ -3101,21 +3101,7 @@ function FooterColumn({ title, links }: { title: string; links: string[] }) {
       {links.map((link) => (
         <a
           href={
-            link === "Help center"
-              ? "/en/help"
-              : link === "Menetap Rewards"
-                ? "/en/rewards"
-              : link === "About Menetap"
-                ? "/en/about"
-                : link === "Careers"
-                  ? "/en/careers"
-                  : link === "Cancellation policy"
-                    ? "/en/cancellation"
-                    : link === "Privacy policy"
-                ? "/en/privacy"
-                : link === "Terms of service"
-                  ? "/en/terms"
-                  : `#${link.toLowerCase().replaceAll(" ", "-")}`
+            footerLinkPaths[link] ?? `#${link.toLowerCase().replaceAll(" ", "-")}`
           }
           key={link}
         >
@@ -3125,6 +3111,20 @@ function FooterColumn({ title, links }: { title: string; links: string[] }) {
     </div>
   );
 }
+const footerLinkPaths: Record<string, string> = {
+  "Search stays": "/en/stays",
+  "Manage booking": "/en/my-trips",
+  "Menetap Rewards": "/en/rewards",
+  "Cancellation policy": "/en/cancellation",
+  "Help center": "/en/help",
+  "List your property": "/en/partner-onboarding",
+  "Commission & pricing": "/en/partners",
+  "Partner support": "/en/partner-support",
+  "About Menetap": "/en/about",
+  Careers: "/en/careers",
+  "Terms of service": "/en/terms",
+  "Privacy policy": "/en/privacy",
+};
 
 function SearchBar({
   search,

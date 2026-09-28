@@ -4,6 +4,32 @@ Snapshot: 2026-09-28, after POC-A, POC-B, POC-C-Rewards, admin-quickwins,
 admin-payments, notification-sender, admin-property-approval, and POC-C-Supplier
 review (Claude).
 
+## CORRECTION (2026-09-28): `npm run typecheck` has been a no-op all session
+
+Found while investigating an unrelated footer-link question: the root
+`tsconfig.json` has `"files": []` with only project references, and
+`npm run typecheck` (`tsc --noEmit`, no project flag) checks an empty file set as a
+result — confirmed with `--listFiles`, zero files processed. **Every "typecheck
+clean, verified independently" claim in every review note across this entire session
+(POC-A/B/C, admin-payments, notification-sender, property-approval, supplier
+marketplace) was checking nothing.** `npm test`/`npm run build` are unaffected —
+they're separate, real commands.
+
+This hid a real regression: the `checklist-poc-b.md` "delete six `Legacy*`" work
+accidentally deleted six adjacent real components too — `PartnerProperties`,
+`PartnerInventory`, `PartnerBookings`, `PartnerLogin`, `PartnerServices`,
+`PartnerRoomDetail` are referenced in JSX (routing intact) but undefined. Three are
+linked from `PartnerDashboard`'s own sidebar — **a real partner crashes today
+clicking their own nav.** `App.tsx` also has `// @ts-nocheck` (pre-existing, not
+introduced this session) which independently exempted it from checking even once the
+script is fixed. Fix in progress: `docs/checklist-typecheck-integrity.md`.
+
+Going forward, once that checklist closes, "typecheck clean" will mean something
+again. Until then, treat every prior "typecheck verified" note in this document and
+in closed checklists' review notes as unverified for `App.tsx` specifically — `npm
+test` results were real throughout (separate command, unaffected), only typecheck
+coverage was the gap.
+
 ## Backend
 
 The React/Vite app uses Convex for authentication, properties, rooms, availability,
