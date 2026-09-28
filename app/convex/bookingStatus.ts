@@ -1,5 +1,6 @@
 import { mutation } from './_generated/server';
 import { v } from 'convex/values';
+import { internal } from './_generated/api';
 import { auth } from './auth';
 import { requireRole } from './authorization';
 
@@ -26,7 +27,7 @@ export const update = mutation({
     await ctx.db.patch(args.bookingId, { status: nextStatus, updatedAt: now });
     await ctx.db.insert('bookingStatusHistory', { bookingId: args.bookingId, fromStatus: booking.status, toStatus: nextStatus, reason: args.reason?.trim().slice(0, 500), changedByUserId: await auth.getUserId(ctx) ?? undefined, createdAt: now, updatedAt: now });
     const property = await ctx.db.get(booking.propertyId); const owner = property?.ownerUserId ? await ctx.db.get(property.ownerUserId) : null;
-    if (owner?.email && nextStatus !== booking.status) await ctx.db.insert('bookingNotifications', { bookingId: booking._id, type: 'cancellation_update', recipientEmail: owner.email, status: 'queued', createdAt: now, updatedAt: now });
+    if (owner?.email && nextStatus !== booking.status) { const notificationId = await ctx.db.insert('bookingNotifications', { bookingId: booking._id, type: 'cancellation_update', recipientEmail: owner.email, status: 'queued', createdAt: now, updatedAt: now }); await ctx.scheduler.runAfter(0, internal.notifications.send, { notificationId }); }
     return { status: nextStatus };
   },
 });

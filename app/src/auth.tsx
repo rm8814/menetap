@@ -2,9 +2,9 @@ import { useAuthActions } from '@convex-dev/auth/react';
 import { useState } from 'react';
 import type { FormEvent } from 'react';
 
-export function AuthPanel({ onClose }: { onClose: () => void }) {
+export function AuthPanel({ onClose, initialMode = 'signIn' }: { onClose: () => void; initialMode?: 'signIn' | 'signUp' | 'reset' }) {
   const { signIn } = useAuthActions();
-  const [mode, setMode] = useState<'signIn' | 'signUp' | 'reset'>('signIn');
+  const [mode, setMode] = useState<'signIn' | 'signUp' | 'reset'>(initialMode);
   const [resetSent, setResetSent] = useState(false);
   const [error, setError] = useState('');
   const submit = async (event: FormEvent<HTMLFormElement>) => {

@@ -5,9 +5,10 @@ import { childNightlyCharge } from './childPolicy';
 import { auth } from './auth';
 import { requireRole } from './authorization';
 import { validateGuestBreakdown, validateMoney, validateStayDates } from './bookingValidation';
+import { internal } from './_generated/api';
 
 export const create = mutation({
-  args: { propertyId: v.id('properties'), roomTypeId: v.id('roomTypes'), roomSelections: v.optional(v.array(v.object({ roomTypeId: v.id('roomTypes'), roomName: v.string(), quantity: v.number(), ratePlan: v.string(), roomAmount: v.number(), breakfastAmount: v.number() }))), checkIn: v.string(), checkOut: v.string(), guestCount: v.number(), childAges: v.optional(v.array(v.number())), holdToken: v.optional(v.string()), idempotencyKey: v.optional(v.string()), guestName: v.string(), guestEmail: v.string(), paymentMethod: v.union(v.literal('pay_at_hotel'), v.literal('manual_bank_transfer')) },
+  args: { propertyId: v.id('properties'), roomTypeId: v.id('roomTypes'), roomSelections: v.optional(v.array(v.object({ roomTypeId: v.id('roomTypes'), roomName: v.string(), quantity: v.number(), ratePlan: v.string(), roomAmount: v.number(), breakfastAmount: v.number() }))), checkIn: v.string(), checkOut: v.string(), guestCount: v.number(), childAges: v.optional(v.array(v.number())), holdToken: v.optional(v.string()), idempotencyKey: v.optional(v.string()), guestName: v.string(), guestEmail: v.string(), paymentMethod: v.union(v.literal('pay_at_hotel'), v.literal('manual_bank_transfer')), pointsToRedeem: v.optional(v.number()) },
   handler: async (ctx, args) => {
     const guestName = args.guestName.trim();
     const guestEmail = args.guestEmail.trim().toLowerCase();
@@ -36,23 +37,42 @@ export const create = mutation({
     const guestUserId = await auth.getUserId(ctx) ?? undefined;
     const reference = `MNP-${now.toString().slice(-8)}`;
     const childCharge = childNightlyCharge(room.childPolicy, childAges);
-    const totalAmount = nights.reduce((sum, night) => sum + night.rate + childCharge, 0);
+    const grossAmount = nights.reduce((sum, night) => sum + night.rate + childCharge, 0);
+    const pointsToRedeem = args.pointsToRedeem ?? 0;
+    if (!Number.isInteger(pointsToRedeem) || pointsToRedeem < 0) throw new Error('Invalid Rewards points.');
+    let discountIdr = 0;
+    if (pointsToRedeem > 0) {
+      if (!guestUserId) throw new Error('Sign in to redeem Rewards points.');
+      const account = await ctx.db.query('rewardsAccounts').withIndex('by_user', q => q.eq('userId', guestUserId)).first();
+      const rewardsConfig = await ctx.db.query('rewardsConfig').first();
+      if (!account || !rewardsConfig || pointsToRedeem > account.pointsBalance) throw new Error('Not enough Rewards points.');
+      discountIdr = pointsToRedeem * rewardsConfig.redeemValueIdrPerPoint;
+    }
+    if (discountIdr > grossAmount) throw new Error('Rewards points exceed the booking total.');
+    const totalAmount = grossAmount - discountIdr;
     validateMoney(totalAmount, 'IDR');
     if (args.guestCount > room.maxGuests) throw new Error('This room cannot accommodate the selected number of guests.');
     await ctx.db.patch(args.roomTypeId, { updatedAt: now });
     const bookingId = await ctx.db.insert('bookings', { reference, idempotencyKey: args.idempotencyKey, propertyId: args.propertyId, roomTypeId: args.roomTypeId, checkIn: args.checkIn, checkOut: args.checkOut, guestCount: args.guestCount, childAges, childPolicySnapshot: room.childPolicy, guestName, guestEmail, totalAmount, currency: 'IDR', status: 'confirmed', paymentMethod: args.paymentMethod, paymentStatus: 'unpaid', createdAt: now, updatedAt: now });
     if (guestUserId) await ctx.db.patch(bookingId, { guestUserId });
+    if (pointsToRedeem > 0 && guestUserId) {
+      const account = await ctx.db.query('rewardsAccounts').withIndex('by_user', q => q.eq('userId', guestUserId)).first();
+      if (!account || pointsToRedeem > account.pointsBalance) throw new Error('Not enough Rewards points.');
+      await ctx.db.insert('rewardsLedger', { userId: guestUserId, bookingId, type: 'redeem', points: -pointsToRedeem, reason: 'Checkout redemption', createdAt: now, updatedAt: now });
+      await ctx.db.patch(account._id, { pointsBalance: account.pointsBalance - pointsToRedeem, updatedAt: now });
+    }
     const selections = args.roomSelections?.length ? args.roomSelections : [{ roomTypeId: args.roomTypeId, roomName: room.name, quantity: 1, ratePlan: 'Refundable', roomAmount: totalAmount, breakfastAmount: 0 }];
     for (const selection of selections) {
       if (selection.quantity < 1 || selection.quantity > 10) throw new Error('Invalid room quantity.');
       await ctx.db.insert('bookingRooms', { bookingId, ...selection, createdAt: now, updatedAt: now });
     }
     await ctx.db.insert('payments', { bookingId, method: args.paymentMethod, amount: totalAmount, currency: 'IDR', status: 'unpaid', createdAt: now, updatedAt: now });
-    await ctx.db.insert('bookingNotifications', { bookingId, type: 'booking_confirmation', recipientEmail: guestEmail, status: 'queued', createdAt: now, updatedAt: now });
-    if (args.paymentMethod === 'manual_bank_transfer') await ctx.db.insert('bookingNotifications', { bookingId, type: 'payment_instructions', recipientEmail: guestEmail, status: 'queued', createdAt: now, updatedAt: now });
+    const confirmationNotificationId = await ctx.db.insert('bookingNotifications', { bookingId, type: 'booking_confirmation', recipientEmail: guestEmail, status: 'queued', createdAt: now, updatedAt: now });
+    await ctx.scheduler.runAfter(0, internal.notifications.send, { notificationId: confirmationNotificationId });
+    if (args.paymentMethod === 'manual_bank_transfer') { const paymentNotificationId = await ctx.db.insert('bookingNotifications', { bookingId, type: 'payment_instructions', recipientEmail: guestEmail, status: 'queued', createdAt: now, updatedAt: now }); await ctx.scheduler.runAfter(0, internal.notifications.send, { notificationId: paymentNotificationId }); }
     if (property.ownerUserId) {
       const owner = await ctx.db.get(property.ownerUserId);
-      if (owner?.email) await ctx.db.insert('bookingNotifications', { bookingId, type: 'partner_reservation', recipientEmail: owner.email, status: 'queued', createdAt: now, updatedAt: now });
+      if (owner?.email) { const partnerNotificationId = await ctx.db.insert('bookingNotifications', { bookingId, type: 'partner_reservation', recipientEmail: owner.email, status: 'queued', createdAt: now, updatedAt: now }); await ctx.scheduler.runAfter(0, internal.notifications.send, { notificationId: partnerNotificationId }); }
     }
     await recordAudit(ctx, { action: 'payment.created', entityType: 'payment', entityId: bookingId, metadata: { method: args.paymentMethod, amount: totalAmount, currency: 'IDR' } });
     if (held) {

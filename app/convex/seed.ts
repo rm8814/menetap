@@ -66,6 +66,9 @@ export const seedDemo = mutation({
   args: {},
   handler: async (ctx) => {
     const now = Date.now();
+    if (!(await ctx.db.query('platformConfig').first())) await ctx.db.insert('platformConfig', { bankName: 'PENDING — REAL BANK DETAILS NEEDED', bankAccountName: 'PENDING — REAL BANK DETAILS NEEDED', bankAccountNumber: 'PENDING — REAL BANK DETAILS NEEDED', defaultCommissionPercent: 10, createdAt: now, updatedAt: now });
+    const rewardsConfig = await ctx.db.query('rewardsConfig').first();
+    if (!rewardsConfig) await ctx.db.insert('rewardsConfig', { earnRatePointsPerIdr: 0.001, redeemValueIdrPerPoint: 100, expiryMonths: 12, createdAt: now, updatedAt: now });
     let created = 0;
     let propertiesTouched = 0;
     let servicesCreated = 0;

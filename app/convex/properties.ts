@@ -156,6 +156,15 @@ export const updatePhotoModeration = mutation({
   },
 });
 
+export const listPendingModeration = query({
+  args: {},
+  handler: async (ctx) => {
+    await requireRole(ctx, ['admin', 'operations']);
+    const photos = await ctx.db.query('propertyPhotos').withIndex('by_moderation', (q) => q.eq('moderationStatus', 'pending')).collect();
+    return Promise.all(photos.map(async (photo) => ({ photo, property: await ctx.db.get(photo.propertyId) })));
+  },
+});
+
 export const searchSuggestions = query({
   args: { query: v.string() },
   handler: async (ctx, args) => {

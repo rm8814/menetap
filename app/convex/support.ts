@@ -3,6 +3,7 @@ import { v } from 'convex/values';
 import { requireRole } from './authorization';
 import { recordAudit } from './audit';
 import { auth } from './auth';
+import { internal } from './_generated/api';
 
 export const create = mutation({
   args: { name: v.string(), email: v.string(), bookingReference: v.optional(v.string()), message: v.string() },
@@ -48,6 +49,8 @@ export const updateReservation = mutation({
     if (!booking) throw new Error('Booking not found.');
     const now = Date.now();
     await ctx.db.patch(args.bookingId, { status: args.status, updatedAt: now });
+    if (args.status === 'completed' && booking.status !== 'completed') await ctx.scheduler.runAfter(0, internal.rewards.earnForBooking, { bookingId: args.bookingId });
+    if (args.status === 'completed' && booking.status !== 'completed' && booking.paymentMethod === 'pay_at_hotel') await ctx.scheduler.runAfter(0, internal.commissions.calculateForBooking, { bookingId: args.bookingId });
     await recordAudit(ctx, { action: 'support.reservation_updated', entityType: 'booking', entityId: args.bookingId, metadata: { reference: booking.reference, from: booking.status, to: args.status, reason: args.reason.trim().slice(0, 500) } });
     return { updated: true };
   },
