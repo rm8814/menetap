@@ -4476,7 +4476,8 @@ function Checkout({
   onComplete: (code: string) => void;
 }) {
   const createBooking = useMutation(api.bookings.create);
-  const rewards = useQuery(api.rewards.getAccount, {});
+  const { isAuthenticated } = useConvexAuth();
+  const rewards = useQuery(api.rewards.getAccount, isAuthenticated ? {} : "skip");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
