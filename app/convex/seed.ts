@@ -93,6 +93,17 @@ export const seedDemo = mutation({
       }
       if (!propertyId) continue;
       if (!firstPropertyId) firstPropertyId = propertyId;
+      const existingPhotos = await ctx.db.query('propertyPhotos').withIndex('by_property', (q) => q.eq('propertyId', propertyId!)).collect();
+      if (existingPhotos.length === 0) {
+        const slug = item.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+        for (let photoIndex = 0; photoIndex < 4; photoIndex += 1) {
+          await ctx.db.insert('propertyPhotos', {
+            propertyId, url: `https://picsum.photos/seed/${slug}-${photoIndex}/1200/800`,
+            altText: `${item.name} — demo photo ${photoIndex + 1} of 4`, sortOrder: photoIndex,
+            moderationStatus: 'approved', createdAt: now, updatedAt: now,
+          });
+        }
+      }
       const existingRooms = await ctx.db.query('roomTypes').withIndex('by_property', (q) => q.eq('propertyId', propertyId!)).collect();
       for (const room of item.rooms) {
         let roomTypeId = existingRooms.find((candidate) => candidate.name === room.name)?._id;
