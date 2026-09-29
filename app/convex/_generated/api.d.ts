@@ -36,6 +36,8 @@ import type * as payoutStatements from "../payoutStatements.js";
 import type * as properties from "../properties.js";
 import type * as ratePlans from "../ratePlans.js";
 import type * as refunds from "../refunds.js";
+import type * as rentalPayments from "../rentalPayments.js";
+import type * as rentalReservations from "../rentalReservations.js";
 import type * as rewards from "../rewards.js";
 import type * as roles from "../roles.js";
 import type * as roomAddOns from "../roomAddOns.js";
@@ -50,6 +52,8 @@ import type * as supplyOrders from "../supplyOrders.js";
 import type * as supplyPayments from "../supplyPayments.js";
 import type * as support from "../support.js";
 import type * as users from "../users.js";
+import type * as vehicleAvailability from "../vehicleAvailability.js";
+import type * as vehicles from "../vehicles.js";
 import type * as vendorProfiles from "../vendorProfiles.js";
 
 import type {
@@ -87,6 +91,8 @@ declare const fullApi: ApiFromModules<{
   properties: typeof properties;
   ratePlans: typeof ratePlans;
   refunds: typeof refunds;
+  rentalPayments: typeof rentalPayments;
+  rentalReservations: typeof rentalReservations;
   rewards: typeof rewards;
   roles: typeof roles;
   roomAddOns: typeof roomAddOns;
@@ -101,6 +107,8 @@ declare const fullApi: ApiFromModules<{
   supplyPayments: typeof supplyPayments;
   support: typeof support;
   users: typeof users;
+  vehicleAvailability: typeof vehicleAvailability;
+  vehicles: typeof vehicles;
   vendorProfiles: typeof vendorProfiles;
 }>;
 

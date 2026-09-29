@@ -12,6 +12,7 @@ import { applyGlobalStructuredData, applySeo, propertyPath } from "./seo";
 import { track } from "./analytics";
 import { ExperiencesV2 } from "./ExperiencesV2";
 import { ExperiencesLanding } from "./ExperiencesLanding";
+import { RentalConfirmation, RentalAdmin, RentalTripsSection } from "./RentalMarketplace";
 import { RentalsV2 } from "./RentalsV2";
 import { Button } from "./components/Button";
 import { SupplierCatalog, SupplierCheckout, SupplierConfirmation, SupplierOrders, VendorProducts, SupplierAdmin } from "./SupplierMarketplace";
@@ -127,6 +128,8 @@ export function App() {
     else if (path.endsWith("/experiences/detail")) setScreen("experienceDetail");
     else if (path.endsWith("/rentals")) setScreen("rentalsLanding" as GuestScreen);
     else if (path.endsWith("/rentals/search")) setScreen("rentalSearch" as GuestScreen);
+    else if (path.endsWith("/rentals/confirmation")) setScreen("rentalConfirmation" as GuestScreen);
+    else if (path.endsWith("/admin/rentals")) setScreen("adminRentals" as GuestScreen);
     else if (path.endsWith("/supply/checkout")) setScreen("supplyCheckout");
     else if (path.endsWith("/supply/confirmation")) setScreen("supplyConfirmation");
     else if (path.endsWith("/supply/catalog")) setScreen("supplyCatalog");
@@ -359,7 +362,7 @@ export function App() {
       {screen === "adminPayouts" && <ProtectedScreen allowedRoles={["admin", "finance"]}><AdminUnavailable title="Payouts" /></ProtectedScreen>}
       {screen === ("adminPayments" as GuestScreen) && <ProtectedScreen allowedRoles={["admin", "finance", "operations"]}><AdminPaymentsPage /></ProtectedScreen>}
       {screen === "adminReports" && <ProtectedScreen allowedRoles={["admin", "finance", "operations"]}><AdminUnavailable title="Reports" /></ProtectedScreen>}
-      {screen === "adminDisputes" && <ProtectedScreen allowedRoles={["admin", "support", "operations"]}><AdminQuickOpsPage kind="disputes" /></ProtectedScreen>}
+      {screen === "adminDisputes" && <ProtectedScreen allowedRoles={["admin", "finance", "operations"]}><AdminDisputesPage /></ProtectedScreen>}
       {screen === "adminModeration" && <ProtectedScreen allowedRoles={["admin", "operations"]}><AdminQuickOpsPage kind="moderation" /></ProtectedScreen>}
       {screen === "adminRisk" && <ProtectedScreen allowedRoles={["admin", "finance"]}><AdminUnavailable title="Risk & fraud" /></ProtectedScreen>}
       {screen === "adminSupport" && <ProtectedScreen allowedRoles={["admin", "support", "operations"]}><AdminQuickOpsPage kind="support" /></ProtectedScreen>}
@@ -519,7 +522,7 @@ export function App() {
         />
       )}
       {screen === "guestDetails" && <GuestDetails />}
-      {screen === "myTrips" && <MyTrips />}
+      {screen === "myTrips" && <><MyTrips /><RentalTripsSection /></>}
       {screen === "saved" && <SavedStays />}
       {screen === "paymentMethods" && <PaymentMethods />}
       {screen === "settings" && <GuestSettings />}
@@ -528,6 +531,8 @@ export function App() {
       {screen === "experiences" && <><ExperiencesLanding /><Footer language={language} setLanguage={setLanguage} /></>}
       {screen === "rentalsLanding" && <><RentalsV2 /><Footer language={language} setLanguage={setLanguage} /></>}
       {screen === "rentalSearch" && <RentalSearch />}
+      {screen === ("rentalConfirmation" as GuestScreen) && <RentalConfirmation />}
+      {screen === ("adminRentals" as GuestScreen) && <ProtectedScreen allowedRoles={["admin", "operations", "finance"]}><RentalAdmin /></ProtectedScreen>}
       {screen === "experienceDetail" && <ExperienceDetail />}
       {screen === "supplyLanding" && <ProtectedScreen allowedRoles={["partner", "operations", "admin"]}><SupplyLanding /></ProtectedScreen>}
       {screen === "supplyCatalog" && <ProtectedScreen allowedRoles={["partner", "operations", "admin"]}><SupplierCatalog /></ProtectedScreen>}
@@ -2056,38 +2061,26 @@ function RentalSearch() {
   const [type, setType] = useState<"all" | "scooter" | "car">("all");
   const [driver, setDriver] = useState(false);
   const [delivery, setDelivery] = useState(false);
-  const days = 3;
-  const vehicles = [
-    {
-      type: "scooter",
-      name: "Honda Beat",
-      specs: "2 seats · automatic · full tank",
-      rate: 65000,
-      image: "rental-scooter",
-    },
-    {
-      type: "scooter",
-      name: "Yamaha NMAX",
-      specs: "2 seats · automatic · storage box",
-      rate: 95000,
-      image: "rental-scooter premium",
-    },
-    {
-      type: "car",
-      name: "Honda Brio",
-      specs: "5 seats · automatic · AC",
-      rate: 320000,
-      image: "rental-car",
-    },
-    {
-      type: "car",
-      name: "Toyota Avanza",
-      specs: "7 seats · manual · AC",
-      rate: 380000,
-      image: "rental-car spacious",
-    },
-  ].filter((vehicle) => type === "all" || vehicle.type === type);
-  const extra = (driver ? 150000 : 0) + (delivery ? 50000 : 0);
+  const allVehicles = useQuery(api.vehicles.listActive, {}) || [];
+  const bookings = useQuery(api.bookings.listMine, {}) || [];
+  const createReservation = useMutation(api.rentalReservations.create);
+  const [selectedVehicle, setSelectedVehicle] = useState<any>(null);
+  const [bookingId, setBookingId] = useState<any>(undefined);
+  const [deliveryDate, setDeliveryDate] = useState("");
+  const [returnDate, setReturnDate] = useState("");
+  const [message, setMessage] = useState("");
+  const vehicles = allVehicles.filter((vehicle) => type === "all" || vehicle.type === type);
+  const qualifyingBookings = bookings.filter((booking) => booking.status === "confirmed" && booking.checkOut >= new Date().toISOString().slice(0, 10));
+  const selectedBooking = bookings.find((booking) => booking._id === bookingId);
+  const days = selectedBooking ? Math.max(1, Math.ceil((Date.parse(`${selectedBooking.checkOut}T00:00:00Z`) - Date.parse(`${selectedBooking.checkIn}T00:00:00Z`)) / 86400000)) : 1;
+  const reserve = async () => {
+    if (!selectedVehicle || !bookingId || !deliveryDate || !returnDate) { setMessage("Choose a confirmed stay and rental dates before reserving."); return; }
+    try {
+      const result = await createReservation({ bookingId, vehicleId: selectedVehicle._id, deliveryDate, returnDate, driverIncluded: driver, deliveryIncluded: delivery });
+      localStorage.setItem("rentalReservationId", String(result.reservationId));
+      window.location.assign("/en/rentals/confirmation");
+    } catch (error) { setMessage(error instanceof Error ? error.message : "Unable to reserve this vehicle."); }
+  };
   return (
     <main className="rental-search-page">
       <div className="rentals-wrap rental-search-context">
@@ -2148,10 +2141,10 @@ function RentalSearch() {
             <span>All costs shown upfront</span>
           </div>
           {vehicles.map((vehicle) => {
-            const daily = vehicle.rate + extra;
+            const daily = vehicle.dailyRate + (driver ? vehicle.driverSurcharge ?? 0 : 0) + (delivery ? vehicle.deliverySurcharge ?? 0 : 0);
             return (
-              <article className="rental-result-card" key={vehicle.name}>
-                <div className={`rental-result-image ${vehicle.image}`}>
+              <article className="rental-result-card" key={vehicle._id}>
+                <div className={`rental-result-image ${vehicle.type === "car" ? "rental-car" : "rental-scooter"}`}>
                   <span>
                     {vehicle.type === "car" ? (
                       <Car size={28} />
@@ -2186,237 +2179,26 @@ function RentalSearch() {
                       <b>Rp {(daily * days).toLocaleString("en-US")}</b>
                       <small>Deposit: Rp 0</small>
                     </div>
-                    <button>Select vehicle</button>
+                    <button onClick={() => { setSelectedVehicle(vehicle); setBookingId(qualifyingBookings[0]?._id); setMessage(""); }}>Select vehicle</button>
                   </div>
                 </div>
               </article>
             );
           })}
+          {selectedVehicle && <aside className="rental-filter-panel">
+            <h3>Reserve {selectedVehicle.name}</h3>
+            {qualifyingBookings.length ? <label>Confirmed stay<select value={bookingId || ""} onChange={(event) => setBookingId(event.target.value)}>{qualifyingBookings.map((booking) => <option key={booking._id} value={booking._id}>{booking.reference} · {booking.checkIn} → {booking.checkOut}</option>)}</select></label> : <p>No confirmed upcoming stay is available. Book a stay first, then return here.</p>}
+            <label>Delivery date<input type="date" value={deliveryDate} onChange={(event) => setDeliveryDate(event.target.value)} /></label>
+            <label>Return date<input type="date" value={returnDate} onChange={(event) => setReturnDate(event.target.value)} /></label>
+            {message && <p className="error-text">{message}</p>}
+            <button disabled={!qualifyingBookings.length} onClick={reserve}>Reserve vehicle</button>
+          </aside>}
         </section>
       </div>
     </main>
   );
 }
 
-function RentalsLanding({ onFind }: { onFind: () => void }) {
-  const [pickup, setPickup] = useState("Yogyakarta");
-  const [dropoff, setDropoff] = useState("");
-  const [differentDropoff, setDifferentDropoff] = useState(false);
-  const [pickupDate, setPickupDate] = useState("2026-10-12");
-  const [returnDate, setReturnDate] = useState("2026-10-15");
-  const [pickupTime, setPickupTime] = useState("10:00");
-  const [returnTime, setReturnTime] = useState("10:00");
-  const [passengers, setPassengers] = useState(1);
-  const [dateError, setDateError] = useState(false);
-  const updateReturn = (value: string) => {
-    setReturnDate(value);
-    setDateError(value < pickupDate);
-  };
-  return (
-    <>
-      <main className="rentals-landing">
-        <section className="rentals-hero">
-          <div className="rentals-wrap rentals-hero-copy">
-            <div className="hero-badge">
-              <Car size={14} /> Menetap-managed fleet — no third-party surprises
-            </div>
-            <h1>Scooters and cars, ready when you land.</h1>
-            <p>
-              Book a vehicle for your Indonesia trip — with or without a Menetap
-              stay. Delivered to your hotel or the airport.
-            </p>
-          </div>
-          <div className="rentals-stats">
-            <div>
-              <strong>4.7★</strong>
-              <span>Average rental rating</span>
-            </div>
-            <div>
-              <strong>12,000+</strong>
-              <span>Rentals completed</span>
-            </div>
-            <div>
-              <strong>40+</strong>
-              <span>Pickup locations</span>
-            </div>
-          </div>
-          <div className="rentals-wrap rentals-search-card">
-            <label>
-              <span>Pickup location</span>
-              <input
-                value={pickup}
-                onChange={(event) => setPickup(event.target.value)}
-                placeholder="City, hotel, or airport"
-              />
-              <em>
-                <input
-                  type="checkbox"
-                  checked={differentDropoff}
-                  onChange={(event) =>
-                    setDifferentDropoff(event.target.checked)
-                  }
-                />{" "}
-                Different drop-off
-              </em>
-              {differentDropoff && (
-                <input
-                  className="dropoff-input"
-                  value={dropoff}
-                  onChange={(event) => setDropoff(event.target.value)}
-                  placeholder="Drop-off city or location"
-                />
-              )}
-            </label>
-            <label>
-              <span>Pickup date</span>
-              <input
-                type="date"
-                value={pickupDate}
-                onChange={(event) => setPickupDate(event.target.value)}
-              />
-            </label>
-            <label>
-              <span>Pickup time</span>
-              <input
-                type="time"
-                value={pickupTime}
-                onChange={(event) => setPickupTime(event.target.value)}
-              />
-            </label>
-            <label>
-              <span>Return date</span>
-              <input
-                type="date"
-                value={returnDate}
-                onChange={(event) => updateReturn(event.target.value)}
-              />
-              {dateError && <small>Return after pickup</small>}
-            </label>
-            <label>
-              <span>Return time</span>
-              <input
-                type="time"
-                value={returnTime}
-                onChange={(event) => setReturnTime(event.target.value)}
-              />
-            </label>
-            <label>
-              <span>Passengers</span>
-              <div className="rental-stepper">
-                <button
-                  onClick={() => setPassengers(Math.max(1, passengers - 1))}
-                >
-                  −
-                </button>
-                <b>{passengers}</b>
-                <button
-                  onClick={() => setPassengers(Math.min(7, passengers + 1))}
-                >
-                  +
-                </button>
-              </div>
-            </label>
-            <button className="rental-search-button" onClick={onFind}>
-              Find a vehicle
-            </button>
-          </div>
-          <div className="rentals-popular">
-            <span>Popular pickup spots:</span>
-            {[
-              "Yogyakarta Airport",
-              "Malioboro",
-              "Ngurah Rai Airport (Bali)",
-              "Ubud",
-            ].map((spot) => (
-              <button key={spot} onClick={() => setPickup(spot)}>
-                {spot}
-              </button>
-            ))}
-          </div>
-        </section>
-        <section className="rentals-wrap rentals-pricing">
-          <div>
-            <h2>Transparent pricing at pickup.</h2>
-            <p>
-              Insurance, delivery, and driver costs are shown upfront at
-              checkout — never added at the counter. The total you see when you
-              book is the total you pay.
-            </p>
-          </div>
-          <div className="rental-price-card">
-            <div>
-              <span>Scooter, 3 days</span>
-              <b>Rp 195,000</b>
-            </div>
-            <div>
-              <span>Insurance</span>
-              <b>Rp 120,000</b>
-            </div>
-            <div>
-              <span>Delivery to hotel</span>
-              <b>Rp 50,000</b>
-            </div>
-            <hr />
-            <div className="price-total">
-              <strong>Total at pickup</strong>
-              <b>Rp 365,000</b>
-            </div>
-          </div>
-        </section>
-        <section className="rentals-wrap rentals-types">
-          <h2>What you can rent</h2>
-          <div className="rental-type-grid">
-            <a href="/en/rentals/search?type=scooter">
-              <div className="rental-type-image scooter-image">Photo</div>
-              <div>
-                <h3>Scooter / automatic motorbike</h3>
-                <p>
-                  From Rp 65,000/day. Helmet included, delivery to your hotel
-                  available.
-                </p>
-              </div>
-            </a>
-            <a href="/en/rentals/search?type=car">
-              <div className="rental-type-image car-image">Photo</div>
-              <div>
-                <h3>Economy car</h3>
-                <p>
-                  From Rp 380,000/day. Self-drive or with a driver, insurance
-                  included.
-                </p>
-              </div>
-            </a>
-          </div>
-        </section>
-        <section className="rentals-wrap rental-benefits">
-          <span>
-            <ShieldCheck size={16} />
-            Insurance available on every rental
-          </span>
-          <span>
-            <Truck size={16} />
-            Delivery to hotel or airport
-          </span>
-          <span>
-            <UserCheck size={16} />
-            Driver option available
-          </span>
-        </section>
-        <section className="rentals-wrap rental-trip-banner">
-          <div>
-            <h3>Already have a Menetap stay booked?</h3>
-            <p>
-              Add a rental to your existing trip — we'll deliver it to your
-              hotel on arrival day.
-            </p>
-          </div>
-          <button>Add to my trip</button>
-        </section>
-      </main>
-      <Footer language="EN" setLanguage={() => undefined} />
-    </>
-  );
-}
 
 function RewardsLanding() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
@@ -4443,7 +4225,7 @@ function AdminAccessDenied(){return <div className="admin-denied-page"><div clas
 
 function AdminOpsPage({kind}:{kind:"payouts"|"reports"|"disputes"|"moderation"|"risk"|"support"}){const config={payouts:{title:"Payouts",section:"Commerce",desc:"Review partner payout queue, settlement status, and exceptions.",stats:[["Queued today","12"],["Processing","Rp 18.4M"],["Paid this month","Rp 710M"],["Exceptions","3"]],headers:["Property","Gross","Commission","Net payout","Status"],rows:[["Malioboro Skyline Suites","Rp 4,120,000","Rp 494,400","Rp 3,625,600","Processing"],["Kaliurang Heritage Villa","Rp 2,670,000","Rp 320,400","Rp 2,349,600","Ready"],["Surabaya City Suites","Rp 2,890,000","Rp 346,800","Rp 2,543,200","Failed"]]},reports:{title:"Reports",section:"Insights",desc:"Download operational and financial reports for the selected period.",stats:[["Bookings","842"],["Gross booking value","Rp 842M"],["Commission revenue","Rp 84.2M"],["Cancellation rate","3.8%"]],headers:["Report","Period","Generated by","Format","Action"],rows:[["Revenue summary","Sep 2026","System","CSV","Download"],["Partner payout ledger","Sep 2026","System","CSV","Download"],["Booking performance","Q3 2026","Anin W.","PDF","Download"]]},disputes:{title:"Disputes & refunds",section:"Trust & Safety",desc:"Review guest and partner disputes, refunds, and resolution history.",stats:[["Open disputes","2"],["Awaiting partner","4"],["Refunds this month","Rp 3.8M"],["Avg. resolution","1.4 days"]],headers:["Case","Booking","Raised by","Amount","Status"],rows:[["DSP-2048","MTP-7X9K2Q","Guest","Rp 890,000","Open"],["DSP-2031","MTP-4H1L8B","Partner","Rp 620,000","Awaiting info"],["DSP-1988","MTP-2R6V9C","Guest","Rp 2,200,000","Resolved"]]},moderation:{title:"Listing moderation",section:"Trust & Safety",desc:"Review property content before it appears to guests.",stats:[["Pending review","3"],["Approved this week","18"],["Needs changes","4"],["Paused listings","2"]],headers:["Property","Partner","Submitted","Quality","Action"],rows:[["Solo Heritage House","Rizky Mahendra","25-Sep-2026","92/100","Review"],["Dieng Highland Cottage","Anin Wida","24-Sep-2026","78/100","Review"],["Bandung Hillside Retreat","Sinta Dewi","23-Sep-2026","Needs photos","Review"]]},risk:{title:"Risk & fraud flags",section:"Trust & Safety",desc:"Monitor unusual booking, payout, and account activity.",stats:[["Open flags","4"],["High severity","1"],["Reviewed today","8"],["Blocked accounts","2"]],headers:["Flag","Entity","Signal","Severity","Status"],rows:[["RSK-448","Guest · anin@example.com","Multiple failed payments","High","Open"],["RSK-447","MTP-4H1L8B","Unusual cancellation pattern","Medium","Reviewing"],["RSK-441","Partner · Raka M.","Payout account change","Low","Cleared"]]},support:{title:"Support inbox",section:"Communication",desc:"Resolve guest, partner, and internal support requests.",stats:[["Open tickets","18"],["Unassigned","5"],["SLA at risk","2"],["Resolved today","24"]],headers:["Ticket","Requester","Topic","Updated","Status"],rows:[["SUP-2048","Anin W.","Room not ready","Today · 09:42","Open"],["SUP-2042","Kaliurang Villa","Payout question","Today · 08:15","In progress"],["SUP-2036","Dimas P.","Change dates","Yesterday","Resolved"]]}}[kind]; const [query,setQuery]=useState(""); const [selected,setSelected]=useState<string|null>(null); const filtered=config.rows.filter(r=>r.join(" ").toLowerCase().includes(query.toLowerCase())); return <AdminFrame title={config.title} section={config.section}><div className="ops-intro"><div><h2>{config.title}</h2><p>{config.desc}</p></div><div className="ops-actions"><label className="admin-search"><Search size={14}/><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Search"/></label><button className="save-property">Export CSV</button></div></div><div className="admin-stats">{config.stats.map(([label,value],i)=><AdminStat label={label} value={value} accent={i===1} key={label}/>)}</div><section className="admin-card ops-table-card"><div className="ops-table-head">{config.headers.map(h=><b key={h}>{h}</b>)}</div>{filtered.map((row,i)=><button className="ops-table-row" onClick={()=>setSelected(row[0])} key={i}>{row.map((v,j)=><span className={j===row.length-1?`ops-status ${v.toLowerCase().replaceAll(" ","-")}`:""} key={j}>{v}</span>)}</button>)}{!filtered.length&&<div className="admin-empty">No records match your search.</div>}</section><section className="admin-card ops-note"><h2>Operational notes</h2><p>Actions on this workspace are auditable. Every approval, refund, status change, and assignment should include a clear reason.</p><button className="outline-button">View audit log</button></section>{selected&&<div className="booking-modal-backdrop" onClick={()=>setSelected(null)}><div className="ops-modal" onClick={e=>e.stopPropagation()}><div className="modal-head"><h2>{selected}</h2><button onClick={()=>setSelected(null)}>×</button></div><p>Review this record and add an internal note before changing its status.</p><textarea placeholder="Internal note"/><div><button className="outline-button" onClick={()=>setSelected(null)}>Close</button><button className="save-property" onClick={()=>setSelected(null)}>Save action</button></div></div></div>}</AdminFrame>}
 
-function AdminFrame({title,section,children}:{title:string;section:string;children:ReactNode}){const nav=[['Commission','/admin'],['Properties','/admin/properties'],['Payouts','/admin/payouts'],['Finance','/admin/finance'],['Users','/admin/users'],['Team','/admin/team'],['Moderation','/admin/moderation'],['Disputes & refunds','/admin/disputes'],['Risk & fraud','/admin/risk'],['Support inbox','/admin/support'],['Announcements','#'],['Reports','/admin/reports'],['System health','#'],['Settings','#']];return <div className="admin-console-page"><header className="admin-console-header"><div className="admin-console-wrap"><a className="admin-console-brand" href="/admin"><span>menetap<span>.</span></span><small>admin</small></a><div className="admin-console-tools"><label><Search size={14}/><input placeholder="Search everything..."/></label><span className="admin-access">Superadmin access · full edit</span><span className="admin-avatar">UP</span></div></div></header><main className="admin-console-wrap admin-main"><div className="admin-breadcrumb"><a href="/admin">Admin</a><span>›</span><span>{section}</span><span>›</span><b>{title}</b></div><h1 className="admin-page-title">{title}</h1><div className="admin-grid"><nav className="admin-sidebar">{nav.map(([label,href])=><button className={label===title||label===section?"active":""} onClick={()=>href!=="#"&&window.location.assign(href)} key={label}>{label}</button>)}</nav><section className="admin-content">{children}</section></div></main></div>}
+function AdminFrame({title,section,children}:{title:string;section:string;children:ReactNode}){const navGroups:[string,[string,string][]][]=[['Commerce',[['Commission','/admin'],['Properties','/admin/properties'],['Rentals','/admin/rentals'],['Suppliers','/admin/supplier'],['Payments','/admin/payments'],['Payouts','/admin/payouts'],['Finance','/admin/finance']]],['People',[['Users','/admin/users'],['Team','/admin/team']]],['Trust & safety',[['Moderation','/admin/moderation'],['Disputes & refunds','/admin/disputes'],['Risk & fraud','/admin/risk']]],['Communication',[['Support inbox','/admin/support'],['Announcements','/admin/announcements']]],['Insights',[['Reports','/admin/reports'],['System health','/admin/system']]],['Account',[['Settings','/admin/settings']]]];return <div className="admin-console-page"><header className="admin-console-header"><div className="admin-console-wrap"><a className="admin-console-brand" href="/admin"><span>menetap<span>.</span></span><small>admin</small></a><div className="admin-console-tools"><label><Search size={14}/><input placeholder="Search everything..."/></label><span className="admin-access">Superadmin access · full edit</span><span className="admin-avatar">UP</span></div></div></header><main className="admin-console-wrap admin-main"><div className="admin-breadcrumb"><a href="/admin">Admin</a><span>›</span><span>{section}</span><span>›</span><b>{title}</b></div><h1 className="admin-page-title">{title}</h1><div className="admin-grid"><nav className="admin-sidebar">{navGroups.map(([groupLabel,items])=><div key={groupLabel}><small>{groupLabel.toUpperCase()}</small>{items.map(([label,href])=><button className={label===title||groupLabel===section?"active":""} onClick={()=>window.location.assign(href)} key={label}>{label}</button>)}</div>)}</nav><section className="admin-content">{children}</section></div></main></div>}
 function AdminPropertyDetail(){
   const [tab,setTab]=useState("Overview"); const [propertyId]=useState<any>(()=>new URLSearchParams(window.location.search).get("propertyId"));
   const property=useQuery(api.properties.get,propertyId?{id:propertyId}:"skip"); const photos=useQuery(api.properties.listPhotos,propertyId?{propertyId}:"skip"); const rooms=useQuery(api.rooms.listForProperty,propertyId?{propertyId}:"skip");
@@ -4471,6 +4253,19 @@ function AdminConsole() {
   const [range,setRange]=useState("30 days"); const [commission,setCommission]=useState("10"); const [saved,setSaved]=useState(false); const [query,setQuery]=useState(""); const properties: [string,string,string,boolean][]=[ ["Kaliurang Heritage Villa","Sleman, Yogyakarta","12",true],["Malioboro Skyline Suites","Yogyakarta","12",false],["Borobudur Garden Retreat","Magelang, Central Java","15",false],["Solo Heritage House","Surakarta, Central Java","10",true],["Dieng Highland Cottage","Wonosobo, Central Java","12",false],["Semarang Old Town Loft","Semarang, Central Java","13",false] ]; const filtered=properties.filter(p=>p[0].toLowerCase().includes(query.toLowerCase()));
   return <div className="admin-console-page"><header className="admin-console-header"><div className="admin-console-wrap"><a className="admin-console-brand" href="/admin"><span>menetap<span>.</span></span><small>admin</small></a><div className="admin-console-tools"><label><Search size={14}/><input placeholder="Search everything..."/></label><span className="admin-access">Superadmin access · full edit</span><span className="admin-avatar">UP</span></div></div></header><main className="admin-console-wrap admin-main"><div className="admin-heading"><h1>Commission & placements</h1><div className="range-tabs">{["7 days","30 days","90 days"].map(r=><button className={range===r?"active":""} onClick={()=>setRange(r)} key={r}>{r}</button>)}<button>↓ Export CSV</button></div></div><div className="admin-grid"><nav className="admin-sidebar"><small>COMMERCE</small><button className="active">% Commission</button><button onClick={()=>window.location.assign("/admin/properties")}>▣ Properties</button><button>◈ Payouts</button><button>▤ Finance</button><small>PEOPLE</small><button>♙ Users</button><button>♙ Team</button><small>TRUST & SAFETY</small><button>◆ Moderation</button><button>⚖ Disputes & refunds</button><button>⚠ Risk & fraud</button><small>COMMUNICATION</small><button>▣ Support inbox</button><button>⚑ Announcements</button><small>INSIGHTS</small><button>▤ Reports</button><button>◉ System health</button><small>ACCOUNT</small><button>⚙ Settings</button></nav><section className="admin-content"><div className="admin-stats"><AdminStat label="Commission earned (MTD)" value="Rp 84.2M"/><AdminStat label="Featured slot revenue" value="Rp 6.7M" accent/><AdminStat label="Active properties" value="340"/><AdminStat label="Featured now" value="28" accent/></div><section className="admin-card"><h2>Platform-wide default</h2><p>Applies to all properties unless overridden individually below.</p><div className="admin-inline-input"><input type="number" value={commission} onChange={e=>setCommission(e.target.value)}/><b>%</b><button onClick={()=>setSaved(true)}>{saved?"Saved":"Save"}</button></div></section><section className="admin-card"><h2>“Featured Stay” surcharge</h2><p>Additional commission charged only on bookings attributed to a featured placement.</p><div className="admin-inline-input"><input type="number" defaultValue="2"/><b>%</b><button>Save</button></div></section><section className="admin-card"><div className="admin-card-head"><div><h2>Curated collections</h2><p>Groups of properties surfaced together on the homepage and search.</p></div><button className="admin-link">+ New collection</button></div>{[["Best pools in Yogyakarta","8 properties · Homepage","Active"],["Family-friendly stays","14 properties · Search results","Active"],["Heritage & culture stays","6 properties · Homepage","Inactive"]].map((c: string[])=><div className="collection-row" key={c[0]}><div><b>{c[0]}</b><small>{c[1]}</small></div><span className={c[2]==="Active"?"active-badge":"inactive-badge"}>{c[2]}</span></div>)}</section><section className="admin-card admin-property-card"><div className="admin-card-head"><div><h2>Property-level overrides</h2><p>Manage commission and Featured Stay placement for individual properties.</p></div><label className="admin-search"><Search size={14}/><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Search property"/></label></div><div className="admin-property-table"><div><b>Property</b><b>Commission</b><b>Effective</b><b>Featured Stay</b></div>{filtered.map(p=><div key={p[0]}><span><strong>{p[0]}</strong><small>{p[1]}</small></span><input defaultValue={p[2]}/><span>Property override</span><span className={p[3]?"featured-badge":"muted-dash"}>{p[3]?"Featured":"—"}</span></div>)}</div></section><section className="admin-card"><h2>Change history · {range}</h2>{[["Anin W.","set Kaliurang Heritage Villa commission to 12%","Today, 09:12"],["Anin W.","featured Solo Heritage House","Yesterday, 17:40"],["System","updated platform default to 12%","Sep 20, 2026"]].map((x: string[])=><div className="audit-row" key={x[1]}><span><b>{x[0]}</b> {x[1]}</span><small>{x[2]}</small></div>)}</section></section></div></main></div>;
 }
+function AdminDisputesPage(){
+  const pending = useQuery(api.refunds.listPending, {});
+  const [reference, setReference] = useState("");
+  const [lookupReference, setLookupReference] = useState("");
+  const lookup = useQuery(api.refunds.lookupBooking, lookupReference ? { reference: lookupReference } : "skip");
+  const review = useMutation(api.refunds.review);
+  const flag = useMutation(api.refunds.flagOverbooking);
+  const [note, setNote] = useState("");
+  const [message, setMessage] = useState("");
+  const act = async (action: () => Promise<unknown>) => { setMessage(""); try { await action(); setMessage("Action saved."); } catch (error) { setMessage(error instanceof Error ? error.message : "Unable to save action."); } };
+  return <AdminFrame title="Disputes & refunds" section="Trust & Safety"><div className="ops-intro"><div><h2>Booking lookup</h2><p>Review booking history, payments, and refund requests before resolving a dispute.</p></div></div><section className="admin-card"><form onSubmit={(event)=>{event.preventDefault();setLookupReference(reference.trim());}}><label>Booking reference<input value={reference} onChange={(event)=>setReference(event.target.value)} placeholder="MTP-..." /></label><button className="save-property" type="submit">Look up booking</button></form>{lookup === undefined && lookupReference && <LoadingState label="Loading booking…" />}{lookup === null && <p className="error-text">No booking found for that reference.</p>}{lookup && <div className="detail-two-col"><div><h3>{lookup.booking.reference}</h3><p>{lookup.property?.name ?? "Property unavailable"} · {lookup.booking.guestName}</p><h3>Payment history</h3>{lookup.payments.length ? lookup.payments.map((payment)=><p key={payment._id}>{payment.status} · Rp {payment.amount.toLocaleString("en-US")} · {new Date(payment.createdAt).toLocaleString()}</p>) : <p>No payments recorded.</p>}</div><div><h3>Change history</h3>{lookup.history.length ? lookup.history.map((item)=><p key={item._id}>{item.fromStatus ?? "new"} → {item.toStatus}{item.reason ? ` · ${item.reason}` : ""}</p>) : <p>No status history recorded.</p>}<button className="outline-button" type="button" onClick={()=>act(()=>flag({bookingId:lookup.booking._id,note}))}>Flag overbooking</button></div></div>}</section><section className="admin-card"><h2>Reviewer note</h2><textarea value={note} onChange={(event)=>setNote(event.target.value)} placeholder="Explain the document outcome or overbooking concern." /><p className="muted">A meaningful note is required for overbooking flags.</p>{message && <p className={message === "Action saved." ? "success-text" : "error-text"}>{message}</p>}</section><section className="admin-card ops-table-card"><h2>Pending refunds</h2>{pending === undefined ? <LoadingState label="Loading refund requests…" /> : pending.length ? pending.map((refund)=><div className="ops-table-row" key={refund._id}><span><strong>{refund.bookingId}</strong><small>{refund.reason}</small></span><span>Rp {refund.amount.toLocaleString("en-US")}</span><span><button className="save-property" onClick={()=>act(()=>review({refundRequestId:refund._id,decision:"approve",note:note.trim() || undefined}))}>Approve</button><button className="outline-button" onClick={()=>act(()=>review({refundRequestId:refund._id,decision:"reject",note:note.trim() || undefined}))}>Reject</button></span></div>) : <div className="admin-empty">No pending refund requests.</div>}</section></AdminFrame>;
+}
+
 function AdminQuickOpsPage({kind}:{kind:"disputes"|"moderation"|"support"}) {
   const refunds = useQuery(api.refunds.listPending, kind === "disputes" ? {} : "skip");
   const decideRefund = useMutation(api.refunds.review);
