@@ -4572,6 +4572,10 @@ function Confirmation({
     api.bookings.getByReference,
     code ? { reference: code } : "skip",
   );
+  const property = useQuery(
+    api.properties.get,
+    booking ? { id: booking.propertyId } : "skip",
+  );
   const submitTransfer = useMutation(api.payments.submitManualTransfer);
   const transferInstructions = useQuery(api.payments.getInstructions, booking && contactEmail ? { bookingId: booking._id, guestEmail: contactEmail } : "skip");
   const [transferReference, setTransferReference] = useState("");
@@ -4602,7 +4606,8 @@ function Confirmation({
         We have saved your reservation. Your confirmation code is <strong>{code}</strong>.
       </p>
       <div className="confirmation-card">
-        <span><b>{booking.guestName}</b><br />{booking.checkIn} → {booking.checkOut} · {nights} {nights === 1 ? "night" : "nights"}</span>
+        <span><b>{property?.name ?? "Your stay"}</b><br />{booking.checkIn} → {booking.checkOut} · {nights} {nights === 1 ? "night" : "nights"}</span>
+        <span>{booking.guestName}</span>
         <span>{booking.guestCount} guests{childAges.length ? ` · ${childAges.length} children (${childAges.join(", ")} years)` : ""}</span>
         <span>Booking status: <strong>{booking.status}</strong></span>
         <span>Payment: <strong>{paymentLabel}</strong> · {booking.paymentStatus}</span>
