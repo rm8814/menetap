@@ -109,7 +109,7 @@ h1 em { font-style: normal; }
 .destination-suggestions button:hover { color: #7229ff; background: #f7f6ff; transform: none; }
 .destination-suggestions small { color: #5e5a78; font-size: 10px; font-weight: 400; }
 .guest-field { position: relative; }
-.guest-trigger { display: flex; align-items: center; justify-content: flex-start; gap: 8px; width: 100%; height: 20px; min-height: 0; padding: 0; color: #0c0a1e; background: transparent; font-size: 14px; font-weight: 600; line-height: 20px; text-align: left; }
+.guest-field .guest-trigger { display: flex; align-items: center; justify-content: flex-start; gap: 8px; width: 100%; height: 20px; min-height: 0; padding: 0; border: 0; box-sizing: border-box; color: #0c0a1e; background: transparent; font-size: 14px; font-weight: 600; line-height: 20px; text-align: left; }
 .guest-trigger span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 14px; }
 .dc-search-card label .guest-trigger > span { display: inline; margin-bottom: 0; color: #0c0a1e; font-size: 14px; font-weight: 600; letter-spacing: normal; line-height: 20px; text-transform: none; }
 .guest-trigger svg { color: #7229ff; }
@@ -121,9 +121,9 @@ h1 em { font-style: normal; }
 .guest-counter small { color: #5e5a78; font-size: 10px; }
 .counter-actions { display: flex; align-items: center; gap: 12px; }
 .counter-actions > strong { min-width: 18px; text-align: center; }
-.counter-actions button { display: grid; place-items: center; width: 30px; height: 30px; min-height: 0; padding: 0; border: 1px solid #d8d2f0; border-radius: 50%; color: #7229ff; background: #fff; font-size: 18px; line-height: 1; }
-.counter-actions button:hover { color: #fff; border-color: #7229ff; background: #7229ff; transform: none; }
-.counter-actions button:disabled { opacity: .4; cursor: not-allowed; }
+.guest-popover .counter-actions button { display: grid; place-items: center; width: 30px; height: 30px; min-height: 0; padding: 0; border: 1px solid #d8d2f0; border-radius: 50%; color: #7229ff; background: #fff; font-size: 18px; line-height: 1; }
+.guest-popover .counter-actions button:hover { color: #fff; border-color: #7229ff; background: #7229ff; transform: none; }
+.guest-popover .counter-actions button:disabled { opacity: .4; cursor: not-allowed; }
 .search-error { margin: 10px 0 0; color: #dc2626; font-size: 11px; text-align: left; }
 label { padding: 11px 13px; color: #8784a0; font-size: 12px; }
 input { display: block; width: 100%; margin-top: 6px; padding: 0; border: 0; outline: 0; color: #0c0a1e; background: transparent; font: 600 14px 'JetBrains Mono', monospace; }
