@@ -777,6 +777,7 @@ function Home({
             cityProperties.slice(0, 3).map((property) => (
               <PropertyCard
                 key={property._id}
+                id={property._id}
                 name={property.name}
                 type={property.type}
                 area={property.area}
@@ -1037,6 +1038,7 @@ function DestinationLanding({
   );
 }
 function PropertyCard({
+  id,
   name,
   type = "hotel",
   area,
@@ -1049,6 +1051,7 @@ function PropertyCard({
   scarcity,
   onSelect,
 }: {
+  id?: string;
   name: string;
   type?: string;
   area: string;
@@ -1104,6 +1107,23 @@ function PropertyCard({
       </div>
     </>
   );
+  if (id && onSelect) {
+    const langPrefix = window.location.pathname.match(/^\/(en|id)/)?.[0] ?? "/en";
+    const href = langPrefix + propertyPath(id, name);
+    return (
+      <a
+        className="property-card is-clickable"
+        href={href}
+        onClick={(event) => {
+          if (event.defaultPrevented || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0) return;
+          event.preventDefault();
+          onSelect();
+        }}
+      >
+        {content}
+      </a>
+    );
+  }
   return (
     <article
       className={`property-card ${onSelect ? "is-clickable" : ""}`}
@@ -1139,6 +1159,7 @@ function FeaturedSection({ onSelect }: { onSelect: (id: string) => void }) {
           properties.slice(0, 3).map((property) => (
             <PropertyCard
               key={property._id}
+              id={property._id}
               name={property.name}
               type={property.type}
               area={property.area}
@@ -1219,6 +1240,7 @@ function RecommendedSection({ onSelect }: { onSelect: (id: string) => void }) {
           otherProperties.slice(0, 3).map((property) => (
             <PropertyCard
               key={property._id}
+              id={property._id}
               name={property.name}
               type={property.type}
               area={property.area}
@@ -3370,6 +3392,7 @@ function SearchResults({
                     visibleProperties.map((property) => (
                       <PropertyCard
                         key={property._id}
+                        id={property._id}
                         name={property.name}
                         type={property.type}
                         area={property.area}

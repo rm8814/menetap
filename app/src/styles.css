@@ -258,7 +258,7 @@ h3 { margin: 0 0 8px; font: 800 var(--type-card)/1.2 'Plus Jakarta Sans', sans-s
 .map-pin-5 { top: 72%; left: 62%; }
 .map-pin-6 { top: 18%; left: 52%; }
 .property-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-.property-card { padding: 0; overflow: hidden; border: 1px solid #e5e2f5; border-radius: 10px; background: #fff; color: #0c0a1e; text-align: left; cursor: pointer; }
+.property-card { display: block; padding: 0; overflow: hidden; border: 1px solid #e5e2f5; border-radius: 10px; background: #fff; color: #0c0a1e; text-align: left; text-decoration: none; cursor: pointer; }
 .property-card:hover { box-shadow: 0 12px 28px rgba(65,42,145,.1); }
 .property-card-media { position: relative; }
 .property-card-media .property-image { aspect-ratio: 4 / 3; }
