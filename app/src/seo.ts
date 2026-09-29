@@ -13,8 +13,8 @@ export function propertyPath(id: string, name: string) {
 
 const privatePrefixes = [
   '/admin', '/partner-', '/partner/', '/checkout', '/guest-details', '/booking-',
-  '/during-stay', '/my-trips', '/saved-stays', '/payment-methods', '/settings',
-  '/rewards/dashboard', '/supply/checkout', '/supply/confirmation', '/supply/catalog',
+  '/booking-confirmation', '/during-stay', '/my-trips', '/saved-stays', '/payment-methods',
+  '/settings', '/rewards/dashboard', '/supply/checkout', '/supply/confirmation', '/supply/catalog',
 ];
 
 export function normalizePath(pathname: string) {
@@ -26,8 +26,12 @@ export function normalizePath(pathname: string) {
 
 export function isNoindexRoute(pathname: string, search = window.location.search) {
   const path = normalizePath(pathname);
+  // privatePrefixes are language-agnostic (e.g. "/admin"), but real paths carry an
+  // /en or /id prefix (e.g. "/en/admin/properties") — strip it before matching, or
+  // every private route below would silently fail to noindex in production.
+  const pathWithoutLang = path.replace(/^\/(en|id)(?=\/|$)/, '') || '/';
   return !isProductionEnv() || Boolean(search) || path === '/en/stays' || path === '/id/stays' ||
-    privatePrefixes.some((prefix) => path === prefix || path.startsWith(`${prefix}/`));
+    privatePrefixes.some((prefix) => pathWithoutLang === prefix || pathWithoutLang.startsWith(`${prefix}/`));
 }
 
 function setMeta(name: string, content: string, property = false) {

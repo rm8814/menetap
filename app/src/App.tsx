@@ -92,6 +92,14 @@ export function App() {
   const [search, setSearch] = useState(initialSearch);
   const [selectedProperty, setSelectedProperty] = useState<string | null>(null);
   const [selectedRoom, setSelectedRoom] = useState<string | null>(null);
+  const searchQueryString = () =>
+    new URLSearchParams({
+      checkIn: search.checkIn,
+      checkOut: search.checkOut,
+      adults: String(search.adults),
+      children: String(search.children),
+      childAges: search.childAges.join(","),
+    }).toString();
   const [bookingCode, setBookingCode] = useState<string | null>(null);
   const [authOpen, setAuthOpen] = useState(false);
   const [authMode, setAuthMode] = useState<"signIn" | "signUp" | "reset">("signIn");
@@ -106,6 +114,9 @@ export function App() {
     const childAges = (params.get("childAges") ?? "").split(",").filter(Boolean).map(Number).filter((age) => age >= 0 && age <= 17).slice(0, children);
     const path = window.location.pathname;
     const propertyPathMatch = path.match(/\/stays\/property\/([^/]+)(?:\/[^/]+)?$/);
+    const roomsPathMatch = path.match(/\/stays\/property\/([^/]+)\/[^/]+\/rooms$/);
+    const checkoutPathMatch = path.match(/\/stays\/property\/([^/]+)\/[^/]+\/checkout$/);
+    const confirmationPathMatch = path.match(/\/booking-confirmation\/([^/]+)$/);
     const pathLanguage = path.startsWith("/id") ? "ID" : "EN";
     setLanguage(pathLanguage);
     if (path.endsWith("/login") || path.endsWith("/signup") || path.endsWith("/reset-password")) {
@@ -172,7 +183,36 @@ export function App() {
     else if (path.endsWith("/admin/access-denied")) setScreen("adminAccessDenied");
     else if (path.endsWith("/rewards/dashboard")) setScreen("rewards");
     else if (path.endsWith("/rewards")) setScreen("rewardsLanding");
-    else if (propertyPathMatch) {
+    else if (roomsPathMatch) {
+      setSelectedProperty(decodeURIComponent(roomsPathMatch[1]));
+      setSearch({
+        destination: destination ?? initialSearch.destination,
+        checkIn: checkIn || initialSearch.checkIn,
+        checkOut: checkOut || initialSearch.checkOut,
+        adults,
+        children,
+        childAges: Array.from({ length: children }, (_, index) => childAges[index] ?? 5),
+        guests: adults + children,
+      });
+      setScreen("rooms");
+    } else if (checkoutPathMatch) {
+      setSelectedProperty(decodeURIComponent(checkoutPathMatch[1]));
+      const roomTypeId = params.get("room");
+      if (roomTypeId) setSelectedRoom(roomTypeId);
+      setSearch({
+        destination: destination ?? initialSearch.destination,
+        checkIn: checkIn || initialSearch.checkIn,
+        checkOut: checkOut || initialSearch.checkOut,
+        adults,
+        children,
+        childAges: Array.from({ length: children }, (_, index) => childAges[index] ?? 5),
+        guests: adults + children,
+      });
+      setScreen("checkout");
+    } else if (confirmationPathMatch) {
+      setBookingCode(decodeURIComponent(confirmationPathMatch[1]));
+      setScreen("confirmation");
+    } else if (propertyPathMatch) {
       setSelectedProperty(decodeURIComponent(propertyPathMatch[1]));
       setScreen("hotel");
     } else if (path.endsWith("/destinations/all")) setScreen("destinations");
@@ -494,7 +534,10 @@ export function App() {
             );
             setScreen("search");
           }}
-          onRooms={() => setScreen("rooms")}
+          onRooms={() => {
+            window.history.pushState({}, "", `${window.location.pathname}/rooms?${searchQueryString()}`);
+            setScreen("rooms");
+          }}
         />
       )}
       {screen === "rooms" && (
@@ -502,9 +545,17 @@ export function App() {
           propertyId={selectedProperty}
           search={search}
           setSearch={setSearch}
-          onBack={() => setScreen("hotel")}
+          onBack={() => {
+            window.history.pushState({}, "", window.location.pathname.replace(/\/rooms$/, ""));
+            setScreen("hotel");
+          }}
           onContinue={(id) => {
             setSelectedRoom(id);
+            window.history.pushState(
+              {},
+              "",
+              `${window.location.pathname.replace(/\/rooms$/, "")}/checkout?room=${encodeURIComponent(id)}&${searchQueryString()}`,
+            );
             setScreen("checkout");
           }}
         />
@@ -514,9 +565,17 @@ export function App() {
           propertyId={selectedProperty}
           roomTypeId={selectedRoom}
           search={search}
-          onBack={() => setScreen("rooms")}
+          onBack={() => {
+            window.history.pushState(
+              {},
+              "",
+              `${window.location.pathname.replace(/\/checkout$/, "")}/rooms?${searchQueryString()}`,
+            );
+            setScreen("rooms");
+          }}
           onComplete={(code) => {
             setBookingCode(code);
+            window.history.pushState({}, "", `/${language.toLowerCase()}/booking-confirmation/${encodeURIComponent(code)}`);
             setScreen("confirmation");
           }}
         />
