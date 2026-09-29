@@ -98,7 +98,10 @@ export const listMine = query({ args: {}, handler: async (ctx) => {
   const userId = await auth.getUserId(ctx);
   if (!userId) return [];
   const bookings = await ctx.db.query('bookings').withIndex('by_guest', (q) => q.eq('guestUserId', userId)).order('desc').take(50);
-  return Promise.all(bookings.map(async (booking) => ({ ...booking, propertyName: (await ctx.db.get(booking.propertyId))?.name ?? 'Menetap stay' })));
+  return Promise.all(bookings.map(async (booking) => {
+    const property = await ctx.db.get(booking.propertyId);
+    return { ...booking, propertyName: property?.name ?? 'Menetap stay', propertyArea: property?.area, propertyCity: property?.city };
+  }));
 } });
 
 export const listForPartner = query({ args: { status: v.optional(v.union(v.literal('pending'), v.literal('confirmed'), v.literal('cancelled'), v.literal('completed'), v.literal('no_show'))), search: v.optional(v.string()), checkIn: v.optional(v.string()) }, handler: async (ctx, args) => {
