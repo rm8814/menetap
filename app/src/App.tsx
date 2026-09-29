@@ -521,11 +521,11 @@ export function App() {
           }}
         />
       )}
-      {screen === "guestDetails" && <GuestDetails />}
-      {screen === "myTrips" && <><MyTrips /><RentalTripsSection /></>}
-      {screen === "saved" && <SavedStays />}
-      {screen === "paymentMethods" && <PaymentMethods />}
-      {screen === "settings" && <GuestSettings />}
+      {screen === "guestDetails" && <ProtectedScreen allowedRoles={["guest", "partner", "vendor", "support", "operations", "finance", "admin"]}><GuestDetails /></ProtectedScreen>}
+      {screen === "myTrips" && <ProtectedScreen allowedRoles={["guest", "partner", "vendor", "support", "operations", "finance", "admin"]}><MyTrips /><RentalTripsSection /></ProtectedScreen>}
+      {screen === "saved" && <ProtectedScreen allowedRoles={["guest", "partner", "vendor", "support", "operations", "finance", "admin"]}><SavedStays /></ProtectedScreen>}
+      {screen === "paymentMethods" && <ProtectedScreen allowedRoles={["guest", "partner", "vendor", "support", "operations", "finance", "admin"]}><PaymentMethods /></ProtectedScreen>}
+      {screen === "settings" && <ProtectedScreen allowedRoles={["guest", "partner", "vendor", "support", "operations", "finance", "admin"]}><GuestSettings /></ProtectedScreen>}
       {screen === "bookingIssue" && <BookingIssue />}
       {screen === "duringStay" && <DuringStay />}
       {screen === "experiences" && <><ExperiencesLanding /><Footer language={language} setLanguage={setLanguage} /></>}
@@ -545,7 +545,7 @@ export function App() {
         <Confirmation code={bookingCode} onHome={() => setScreen("home")} />
       )}
       {screen === "rewardsLanding" && <RewardsLanding />}
-      {screen === "rewards" && <LiveRewardsPage />}
+      {screen === "rewards" && <ProtectedScreen allowedRoles={["guest", "partner", "vendor", "support", "operations", "finance", "admin"]}><LiveRewardsPage /></ProtectedScreen>}
       {screen === "help" && <HelpCenter />}
       {screen === "privacy" && <LegalPage kind="privacy" />}
       {screen === "terms" && <LegalPage kind="terms" />}
