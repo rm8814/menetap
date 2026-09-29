@@ -3568,9 +3568,14 @@ function HotelDetail({
               </div>
             </>
           ) : (
-            <div className="gallery-main gallery-empty">
-              Photos coming soon
-            </div>
+            <>
+              <div className="gallery-main gallery-empty">Photos coming soon</div>
+              <div className="gallery-grid">
+                <div className="gallery-empty" aria-hidden="true" />
+                <div className="gallery-empty" aria-hidden="true" />
+                <div className="gallery-empty" aria-hidden="true" />
+              </div>
+            </>
           )}
         </section>
         <div className="property-detail-layout">
