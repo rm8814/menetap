@@ -1,6 +1,7 @@
 # Menetap project status
 
-Snapshot: 2026-09-28, after POC-A, POC-B, POC-C-Rewards, admin-quickwins,
+Snapshot: 2026-09-30 (guest-area real-data sweep, commits through `0101ab9`, folded
+in; earlier sections dated 2026-09-28), after POC-A, POC-B, POC-C-Rewards, admin-quickwins,
 admin-payments, notification-sender, admin-property-approval, and POC-C-Supplier
 review (Claude).
 
@@ -115,10 +116,15 @@ Convex Auth provides the guest password flow. `/en/login`, `/en/signup`, `/en/re
 ## Payments
 
 The real booking path and Convex schema support only `pay_at_hotel` and
-`manual_bank_transfer`. The guest `PaymentMethods` screen is still a local
-card-management mock and does not represent a real supported gateway or stored-card
-backend — it's now reachable from the account nav (POC-A fixed the dead link), so this
-is more visible than before and worth cleaning up soon.
+`manual_bank_transfer`. The guest `PaymentMethods` screen (commit `571257c`) no longer
+fakes card storage: it states Menetap doesn't store cards and lists real payment
+history from `bookings.listMine`. Guest `GuestSettings` (`0101ab9`) reads/saves the
+real profile via `users.current`/`users.updateProfile`; `SavedStays` and the property
+Save button (`32ddd9f`) are Convex-backed; `MyTrips` (`fb79a35`) shows only real
+bookings. Still hardcoded in the guest area: `BookingIssue` and `DuringStay` (fixed
+"Kaliurang Heritage Villa"/`MTP-7X9K2Q` text, and `BookingIssue` says "Your card was
+not charged" though no cards exist), and `MyTrips` action buttons ("Leave review",
+"Download invoice", "Cancel", "View details") have no handlers.
 
 Rewards redemption's discount-trust issue is resolved — see Backend section above.
 
@@ -128,17 +134,20 @@ Rewards redemption's discount-trust issue is resolved — see Backend section ab
 
 ## Verification baseline
 
-From `app/`, verified independently by Claude on 2026-09-28: `npm run typecheck`
-passed; `npm test` passed with 12 test files and 37 tests (includes Rewards,
-finance-math, notification-template, and supplier-marketplace tests); `npm run build`
-passed. Vite emitted an existing chunk-size warning for the main JavaScript bundle.
+From `app/`, verified independently by Claude on 2026-09-30: `npm run typecheck`
+passed; `npm test` passed with 14 test files and 41 tests. `npm run build` was not
+re-run on 2026-09-30 (last passed 2026-09-28, with an existing Vite chunk-size
+warning for the main JavaScript bundle).
 
 ## Known gaps
 
 - Live deployment SEO files need an external/live-browser spot-check (couldn't be
   reached from the verification environment).
-- The account payment-methods screen is a local card mock inconsistent with the
-  approved two-method booking model, and now reachable from the account nav.
+- `AccountFrame`'s sidebar links "Payment methods" and "Settings" to `#`, so guests
+  can't reach those (now real) screens from the account nav.
+- SEO review 2026-09-30 found route-metadata gaps (property canonical, static
+  `noindex` in `index.html`, rooms/checkout not noindexed) — see
+  `docs/checklist-seo-public-routes.md`.
 - Admin users/team/finance-aggregate/reports/risk/announcements/settings/system
   screens are honest but not functional — backend functions don't exist yet; full
   list in `docs/checklist-poc-b.md`.
@@ -147,8 +156,9 @@ passed. Vite emitted an existing chunk-size warning for the main JavaScript bund
   business input still needed before manual-transfer bookings can go live.
 - `AdminPaymentsPage`'s reject action sends a hardcoded canned reason instead of a
   real staff-typed note — backend supports a real reason, UI doesn't expose it yet.
-- ~15 orphaned mock admin component definitions are dead code in `App.tsx`, no longer
-  referenced by routing but not yet deleted.
+- Unused `InfoCard` and `RetryState` helpers remain in `App.tsx` (not mocks; keep or
+  delete). The orphaned mock admin/rewards/supply components were deleted 2026-09-30
+  (~199 lines), re-verified with typecheck, 41/41 tests, and a clean build.
 - `rewards.redeemAtCheckout` is unused dead code since redemption moved into
   `bookings.create` — harmless, optional cleanup.
 - `'adminPayments'` isn't in the `GuestScreen` type union; two `as GuestScreen` casts
