@@ -3574,6 +3574,7 @@ function HotelDetail({
                 <div className="gallery-empty" aria-hidden="true" />
                 <div className="gallery-empty" aria-hidden="true" />
                 <div className="gallery-empty" aria-hidden="true" />
+                <div className="gallery-empty" aria-hidden="true" />
               </div>
             </>
           )}
