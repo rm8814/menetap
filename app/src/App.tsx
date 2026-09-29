@@ -3513,7 +3513,21 @@ function HotelDetail({
     api.properties.listPhotos,
     propertyId ? { propertyId: propertyId as never } : "skip",
   );
-  const [saved, setSaved] = useState(false);
+  const { isAuthenticated } = useConvexAuth();
+  const savedStays = useQuery(api.savedStays.listMine, isAuthenticated ? {} : "skip");
+  const saveMutation = useMutation(api.savedStays.save);
+  const removeMutation = useMutation(api.savedStays.remove);
+  const saved = savedStays?.some((item) => item.propertyId === propertyId) ?? false;
+  const toggleSaved = async () => {
+    if (!isAuthenticated) {
+      const langPrefix = window.location.pathname.match(/^\/(en|id)/)?.[0] ?? "/en";
+      window.location.href = `${langPrefix}/login`;
+      return;
+    }
+    if (!propertyId) return;
+    if (saved) await removeMutation({ propertyId: propertyId as never });
+    else await saveMutation({ propertyId: propertyId as never });
+  };
   const suppressSeo = isProductionEnv() && Boolean(property?.isDemo);
   useEffect(() => {
     if (!property) return;
@@ -3618,7 +3632,7 @@ function HotelDetail({
           <div className="property-detail-actions">
             <button
               className={saved ? "is-saved" : ""}
-              onClick={() => setSaved(!saved)}
+              onClick={toggleSaved}
             >
               ♡ {saved ? "Saved" : "Save"}
             </button>
@@ -4460,10 +4474,20 @@ function MyTrips() {
 }
 
 function SavedStays() {
-  const [items, setItems] = useState([{ name: "Kaliurang Heritage Villa", place: "Sleman, Yogyakarta", rating: "4.8", price: "Rp 890,000/night", perk: "Free cancellation", alert: true }, { name: "Prawirotaman Boutique", place: "Mergangsan, Yogyakarta", rating: "4.6", price: "Rp 620,000/night", perk: "Free cancellation", alert: false }, { name: "Riverside Jogja Retreat", place: "Bantul, Yogyakarta", rating: "4.7", price: "Rp 740,000/night", perk: "Breakfast available", alert: false }]);
+  const saved = useQuery(api.savedStays.listMine, {});
+  const removeMutation = useMutation(api.savedStays.remove);
   const [query, setQuery] = useState("");
+  if (saved === undefined) return <AccountFrame active="saved" title="Saved stays" intro="Save places you love and keep an eye on price changes before you book."><LoadingState label="Loading your saved stays…" /></AccountFrame>;
+  const items = saved
+    .filter((item) => item.property)
+    .map((item) => ({
+      propertyId: item.propertyId,
+      name: item.property!.name,
+      place: `${item.property!.area}, ${item.property!.city}`,
+      price: item.lowestPrice ? `From Rp ${item.lowestPrice.toLocaleString("en-US")}/night` : "Price on request",
+    }));
   const visible = items.filter(x => x.name.toLowerCase().includes(query.toLowerCase()));
-  return <AccountFrame active="saved" title="Saved stays" intro="Save places you love and keep an eye on price changes before you book."><label className="account-search saved-search"><Search size={16}/><input value={query} onChange={e => setQuery(e.target.value)} placeholder="Search saved stays"/></label><div className="saved-grid">{visible.map((stay, i) => <article className="saved-card" key={stay.name}><div className="saved-image"><span className="saved-placeholder">{i === 0 ? "Kaliurang" : i === 1 ? "Prawirotaman" : "Riverside"}</span><button aria-label="Remove saved stay" onClick={() => setItems(items.filter(x => x.name !== stay.name))}>♥</button></div><div className="saved-body"><div className="saved-heading"><div><h3>{stay.name}</h3><p>{stay.place}</p></div><span><Star size={14} fill="currentColor"/> {stay.rating}</span></div><div className="saved-meta"><strong>{stay.price}</strong><span>{stay.perk}</span></div><div className="saved-footer"><label><input type="checkbox" checked={stay.alert} onChange={() => setItems(items.map(x => x.name === stay.name ? {...x, alert: !x.alert} : x))}/> Notify on price drop</label><a href="/en/stays">View stay →</a></div></div></article>)}</div>{!visible.length && <div className="account-empty"><h3>No favorites yet</h3><p>Tap the heart icon on any stay to add it here.</p><a href="/en/stays">Explore stays</a></div>}</AccountFrame>;
+  return <AccountFrame active="saved" title="Saved stays" intro="Save places you love and keep an eye on price changes before you book."><label className="account-search saved-search"><Search size={16}/><input value={query} onChange={e => setQuery(e.target.value)} placeholder="Search saved stays"/></label><div className="saved-grid">{visible.map((stay) => <article className="saved-card" key={stay.propertyId}><div className="saved-image"><span className="saved-placeholder">{stay.name}</span><button aria-label="Remove saved stay" onClick={() => removeMutation({ propertyId: stay.propertyId })}>♥</button></div><div className="saved-body"><div className="saved-heading"><div><h3>{stay.name}</h3><p>{stay.place}</p></div></div><div className="saved-meta"><strong>{stay.price}</strong></div><div className="saved-footer"><a href="/en/stays">View stay →</a></div></div></article>)}</div>{!visible.length && <div className="account-empty"><h3>No favorites yet</h3><p>Tap the heart icon on any stay to add it here.</p><a href="/en/stays">Explore stays</a></div>}</AccountFrame>;
 }
 
 function GuestDetails() {
