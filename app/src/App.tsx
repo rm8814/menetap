@@ -3435,6 +3435,11 @@ function HotelDetail({
   const suppressSeo = isProductionEnv() && Boolean(property?.isDemo);
   useEffect(() => {
     if (!property) return;
+    const correctPath = propertyPath(property._id, property.name);
+    if (!window.location.pathname.endsWith(correctPath)) {
+      const langPrefix = window.location.pathname.match(/^\/(en|id)/)?.[0] ?? "/en";
+      window.history.replaceState({}, "", langPrefix + correctPath + window.location.search);
+    }
     const title = `${property.name}, ${property.area} | Menetap`;
     const description = (
       property.description ||
