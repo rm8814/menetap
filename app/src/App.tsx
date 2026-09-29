@@ -4478,6 +4478,7 @@ function Checkout({
   const createBooking = useMutation(api.bookings.create);
   const { isAuthenticated } = useConvexAuth();
   const rewards = useQuery(api.rewards.getAccount, isAuthenticated ? {} : "skip");
+  const property = useQuery(api.properties.get, propertyId ? { id: propertyId as never } : "skip");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
@@ -4548,7 +4549,7 @@ function Checkout({
           {error && <p className="error-text">{error}</p>}
           <button onClick={submit}>Confirm booking</button>
         </div>
-        <aside className="summary-card checkout-summary"><span className="eyebrow">Your stay</span><h3>Kaliurang Heritage Villa</h3><p>{search.checkIn} → {search.checkOut}<br />{search.adults} adults + {search.children} children</p>{cart?.rooms?.map((room) => <div className="summary-line" key={room.name}><span>{room.name} ×{room.quantity}<small>{room.ratePlan}</small></span><strong>Rp {(room.roomTotal + room.breakfast).toLocaleString("en-US")}</strong></div>)}{(cart?.childTotal ?? 0) > 0 && <div className="summary-line"><span>Child charges</span><strong>Rp {cart!.childTotal!.toLocaleString("en-US")}</strong></div>}{cart?.addOns?.map((addon) => <div className="summary-line" key={addon.name}><span>{addon.name}</span><strong>Rp {addon.price.toLocaleString("en-US")}</strong></div>)}<div className="summary-line"><span>Taxes & service fees</span><strong>Included</strong></div><div className="summary-line total"><span>Total</span><strong>Rp {(cart?.total ?? 0).toLocaleString("en-US")}</strong></div></aside>
+        <aside className="summary-card checkout-summary"><span className="eyebrow">Your stay</span><h3>{property?.name ?? "Loading stay…"}</h3><p>{search.checkIn} → {search.checkOut}<br />{search.adults} adults + {search.children} children</p>{cart?.rooms?.map((room) => <div className="summary-line" key={room.name}><span>{room.name} ×{room.quantity}<small>{room.ratePlan}</small></span><strong>Rp {(room.roomTotal + room.breakfast).toLocaleString("en-US")}</strong></div>)}{(cart?.childTotal ?? 0) > 0 && <div className="summary-line"><span>Child charges</span><strong>Rp {cart!.childTotal!.toLocaleString("en-US")}</strong></div>}{cart?.addOns?.map((addon) => <div className="summary-line" key={addon.name}><span>{addon.name}</span><strong>Rp {addon.price.toLocaleString("en-US")}</strong></div>)}<div className="summary-line"><span>Taxes & service fees</span><strong>Included</strong></div><div className="summary-line total"><span>Total</span><strong>Rp {(cart?.total ?? 0).toLocaleString("en-US")}</strong></div></aside>
       </div>
     </main>
   );
